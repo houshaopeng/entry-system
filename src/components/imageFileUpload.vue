@@ -2,83 +2,123 @@
 	<!--资料上传页面1-->
 	<div class="imageFileUpload">
 		<!--影像文件上传-->
-		<div >
-			<el-col  style=" text-align:left;" class="title">
-				<h2>影像文件上传</h2>
-			</el-col>
-			<el-col :span="12" >
-				<div class="img_title">
-					<span style="margin: 0 20px 0 24px;">个人资料：</span>
-					<vue-file-upload url="/terminal-oper/file/upload" ref="vueFileUploader" v-bind:events='cbEvents' v-bind:filters="filters" v-bind:request-options="reqopts" v-on:onAdd="onAddItem" >
-					</vue-file-upload>
-					<span v-if="!files.length">未选择任何文件</span>
-					<span v-else>一共选择{{files.length}}个文件</span>
-					<input type="button" value="清空图片" @click="clearAll" class="clear_buttton"/>
-					<div>
-						<div  class="no_img1">
-							<span>身份证正面</span>
+		<div>
+			<div class="title">
+				<el-row>
+					<h3>影像文件上传</h3>
+				</el-row>
+			</div>
+			<div class="content">
+				<el-row>
+
+					<!--个人资料-->
+					<el-col :span="12">
+						<div class="img_title">
+							<span style="margin: 0 20px 0 24px;">个人资料：</span>
+							<vue-file-upload url="/terminal-oper/file/upload" ref="vueFileUploader" v-bind:events='cbEvents' v-bind:filters="filters" v-bind:request-options="reqopts" v-on:onAdd="onAddItem">
+							</vue-file-upload>
+							<span v-if="!files.length">未选择任何文件</span>
+							<span v-else>一共选择{{files.length}}个文件</span>
+							<input type="button" value="清空图片" @click="clearAll" class="clear_buttton" />
+							<div>
+								<div class="no_img1">
+									<span>身份证正面</span>
+								</div>
+								<div class="no_img1">
+									<span>身份证反面</span>
+								</div>
+								<div class="no_img1">
+									<span>手持身份证</span>
+								</div>
+							</div>
 						</div>
-						<div  class="no_img1">
-							<span>身份证反面</span>
+					</el-col>
+
+					<!--销售产品资料-->
+					<el-col :span="12">
+						<div class="img_title">
+							<span style="margin: 0 20px 0 24px;">销售产品资料：</span>
+							<vue-file-upload url="/terminal-oper/file/upload" ref="vueFileUploader" v-bind:events='cbEvents' v-bind:filters="filters" v-bind:request-options="reqopts" v-on:onAdd="onAddItem">
+							</vue-file-upload>
+							<span v-if="!files.length">未选择任何文件</span>
+							<span v-else>一共选择{{files.length}}个文件</span>
+							<input type="button" value="清空图片" @click="clearAll" class="clear_buttton" />
+							<div>
+								<div class="no_img1">
+									<span>质检报告复印件</span>
+								</div>
+								<div class="no_img1">
+									<span>商标注册受理书</span>
+								</div>
+								<div class="no_img1">
+									<span>产品清单</span>
+								</div>
+							</div>
 						</div>
-						<div class="no_img1">
-							<span>手持身份证</span>
+					</el-col>
+
+					<!--企业经营证明文件-->
+					<el-col :span="24">
+						<div class="img_title">
+							<span style="margin: 0 20px 0 24px;">企业经营证明文件：</span>
+							<vue-file-upload url="/terminal-oper/file/upload" ref="vueFileUploader" v-bind:events='cbEvents' v-bind:filters="filters" v-bind:request-options="reqopts" v-on:onAdd="onAddItem">
+							</vue-file-upload>
+							<span v-if="!files.length">未选择任何文件</span>
+							<span v-else>一共选择{{files.length}}个文件</span>
+							<input type="button" value="清空图片" @click="clearAll" class="clear_buttton" />
+							<div>
+								<div class="no_img1">
+									<span>营业执照</span>
+								</div>
+								<div class="no_img1">
+									<span>纳税人资格证明</span>
+								</div>
+								<div class="no_img1">
+									<span>组织机构代码证</span>
+								</div>
+								<div class="no_img1">
+									<span>特殊商品资质证明</span>
+								</div>
+								<div class="no_img1">
+									<span>法人身份证正面</span>
+								</div>
+								<div class="no_img1">
+									<span>法人身份证反面</span>
+								</div>
+							</div>
 						</div>
-					</div>
-				</div>
-				
-			</el-col>
-			<el-col :span="12">
-				<div class="img_title">
-					<span style="margin: 0 20px 0 24px;">销售产品资料：</span>
-					<vue-file-upload url="/terminal-oper/file/upload" ref="vueFileUploader" v-bind:events='cbEvents' v-bind:filters="filters" v-bind:request-options="reqopts" v-on:onAdd="onAddItem" >
-					</vue-file-upload>
-					<span v-if="!files.length">未选择任何文件</span>
-					<span v-else>一共选择{{files.length}}个文件</span>
-					<input type="button" value="清空图片" @click="clearAll" class="clear_buttton"/>
-					<div>
-						<div  class="no_img1">
-							<span>质检报告复印件</span>
+					</el-col>
+
+					<!--本人在店铺内照片-->
+					<el-col :span="24">
+						<div class="img_title">
+							<span style="margin: 0 20px 0 24px;">企业经营证明文件：</span>
+							<vue-file-upload url="/terminal-oper/file/upload" ref="vueFileUploader" v-bind:events='cbEvents' v-bind:filters="filters" v-bind:request-options="reqopts" v-on:onAdd="onAddItem">
+							</vue-file-upload>
+							<span v-if="!files.length">未选择任何文件</span>
+							<span v-else>一共选择{{files.length}}个文件</span>
+							<input type="button" value="清空图片" @click="clearAll" class="clear_buttton" />
+							<div>
+								<div class="no_img1">
+									<span>营业执照</span>
+								</div>
+								<div class="no_img1">
+									<span>纳税人资格证明</span>
+								</div>
+								<div class="no_img1">
+									<span>组织机构代码证</span>
+								</div>
+								<div class="no_img1">
+									<span>特殊商品资质证明</span>
+								</div>
+							</div>
 						</div>
-						<div  class="no_img1">
-							<span>商标注册受理书</span>
-						</div>
-						<div class="no_img1">
-							<span>产品清单</span>
-						</div>
-					</div>
-				</div>
-			</el-col>
-			<el-col :span="24">
-				<div class="img_title">
-					<span style="margin: 0 20px 0 24px;">企业经营证明文件：</span>
-					<vue-file-upload url="/terminal-oper/file/upload" ref="vueFileUploader" v-bind:events='cbEvents' v-bind:filters="filters" v-bind:request-options="reqopts" v-on:onAdd="onAddItem" >
-					</vue-file-upload>
-					<span v-if="!files.length">未选择任何文件</span>
-					<span v-else>一共选择{{files.length}}个文件</span>
-					<input type="button" value="清空图片" @click="clearAll" class="clear_buttton"/>
-					<div>
-						<div  class="no_img1">
-							<span>营业执照</span>
-						</div>
-						<div  class="no_img1">
-							<span>纳税人资格证明</span>
-						</div>
-						<div class="no_img1">
-							<span>组织机构代码证</span>
-						</div>
-						<div  class="no_img1">
-							<span>特殊商品资质证明</span>
-						</div>
-						<div  class="no_img1">
-							<span>法人身份证正面</span>
-						</div>
-						<div class="no_img1">
-							<span>法人身份证反面</span>
-						</div>
-					</div>
-				</div>
-			</el-col>
+					</el-col>
+				</el-row>
+			</div>
+			<div class="footer">
+				<el-button type="primary" @click="onSubmit">下一步</el-button>
+			</div>
 		</div>
 	</div>
 </template>
@@ -93,17 +133,17 @@
 
 				//图片上传插件部分 start
 				//过滤器回调
-				files:[],
+				files: [],
 				filters: [{
 					name: "imageFilter",
 					fn(file) {
-						if(/^[A-Z]+$/.test(file.name.split(".")[1])){
+						if(/^[A-Z]+$/.test(file.name.split(".")[1])) {
 							return false;
-						}else{
+						} else {
 							var type = '|' + file.type.slice(file.type.lastIndexOf('/') + 1) + '|';
-						return '|jpg|png|jpeg|bmp|gif|pdf|vnd.openxmlformats-officedocument.wordprocessingml.document|msword|'.indexOf(type) !== -1;
+							return '|jpg|png|jpeg|bmp|gif|pdf|vnd.openxmlformats-officedocument.wordprocessingml.document|msword|'.indexOf(type) !== -1;
 						}
-						
+
 					}
 				}],
 				//事件回调
@@ -129,7 +169,7 @@
 				//图片上传插件部分 end
 			}
 		},
-		methods:{
+		methods: {
 			//图片上传插件部分 start
 			onStatus(file) {
 				if(file.isSuccess) {
@@ -162,6 +202,11 @@
 				this.$refs.vueFileUploader.clearAll();
 			},
 			//图片上传插件部分 end
+			onSubmit() {
+				this.$router.push({
+					path: '/imageFileUpload2'
+				});
+			},
 		},
 		components: {
 			VueFileUpload,
@@ -178,7 +223,7 @@
 				float: left;
 			}
 		}
-		.img_title{
+		.img_title {
 			width: 100%;
 			text-align: left;
 		}
@@ -201,8 +246,15 @@
 			vertical-align: middle;
 			cursor: pointer;
 		}
+		.footer {
+			margin: 30px 0;
+			.el-button {
+				width: 150px;
+			}
+		}
 	}
-	.no_img1{
+	
+	.no_img1 {
 		display: inline-block;
 		width: 200px;
 		height: 200px;

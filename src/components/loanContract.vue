@@ -18,7 +18,6 @@
 				</el-row>
 			</div>
 		</div>
-	
 		<div class="footer">
 			<el-button type="primary">提交</el-button>
 		</div>
@@ -27,27 +26,16 @@
 </template>
 
 <script>
-	
 	export default {
-	
 		data() {
 			return {
-				isAgree: '',
-				
+				isAgree: ''
 			}
-		},
-		methods:{
-			
-        },  
-        mounted() {
-         
-        }  
-    
+		}
 	}
 </script>
 
 <style lang='scss' scoped>
-	
 	.loanContract {
 		.title {
 			margin-bottom: 20px;
