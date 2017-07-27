@@ -31,24 +31,24 @@
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="所属区域" prop="belongRegion">
 							<el-select v-model="ruleForm.belongRegion" placeholder="请选择所属区域">
-								<el-option v-for="item in region" :key="item.value" :label="item.label" :value="item.value">
+								<el-option v-for="item in region" :key="item.value" :label="item.region" :value="item.value">
 								</el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="网点名称" prop="networkName">
-							<el-input v-model="ruleForm.networkName"></el-input>
+							<el-input v-model="ruleForm.networkName" placeholder="请输入网点名称"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="网点联系人" prop="networkContact">
-							<el-input v-model="ruleForm.networkContact"></el-input>
+							<el-input v-model="ruleForm.networkContact" placeholder="请输入网点联系人"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="联系电话" prop="contactTel">
-							<el-input v-model="ruleForm.contactTel"></el-input>
+							<el-input v-model="ruleForm.contactTel" placeholder="请输入联系电话"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="16" :lg="12">
@@ -79,16 +79,16 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="业务员姓名" prop="salesmanName">
-							<el-input v-model="ruleForm.salesmanName"></el-input>
+							<el-input v-model="ruleForm.salesmanName" placeholder="请输入业务员姓名"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="业务员工号" prop="salesmanNumber">
-							<el-input v-model="ruleForm.salesmanNumber"></el-input>
+							<el-input v-model="ruleForm.salesmanNumber" placeholder="请输入业务员工号"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24">
-						<el-form-item label="机器型号" prop="name" class="addOne">
+						<el-form-item label="机器型号" class="addOne">
 							<el-row v-for="machine in machines" :key="machines.id" style="margin-bottom: 10px;">
 								<el-col :xs="12" :sm="12" :md="8" :lg="6">
 									<el-select v-model="machine.machineType" placeholder="请选择机器型号">
@@ -114,16 +114,16 @@
 			</el-row>
 		</div>
 		<div class="content">
-			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-position="left" label-width="121px" class="demo-ruleForm addOne">
+			<el-form label-position="left" label-width="121px" class="demo-ruleForm addOne">
 				<el-row :gutter="10" v-for="company in companys" :key="company.value">
 					<el-col :xs="18" :sm="18" :md="8" :lg="6">
-						<el-form-item label="名称" prop="name">
-							<el-input v-model="company.name"></el-input>
+						<el-form-item label="名称">
+							<el-input v-model="company.companyName" placeholder="请输入公司名称"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="18" :sm="18" :md="8" :lg="6">
-						<el-form-item label="离店距离" prop="name">
-							<el-input v-model="company.distance">
+						<el-form-item label="离店距离" prop="companyDistance">
+							<el-input v-model="company.companyDistance" placeholder="请输入距离">
 								<template slot="append">米</template>
 							</el-input>
 						</el-form-item>
@@ -143,63 +143,65 @@
 			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-position="left" label-width="121px" class="demo-ruleForm">
 				<el-row :gutter="10">
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
-						<el-form-item label="是否品牌加盟店" prop="name">
-							<el-radio-group v-model="ruleForm.contractType">
+						<el-form-item label="是否品牌加盟店" prop="isJoin">
+							<el-radio-group v-model="ruleForm.isJoin">
 								<el-radio label="0">是</el-radio>
 								<el-radio label="1">否</el-radio>
 							</el-radio-group>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
-						<el-form-item label="商户类型" prop="name">
-							<el-select v-model="ruleForm.belongRegion" placeholder="请选择所属区域">
-								<el-option v-for="item in region" :key="item.value" :label="item.label" :value="item.value">
+						<el-form-item label="商户类型" prop="businessType">
+							<el-select v-model="ruleForm.businessType" placeholder="请选择商户类型">
+								<el-option v-for="item in businessList" :key="item.value" :label="item.merchantType" :value="item.value">
 								</el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
-						<el-form-item label="成立时间" prop="name">
-							<el-date-picker v-model="ruleForm.value1" type="date" placeholder="选择日期" :picker-options="pickerOptions0">
+						<el-form-item label="成立时间" prop="createTime">
+							<el-date-picker v-model="ruleForm.createTime" type="date" placeholder="选择日期" :picker-options="pickerOptions0">
 							</el-date-picker>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
-						<el-form-item label="开业时间" prop="name">
-							<el-date-picker v-model="ruleForm.value1" type="date" placeholder="选择日期" :picker-options="pickerOptions0">
+						<el-form-item label="开业时间" prop="startTime">
+							<el-date-picker v-model="ruleForm.startTime" type="date" placeholder="选择日期" :picker-options="pickerOptions0">
 							</el-date-picker>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24">
-						<el-form-item label="注册地址" prop="name">
-							<el-checkbox-group v-model="ruleForm.type">
+						<el-form-item label="注册地址" prop="changeAddr">
+							<el-checkbox-group v-model="ruleForm.changeAddr">
 								<el-checkbox label="与联系地址相同" name="type"></el-checkbox>
 							</el-checkbox-group>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="18">
-						<el-form-item label="" prop="name">
+						<el-form-item label="" prop="registeredAddress">
+							<el-row>
 							<el-col :xs="18" :sm="18" :md="18" :lg="18">
 								<address-picker :opts="obj" v-model="address"></address-picker>
 							</el-col>
 							<el-col :xs="6" :sm="6" :md="6" :lg="6">
-								<el-input v-model="ruleForm.name" placeholder="请输入详细联系地址"></el-input>
+								<el-input v-model="ruleForm.registeredAddress" placeholder="请输入详细联系地址"></el-input>
 							</el-col>
+							</el-row>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
-						<el-form-item label="邮政编码" prop="name">
-							<el-input v-model="ruleForm.name" placeholder="请输入正确邮政编码"></el-input>
+						<el-form-item label="邮政编码" prop="zipCode">
+							<el-input :maxlength="6" v-model="ruleForm.zipCode" placeholder="请输入正确邮政编码"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
-						<el-form-item label="法人姓名" prop="name">
-							<el-input v-model="ruleForm.name" placeholder="请输入法人姓名"></el-input>
+						<el-form-item label="法人姓名" prop="legalName">
+							<el-input v-model="ruleForm.legalName" placeholder="请输入法人姓名"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
-						<el-form-item label="法人电话" prop="name">
-							<el-input v-model="ruleForm.name" placeholder="请输入法人电话"></el-input>
+						<el-form-item label="法人电话" prop="legalTel">
+							<el-input v-model="ruleForm.legalTel" placeholder="请输入法人电话"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
@@ -312,7 +314,7 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
-						<el-form-item label="婚姻状况" prop="name">
+						<el-form-item label="婚姻状况" prop="maritalStatus">
 							<el-select v-model="ruleForm.maritalStatus" placeholder="请选择婚姻状况">
 								<el-option v-for="item in maritalList" :key="item.value" :label="item.label" :value="item.value">
 								</el-option>
@@ -433,6 +435,15 @@
 					callback();
 				}
 			};
+			var checkCode = (rule, value, callback) => {
+				if(!value) {
+					return callback(new Error('邮政编码不能为空'));
+				} else if(!/^[1-9][0-9]{5}$/.test(value)) {
+					return callback(new Error('邮政编码格式有误'));
+				} else {
+					callback();
+				}
+			};
 			return {
 				msg: 'WD1234567890',
 				ruleForm: {
@@ -448,13 +459,52 @@
 					contactAddress: '', //联系地址
 					salesmanName: '', //业务员名字
 					salesmanNumber: '', //业务员工号
+					isJoin: '0', //是否品牌加盟店
+					businessType: '', //商户类型
+					createTime: '', //成立时间
+					startTime:'',//开业时间
+					changeAddr:'',//与联系地址相同
+					registeredAddress:'',//注册地址详细地址
+					zipCode:'',//邮政编码
+					legalName:'',//法人姓名
+					legalTel:'',//法人电话
+					applicantDegree: '', //申请人学历
 					value1: '',
 					type: ''
 				},
 				region: [{
-					label: '外部渠道',
-					value: '1'
-				}],
+						region: "华北区",
+						value: "000001"
+					},
+					{
+						region: "华东区",
+						value: "000002"
+					},
+					{
+						region: "东北区",
+						value: "000003"
+					},
+					{
+						region: "华中区",
+						value: "000004"
+					},
+					{
+						region: "华南区",
+						value: "000005"
+					},
+					{
+						region: "西南区",
+						value: "000006"
+					},
+					{
+						region: "西北区",
+						value: "000007"
+					},
+					{
+						region: "港澳台",
+						value: "000008"
+					}
+				],
 				recommended: [{
 						channelName: '外部渠道',
 						applicationNo: '1'
@@ -482,12 +532,12 @@
 					}
 				], //推荐渠道
 				companys: [{
-						name: "1",
-						distance: "100"
+						companyName: "",
+						companyDistance: ""
 					},
 					{
-						name: "1",
-						distance: "100"
+						companyName: "",
+						distance: ""
 					}
 				],
 				address: {}, //三级联动
@@ -515,6 +565,24 @@
 						machineName: "17寸柜式",
 						machineValue: "1",
 					}
+				],
+				businessList: [{
+						merchantType: "独资",
+						value: "1"
+					},
+					{
+						merchantType: "合资",
+						value: "2"
+					},
+					{
+						merchantType: "其他",
+						value: "3"
+					},
+					{
+						merchantType: "个体",
+						value: "4"
+					}
+
 				],
 				healthList: [{ //健康状况
 						healthStatus: "健康",
@@ -648,6 +716,51 @@
 						message: '请输入业务员工号',
 						trigger: 'blur'
 					}],
+					companyName: [{
+						required: true,
+						message: '请输入公司名称',
+						trigger: 'blur'
+					}],
+					isJoin: [{
+						required: true,
+						message: '请选择是否加盟',
+						trigger: 'change'
+					}],
+					businessType: [{
+						required: true,
+						message: '请选择商户类型',
+						trigger: 'change'
+					}],
+					createTime: [{
+						type: 'date',
+						required: true,
+						message: '请选择日期',
+						trigger: 'change'
+					}],
+					startTime: [{
+						type: 'date',
+						required: true,
+						message: '请选择日期',
+						trigger: 'change'
+					}],
+					registeredAddress: [{
+						required: true,
+						message: '请输入详细地址',
+						trigger: 'blur'
+					}],
+					zipCode: [{
+						validator: checkCode,
+						trigger: 'blur'
+					}],
+					legalName: [{
+						required: true,
+						message: '请输入法人姓名',
+						trigger: 'blur'
+					}],
+					legalTel: [{
+						validator: checkTel,
+						trigger: 'blur'
+					}],
 				}
 			};
 		},
@@ -659,8 +772,8 @@
 			},
 			addCompany() {
 				this.companys.push({
-					name: "",
-					distance: ""
+					companyName: "",
+					companyDistance: ""
 				});
 			},
 		}
