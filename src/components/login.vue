@@ -2,14 +2,14 @@
 	<div class="login">
 		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm">
 			<h1>商户登录</h1>
-			<el-form-item prop="tel">
-				<el-input :maxlength="11" v-model="ruleForm.tel">
+			<el-form-item prop="username">
+				<el-input :maxlength="11" v-model="ruleForm.username">
 					<template slot="prepend"><img src="../assets/telephone (2).png" alt="手机" /></template>
 				</el-input>
 
 			</el-form-item>
-			<el-form-item prop="name">
-				<el-input v-model="ruleForm.password">
+			<el-form-item prop="codeID">
+				<el-input :maxlength="6" v-model="ruleForm.codeID">
 					<template slot="prepend"><img src="../assets/password.png" alt="密码" /></template>
 					<el-button slot="append" type="primary">获取验证码</el-button>
 				</el-input>
@@ -24,65 +24,37 @@
 <script>
 	export default {
 		data() {
+			var checkTel = (rule, value, callback) => {
+				if(!value) {
+					return callback(new Error('手机号不能为空'));
+				} else if(!/^(13[0-9]|14[0-9]|15[0-9]|18[0-9])\d{8}$/i.test(value)) {
+					return callback(new Error('请输入正确手机号'));
+				} else {
+					callback();
+				}
+			};
 			return {
 				ruleForm: {
-					tel: '',
-					password: '',
-					date1: '',
-					date2: '',
-					delivery: false,
-					type: [],
-					resource: '',
-					desc: ''
+					username: '',
+					code: '',
 				},
 				rules: {
-					name: [{
-						required: true,
-						message: '请输入活动名称',
-						trigger: 'blur'
-					}, {
-						min: 3,
-						max: 5,
-						message: '长度在 3 到 5 个字符',
+					username: [{
+						validator: checkTel,
 						trigger: 'blur'
 					}],
-					tel: [{
+					codeID: [{
 							required: true,
-							message: '用户名不能为空',
+							message: '请输入验证码',
+							trigger: 'blur'
 						},
 						{
-							type: 'number',
-							message: '用户名必须为数字值',
+							min: 6,
+							max: 6,
+							message: '请输入正确验证码',
+							trigger: 'blur'
 						}
 					],
-					date1: [{
-						type: 'date',
-						required: true,
-						message: '请选择日期',
-						trigger: 'change'
-					}],
-					date2: [{
-						type: 'date',
-						required: true,
-						message: '请选择时间',
-						trigger: 'change'
-					}],
-					type: [{
-						type: 'array',
-						required: true,
-						message: '请至少选择一个活动性质',
-						trigger: 'change'
-					}],
-					resource: [{
-						required: true,
-						message: '请选择活动资源',
-						trigger: 'change'
-					}],
-					desc: [{
-						required: true,
-						message: '请填写活动形式',
-						trigger: 'blur'
-					}]
 				}
 			};
 		},

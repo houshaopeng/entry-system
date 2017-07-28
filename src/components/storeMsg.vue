@@ -180,12 +180,12 @@
 					<el-col :xs="24" :sm="24" :md="24" :lg="18">
 						<el-form-item label="" prop="registeredAddress">
 							<el-row>
-							<el-col :xs="18" :sm="18" :md="18" :lg="18">
-								<address-picker :opts="obj" v-model="address"></address-picker>
-							</el-col>
-							<el-col :xs="6" :sm="6" :md="6" :lg="6">
-								<el-input v-model="ruleForm.registeredAddress" placeholder="请输入详细联系地址"></el-input>
-							</el-col>
+								<el-col :xs="18" :sm="18" :md="18" :lg="18">
+									<address-picker :opts="obj" v-model="address"></address-picker>
+								</el-col>
+								<el-col :xs="6" :sm="6" :md="6" :lg="6">
+									<el-input v-model="ruleForm.registeredAddress" placeholder="请输入详细联系地址"></el-input>
+								</el-col>
 							</el-row>
 						</el-form-item>
 					</el-col>
@@ -205,23 +205,23 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
-						<el-form-item label="法人身份证号" prop="name">
-							<el-input v-model="ruleForm.name" placeholder="请输入法人身份证号"></el-input>
+						<el-form-item label="法人身份证号" prop="legalId">
+							<el-input :maxlength="18" v-model="ruleForm.legalId" placeholder="请输入法人身份证号"></el-input>
 						</el-form-item>
 					</el-col>
 
 				</el-row>
 				<el-row :gutter="10">
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
-						<el-form-item label="近三月平均营业额" prop="name">
-							<el-input v-model="ruleForm.name" placeholder="请输入近三月平均营业额">
+						<el-form-item label="近三月平均营业额" prop="threeMoney">
+							<el-input v-model="ruleForm.threeMoney" placeholder="请输入近三月平均营业额">
 								<template slot="append">万元</template>
 							</el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
-						<el-form-item label="去年全年营业额" prop="name">
-							<el-input v-model="ruleForm.name" placeholder="请输入去年全年营业额">
+						<el-form-item label="去年全年营业额" prop="yearMoney">
+							<el-input v-model="ruleForm.yearMoney" placeholder="请输入去年全年营业额">
 								<template slot="append">万元</template>
 							</el-input>
 						</el-form-item>
@@ -229,14 +229,14 @@
 				</el-row>
 				<el-row :gutter="10">
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
-						<el-form-item label="主营商品1" prop="name">
-							<el-input v-model="ruleForm.name" placeholder="请输入商品名称">
+						<el-form-item label="主营商品1" prop="productName1">
+							<el-input v-model="ruleForm.productName1" placeholder="请输入商品名称">
 							</el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
-						<el-form-item label="均价" prop="name">
-							<el-input v-model="ruleForm.name" placeholder="请输入商品价格">
+						<el-form-item label="均价" prop="productPrice1">
+							<el-input v-model="ruleForm.productPrice1" placeholder="请输入商品价格">
 								<template slot="append">元</template>
 							</el-input>
 						</el-form-item>
@@ -244,14 +244,14 @@
 				</el-row>
 				<el-row :gutter="10">
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
-						<el-form-item label="主营商品2" prop="name">
-							<el-input v-model="ruleForm.name" placeholder="请输入商品名称">
+						<el-form-item label="主营商品2" prop="productName2">
+							<el-input v-model="ruleForm.productName2" placeholder="请输入商品名称">
 							</el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
-						<el-form-item label="均价" prop="name">
-							<el-input v-model="ruleForm.name" placeholder="请输入商品价格">
+						<el-form-item label="均价" prop="productPrice2">
+							<el-input v-model="ruleForm.productPrice2" placeholder="请输入商品价格">
 								<template slot="append">元</template>
 							</el-input>
 						</el-form-item>
@@ -259,14 +259,14 @@
 				</el-row>
 				<el-row :gutter="10">
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
-						<el-form-item label="主营商品3" prop="name">
-							<el-input v-model="ruleForm.name" placeholder="请输入商品名称">
+						<el-form-item label="主营商品3" prop="productName3">
+							<el-input v-model="ruleForm.productName3" placeholder="请输入商品名称">
 							</el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
-						<el-form-item label="均价" prop="name">
-							<el-input v-model="ruleForm.name" placeholder="请输入商品价格">
+						<el-form-item label="均价" prop="productPrice3">
+							<el-input v-model="ruleForm.productPrice3" placeholder="请输入商品价格">
 								<template slot="append">元</template>
 							</el-input>
 						</el-form-item>
@@ -444,6 +444,22 @@
 					callback();
 				}
 			};
+			var checkIdCard = (rule, value, callback) => {
+				if(!value) {
+					return callback(new Error('身份证号不能为空'));
+				} else if(!/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/.test(value)) {
+					return callback(new Error('请输入正确的身份证号'));
+				} else {
+					callback();
+				}
+			};
+			var checkNum = (rule, value, callback) => {
+				if(!/^[0-9]*$/.test(value)) {
+					return callback(new Error('请输入数字'));
+				} else {
+					callback();
+				}
+			};
 			return {
 				msg: 'WD1234567890',
 				ruleForm: {
@@ -462,12 +478,21 @@
 					isJoin: '0', //是否品牌加盟店
 					businessType: '', //商户类型
 					createTime: '', //成立时间
-					startTime:'',//开业时间
-					changeAddr:'',//与联系地址相同
-					registeredAddress:'',//注册地址详细地址
-					zipCode:'',//邮政编码
-					legalName:'',//法人姓名
-					legalTel:'',//法人电话
+					startTime: '', //开业时间
+					changeAddr: '', //与联系地址相同
+					registeredAddress: '', //注册地址详细地址
+					zipCode: '', //邮政编码
+					legalName: '', //法人姓名
+					legalTel: '', //法人电话
+					legalId: '', //法人身份证号
+					threeMoney: '', //近三月平均营业额
+					yearMoney:'',//去年全年营业额
+					productName1:'',//商品名称1
+					productName2:'',//商品名称2
+					productName3:'',//商品名称3
+					productPrice1:'',//商品价格1
+					productPrice2:'',//商品价格2
+					productPrice3:'',//商品价格3
 					applicantDegree: '', //申请人学历
 					value1: '',
 					type: ''
@@ -761,8 +786,67 @@
 						validator: checkTel,
 						trigger: 'blur'
 					}],
+					legalId: [{
+						validator: checkIdCard,
+						trigger: 'blur'
+					}],
+					threeMoney: [{
+						required: true,
+						message: '请输入近三月平均营业额',
+						trigger: 'blur'
+					}, {
+						validator: checkNum,
+						trigger: 'blur'
+					}],
+					yearMoney: [{
+						required: true,
+						message: '请输入去年全年营业额',
+						trigger: 'blur'
+					}, {
+						validator: checkNum,
+						trigger: 'blur'
+					}],
+					productName1: [{
+						required: true,
+						message: '请输入商品名',
+						trigger: 'blur'
+					}],
+					productName2: [{
+						required: true,
+						message: '请输入商品名',
+						trigger: 'blur'
+					}],
+					productName3: [{
+						required: true,
+						message: '请输入商品名',
+						trigger: 'blur'
+					}],
+					productPrice1: [{
+						required: true,
+						message: '请输入商品价格',
+						trigger: 'blur'
+					}, {
+						validator: checkNum,
+						trigger: 'blur'
+					}],
+					productPrice2: [{
+						required: true,
+						message: '请输入商品价格',
+						trigger: 'blur'
+					}, {
+						validator: checkNum,
+						trigger: 'blur'
+					}],
+					productPrice3: [{
+						required: true,
+						message: '请输入商品价格',
+						trigger: 'blur'
+					}, {
+						validator: checkNum,
+						trigger: 'blur'
+					}],
 				}
-			};
+			}
 		},
 		methods: {
 			addMachine() {
@@ -777,21 +861,21 @@
 				});
 			},
 			// 获取机器编号
-			getMachineModel(){
+			getMachineModel() {
 				this.$http.post("/api/getMachineModel", "")
-				.then((res) => {
-					if(res.data.code == '000000') {
-						this.region = res.data.data; //  渲染区域
-					} else {}
-				}, (res) => {
-					this.$message({
-						message: res.data.messages,
-						type: 'error'
+					.then((res) => {
+						if(res.data.code == '000000') {
+							this.region = res.data.data; //  渲染区域
+						} else {}
+					}, (res) => {
+						this.$message({
+							message: res.data.messages,
+							type: 'error'
+						})
 					})
-				})
 			}
 		},
-		mounted:function(){
+		mounted: function() {
 			this.getMachineModel();
 		}
 	}
