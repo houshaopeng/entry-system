@@ -11,7 +11,7 @@
 			<el-form-item prop="codeID">
 				<el-input :maxlength="6" v-model="ruleForm.codeID">
 					<template slot="prepend"><img src="../assets/password.png" alt="密码" /></template>
-					<el-button slot="append" type="primary">获取验证码</el-button>
+					<el-button slot="append" type="primary" @click="getCode">获取验证码</el-button>
 				</el-input>
 			</el-form-item>
 			<el-form-item>
@@ -36,7 +36,7 @@
 			return {
 				ruleForm: {
 					username: '',
-					code: '',
+					codeID: '',
 				},
 				rules: {
 					username: [{
@@ -59,6 +59,22 @@
 			};
 		},
 		methods: {
+			getCode(){								//获取验证码
+				this.$http.post("/api/getCode", {
+					"username":this.ruleForm.tel
+				}).then((res) => {
+
+					if(res.data.code == '000000') {
+						//获取验证码成功
+					} else {}
+
+				}, (res) => {
+					this.$message({
+						message: res.data.messages,
+						type: 'error'
+					})
+				})
+			},
 			submitForm(formName) {
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
