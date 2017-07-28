@@ -3,7 +3,7 @@
 		<div class="fix_top">
 			<div class="header">
 				<h2>终端机借款进件系统</h2>
-				<el-button class="exit">退出</el-button>
+				<el-button class="exit" @click="loginOut">退出</el-button>
 			</div>
 			<div class="link_btn">
 				<el-button @click="$router.push({path: '/storeMsg'})">门店信息录入</el-button> ——————
@@ -29,6 +29,24 @@
 		data() {
 			return {
 				msg: 'Welcome to Your Vue.js App'
+			}
+		},
+		methods:{
+			loginOut(){
+				this.$http({
+					method:"POST",
+					url:"/api/loginOut",
+					body:{
+						"username":"12345678912"
+					}
+				}).then((res)=>{
+					console.log(res)
+				},(res)=>{
+					this.$message({
+						type:"error",
+						message:res.data.messages
+					})
+				})
 			}
 		}
 	}
