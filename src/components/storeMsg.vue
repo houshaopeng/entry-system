@@ -61,7 +61,7 @@
 							</el-col>
 							<el-col :xs="12" :sm="12" :md="12" :lg="12">
 								<el-select v-model="ruleForm.recommendedChannels" placeholder="请选择具体的推荐渠道">
-									<el-option v-for="item in channels" :key="item.value" :label="item.channelName" :value="item.applicationNo">
+									<el-option v-for="item in channels" :key="item.value" :label="item.value" :value="item.label">
 									</el-option>
 								</el-select>
 							</el-col>
@@ -153,7 +153,7 @@
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="商户类型" prop="businessType">
 							<el-select v-model="ruleForm.businessType" placeholder="请选择商户类型">
-								<el-option v-for="item in businessList" :key="item.value" :label="item.merchantType" :value="item.value">
+								<el-option v-for="item in businessList" :key="item.value" :label="item.value" :value="item.value">
 								</el-option>
 							</el-select>
 						</el-form-item>
@@ -781,7 +781,7 @@
 				this.$http.post("/api/getMachineModel", "")
 				.then((res) => {
 					if(res.data.code == '000000') {
-						this.region = res.data.data; //  渲染区域
+						this.region = res.data.data;
 					} else {}
 				}, (res) => {
 					this.$message({
@@ -789,10 +789,49 @@
 						type: 'error'
 					})
 				})
+			},
+			getChannelUserName(){			//获取渠道具体人员
+				this.$http({
+					method:"POST",
+					url:"/api/getChannelUserName"
+				}).then((res)=>{
+					console.log(res.data)
+					if(res.data.code =="000000"){
+						this.channels = res.data.data
+					}else{
+						this.$message({
+							type:"error",
+							message:res.data.messages
+						})
+					}
+				},(res)=>{
+					this.$message({
+						message: res.data.messages,
+						type: 'error'
+					})
+				})
+			},
+			getMerchantType(){				//获取商户类型
+				this.$http({
+					method:"POST",
+					url:"/api/getMerchantType"
+				}).then((res)=>{
+					console.log(res.data)
+					if(res.data.code =="000000"){
+						this.businessList = res.data.data
+					}
+				},(res)=>{
+					this.$message({
+						message:res.data.messages,
+						type:"error"
+					})
+				})
 			}
 		},
 		mounted:function(){
 			this.getMachineModel();
+			this.getChannelUserName();
+			this.getMerchantType();
 		}
 	}
 </script>
