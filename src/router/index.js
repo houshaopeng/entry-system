@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Login from '@/components/login' //登录  
+import Login from '@/components/login' //登录
 import Home from '@/components/home' //主页
-import StoreMsg from '@/components/storeMsg' //门店信息  
+import StoreMsg from '@/components/storeMsg' //门店信息
 import ImageFileUpload from '@/components/imageFileUpload' //影像资料1
 import ImageFileUpload2 from '@/components/imageFileUpload2' //影像资料2
 import LoanAgreement from '@/components/loanAgreement' //借款服务协议确认
@@ -24,19 +24,19 @@ export default new Router({
 					path: '/storeMsg',
 					component: StoreMsg,
 					name: '门店信息',
-					hidden: true 
+					hidden: true
 				},
 				{
 					path: '/imageFileUpload',
 					component: ImageFileUpload,
 					name: '影像资料上传',
-					hidden: false 
+					hidden: false
 				},
 				{
 					path: '/imageFileUpload2',
 					component: ImageFileUpload2,
 					name: '影像资料上传2',
-					hidden: false 
+					hidden: false
 				},
 				{
 					path: '/loanAgreement',

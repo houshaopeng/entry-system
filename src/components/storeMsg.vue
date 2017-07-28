@@ -92,7 +92,7 @@
 							<el-row v-for="machine in machines" :key="machines.id" style="margin-bottom: 10px;">
 								<el-col :xs="12" :sm="12" :md="8" :lg="6">
 									<el-select v-model="machine.machineType" placeholder="请选择机器型号">
-										<el-option v-for="item in machineList" :key="item.value" :label="item.machineName" :value="item.machineValue">
+										<el-option v-for="item in machineList" :key="item.value" :label="item.label" :value="item.value">
 										</el-option>
 									</el-select>
 								</el-col>
@@ -153,7 +153,7 @@
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="商户类型" prop="businessType">
 							<el-select v-model="ruleForm.businessType" placeholder="请选择商户类型">
-								<el-option v-for="item in businessList" :key="item.value" :label="item.value" :value="item.value">
+								<el-option v-for="item in businessList" :key="item.value" :label="item.value" :value="item.label">
 								</el-option>
 							</el-select>
 						</el-form-item>
@@ -416,8 +416,8 @@
 
 		<!--缓存，下一步按钮-->
 		<div class="footer">
-			<el-button type="primary">缓存</el-button>
-			<el-button type="primary">下一步</el-button>
+			<el-button type="primary" @click="Temporary">缓存</el-button>
+			<el-button type="primary" @clicl="updateImg">下一步</el-button>
 		</div>
 	</div>
 </template>
@@ -865,7 +865,7 @@
 				this.$http.post("/api/getMachineModel", "")
 				.then((res) => {
 					if(res.data.code == '000000') {
-						this.region = res.data.data;
+						this.machineList = res.data.data;
 					} else {}
 				}, (res) => {
 					this.$message({
@@ -910,6 +910,66 @@
 						type:"error"
 					})
 				})
+
+			},
+			Temporary(){
+				this.$http({
+					method:"POST",
+					url:"/api/Temporary",
+					body:{
+						"requestNo":this.msg,
+						"basicInfo":{
+							"contractType": this.ruleForm.contractType,
+							"terminalType": this.ruleForm.networkType,
+							"terminalArea": this.ruleForm.belongRegion,
+							"terminalName": this.ruleForm.networkName,
+							"terminalContact": this.ruleForm.networkContact,
+							"terminalPhone": this.ruleForm.contactTel,
+							"recommendChanel": this.ruleForm.recommendedID,
+							"contactAddress": this.ruleForm.contactAddress,
+							"salesmanName": this.ruleForm.salesmanName,
+							"salesmanNo": this.ruleForm.salesmanNumber,
+							"machineType": this.machines.machineType,
+							"aroundFinancialInfo": this.companys.companyName,
+							"joinSuperiority": this.ruleForm.type
+						},
+						"shopManagementInfo":{
+							"isBrandFranchise": "",
+							"merchantType": "",
+							"createTime": "",
+							"openingTime": "",
+							"registerAddress": "",
+							"postalCode": "",
+							"legalPersonName": "",
+							"legalPersonPhone": "",
+							"legalPersonIdCard": "",
+							"averageTurnover": "",
+							"totalTurnover": "",
+							"mainProduct": "",
+							"averageDayFlow": ""
+						},
+						"proposerInfo":{
+							"name": "",
+							"nativePlace": "",
+							"healthStatus": "",
+							"educational": "",
+							"maritalStatus": "",
+							"nativeAddress": "",
+							"address": "",
+							"shares": "",
+							"contacts": ""
+						}
+					}
+				}).then((res)=>{
+					console.log(res)
+				},(res)=>{
+					this.$message({
+						type:"error",
+						message:res.data.messages
+					})
+				})				//暂存
+			},
+			updateImg(){
 
 			}
 		},

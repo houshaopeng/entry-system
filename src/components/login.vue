@@ -15,7 +15,7 @@
 				</el-input>
 			</el-form-item>
 			<el-form-item>
-				<el-button class="btn_login" type="primary">登录</el-button>
+				<el-button class="btn_login" type="primary" @click = "login">登录</el-button>
 			</el-form-item>
 		</el-form>
 	</div>
@@ -61,9 +61,9 @@
 		methods: {
 			getCode(){								//获取验证码
 				this.$http.post("/api/getCode", {
-					"username":this.ruleForm.tel
+					"userId":this.ruleForm.username
 				}).then((res) => {
-
+					console.log(res)
 					if(res.data.code == '000000') {
 						//获取验证码成功
 					} else {}
@@ -72,6 +72,34 @@
 					this.$message({
 						message: res.data.messages,
 						type: 'error'
+					})
+				})
+			},
+			login(){								//登录
+				this.$http({
+					method:"POST",
+					url:"/api/login",
+					body:{
+						"userId":this.ruleForm.username,
+						"password":this.ruleForm.codeID
+					}
+				}).then((res)=>{
+					console.log(res)
+
+					if(res.data.code == "000000"){
+
+						//需保存token 成功后跳转
+						this.$router.push({path:"/storeMsg"})
+					}else{
+						this.$message({
+							type:"error",
+							message:res.data.messages
+						})
+					}
+				},(res)=>{
+					this.$message({
+						type:"error",
+						message:res.data.messages
 					})
 				})
 			},
