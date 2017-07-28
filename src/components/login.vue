@@ -87,7 +87,7 @@
 					if(res.data.code == "000000"){
 						sessionStorage.setItem('userInfo', JSON.stringify({userToken:res.data.data.token}));
 						//需保存token 成功后跳转
-						// this.$router.push({path:"/storeMsg"})
+						 this.$router.push({path:"/storeMsg"})
 					}else{
 						this.$message({
 							type:"error",
