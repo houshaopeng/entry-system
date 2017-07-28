@@ -776,6 +776,23 @@
 					companyDistance: ""
 				});
 			},
+			// 获取机器编号
+			getMachineModel(){
+				this.$http.post("/api/getMachineModel", "")
+				.then((res) => {
+					if(res.data.code == '000000') {
+						this.region = res.data.data; //  渲染区域
+					} else {}
+				}, (res) => {
+					this.$message({
+						message: res.data.messages,
+						type: 'error'
+					})
+				})
+			}
+		},
+		mounted:function(){
+			this.getMachineModel();
 		}
 	}
 </script>

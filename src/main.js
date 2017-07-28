@@ -8,6 +8,8 @@ import router from './router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import 'babel-polyfill'
+import VueResource from 'vue-resource'
+import VueRouter from 'vue-router'
 import vueDragDrag from 'vue-dragdrag'
 Vue.use(vueDragDrag)
 import addressPicker from 'vue-address-picker'
@@ -15,7 +17,8 @@ Vue.use(addressPicker)
 
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
-
+Vue.use(VueRouter);
+Vue.use(VueResource);
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
