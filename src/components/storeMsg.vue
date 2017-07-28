@@ -782,17 +782,36 @@
 				.then((res) => {
 					if(res.data.code == '000000') {
 						this.region = res.data.data; //  渲染区域
-					} else {}
+					} else {
+
+					}
 				}, (res) => {
 					this.$message({
 						message: res.data.messages,
 						type: 'error'
 					})
 				})
-			}
+			},
+			// 申请编号
+			applicationNumber(){
+				this.$http.post("/api/getNumber","")
+				.then((res) => {
+					if(res.data.code == '000000') {
+						console.log(res);
+					} else {
+
+					}
+				}, (res) => {
+					this.$message({
+						message: res.data.messages,
+						type: 'error'
+					})
+				})
+			},
 		},
 		mounted:function(){
 			this.getMachineModel();
+			this.applicationNumber();
 		}
 	}
 </script>

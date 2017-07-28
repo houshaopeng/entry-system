@@ -42,7 +42,7 @@
 			top:0;
 			left:0;
 			background-color: #fff;
-			z-index: 2;
+			z-index: 200;
 		}
 		.header {
 			height: 100px;
