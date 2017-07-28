@@ -117,13 +117,13 @@
 			<el-form label-position="left" label-width="121px" class="demo-ruleForm addOne">
 				<el-row :gutter="10" v-for="company in companys" :key="company.value">
 					<el-col :xs="18" :sm="18" :md="8" :lg="6">
-						<el-form-item label="名称">
+						<el-form-item label="名称" prop="companyName">
 							<el-input :maxlength="30" v-model="company.companyName" placeholder="请输入公司名称"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="18" :sm="18" :md="8" :lg="6">
 						<el-form-item label="离店距离" prop="companyDistance">
-							<el-input :maxlength="30" v-model="company.companyDistance" placeholder="请输入距离">
+							<el-input :maxlength="30" @keyup.native="checkNum" v-model="company.companyDistance" placeholder="请输入距离">
 								<template slot="append">米</template>
 							</el-input>
 						</el-form-item>
@@ -358,7 +358,7 @@
 					<el-col :xs="24" :sm="24" :md="24" :lg="18">
 						<el-form-item label="联系人信息" prop="">
 							<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-position="center" label-width="70px" class="demo-ruleForm">
-								<el-row style="margin-bottom: 10px;">
+								<el-row style="margin-bottom: 20px;">
 									<el-col :xs="6" :sm="6" :md="6" :lg="6">
 										<el-form-item label="关系" prop="msgBind1">
 											<el-select v-model="ruleForm.msgBind1" placeholder="请选择与联系人之间的关系">
@@ -378,7 +378,7 @@
 										</el-form-item>
 									</el-col>
 								</el-row>
-								<el-row style="margin-bottom: 10px;">
+								<el-row style="margin-bottom: 20px;">
 									<el-col :xs="6" :sm="6" :md="6" :lg="6">
 										<el-form-item label="关系" prop="msgBind2">
 											<el-select v-model="ruleForm.msgBind2" placeholder="请选择与联系人之间的关系">
@@ -394,11 +394,11 @@
 									</el-col>
 									<el-col :xs="6" :sm="6" :md="6" :lg="6">
 										<el-form-item label="手机号" prop="msgTel2">
-											<el-input :maxlength="11" v-model="msg.msgTel2"></el-input>
+											<el-input :maxlength="11" v-model="ruleForm.msgTel2"></el-input>
 										</el-form-item>
 									</el-col>
 								</el-row>
-								<el-row style="margin-bottom: 10px;">
+								<el-row style="margin-bottom: 20px;">
 									<el-col :xs="6" :sm="6" :md="6" :lg="6">
 										<el-form-item label="关系" prop="msgBind3">
 											<el-select v-model="ruleForm.msgBind3" placeholder="请选择与联系人之间的关系">
@@ -435,14 +435,14 @@
 			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm">
 				<el-row :gutter="10">
 					<el-col :xs="24" :sm="24" :md="18" :lg="14">
-						<el-form-item prop="name">
-							<el-checkbox-group v-model="ruleForm.type">
-								<el-checkbox label="地理位置好" name="type"></el-checkbox>
-								<el-checkbox label="客户资源丰富" name="type"></el-checkbox>
-								<el-checkbox label="经营模式独特" name="type"></el-checkbox>
-								<el-checkbox label="商品质量优异" name="type"></el-checkbox>
-								<el-checkbox label="品牌知名度高" name="type"></el-checkbox>
-								<el-checkbox label="其他" name="type"></el-checkbox>
+						<el-form-item prop="goodpoint">
+							<el-checkbox-group v-model="ruleForm.goodpoint">
+								<el-checkbox label="地理位置好"></el-checkbox>
+								<el-checkbox label="客户资源丰富"></el-checkbox>
+								<el-checkbox label="经营模式独特"></el-checkbox>
+								<el-checkbox label="商品质量优异"></el-checkbox>
+								<el-checkbox label="品牌知名度高"></el-checkbox>
+								<el-checkbox label="其他"></el-checkbox>
 							</el-checkbox-group>
 						</el-form-item>
 					</el-col>
@@ -557,7 +557,7 @@
 					applicantResAddress: '', //申请人户籍地址
 					applicantCurrAddress: '', //申请人现居住地址
 					applicantPercent: '', //申请人占股比列
-					msgBind1: '',//联系人信息
+					msgBind1: '', //联系人信息
 					msgBind2: '',
 					msgBind3: '',
 					msgName1: '',
@@ -566,8 +566,7 @@
 					msgTel1: '',
 					msgTel2: '',
 					msgTel3: '',
-					value1: '',
-					type: ''
+					goodpoint: [], //终端机网络优势
 				},
 				region: [{
 						region: "华北区",
@@ -790,6 +789,7 @@
 						trigger: 'blur'
 					}],
 					contactTel: [{
+						required: true,
 						validator: checkTel,
 						trigger: 'blur'
 					}],
@@ -849,6 +849,7 @@
 						trigger: 'blur'
 					}],
 					zipCode: [{
+						required: true,
 						validator: checkCode,
 						trigger: 'blur'
 					}],
@@ -858,10 +859,12 @@
 						trigger: 'blur'
 					}],
 					legalTel: [{
+						required: true,
 						validator: checkTel,
 						trigger: 'blur'
 					}],
 					legalId: [{
+						required: true,
 						validator: checkIdCard,
 						trigger: 'blur'
 					}],
@@ -968,47 +971,56 @@
 						validator: checkPercent,
 						trigger: 'blur'
 					}],
-					msgBind1:[{
+					msgBind1: [{
 						required: true,
 						message: '请选择与联系人关系',
 						trigger: 'change'
 					}],
-					msgBind2:[{
+					msgBind2: [{
 						required: true,
 						message: '请选择与联系人关系',
 						trigger: 'change'
 					}],
-					msgBind3:[{
+					msgBind3: [{
 						required: true,
 						message: '请选择与联系人关系',
 						trigger: 'change'
 					}],
-					msgName1:[{
+					msgName1: [{
 						required: true,
 						message: '请输入联系人姓名',
 						trigger: 'blur'
 					}],
-					msgName2:[{
+					msgName2: [{
 						required: true,
 						message: '请输入联系人姓名',
 						trigger: 'blur'
 					}],
-					msgName3:[{
+					msgName3: [{
 						required: true,
 						message: '请输入联系人姓名',
 						trigger: 'blur'
 					}],
-					msgTel1:[{
+					msgTel1: [{
+						required: true,
 						validator: checkTel,
 						trigger: 'blur'
 					}],
-					msgTel2:[{
+					msgTel2: [{
+						required: true,
 						validator: checkTel,
 						trigger: 'blur'
 					}],
-					msgTel3:[{
+					msgTel3: [{
+						required: true,
 						validator: checkTel,
 						trigger: 'blur'
+					}],
+					goodpoint: [{
+						type: 'array',
+						required: true,
+						message: '请至少选择一个网络优势',
+						trigger: 'change'
 					}],
 				}
 			}
@@ -1025,6 +1037,15 @@
 					companyDistance: ""
 				});
 			},
+			checkNum() {
+				var str = event.target.value;
+				var reg = /[^\d]/;
+				if(reg.test(str)) {
+					return event.target.value = '';
+				} else {
+					return event.target.value;
+				}
+			},
 			// 获取机器编号
 			getMachineModel() {
 				this.$http.post("/api/getMachineModel", "")
@@ -1039,40 +1060,40 @@
 					})
 				})
 			},
-			getChannelUserName(){			//获取渠道具体人员
+			getChannelUserName() { //获取渠道具体人员
 				this.$http({
-					method:"POST",
-					url:"/api/getChannelUserName"
-				}).then((res)=>{
+					method: "POST",
+					url: "/api/getChannelUserName"
+				}).then((res) => {
 					console.log(res.data)
-					if(res.data.code =="000000"){
+					if(res.data.code == "000000") {
 						this.channels = res.data.data
-					}else{
+					} else {
 						this.$message({
-							type:"error",
-							message:res.data.messages
+							type: "error",
+							message: res.data.messages
 						})
 					}
-				},(res)=>{
+				}, (res) => {
 					this.$message({
 						message: res.data.messages,
 						type: 'error'
 					})
 				})
 			},
-			getMerchantType(){				//获取商户类型
+			getMerchantType() { //获取商户类型
 				this.$http({
-					method:"POST",
-					url:"/api/getMerchantType"
-				}).then((res)=>{
+					method: "POST",
+					url: "/api/getMerchantType"
+				}).then((res) => {
 					console.log(res.data)
-					if(res.data.code =="000000"){
+					if(res.data.code == "000000") {
 						this.businessList = res.data.data
 					}
-				},(res)=>{
+				}, (res) => {
 					this.$message({
-						message:res.data.messages,
-						type:"error"
+						message: res.data.messages,
+						type: "error"
 					})
 				})
 
