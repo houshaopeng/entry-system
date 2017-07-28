@@ -360,7 +360,7 @@
 							<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-position="center" label-width="70px" class="demo-ruleForm">
 								<el-row style="margin-bottom: 10px;">
 									<el-col :xs="6" :sm="6" :md="6" :lg="6">
-										<el-form-item label="关系" prop="applicantPercent">
+										<el-form-item label="关系" prop="msgBind1">
 											<el-select v-model="ruleForm.msgBind1" placeholder="请选择与联系人之间的关系">
 												<el-option v-for="item in relationList" :key="item.value" :label="item.relationship" :value="item.relationValue">
 												</el-option>
@@ -368,19 +368,19 @@
 										</el-form-item>
 									</el-col>
 									<el-col :xs="6" :sm="6" :md="6" :lg="6">
-										<el-form-item label="姓名" prop="applicantPercent">
+										<el-form-item label="姓名" prop="msgName1">
 											<el-input :maxlength="30" v-model="ruleForm.msgName1"></el-input>
 										</el-form-item>
 									</el-col>
 									<el-col :xs="6" :sm="6" :md="6" :lg="6">
-										<el-form-item label="手机号" prop="applicantPercent">
-											<el-input :maxlength="11" v-model="msg.msgTel1"></el-input>
+										<el-form-item label="手机号" prop="msgTel1">
+											<el-input :maxlength="11" v-model="ruleForm.msgTel1"></el-input>
 										</el-form-item>
 									</el-col>
 								</el-row>
 								<el-row style="margin-bottom: 10px;">
 									<el-col :xs="6" :sm="6" :md="6" :lg="6">
-										<el-form-item label="关系" prop="applicantPercent">
+										<el-form-item label="关系" prop="msgBind2">
 											<el-select v-model="ruleForm.msgBind2" placeholder="请选择与联系人之间的关系">
 												<el-option v-for="item in relationList" :key="item.value" :label="item.relationship" :value="item.relationValue">
 												</el-option>
@@ -388,19 +388,19 @@
 										</el-form-item>
 									</el-col>
 									<el-col :xs="6" :sm="6" :md="6" :lg="6">
-										<el-form-item label="姓名" prop="applicantPercent">
+										<el-form-item label="姓名" prop="msgName2">
 											<el-input :maxlength="30" v-model="ruleForm.msgName2"></el-input>
 										</el-form-item>
 									</el-col>
 									<el-col :xs="6" :sm="6" :md="6" :lg="6">
-										<el-form-item label="手机号" prop="applicantPercent">
+										<el-form-item label="手机号" prop="msgTel2">
 											<el-input :maxlength="11" v-model="msg.msgTel2"></el-input>
 										</el-form-item>
 									</el-col>
 								</el-row>
 								<el-row style="margin-bottom: 10px;">
 									<el-col :xs="6" :sm="6" :md="6" :lg="6">
-										<el-form-item label="关系" prop="applicantPercent">
+										<el-form-item label="关系" prop="msgBind3">
 											<el-select v-model="ruleForm.msgBind3" placeholder="请选择与联系人之间的关系">
 												<el-option v-for="item in relationList" :key="item.value" :label="item.relationship" :value="item.relationValue">
 												</el-option>
@@ -408,13 +408,13 @@
 										</el-form-item>
 									</el-col>
 									<el-col :xs="6" :sm="6" :md="6" :lg="6">
-										<el-form-item label="姓名" prop="applicantPercent">
+										<el-form-item label="姓名" prop="msgName3">
 											<el-input :maxlength="30" v-model="ruleForm.msgName3"></el-input>
 										</el-form-item>
 									</el-col>
 									<el-col :xs="6" :sm="6" :md="6" :lg="6">
-										<el-form-item label="手机号" prop="applicantPercent">
-											<el-input :maxlength="11" v-model="msg.msgTel3"></el-input>
+										<el-form-item label="手机号" prop="msgTel3">
+											<el-input :maxlength="11" v-model="ruleForm.msgTel3"></el-input>
 										</el-form-item>
 									</el-col>
 								</el-row>
@@ -985,18 +985,30 @@
 					}],
 					msgName1:[{
 						required: true,
-						message: '请选择与联系人关系',
-						trigger: 'change'
+						message: '请输入联系人姓名',
+						trigger: 'blur'
 					}],
 					msgName2:[{
 						required: true,
-						message: '请选择与联系人关系',
-						trigger: 'change'
+						message: '请输入联系人姓名',
+						trigger: 'blur'
 					}],
 					msgName3:[{
 						required: true,
-						message: '请选择与联系人关系',
-						trigger: 'change'
+						message: '请输入联系人姓名',
+						trigger: 'blur'
+					}],
+					msgTel1:[{
+						validator: checkTel,
+						trigger: 'blur'
+					}],
+					msgTel2:[{
+						validator: checkTel,
+						trigger: 'blur'
+					}],
+					msgTel3:[{
+						validator: checkTel,
+						trigger: 'blur'
 					}],
 				}
 			}
