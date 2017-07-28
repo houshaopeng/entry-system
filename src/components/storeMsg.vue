@@ -92,7 +92,7 @@
 							<el-row v-for="machine in machines" :key="machines.id" style="margin-bottom: 10px;">
 								<el-col :xs="12" :sm="12" :md="8" :lg="6">
 									<el-select v-model="machine.machineType" placeholder="请选择机器型号">
-										<el-option v-for="item in machineList" :key="item.value" :label="item.label" :value="item.value">
+										<el-option v-for="item in machineList" :key="item.value" :label="item.value" :value="item.value">
 										</el-option>
 									</el-select>
 								</el-col>
@@ -458,7 +458,7 @@
 		<!--缓存，下一步按钮-->
 		<div class="footer">
 			<el-button type="primary" @click="Temporary">缓存</el-button>
-			<el-button type="primary" @clicl="updateImg">下一步</el-button>
+			<el-button type="primary" @click="updateImg">下一步</el-button>
 		</div>
 	</div>
 </template>
@@ -1113,7 +1113,11 @@
 			getMerchantType() { //获取商户类型
 				this.$http({
 					method: "POST",
-					url: "/api/terminal/getMerchantType"
+
+					url: "/api/terminal/getMerchantType",
+					headers: {
+                                "x-sljr-session-token":JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+                            }
 				}).then((res) => {
 					console.log(res.data)
 					if(res.data.code == "000000") {
@@ -1127,10 +1131,13 @@
 				})
 
 			},
-			Temporary(){
+			Temporary(){					//缓存
 				this.$http({
 					method:"POST",
 					url:"/api/terminal/Temporary",
+					headers: {
+                                "x-sljr-session-token":JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+                            },
 					body:{
 						"requestNo":this.msg,
 						"basicInfo":{
@@ -1185,7 +1192,64 @@
 				})				//暂存
 			},
 			updateImg(){
-
+				this.$http({
+					method:"POST",
+					url:"/api/terminal/basicSubmit",
+					headers: {
+                                "x-sljr-session-token":JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+                            },
+					body:{
+						"requestNo":this.msg,
+						"basicInfo":{
+							"contractType": this.ruleForm.contractType,
+							"terminalType": this.ruleForm.networkType,
+							"terminalArea": this.ruleForm.belongRegion,
+							"terminalName": this.ruleForm.networkName,
+							"terminalContact": this.ruleForm.networkContact,
+							"terminalPhone": this.ruleForm.contactTel,
+							"recommendChanel": this.ruleForm.recommendedID,
+							"contactAddress": this.ruleForm.contactAddress,
+							"salesmanName": this.ruleForm.salesmanName,
+							"salesmanNo": this.ruleForm.salesmanNumber,
+							"machineType": this.machines.machineType,
+							"aroundFinancialInfo": this.companys.companyName,
+							"joinSuperiority": this.ruleForm.type
+						},
+						"shopManagementInfo":{
+							"isBrandFranchise": "",
+							"merchantType": "",
+							"createTime": "",
+							"openingTime": "",
+							"registerAddress": "",
+							"postalCode": "",
+							"legalPersonName": "",
+							"legalPersonPhone": "",
+							"legalPersonIdCard": "",
+							"averageTurnover": "",
+							"totalTurnover": "",
+							"mainProduct": "",
+							"averageDayFlow": ""
+						},
+						"proposerInfo":{
+							"name": "",
+							"nativePlace": "",
+							"healthStatus": "",
+							"educational": "",
+							"maritalStatus": "",
+							"nativeAddress": "",
+							"address": "",
+							"shares": "",
+							"contacts": ""
+						}
+					}
+				}).then((res)=>{
+					console.log(res)
+				},(res)=>{
+					this.$message({
+						type:"error",
+						message:res.data.messages
+					})
+				})
 			}
 		},
 		mounted: function() {
