@@ -1141,6 +1141,7 @@
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					}
 				}).then((res) => {
+					console.log("===》》》")
 					console.log(res.data)
 					if(res.data.code == "000000") {
 						this.businessList = res.data.data
