@@ -1095,7 +1095,7 @@
 				this.getChannelUserName();
 				if(this.ruleForm.recommendedID == 1 || this.ruleForm.recommendedID == 2) {
 					this.channelsShow = true;
-					// this.getChannelUserName();
+				
 				} else {
 					this.channelsShow = false;
 					this.ruleForm.recommendedChannels = "";
@@ -1331,7 +1331,7 @@
 		mounted: function() {
 			this.getMachineModel();
 
-			this.getChannelUserName();
+			// this.getChannelUserName();
 			this.getMerchantType();
 			
 		}

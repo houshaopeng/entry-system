@@ -57,7 +57,8 @@
 							trigger: 'blur'
 						}
 					],
-				}
+				},
+				flagArr:[]
 			};
 		},
 		methods: {
@@ -129,9 +130,20 @@
 						"requestNo":this.msg
 					}
 				}).then((res)=>{
-					console.log(res.data)
+					if(res.data.code=="000000"){
+						this.flagArr = res.data.data.list;
+						console.log(this.flagArr)
+					}else{
+						this.$message({
+							type:"error",
+							message:res.data.messages
+						})
+					}
 				},(res)=>{
-
+					this.$message({
+						type:"error",
+						message:res.data.messages
+					})
 				})
 			},
 			login(){								//登录
@@ -144,9 +156,15 @@
 					}
 				}).then((res)=>{
 					if(res.data.code == "000000"){
-						sessionStorage.setItem('userInfo', JSON.stringify({userToken:res.data.data["x-sljr-session-token"],telPhone:this.ruleForm.username}));
+						sessionStorage.setItem('userInfo', JSON.stringify({userToken:res.data.data["x-sljr-session-token"],telPhone:this.ruleForm.username,requestNo:this.msg}));
 						//需保存token 成功后跳转
-						this.$router.push({path:"/storeMsg"})
+						// this.$router.push({path:"/storeMsg"})
+						for(let i =0;i<this.flagArr.length;i++){
+							if(this.flagArr[i]){
+								this.$router.push({path:this.flagArr[i].value});
+								return false;
+							}
+						}
 
 					}else{
 						this.$message({
