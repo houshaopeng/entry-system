@@ -36,21 +36,15 @@
 		name: 'loanAgreement',
 		data() {
 			return {
-				msg:'',
+				
 			}
 		},
-		methods:{
-			onSubmit(){
+		methods: {
+			onSubmit() {
 				this.$router.push({
-					name: '借款合同确认',
-					params: {
-						currentOrder: this.msg
-					}
-				});
+					path: '/loanContract'
+				})
 			}
-		},
-		created: function() {
-			this.msg = this.$route.params.currentOrder;
 		},
 	}
 </script>

@@ -158,7 +158,6 @@
 		name: 'imageFileUpload2',
 		data() {
 			return {
-				msg: '',
 				//图片上传插件部分 start
 				//过滤器回调
 				files0: [],
@@ -364,18 +363,15 @@
 			},
 			onSubmit() {
 				this.$router.push({
-					name: '借款服务协议确认',
-					params: {
-						currentOrder: this.msg
-					}
-				});
+						path: '/loanAgreement'
+					})
 			},
 		},
 		//图片上传插件部分 end
-
 		created: function() {
 			this.routerApi();
 		},
+
 		components: {
 			VueFileUpload,
 			Modal,

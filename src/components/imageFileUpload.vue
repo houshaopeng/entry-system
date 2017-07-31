@@ -25,7 +25,7 @@
 								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file))" style="width: 200px;">
 								<span class="img_name" v-html="file.name"></span>
 								<span v-text='onStatus(file)' class="img_status"></span>
-								 <vue-loading type="bars" color="#d9544e" :size="{ width: '50px', height: '50px' }"></vue-loading>
+								<vue-loading type="bars" color="#d9544e" :size="{ width: '50px', height: '50px' }"></vue-loading>
 								<span class="close" @click="deleteImg(file)"> × </span>
 							</div>
 							<div>
@@ -160,7 +160,6 @@
 		name: 'imageFileUpload',
 		data() {
 			return {
-				msg: '',
 				//图片上传插件部分 start
 				//过滤器回调
 				files0: [],
@@ -238,42 +237,42 @@
 				},
 				reqopts0: {
 					formData: {
-						'type':'1',
-						'userId':JSON.parse(sessionStorage.getItem("userInfo")).userToken,
-						'requestNo':'001',
+						'type': '1',
+						'userId': JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+						'requestNo': '001',
 					},
 					responseType: 'json',
 					withCredentials: false
 				},
 				reqopts1: {
 					formData: {
-						'type':'2',
-						'userId':JSON.parse(sessionStorage.getItem("userInfo")).userToken,
-						'requestNo':'001',
+						'type': '2',
+						'userId': JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+						'requestNo': '001',
 					},
 					responseType: 'json',
 					withCredentials: false
 				},
 				reqopts2: {
 					formData: {
-						'type':'3',
-						'userId':JSON.parse(sessionStorage.getItem("userInfo")).userToken,
-						'requestNo':'001',
+						'type': '3',
+						'userId': JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+						'requestNo': '001',
 					},
 					responseType: 'json',
 					withCredentials: false
 				},
 				reqopts3: {
 					formData: {
-						'type':'4',
-						'userId':JSON.parse(sessionStorage.getItem("userInfo")).userToken,
-						'requestNo':'001',
+						'type': '4',
+						'userId': JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+						'requestNo': '001',
 					},
 					responseType: 'json',
 					withCredentials: false
 				},
 				//图片上传插件部分 end
-				deleteArr:[],
+				deleteArr: [],
 			}
 		},
 		methods: {
@@ -308,7 +307,7 @@
 			uploadItem(file) {
 				file.upload();
 			},
-			
+
 			deleteImg(file) {
 				console.log(file)
 				// this.deleteArr.push();
@@ -334,36 +333,32 @@
 			onSubmit() {
 				this.delectImg();
 				this.$refs.vueFileUploader0.uploadAll();
-				/*this.$router.push({
-					name: '影像资料上传2',
-					params: {
-						currentOrder: this.msg
-					}
-				});*/
-				
+				this.$router.push({
+					path: '/imageFileUpload2'
+				})
+
 			},
 			// 删除图片(提交前删除)
-			delectImg(){
-			
+			delectImg() {
 				this.$http({
-					method:"POST",
-					url:"/api/terminal/deleteImg",
+					method: "POST",
+					url: "/api/terminal/deleteImg",
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 						// "x-sljr-session-token": "08814d4762b788690fc256cd8d089fe4",
 					},
-					body:{
-						"imgSrcs":"",      // 图片src地址(多张逗号拼接)   TODO
-						"type":"1",         //  TODO
-						"userId":"",       // 用户唯一标识登录的手机号码	TODO
-						"requestNo":this.$route.params.currentOrder,    // 申请编号
+					body: {
+						"imgSrcs": "", // 图片src地址(多张逗号拼接)   TODO
+						"type": "1", //  TODO
+						"userId": "", // 用户唯一标识登录的手机号码	TODO
+						"requestNo": this.$route.params.currentOrder, // 申请编号
 					}
-				}).then((res)=>{
+				}).then((res) => {
 					console.log(res)
-				},(res)=>{
+				}, (res) => {
 					this.$message({
-						type:"error",
-						message:res.data.messages
+						type: "error",
+						message: res.data.messages
 					})
 				})
 			},
@@ -417,9 +412,6 @@
 				})
 			}
 		},
-		created: function() {
-			this.msg = this.$route.params.currentOrder;
-		},
 		components: {
 			VueFileUpload,
 			Modal,
@@ -427,6 +419,7 @@
 		},
 		mounted:function(){
 			this.routerApi();
+
 			// console.log(this.$route.params.)
 		}
 	}
