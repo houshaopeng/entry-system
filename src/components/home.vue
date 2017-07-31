@@ -72,7 +72,7 @@
 			}
 		},
 		mounted:function(){
-			this.routerApi();
+//			this.routerApi();
 		}
 	}
 </script>

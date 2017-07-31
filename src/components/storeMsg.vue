@@ -181,7 +181,7 @@
 						<el-form-item label="" prop="registeredAddress">
 							<el-row>
 								<el-col :xs="18" :sm="18" :md="18" :lg="18">
-									<address-picker :opts="obj" v-model="address"></address-picker>
+									<address-picker :opts="obj2" v-model="address2"></address-picker>
 								</el-col>
 								<el-col :xs="6" :sm="6" :md="6" :lg="6">
 									<el-input v-model="ruleForm.registeredAddress" placeholder="请输入详细联系地址"></el-input>
@@ -329,7 +329,7 @@
 					<el-col :xs="24" :sm="24" :md="24" :lg="18">
 						<el-form-item label="申请人户籍地址" prop="applicantResAddress">
 							<el-col :xs="18" :sm="18" :md="18" :lg="18">
-								<address-picker :opts="obj" v-model="address"></address-picker>
+								<address-picker :opts="obj3" v-model="address3"></address-picker>
 							</el-col>
 							<el-col :xs="6" :sm="6" :md="6" :lg="6">
 								<el-input v-model="ruleForm.applicantResAddress" placeholder="请输入详细联系地址"></el-input>
@@ -339,7 +339,7 @@
 					<el-col :xs="24" :sm="24" :md="24" :lg="18">
 						<el-form-item label="申请人现居住地址" prop="applicantCurrAddress">
 							<el-col :xs="18" :sm="18" :md="18" :lg="18">
-								<address-picker :opts="obj" v-model="address"></address-picker>
+								<address-picker :opts="obj4" v-model="address4"></address-picker>
 							</el-col>
 							<el-col :xs="6" :sm="6" :md="6" :lg="6">
 								<el-input v-model="ruleForm.applicantCurrAddress" placeholder="请输入详细联系地址"></el-input>
@@ -639,8 +639,50 @@
 						distance: ""
 					}
 				],
-				address: {}, //三级联动
+				address: {}, //联系地址
 				obj: {
+					label: {
+						province: '',
+						city: '',
+						district: ''
+					},
+					default: {
+						province: '北京',
+						city: '北京',
+						district: '东城区'
+					},
+					noLabel: true
+				},
+				address2: {}, //注册地址
+				obj2: {
+					label: {
+						province: '',
+						city: '',
+						district: ''
+					},
+					default: {
+						province: '北京',
+						city: '北京',
+						district: '东城区'
+					},
+					noLabel: true
+				},
+				address3: {}, //户籍地址
+				obj3: {
+					label: {
+						province: '',
+						city: '',
+						district: ''
+					},
+					default: {
+						province: '北京',
+						city: '北京',
+						district: '东城区'
+					},
+					noLabel: true
+				},
+				address4: {}, //居住地址
+				obj4: {
 					label: {
 						province: '',
 						city: '',
@@ -1141,8 +1183,6 @@
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					}
 				}).then((res) => {
-					console.log("===》》》")
-					console.log(res.data)
 					if(res.data.code == "000000") {
 						this.businessList = res.data.data
 					}
