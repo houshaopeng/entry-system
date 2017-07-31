@@ -11,7 +11,7 @@
 			<el-form-item prop="codeID">
 				<el-input :maxlength="6" v-model="ruleForm.codeID">
 					<template slot="prepend"><img src="../assets/password.png" alt="密码" /></template>
-					<el-button slot="append" type="primary" @click="getCode">获取验证码</el-button>
+					<el-button slot="append" type="primary" :disabled="getcodeshow" @click="getCode">{{getcode}}</el-button>
 				</el-input>
 			</el-form-item>
 			<el-form-item>
@@ -34,6 +34,8 @@
 				}
 			};
 			return {
+				getcode:"获取验证码",
+				getcodeshow:false,
 				ruleForm: {
 					username: '',
 					codeID: '',
@@ -60,10 +62,23 @@
 		},
 		methods: {
 			getCode(){								//获取验证码
+
+				var countdown  = 60;
+				this.getcodeshow = true;
+				var timer = setInterval(()=>{
+								if(countdown>0){
+									countdown--;
+									this.getcode = "重新发送"+countdown+"s";
+								}else if(countdown == 0){
+									clearInterval(timer)
+									this.getcode = "重新发送"
+									this.getcodeshow = false;
+								}
+							},1000)
+
 				this.$http.post("/api/getMessageCode", {
 					"userId":this.ruleForm.username
 				}).then((res) => {
-					console.log(res)
 					if(res.data.code == '000000') {
 						//获取验证码成功
 					} else {

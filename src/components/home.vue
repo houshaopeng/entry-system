@@ -40,7 +40,14 @@
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					}
 			}).then((res)=>{
-					console.log(res)      //  TODO
+					if(res.data.code == "000000"){
+						this.$router.push({path:"/login"})
+					}else{
+						this.$message({
+							type:"error",
+							message:res.data.messages
+						})
+					}
 				},(res)=>{
 					this.$message({
 						type:"error",
@@ -95,6 +102,8 @@
 		mounted:function(){
 			this.routerApi();
 			console.log(JSON.parse(sessionStorage.getItem("userInfo")))
+
+
 		}
 	}
 </script>
