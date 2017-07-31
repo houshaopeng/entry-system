@@ -174,6 +174,9 @@
 			resetForm(formName) {
 				this.$refs[formName].resetFields();
 			}
+		},
+		mounted:function(){
+			this.applicationNumber();
 		}
 	}
 </script>
