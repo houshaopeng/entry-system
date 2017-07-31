@@ -344,18 +344,18 @@
 			},
 			// 删除图片(提交前删除)
 			delectImg(){
+				console.log(JSON.parse(sessionStorage.getItem("userInfo")).userToken)
 				this.$http({
 					method:"POST",
 					url:"/api/terminal/deleteImg",
+					headers: {
+						"x-sljr-session-token": "6b8b0e4e841107d250d63fdb3166d1ac",
+					},
 					body:{
 						"imgSrcs":"http://terminal-repeater.oss-cn-shanghai.aliyuncs.com/e6b4729b53ee8158fce423ba07480afd/001/personalDataImg/1501467704002.jpg,http://terminal-repeater.oss-cn-shanghai.aliyuncs.com/e6b4729b53ee8158fce423ba07480afd/001/personalDataImg/1501467704242.jpg",      // 图片src地址(多张逗号拼接)
 						"type":"1",         //
-						"userId":JSON.parse(sessionStorage.getItem("userInfo")).userToken,       // 用户唯一标识
+						"userId":"e6b4729b53ee8158fce423ba07480afd",       // 用户唯一标识
 						"requestNo":"001",    // 申请编号
-					}
-				},{
-					headers: {
-						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					}
 				}).then((res)=>{
 					console.log(res)

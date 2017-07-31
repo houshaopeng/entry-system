@@ -86,7 +86,7 @@
 					}
 				}).then((res)=>{
 					if(res.data.code == "000000"){
-						sessionStorage.setItem('userInfo', JSON.stringify({userToken:res.data.data.token}));
+						sessionStorage.setItem('userInfo', JSON.stringify({userToken:res.data.data["x-sljr-session-token"]}));
 						//需保存token 成功后跳转
 						this.$router.push({path:"/storeMsg"})
 

@@ -53,14 +53,13 @@
 				this.$http({
 					method:"POST",
 					url:"/api/terminal/step",
+					headers: {
+						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+					},
 					body:{
 						"userId":"12345678912",      // TODO
 						"request":"12345678912",
 						"level":"12345678912",
-					}
-				},{
-					headers: {
-						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					}
 				}).then((res)=>{
 					console.log(res)
