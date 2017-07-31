@@ -26,7 +26,7 @@
 								<span class="img_name" v-html="file.name"></span>
 								<span v-text='onStatus(file)' class="img_status"></span>
 								 <vue-loading type="bars" color="#d9544e" :size="{ width: '50px', height: '50px' }"></vue-loading>
-								<span class="close" @click="deleteItem(file)"> × </span>
+								<span class="close" @click="deleteImg(file)"> × </span>
 							</div>
 							<div>
 								<div class="no_img1" v-show="files0.length<1">
@@ -56,7 +56,7 @@
 							<div class="img_item_box" v-for='(file,index) in files1' @click="getIndex(index)" style="float: left">
 								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file))" style="width: 200px;">
 								<span class="img_name" v-html="file.name"></span>
-								<span class="close" @click="deleteItem(file)"> × </span>
+								<span class="close" @click="deleteImg(file)"> × </span>
 							</div>
 							<div>
 								<div class="no_img1" v-show="files1.length<1">
@@ -86,7 +86,7 @@
 							<div class="img_item_box" v-for='(file,index) in files2' @click="getIndex(index)" style="float: left">
 								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file))" style="width: 200px;">
 								<span class="img_name" v-html="file.name"></span>
-								<span class="close" @click="deleteItem(file)"> × </span>
+								<!-- <span class="close" @click="deleteImg(file)"> × </span> -->
 							</div>
 							<div>
 								<div class="no_img1" v-show="files2.length<1">
@@ -109,10 +109,10 @@
 								</div>
 							</div>
 						</div>
-					</el-col> 
+					</el-col>
 
 					<!--本人在店铺内照片-->
-					 <el-col :span="24" style="margin:10px 0">
+					<el-col :span="24" style="margin:10px 0">
 						<div class="img_title">
 							<div>
 								<span style="margin: 0 20px 0 24px;">企业经营证明文件：</span>
@@ -125,7 +125,7 @@
 							<div class="img_item_box" v-for='(file,index) in files3' @click="getIndex(index)" style="float: left">
 								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file))" style="width: 200px;">
 								<span class="img_name" v-html="file.name"></span>
-								<span class="close" @click="deleteItem(file)"> × </span>
+								<span class="close" @click="deleteImg(file)"> × </span>
 							</div>
 							<div>
 								<div class="no_img1" v-show="files3.length<1">
@@ -160,7 +160,7 @@
 		name: 'imageFileUpload',
 		data() {
 			return {
-
+				msg: '',
 				//图片上传插件部分 start
 				//过滤器回调
 				files0: [],
@@ -239,7 +239,7 @@
 				reqopts0: {
 					formData: {
 						'type':'1',
-						'userId':'yibingtao',
+						'userId':JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 						'requestNo':'001',
 					},
 					responseType: 'json',
@@ -248,7 +248,7 @@
 				reqopts1: {
 					formData: {
 						'type':'2',
-						'userId':'yibingtao',
+						'userId':JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 						'requestNo':'001',
 					},
 					responseType: 'json',
@@ -257,7 +257,7 @@
 				reqopts2: {
 					formData: {
 						'type':'3',
-						'userId':'yibingtao',
+						'userId':JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 						'requestNo':'001',
 					},
 					responseType: 'json',
@@ -266,13 +266,14 @@
 				reqopts3: {
 					formData: {
 						'type':'4',
-						'userId':'yibingtao',
+						'userId':JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 						'requestNo':'001',
 					},
 					responseType: 'json',
 					withCredentials: false
 				},
 				//图片上传插件部分 end
+				deleteArr:[],
 			}
 		},
 		methods: {
@@ -307,7 +308,10 @@
 			uploadItem(file) {
 				file.upload();
 			},
-			deleteItem(file) {
+			
+			deleteImg(file) {
+				console.log(file)
+				// this.deleteArr.push();
 				file.remove();
 			},
 			uploadAll() {
@@ -328,17 +332,52 @@
 			},
 			//图片上传插件部分 end
 			onSubmit() {
-				this.$refs.vueFileUploader0.uploadAll();
-				/*this.$router.push({
-					path: '/imageFileUpload2'
-				});*/
+				this.delectImg();
+//				this.$refs.vueFileUploader0.uploadAll();
+				this.$router.push({
+					name: '影像资料上传2',
+					params: {
+						currentOrder: this.msg
+					}
+				});
+				
 			},
+			// 删除图片(提交前删除)
+			delectImg(){
+				console.log(JSON.parse(sessionStorage.getItem("userInfo")).userToken)
+				this.$http({
+					method:"POST",
+					url:"/api/terminal/deleteImg",
+					headers: {
+						"x-sljr-session-token": "6b8b0e4e841107d250d63fdb3166d1ac",
+					},
+					body:{
+						"imgSrcs":"http://terminal-repeater.oss-cn-shanghai.aliyuncs.com/e6b4729b53ee8158fce423ba07480afd/001/personalDataImg/1501467704002.jpg,http://terminal-repeater.oss-cn-shanghai.aliyuncs.com/e6b4729b53ee8158fce423ba07480afd/001/personalDataImg/1501467704242.jpg",      // 图片src地址(多张逗号拼接)
+						"type":"1",         //
+						"userId":"e6b4729b53ee8158fce423ba07480afd",       // 用户唯一标识
+						"requestNo":"001",    // 申请编号
+					}
+				}).then((res)=>{
+					console.log(res)
+				},(res)=>{
+					this.$message({
+						type:"error",
+						message:res.data.messages
+					})
+				})
+			}
+		},
+		created: function() {
+			this.msg = this.$route.params.currentOrder;
 		},
 		components: {
 			VueFileUpload,
 			Modal,
 			vueLoading
 		},
+		mounted:function(){
+			// console.log(this.$route.params.)
+		}
 	}
 </script>
 
@@ -354,58 +393,57 @@
 			width: 100%;
 			text-align: left;
 			.img_item_box {
-						width: 200px;
-						height: 200px;
-						background: #e5e5e5;
-						position: relative;
-						display: inline-block;
-						overflow: hidden;
-						margin: 10px 20px;
-						.img_name {
-							position: absolute;
-							bottom: 0;
-							display: block;
-							text-align: center;
-							width: 100%;
-							background: rgba(0, 0, 0, 0.5);
-							color: #ffffff;
-							height: 20px;
-							overflow: hidden;
-							white-space: nowrap;
-							/*文字不换行*/
-							text-overflow: ellipsis;
-							/*超出则...代替*/
-							-o-text-overflow: ellipsis;
-							/*opera*/
-							z-index: 30;
-						
-							.close {
-								font-size: 24px;
-								font-weight: bolder;
-								position: absolute;
-								right: 0;
-								top: 0;
-								cursor: pointer;
-								z-index: 25;
-							}
-						}
-						.img_status{
-							display: inline-block;
-							background: rgba(0,0,0,0.5);
-							position: absolute;
-							left:0;
-							top: 0; 
-						}
-						.close {
-							font-size: 24px;
-							font-weight: bolder;
-							position: absolute;
-							right: 0;
-							top: 0;
-							cursor: pointer;
-							z-index: 25;
-						}
+				width: 200px;
+				height: 200px;
+				background: #e5e5e5;
+				position: relative;
+				display: inline-block;
+				overflow: hidden;
+				margin: 10px 20px;
+				.img_name {
+					position: absolute;
+					bottom: 0;
+					display: block;
+					text-align: center;
+					width: 100%;
+					background: rgba(0, 0, 0, 0.5);
+					color: #ffffff;
+					height: 20px;
+					overflow: hidden;
+					white-space: nowrap;
+					/*文字不换行*/
+					text-overflow: ellipsis;
+					/*超出则...代替*/
+					-o-text-overflow: ellipsis;
+					/*opera*/
+					z-index: 30;
+					.close {
+						font-size: 24px;
+						font-weight: bolder;
+						position: absolute;
+						right: 0;
+						top: 0;
+						cursor: pointer;
+						z-index: 25;
 					}
+				}
+				.img_status {
+					display: inline-block;
+					background: rgba(0, 0, 0, 0.5);
+					position: absolute;
+					left: 0;
+					top: 0;
+				}
+				.close {
+					font-size: 24px;
+					font-weight: bolder;
+					position: absolute;
+					right: 0;
+					top: 0;
+					cursor: pointer;
+					z-index: 25;
+				}
+			}
 		}
 		.clear_buttton {
 			border: none;

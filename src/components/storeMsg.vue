@@ -516,8 +516,10 @@
 				}
 			};
 			return {
-				msg: 'WD1234567890',
+
+				msg: '',
 				channelsShow: false, //渠道是否显示隐藏
+
 				ruleForm: {
 					name: '',
 					contractType: '0', //网点合同类型
@@ -1088,10 +1090,10 @@
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					}
 				}).then((res) => {
-
-					if(res.data.code == "000000") {
-						console.log(res)
-					}else {
+					if(res.data.code == '000000') {
+						this.msg = res.data.data.requestNo;
+						console.log(res);
+					} else {
 						this.$message({
 							type: "error",
 							message: res.data.messages
@@ -1106,6 +1108,7 @@
 				})
 			},
 			getChannelUserName() { //获取渠道具体人员
+				console.log(JSON.parse(sessionStorage.getItem("userInfo")).userToken)
 				this.$http({
 					method: "POST",
 					url: "/api/terminal/getChannelUserName",
@@ -1119,12 +1122,12 @@
 					} else {
 						this.$message({
 							type: "error",
-							message: res.data.messages
+							message: res.data.errMsg
 						})
 					}
 				}, (res) => {
 					this.$message({
-						message: res.data.messages,
+						message: res.data.errMsg,
 						type: 'error'
 					})
 				})
@@ -1145,7 +1148,7 @@
 					}
 				}, (res) => {
 					this.$message({
-						message: res.data.messages,
+						message: res.data.errMsg,
 						type: "error"
 					})
 				})
@@ -1206,8 +1209,8 @@
 					console.log(res)
 				}, (res) => {
 					this.$message({
-						type: "error",
-						message: res.data.messages
+						type:"error",
+						message:res.data.errMsg
 					})
 				}) //暂存
 			},
@@ -1263,11 +1266,17 @@
 						}
 					}
 				}).then((res) => {
-					console.log(res)
+					this.$router.push({
+						name: '影像资料上传',
+						params: {
+							currentOrder: this.msg
+						}
+					});
 				}, (res) => {
 					this.$message({
-						type: "error",
-						message: res.data.messages
+						type:"error",
+						message:res.data.errMsg
+
 					})
 				})
 			}

@@ -26,12 +26,33 @@
 			</div>
 		</div>
 		<div class="footer">
-			<el-button type="primary">提交</el-button>
+			<el-button type="primary" @click="onSubmit">提交</el-button>
 		</div>
 	</div>
 </template>
 
 <script>
+	export default {
+		name: 'loanAgreement',
+		data() {
+			return {
+				msg:'',
+			}
+		},
+		methods:{
+			onSubmit(){
+				this.$router.push({
+					name: '借款合同确认',
+					params: {
+						currentOrder: this.msg
+					}
+				});
+			}
+		},
+		created: function() {
+			this.msg = this.$route.params.currentOrder;
+		},
+	}
 </script>
 
 <style lang='scss' scoped>
@@ -53,8 +74,8 @@
 		}
 		.footer {
 			margin: 30px 0;
-			.el-button{
-				width:150px;
+			.el-button {
+				width: 150px;
 			}
 		}
 	}
