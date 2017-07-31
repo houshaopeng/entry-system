@@ -57,12 +57,12 @@
 							trigger: 'blur'
 						}
 					],
-				}
+				},
+				flagArr:[]
 			};
 		},
 		methods: {
 			getCode(){								//获取验证码
-
 				var countdown  = 60;
 				this.getcodeshow = true;
 				var timer = setInterval(()=>{
@@ -94,6 +94,58 @@
 					})
 				})
 			},
+			// 申请编号
+			applicationNumber() {
+				this.$http.post("/api/terminal/getNumber", "", {
+					headers: {
+						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+					}
+				}).then((res) => {
+					if(res.data.code == '000000') {
+						this.msg = res.data.data.requestNo;
+						this.stepLogin();
+					} else {
+						this.$message({
+							type: "error",
+							message: res.data.messages
+						})
+					}
+
+				},(res) => {
+						this.$message({
+							message: res.data.messages,
+							type: 'error'
+						})
+				})
+			},
+			stepLogin(){
+				this.$http({
+					method:"POST",
+					url:"/api/terminal/stepLogin",
+					headers: {
+						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+					},
+					body:{
+						"userId":JSON.parse(sessionStorage.getItem("userInfo")).telPhone,
+						"requestNo":this.msg
+					}
+				}).then((res)=>{
+					if(res.data.code=="000000"){
+						this.flagArr = res.data.data.list;
+						console.log(this.flagArr)
+					}else{
+						this.$message({
+							type:"error",
+							message:res.data.messages
+						})
+					}
+				},(res)=>{
+					this.$message({
+						type:"error",
+						message:res.data.messages
+					})
+				})
+			},
 			login(){								//登录
 				this.$http({
 					method:"POST",
@@ -104,9 +156,15 @@
 					}
 				}).then((res)=>{
 					if(res.data.code == "000000"){
-						sessionStorage.setItem('userInfo', JSON.stringify({userToken:res.data.data["x-sljr-session-token"],telPhone:this.ruleForm.username,reqNum:""}));
+						sessionStorage.setItem('userInfo', JSON.stringify({userToken:res.data.data["x-sljr-session-token"],telPhone:this.ruleForm.username,requestNo:this.msg}));
 						//需保存token 成功后跳转
-						this.$router.push({path:"/storeMsg"})
+						// this.$router.push({path:"/storeMsg"})
+						for(let i =0;i<this.flagArr.length;i++){
+							if(this.flagArr[i]){
+								this.$router.push({path:this.flagArr[i].value});
+								return false;
+							}
+						}
 
 					}else{
 						this.$message({
@@ -134,6 +192,9 @@
 			resetForm(formName) {
 				this.$refs[formName].resetFields();
 			}
+		},
+		mounted:function(){
+			this.applicationNumber();
 		}
 	}
 </script>

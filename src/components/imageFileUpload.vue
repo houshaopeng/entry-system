@@ -340,7 +340,6 @@
 			},
 			// 删除图片(提交前删除)
 			delectImg() {
-				console.log(JSON.parse(sessionStorage.getItem("userInfo")).userToken)
 				this.$http({
 					method: "POST",
 					url: "/api/terminal/deleteImg",
@@ -360,6 +359,30 @@
 					this.$message({
 						type: "error",
 						message: res.data.messages
+					})
+				})
+			},
+
+			// 更改状态
+			updateStates(){
+				this.$http({
+					method:"POST",
+					url:"/api/terminal/updateOrderStatus",
+					headers: {
+						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+						// "x-sljr-session-token": "08814d4762b788690fc256cd8d089fe4",
+					},
+					body:{
+						"pagination":3,      // 图片src地址(多张逗号拼接)   TODO
+						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).telPhone,         //  申请编号
+						
+					}
+				}).then((res)=>{
+					console.log(res)
+				},(res)=>{
+					this.$message({
+						type:"error",
+						message:res.data.messages
 					})
 				})
 			}

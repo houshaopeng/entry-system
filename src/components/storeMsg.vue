@@ -1092,9 +1092,10 @@
 				}
 			},
 			changeChannel() {
+				this.getChannelUserName();
 				if(this.ruleForm.recommendedID == 1 || this.ruleForm.recommendedID == 2) {
 					this.channelsShow = true;
-					this.getChannelUserName();
+				
 				} else {
 					this.channelsShow = false;
 					this.ruleForm.recommendedChannels = "";
@@ -1125,30 +1126,7 @@
 				})
 			},
 
-			// 申请编号
-			applicationNumber() {
-				this.$http.post("/api/terminal/getNumber", "", {
-					headers: {
-						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
-					}
-				}).then((res) => {
-					if(res.data.code == '000000') {
-						this.msg = res.data.data.requestNo;
-
-					} else {
-						this.$message({
-							type: "error",
-							message: res.data.messages
-						})
-					}
-
-				},(res) => {
-						this.$message({
-							message: res.data.messages,
-							type: 'error'
-						})
-				})
-			},
+			
 			getChannelUserName() { //获取渠道具体人员
 				this.$http({
 					method: "POST",
@@ -1194,6 +1172,30 @@
 					})
 				})
 
+			},
+			// 路由接口调试
+			routerApi(){
+				this.$http({
+					method:"POST",
+					url:"/api/terminal/step",    
+					headers: {
+						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+					},
+					body:{
+						"userId":JSON.parse(sessionStorage.getItem("userInfo")).telPhone,      // TODO    手机号码
+						"requestNo":this.msg,     // 请求流水号
+						"level":"1",
+					}
+				}).then((res)=>{
+					if(res.data.dara=="000000"){
+						alert(666)
+					}
+				},(res)=>{
+					this.$message({
+						type:"error",
+						message:res.data.messages
+					})
+				})
 			},
 			Temporary() { //缓存
 				this.$http({
@@ -1318,29 +1320,17 @@
 					})
 				})
 			},
-			stepLogin(){
-				this.$http({
-					method:"POST",
-					url:"/api/terminal/stepLogin",
-					headers: {
-						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
-					},
-					body:{
-						"userId":"1320835005",
-						"request":"WD862404966896"
-					}
-				}).then((res)=>{
-					console.log(res.data)
-				},(res)=>{
-
-				})
-			}
+			
+		},
+		created:function(){
+			
 		},
 		mounted: function() {
 			this.getMachineModel();
-			this.applicationNumber();
-			this.getChannelUserName();
+
+			// this.getChannelUserName();
 			this.getMerchantType();
+			
 		}
 	}
 </script>
