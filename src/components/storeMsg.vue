@@ -54,12 +54,12 @@
 					<el-col :xs="24" :sm="24" :md="16" :lg="12">
 						<el-form-item label="推荐渠道" prop="recommendedID">
 							<el-col :xs="12" :sm="12" :md="12" :lg="12">
-								<el-select v-model="ruleForm.recommendedID" placeholder="请选择推荐渠道">
-									<el-option v-for="item in recommended" :key="item.value" :label="item.channelName" :value="item.applicationNo">
+								<el-select v-model="ruleForm.recommendedID" @change="changeChannel" placeholder="请选择推荐渠道">
+									<el-option v-for="item in recommended" :key="item.value" :label="item.channel" :value="item.value">
 									</el-option>
 								</el-select>
 							</el-col>
-							<el-col :xs="12" :sm="12" :md="12" :lg="12">
+							<el-col :xs="12" :sm="12" :md="12" :lg="12" v-if="channelsShow">
 								<el-select v-model="ruleForm.recommendedChannels" placeholder="请选择具体的推荐渠道">
 									<el-option v-for="item in channels" :key="item.value" :label="item.value" :value="item.label">
 									</el-option>
@@ -92,7 +92,7 @@
 							<el-row v-for="machine in machines" :key="machines.id" style="margin-bottom: 10px;">
 								<el-col :xs="12" :sm="12" :md="8" :lg="6">
 									<el-select v-model="machine.machineType" placeholder="请选择机器型号">
-										<el-option v-for="item in machineList" :key="item.value" :label="item.value" :value="item.value">
+										<el-option v-for="item in machineList" :key="item.value" :label="item.value" :value="item.label">
 										</el-option>
 									</el-select>
 								</el-col>
@@ -517,6 +517,7 @@
 			};
 			return {
 				msg: 'WD1234567890',
+				channelsShow: false, //渠道是否显示隐藏
 				ruleForm: {
 					name: '',
 					contractType: '0', //网点合同类型
@@ -1046,18 +1047,29 @@
 					return event.target.value;
 				}
 			},
+			changeChannel() {
+				if(this.ruleForm.recommendedID == 1 || this.ruleForm.recommendedID == 2) {
+					this.channelsShow = true;
+				} else {
+					this.channelsShow = false;
+					this.ruleForm.recommendedChannels = "";
+				}
+
+			},
 			// 获取机器编号
 			getMachineModel() {
-				this.$http.post("/api/terminal/getMachineModel", "",
-				{
+				this.$http.post("/api/terminal/getMachineModel", "", {
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					}
 				}).then((res) => {
 					if(res.data.code == '000000') {
-						this.region = res.data.data; //  渲染区域
+						this.machineList = res.data.data; //  渲染区域
 					} else {
-
+						this.$message({
+							message: res.data.messages,
+							type: 'error'
+						})
 					}
 
 				}, (res) => {
@@ -1069,26 +1081,27 @@
 			},
 
 			// 申请编号
-			applicationNumber(){
-				this.$http.post("/api/terminal/getNumber","",
-				{
+			applicationNumber() {
+				this.$http.post("/api/terminal/getNumber", "", {
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					}
 				}).then((res) => {
-					if(res.data.code == '000000') {
+					console.log("===>>>");
 						console.log(res);
+						console.log("<<<===");
+					if(res.data.code == '000000') {
+						
 					} else {
 
 					}
-				})	
-			},	
+				})
+			},
 			getChannelUserName() { //获取渠道具体人员
 				this.$http({
 					method: "POST",
 					url: "/api/terminal/getChannelUserName"
-				},
-				{
+				}, {
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					}
@@ -1116,8 +1129,8 @@
 
 					url: "/api/terminal/getMerchantType",
 					headers: {
-                                "x-sljr-session-token":JSON.parse(sessionStorage.getItem("userInfo")).userToken,
-                            }
+						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+					}
 				}).then((res) => {
 					console.log(res.data)
 					if(res.data.code == "000000") {
@@ -1131,16 +1144,16 @@
 				})
 
 			},
-			Temporary(){					//缓存
+			Temporary() { //缓存
 				this.$http({
-					method:"POST",
-					url:"/api/terminal/Temporary",
+					method: "POST",
+					url: "/api/terminal/Temporary",
 					headers: {
-                                "x-sljr-session-token":JSON.parse(sessionStorage.getItem("userInfo")).userToken,
-                            },
-					body:{
-						"requestNo":this.msg,
-						"basicInfo":{
+						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+					},
+					body: {
+						"requestNo": this.msg,
+						"basicInfo": {
 							"contractType": this.ruleForm.contractType,
 							"terminalType": this.ruleForm.networkType,
 							"terminalArea": this.ruleForm.belongRegion,
@@ -1155,7 +1168,7 @@
 							"aroundFinancialInfo": this.companys.companyName,
 							"joinSuperiority": this.ruleForm.type
 						},
-						"shopManagementInfo":{
+						"shopManagementInfo": {
 							"isBrandFranchise": "",
 							"merchantType": "",
 							"createTime": "",
@@ -1170,7 +1183,7 @@
 							"mainProduct": "",
 							"averageDayFlow": ""
 						},
-						"proposerInfo":{
+						"proposerInfo": {
 							"name": "",
 							"nativePlace": "",
 							"healthStatus": "",
@@ -1182,25 +1195,25 @@
 							"contacts": ""
 						}
 					}
-				}).then((res)=>{
+				}).then((res) => {
 					console.log(res)
-				},(res)=>{
+				}, (res) => {
 					this.$message({
-						type:"error",
-						message:res.data.messages
+						type: "error",
+						message: res.data.messages
 					})
-				})				//暂存
+				}) //暂存
 			},
-			updateImg(){
+			updateImg() {
 				this.$http({
-					method:"POST",
-					url:"/api/terminal/basicSubmit",
+					method: "POST",
+					url: "/api/terminal/basicSubmit",
 					headers: {
-                                "x-sljr-session-token":JSON.parse(sessionStorage.getItem("userInfo")).userToken,
-                            },
-					body:{
-						"requestNo":this.msg,
-						"basicInfo":{
+						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+					},
+					body: {
+						"requestNo": this.msg,
+						"basicInfo": {
 							"contractType": this.ruleForm.contractType,
 							"terminalType": this.ruleForm.networkType,
 							"terminalArea": this.ruleForm.belongRegion,
@@ -1215,7 +1228,7 @@
 							"aroundFinancialInfo": this.companys.companyName,
 							"joinSuperiority": this.ruleForm.type
 						},
-						"shopManagementInfo":{
+						"shopManagementInfo": {
 							"isBrandFranchise": "",
 							"merchantType": "",
 							"createTime": "",
@@ -1230,7 +1243,7 @@
 							"mainProduct": "",
 							"averageDayFlow": ""
 						},
-						"proposerInfo":{
+						"proposerInfo": {
 							"name": "",
 							"nativePlace": "",
 							"healthStatus": "",
@@ -1242,12 +1255,12 @@
 							"contacts": ""
 						}
 					}
-				}).then((res)=>{
+				}).then((res) => {
 					console.log(res)
-				},(res)=>{
+				}, (res) => {
 					this.$message({
-						type:"error",
-						message:res.data.messages
+						type: "error",
+						message: res.data.messages
 					})
 				})
 			}

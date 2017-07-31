@@ -21,7 +21,7 @@ export default new Router({
 			component: Home,
 			name: '终端机借款进件主页',
 			children: [{
-					path: '/storeMsg',
+					path: '/storeMsg/:chanCurrentOrder',
 					component: StoreMsg,
 					name: '门店信息',
 					hidden: true
