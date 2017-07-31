@@ -458,7 +458,7 @@
 		<!--缓存，下一步按钮-->
 		<div class="footer">
 			<el-button type="primary" @click="Temporary">缓存</el-button>
-			<el-button type="primary" @clicl="updateImg">下一步</el-button>
+			<el-button type="primary" @click="updateImg">下一步</el-button>
 		</div>
 	</div>
 </template>
