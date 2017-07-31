@@ -458,7 +458,7 @@
 		<!--缓存，下一步按钮-->
 		<div class="footer">
 			<el-button type="primary" @click="Temporary">缓存</el-button>
-			<el-button type="primary" @click="updateImg">下一步</el-button>
+			<el-button type="primary" @click="nextstep">下一步</el-button>
 		</div>
 	</div>
 </template>
@@ -1092,7 +1092,7 @@
 				}).then((res) => {
 					if(res.data.code == '000000') {
 						this.msg = res.data.data.requestNo;
-						console.log(res);
+
 					} else {
 						this.$message({
 							type: "error",
@@ -1108,7 +1108,6 @@
 				})
 			},
 			getChannelUserName() { //获取渠道具体人员
-				console.log(JSON.parse(sessionStorage.getItem("userInfo")).userToken)
 				this.$http({
 					method: "POST",
 					url: "/api/terminal/getChannelUserName",
@@ -1132,11 +1131,9 @@
 					})
 				})
 			},
-
 			getMerchantType() { //获取商户类型
 				this.$http({
 					method: "POST",
-
 					url: "/api/terminal/getMerchantType",
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
@@ -1214,7 +1211,7 @@
 					})
 				}) //暂存
 			},
-			updateImg() {
+			nextstep() {
 				this.$http({
 					method: "POST",
 					url: "/api/terminal/basicSubmit",
