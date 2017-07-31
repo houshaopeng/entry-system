@@ -63,7 +63,7 @@
 		methods: {
 			getCode(){								//获取验证码
 
-				var countdown  = 46;
+				var countdown  = 60;
 				this.getcodeshow = true;
 				var timer = setInterval(()=>{
 								if(countdown>0){

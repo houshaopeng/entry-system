@@ -61,7 +61,7 @@
 							</el-col>
 							<el-col :xs="12" :sm="12" :md="12" :lg="12" v-if="channelsShow">
 								<el-select v-model="ruleForm.recommendedChannels" placeholder="请选择具体的推荐渠道">
-									<el-option v-for="item in channels" :key="item.value" :label="item.value" :value="item.label">
+									<el-option v-for="item in channels" :key="item.constant_value" :label="item.constant_value" :value="item.constant_label">
 									</el-option>
 								</el-select>
 							</el-col>
@@ -1113,9 +1113,12 @@
 					url: "/api/terminal/getChannelUserName",
 					headers: {
 								"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
-							}
+							},
+					body:{
+						"channelNo":this.ruleForm.recommendedID
+					}
 					}).then((res) => {
-					console.log(res.data)
+						console.log(res.data)
 					if(res.data.code == "000000") {
 						this.channels = res.data.data
 					} else {
@@ -1275,6 +1278,23 @@
 						message:res.data.errMsg
 
 					})
+				})
+			},
+			stepLogin(){
+				this.$http({
+					method:"POST",
+					url:"/api/terminal/stepLogin",
+					headers: {
+						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+					},
+					body:{
+						"userId":"1320835005",
+						"request":"WD862404966896"
+					}
+				}).then((res)=>{
+					console.log(res.data)
+				},(res)=>{
+
 				})
 			}
 		},
