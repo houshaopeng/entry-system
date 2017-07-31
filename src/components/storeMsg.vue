@@ -5,7 +5,7 @@
 		<div class="title">
 			<el-row>
 				<h3>网点基本信息</h3>
-				<p>申请编号:{{msg}}</p>
+				<p>申请编号:{{msg1}}</p>
 			</el-row>
 		</div>
 		<div class="content">
@@ -517,7 +517,7 @@
 			};
 			return {
 
-				msg: '',
+				msg1: '',
 				channelsShow: false, //渠道是否显示隐藏
 
 				ruleForm: {
@@ -1097,7 +1097,7 @@
 				this.getChannelUserName();
 				if(this.ruleForm.recommendedID == 1 || this.ruleForm.recommendedID == 2) {
 					this.channelsShow = true;
-					// this.getChannelUserName();
+				
 				} else {
 					this.channelsShow = false;
 					this.ruleForm.recommendedChannels = "";
@@ -1128,30 +1128,7 @@
 				})
 			},
 
-			// 申请编号
-			applicationNumber() {
-				this.$http.post("/api/terminal/getNumber", "", {
-					headers: {
-						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
-					}
-				}).then((res) => {
-					if(res.data.code == '000000') {
-						this.msg = res.data.data.requestNo;
-
-					} else {
-						this.$message({
-							type: "error",
-							message: res.data.messages
-						})
-					}
-
-				},(res) => {
-						this.$message({
-							message: res.data.messages,
-							type: 'error'
-						})
-				})
-			},
+			
 			getChannelUserName() { //获取渠道具体人员
 				this.$http({
 					method: "POST",
@@ -1198,6 +1175,33 @@
 				})
 
 			},
+			// 路由接口调试
+			routerApi(){
+				this.msg1 = JSON.parse(sessionStorage.getItem("userInfo")).requestNo
+			
+				this.$http({
+					method:"POST",
+					url:"/api/terminal/step",    
+					headers: {
+						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+					},
+					body:{
+						"userId":JSON.parse(sessionStorage.getItem("userInfo")).telPhone,      // TODO    手机号码
+						 
+						"level":"1",
+						"requestNo":JSON.parse(sessionStorage.getItem("userInfo")).requestNo    // 请求流水号
+					}
+				}).then((res)=>{
+					if(res.data.dara=="000000"){
+						alert(666)
+					}
+				},(res)=>{
+					this.$message({
+						type:"error",
+						message:res.data.messages
+					})
+				})
+			},
 			Temporary() { //缓存
 				this.$http({
 					method: "POST",
@@ -1206,7 +1210,7 @@
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
 					body: {
-						"requestNo": this.msg,
+						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo,
 						"basicInfo": {
 							"contractType": this.ruleForm.contractType,
 							"terminalType": this.ruleForm.networkType,
@@ -1266,7 +1270,7 @@
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
 					body: {
-						"requestNo": this.msg,
+						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo,
 						"basicInfo": {
 							"contractType": this.ruleForm.contractType,
 							"terminalType": this.ruleForm.networkType,
@@ -1311,11 +1315,8 @@
 					}
 				}).then((res) => {
 					this.$router.push({
-						name: '影像资料上传',
-						params: {
-							currentOrder: this.msg
-						}
-					});
+						path: '/imageFileUpload'
+					})
 				}, (res) => {
 					this.$message({
 						type:"error",
@@ -1324,28 +1325,18 @@
 					})
 				})
 			},
-			stepLogin(){
-				this.$http({
-					method:"POST",
-					url:"/api/terminal/stepLogin",
-					headers: {
-						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
-					},
-					body:{
-						"userId":"1320835005",
-						"request":"WD862404966896"
-					}
-				}).then((res)=>{
-					console.log(res.data)
-				},(res)=>{
-
-				})
-			}
+			
+		},
+		created:function(){
+			
 		},
 		mounted: function() {
 			this.getMachineModel();
-			this.applicationNumber();
+			this.routerApi();
 			this.getMerchantType();
+
+			console.log(JSON.parse(sessionStorage.getItem("userInfo")).requestNo)
+			
 		}
 	}
 </script>

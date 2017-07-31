@@ -28,7 +28,7 @@
 		name: 'home',
 		data() {
 			return {
-				msg: 'Welcome to Your Vue.js App'
+				
 			}
 		},
 		methods: {
@@ -57,28 +57,7 @@
 					})
 				})
 			},
-			// 路由接口调试
-			routerApi() {
-				this.$http({
-					method: "POST",
-					url: "/api/terminal/step",
-					headers: {
-						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
-					},
-					body: {
-						"userId": JSON.parse(sessionStorage.getItem("userInfo")).telPhone, // TODO    手机号码
-						"request": this.msg, // 请求流水号
-						"level": "1",
-					}
-				}).then((res) => {
-					console.log(res)
-				}, (res) => {
-					this.$message({
-						type: "error",
-						message: res.data.messages
-					})
-				})
-			},
+			
 			// 登录时回到待提交接口
 			stepLogin() {
 				this.$http({

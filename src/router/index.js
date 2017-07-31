@@ -27,25 +27,25 @@ export default new Router({
 					hidden: true
 				},
 				{
-					path: '/imageFileUpload/:currentOrder',
+					path: '/imageFileUpload',
 					component: ImageFileUpload,
 					name: '影像资料上传',
 					hidden: false
 				},
 				{
-					path: '/imageFileUpload2/:currentOrder',
+					path: '/imageFileUpload2',
 					component: ImageFileUpload2,
 					name: '影像资料上传2',
 					hidden: false
 				},
 				{
-					path: '/loanAgreement/:currentOrder',
+					path: '/loanAgreement',
 					component: LoanAgreement,
 					name: '借款服务协议确认',
 					hidden: false
 				},
 				{
-					path: '/loanContract/:currentOrder',
+					path: '/loanContract',
 					component: LoanContract,
 					name: '借款合同确认',
 					hidden: false
