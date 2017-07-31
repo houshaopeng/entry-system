@@ -1070,29 +1070,49 @@
 
 			// 申请编号
 			applicationNumber(){
-				this.$http.post("/api/terminal/getNumber","",
-				{
+				// this.$http.post("/api/terminal/getNumber","",
+				// {
+				// 	headers: {
+				// 		"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+				// 	}
+				// }).then((res) => {
+				// 	if(res.data.code == '000000') {
+				// 		console.log(res);
+				// 	} else {
+
+				// 	}
+				// })
+				this.$http({
+					method: "POST",
+					url: "/api/terminal/getNumber",
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					}
 				}).then((res) => {
-					if(res.data.code == '000000') {
-						console.log(res);
-					} else {
 
+					if(res.data.code == "000000") {
+						console.log(res)
+					} else {
+						this.$message({
+							type: "error",
+							message: res.data.messages
+						})
 					}
-				})	
-			},	
+				}, (res) => {
+					this.$message({
+						message: res.data.messages,
+						type: 'error'
+					})
+				})
+			},
 			getChannelUserName() { //获取渠道具体人员
 				this.$http({
 					method: "POST",
-					url: "/api/terminal/getChannelUserName"
-				},
-				{
+					url: "/api/terminal/getChannelUserName",
 					headers: {
-						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
-					}
-				}).then((res) => {
+								"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+							}
+					}).then((res) => {
 					console.log(res.data)
 					if(res.data.code == "000000") {
 						this.channels = res.data.data

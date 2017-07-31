@@ -62,11 +62,6 @@
 			getCode(){								//获取验证码
 				this.$http.post("/api/getMessageCode", {
 					"userId":this.ruleForm.username
-				},
-				{
-					headers: {
-						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
-					}
 				}).then((res) => {
 					console.log(res)
 					if(res.data.code == '000000') {
