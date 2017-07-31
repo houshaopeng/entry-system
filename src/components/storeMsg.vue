@@ -347,8 +347,8 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
-						<el-form-item label="申请人占股比列" prop="applicantPercent">
-							<el-input v-model="ruleForm.applicantPercent" placeholder="请输入申请人占股比列">
+						<el-form-item label="申请人占股比例" prop="applicantPercent">
+							<el-input v-model="ruleForm.applicantPercent" placeholder="请输入申请人占股比例">
 								<template slot="append">%</template>
 							</el-input>
 						</el-form-item>
@@ -428,7 +428,7 @@
 		<!--入住终端机网络优势-->
 		<div class="title">
 			<el-row>
-				<h3>入住终端机网络优势</h3>
+				<h3>入驻终端机网络优势</h3>
 			</el-row>
 		</div>
 		<div class="content">
@@ -571,7 +571,8 @@
 					msgTel3: '',
 					goodpoint: [], //终端机网络优势
 				},
-				region: [{
+				region: [
+					{
 						region: "华北区",
 						value: "000001"
 					},
@@ -604,7 +605,8 @@
 						value: "000008"
 					}
 				],
-				recommended: [{
+				recommended: [
+				{
 					channel: "全部",
 					value: "0"
 				}, {
@@ -727,58 +729,58 @@
 				],
 				healthList: [{
 						healthStatus: "健康",
-						healthValue: "1"
+						healthValue: "0"
 					},
 					{
 						healthStatus: "一般",
-						healthValue: "2"
+						healthValue: "1"
 					},
 					{
 						healthStatus: "较差",
-						healthValue: "3"
+						healthValue: "2"
 					},
 					{
 						healthStatus: "有疾病",
-						healthValue: "4"
+						healthValue: "3"
 					}
 				],
 				degrees: [{
 						degree: "小学",
-						degreeValue: "1"
+						degreeValue: "0"
 					},
 					{
 						degree: "初中",
-						degreeValue: "2"
+						degreeValue: "1"
 					},
 					{
 						degree: "高中",
-						degreeValue: "3"
+						degreeValue: "2"
 					}, {
 						degree: "大专",
-						degreeValue: "4"
+						degreeValue: "3"
 					}, {
 						degree: "本科",
-						degreeValue: "5"
+						degreeValue: "4"
 					}, {
 						degree: "硕士研究生",
-						degreeValue: "6"
+						degreeValue: "5"
 					}, {
 						degree: "博士研究生",
-						degreeValue: "7"
+						degreeValue: "6"
 					}
 				],
 				maritalList: [{
 					maritalStatus: "未婚",
-					maritalValue: "1"
+					maritalValue: "0"
 				}, {
 					maritalStatus: "已婚",
-					maritalValue: "2"
+					maritalValue: "1"
 				}, {
 					maritalStatus: "离异",
-					maritalValue: "3"
+					maritalValue: "2"
 				}, {
 					maritalStatus: "丧偶",
-					maritalValue: "4"
+					maritalValue: "3"
 				}],
 				relationList: [{
 					relationship: "配偶",
@@ -1221,33 +1223,33 @@
 							"salesmanName": this.ruleForm.salesmanName,
 							"salesmanNo": this.ruleForm.salesmanNumber,
 							"machineType": this.machines.machineType,
-							"aroundFinancialInfo": this.companys.companyName,
-							"joinSuperiority": this.ruleForm.type
+							"aroundFinancialInfo": this.companys,
+							"joinSuperiority": this.ruleForm.goodpoint.toString()
 						},
 						"shopManagementInfo": {
-							"isBrandFranchise": "",
-							"merchantType": "",
-							"createTime": "",
-							"openingTime": "",
-							"registerAddress": "",
-							"postalCode": "",
-							"legalPersonName": "",
-							"legalPersonPhone": "",
-							"legalPersonIdCard": "",
-							"averageTurnover": "",
-							"totalTurnover": "",
-							"mainProduct": "",
-							"averageDayFlow": ""
+							"isBrandFranchise": this.ruleForm.isJoin,
+							"merchantType": this.ruleForm.businessType,
+							"createTime":this.ruleForm.createTime,
+							"openingTime": this.ruleForm.startTime,
+							"registerAddress": this.ruleForm.registeredAddress,
+							"postalCode": this.ruleForm.zipCode,
+							"legalPersonName":this.ruleForm.legalName,
+							"legalPersonPhone":this.ruleForm.legalTel,
+							"legalPersonIdCard":this.ruleForm.legalId,
+							"averageTurnover": this.ruleForm.threeMoney,
+							"totalTurnover": this.ruleForm.yearMoney,
+							"mainProduct": this.ruleForm.productName1,
+							"averageDayFlow": this.ruleForm.dailyPeople
 						},
 						"proposerInfo": {
 							"name": "",
-							"nativePlace": "",
-							"healthStatus": "",
-							"educational": "",
-							"maritalStatus": "",
-							"nativeAddress": "",
-							"address": "",
-							"shares": "",
+							"nativePlace": this.ruleForm.applicantName,
+							"healthStatus": this.ruleForm.applicantOrigin,
+							"educational": this.ruleForm.healthStatus,
+							"maritalStatus": this.ruleForm.maritalStatus,
+							"nativeAddress": this.ruleForm.applicantOrigin,
+							"address": this.address4+this.ruleForm.applicantCurrAddress,
+							"shares": this.ruleForm.applicantPercent,
 							"contacts": ""
 						}
 					}
@@ -1281,33 +1283,33 @@
 							"salesmanName": this.ruleForm.salesmanName,
 							"salesmanNo": this.ruleForm.salesmanNumber,
 							"machineType": this.machines.machineType,
-							"aroundFinancialInfo": this.companys.companyName,
-							"joinSuperiority": this.ruleForm.type
+							"aroundFinancialInfo": this.companys,
+							"joinSuperiority": this.ruleForm.goodpoint.toString()
 						},
 						"shopManagementInfo": {
-							"isBrandFranchise": "",
-							"merchantType": "",
-							"createTime": "",
-							"openingTime": "",
-							"registerAddress": "",
-							"postalCode": "",
-							"legalPersonName": "",
-							"legalPersonPhone": "",
-							"legalPersonIdCard": "",
-							"averageTurnover": "",
-							"totalTurnover": "",
-							"mainProduct": "",
-							"averageDayFlow": ""
+							"isBrandFranchise": this.ruleForm.isJoin,
+							"merchantType": this.ruleForm.businessType,
+							"createTime":this.ruleForm.createTime,
+							"openingTime": this.ruleForm.startTime,
+							"registerAddress": this.ruleForm.registeredAddress,
+							"postalCode": this.ruleForm.zipCode,
+							"legalPersonName":this.ruleForm.legalName,
+							"legalPersonPhone":this.ruleForm.legalTel,
+							"legalPersonIdCard":this.ruleForm.legalId,
+							"averageTurnover": this.ruleForm.threeMoney,
+							"totalTurnover": this.ruleForm.yearMoney,
+							"mainProduct": this.ruleForm.productName1,
+							"averageDayFlow": this.ruleForm.dailyPeople
 						},
 						"proposerInfo": {
 							"name": "",
-							"nativePlace": "",
-							"healthStatus": "",
-							"educational": "",
-							"maritalStatus": "",
-							"nativeAddress": "",
-							"address": "",
-							"shares": "",
+							"nativePlace": this.ruleForm.applicantName,
+							"healthStatus": this.ruleForm.applicantOrigin,
+							"educational": this.ruleForm.healthStatus,
+							"maritalStatus": this.ruleForm.maritalStatus,
+							"nativeAddress": this.ruleForm.applicantOrigin,
+							"address": this.address4+this.ruleForm.applicantCurrAddress,
+							"shares": this.ruleForm.applicantPercent,
 							"contacts": ""
 						}
 					}

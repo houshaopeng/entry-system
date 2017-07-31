@@ -24,16 +24,21 @@
 <script>
 	export default {
 		data() {
+
 			var checkTel = (rule, value, callback) => {
 				if(!value) {
 					return callback(new Error('手机号不能为空'));
+					this.username =false;
 				} else if(!/^(13[0-9]|14[0-9]|15[0-9]|18[0-9])\d{8}$/i.test(value)) {
 					return callback(new Error('请输入正确手机号'));
+					this.username =false;
 				} else {
+					this.username =true;
 					callback();
 				}
 			};
 			return {
+				username:false,
 				getcode:"获取验证码",
 				getcodeshow:false,
 				ruleForm: {
@@ -83,16 +88,11 @@
 							},1000)
 						//获取验证码成功
 					} else {
-							this.$message({
+						this.$message({
 							message: res.data.messages,
 							type: 'error'
 						})
 					}
-				}, (res) => {
-					this.$message({
-						message: res.data.messages,
-						type: 'error'
-					})
 				})
 			},
 			// 申请编号
