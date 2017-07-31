@@ -109,10 +109,10 @@
 								</div>
 							</div>
 						</div>
-					</el-col> 
+					</el-col>
 
 					<!--本人在店铺内照片-->
-					 <el-col :span="24" style="margin:10px 0">
+					<el-col :span="24" style="margin:10px 0">
 						<div class="img_title">
 							<div>
 								<span style="margin: 0 20px 0 24px;">企业经营证明文件：</span>
@@ -160,7 +160,7 @@
 		name: 'imageFileUpload',
 		data() {
 			return {
-
+				msg: '',
 				//图片上传插件部分 start
 				//过滤器回调
 				files0: [],
@@ -333,10 +333,14 @@
 			//图片上传插件部分 end
 			onSubmit() {
 				this.delectImg();
-				// this.$refs.vueFileUploader0.uploadAll();
-				/*this.$router.push({
-					path: '/imageFileUpload2'
-				});*/
+//				this.$refs.vueFileUploader0.uploadAll();
+				this.$router.push({
+					name: '影像资料上传2',
+					params: {
+						currentOrder: this.msg
+					}
+				});
+				
 			},
 			// 删除图片(提交前删除)
 			delectImg(){
@@ -363,6 +367,9 @@
 				})
 			}
 		},
+		created: function() {
+			this.msg = this.$route.params.currentOrder;
+		},
 		components: {
 			VueFileUpload,
 			Modal,
@@ -386,58 +393,57 @@
 			width: 100%;
 			text-align: left;
 			.img_item_box {
-						width: 200px;
-						height: 200px;
-						background: #e5e5e5;
-						position: relative;
-						display: inline-block;
-						overflow: hidden;
-						margin: 10px 20px;
-						.img_name {
-							position: absolute;
-							bottom: 0;
-							display: block;
-							text-align: center;
-							width: 100%;
-							background: rgba(0, 0, 0, 0.5);
-							color: #ffffff;
-							height: 20px;
-							overflow: hidden;
-							white-space: nowrap;
-							/*文字不换行*/
-							text-overflow: ellipsis;
-							/*超出则...代替*/
-							-o-text-overflow: ellipsis;
-							/*opera*/
-							z-index: 30;
-						
-							.close {
-								font-size: 24px;
-								font-weight: bolder;
-								position: absolute;
-								right: 0;
-								top: 0;
-								cursor: pointer;
-								z-index: 25;
-							}
-						}
-						.img_status{
-							display: inline-block;
-							background: rgba(0,0,0,0.5);
-							position: absolute;
-							left:0;
-							top: 0; 
-						}
-						.close {
-							font-size: 24px;
-							font-weight: bolder;
-							position: absolute;
-							right: 0;
-							top: 0;
-							cursor: pointer;
-							z-index: 25;
-						}
+				width: 200px;
+				height: 200px;
+				background: #e5e5e5;
+				position: relative;
+				display: inline-block;
+				overflow: hidden;
+				margin: 10px 20px;
+				.img_name {
+					position: absolute;
+					bottom: 0;
+					display: block;
+					text-align: center;
+					width: 100%;
+					background: rgba(0, 0, 0, 0.5);
+					color: #ffffff;
+					height: 20px;
+					overflow: hidden;
+					white-space: nowrap;
+					/*文字不换行*/
+					text-overflow: ellipsis;
+					/*超出则...代替*/
+					-o-text-overflow: ellipsis;
+					/*opera*/
+					z-index: 30;
+					.close {
+						font-size: 24px;
+						font-weight: bolder;
+						position: absolute;
+						right: 0;
+						top: 0;
+						cursor: pointer;
+						z-index: 25;
 					}
+				}
+				.img_status {
+					display: inline-block;
+					background: rgba(0, 0, 0, 0.5);
+					position: absolute;
+					left: 0;
+					top: 0;
+				}
+				.close {
+					font-size: 24px;
+					font-weight: bolder;
+					position: absolute;
+					right: 0;
+					top: 0;
+					cursor: pointer;
+					z-index: 25;
+				}
+			}
 		}
 		.clear_buttton {
 			border: none;

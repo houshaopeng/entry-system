@@ -6,12 +6,7 @@
 				<el-button class="exit" @click="loginOut">退出</el-button>
 			</div>
 			<div class="link_btn">
-				<el-button @click="$router.push({
-					name: '门店信息',
-					params: {
-						currentOrder: '1'
-					}
-				})">门店信息录入</el-button> ——————
+				<el-button @click="$router.push({path: '/storeMsg'})">门店信息录入</el-button> ——————
 				<el-button @click="$router.push({path: '/imageFileUpload'})">影像资料上传</el-button> ——————
 				<el-button @click="$router.push({path: '/loanAgreement'})">借款协议服务确认</el-button> ——————
 				<el-button @click="$router.push({path: '/loanContract'})">借款合同确认</el-button>
