@@ -5,7 +5,7 @@
 		<div class="title">
 			<el-row>
 				<h3>网点基本信息</h3>
-				<p>申请编号:{{msg}}</p>
+				<p>申请编号:{{msg1}}</p>
 			</el-row>
 		</div>
 		<div class="content">
@@ -517,7 +517,7 @@
 			};
 			return {
 
-				msg: '',
+				msg1: '',
 				channelsShow: false, //渠道是否显示隐藏
 
 				ruleForm: {
@@ -1175,6 +1175,8 @@
 			},
 			// 路由接口调试
 			routerApi(){
+				this.msg1 = JSON.parse(sessionStorage.getItem("userInfo")).requestNo
+			
 				this.$http({
 					method:"POST",
 					url:"/api/terminal/step",    
@@ -1183,8 +1185,9 @@
 					},
 					body:{
 						"userId":JSON.parse(sessionStorage.getItem("userInfo")).telPhone,      // TODO    手机号码
-						"requestNo":this.msg,     // 请求流水号
+						 
 						"level":"1",
+						"requestNo":JSON.parse(sessionStorage.getItem("userInfo")).requestNo    // 请求流水号
 					}
 				}).then((res)=>{
 					if(res.data.dara=="000000"){
@@ -1205,7 +1208,7 @@
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
 					body: {
-						"requestNo": this.msg,
+						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo,
 						"basicInfo": {
 							"contractType": this.ruleForm.contractType,
 							"terminalType": this.ruleForm.networkType,
@@ -1265,7 +1268,7 @@
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
 					body: {
-						"requestNo": this.msg,
+						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo,
 						"basicInfo": {
 							"contractType": this.ruleForm.contractType,
 							"terminalType": this.ruleForm.networkType,
@@ -1312,7 +1315,7 @@
 					this.$router.push({
 						name: '影像资料上传',
 						params: {
-							currentOrder: this.msg
+							currentOrder: this.msg1
 						}
 					});
 				}, (res) => {
@@ -1330,9 +1333,10 @@
 		},
 		mounted: function() {
 			this.getMachineModel();
-
-			// this.getChannelUserName();
+			this.routerApi();
 			this.getMerchantType();
+
+			console.log(JSON.parse(sessionStorage.getItem("userInfo")).requestNo)
 			
 		}
 	}

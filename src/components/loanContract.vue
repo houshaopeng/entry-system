@@ -31,6 +31,37 @@
 			return {
 				isAgree: ''
 			}
+		},
+		methods:{
+			// 路由接口调试
+			routerApi(){
+				console.log(JSON.parse(sessionStorage.getItem("userInfo")).requestNo)
+				this.$http({
+					method:"POST",
+					url:"/api/terminal/step",    
+					headers: {
+						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+					},
+					body:{
+						"userId":JSON.parse(sessionStorage.getItem("userInfo")).telPhone,      // TODO    手机号码
+						 
+						"level":"4",
+						"requestNo":JSON.parse(sessionStorage.getItem("userInfo")).requestNo    // 请求流水号
+					}
+				}).then((res)=>{
+					if(res.data.dara=="000000"){
+						alert(666)
+					}
+				},(res)=>{
+					this.$message({
+						type:"error",
+						message:res.data.messages
+					})
+				})
+			},
+		},
+		mounted:function(){
+			this.routerApi();
 		}
 	}
 </script>

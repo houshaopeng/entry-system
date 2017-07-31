@@ -336,6 +336,32 @@
 					})
 				})
 			},
+			// 路由接口调试
+			routerApi(){
+				console.log(JSON.parse(sessionStorage.getItem("userInfo")).requestNo)
+				this.$http({
+					method:"POST",
+					url:"/api/terminal/step",    
+					headers: {
+						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+					},
+					body:{
+						"userId":JSON.parse(sessionStorage.getItem("userInfo")).telPhone,      // TODO    手机号码
+						 
+						"level":"3",
+						"requestNo":JSON.parse(sessionStorage.getItem("userInfo")).requestNo    // 请求流水号
+					}
+				}).then((res)=>{
+					if(res.data.dara=="000000"){
+						alert(666)
+					}
+				},(res)=>{
+					this.$message({
+						type:"error",
+						message:res.data.messages
+					})
+				})
+			},
 			onSubmit() {
 				this.$router.push({
 					name: '借款服务协议确认',
@@ -348,7 +374,7 @@
 		//图片上传插件部分 end
 
 		created: function() {
-			this.msg = this.$route.params.currentOrder;
+			this.routerApi();
 		},
 		components: {
 			VueFileUpload,

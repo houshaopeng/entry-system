@@ -58,7 +58,8 @@
 						}
 					],
 				},
-				flagArr:[]
+				flagArr:[],
+				msg:"",
 			};
 		},
 		methods: {
