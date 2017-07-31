@@ -82,7 +82,10 @@
 					if(res.data.code == '000000') {
 						//获取验证码成功
 					} else {
-
+							this.$message({
+							message: res.data.messages,
+							type: 'error'
+						})
 					}
 				}, (res) => {
 					this.$message({
@@ -101,7 +104,7 @@
 					}
 				}).then((res)=>{
 					if(res.data.code == "000000"){
-						sessionStorage.setItem('userInfo', JSON.stringify({userToken:res.data.data["x-sljr-session-token"]}));
+						sessionStorage.setItem('userInfo', JSON.stringify({userToken:res.data.data["x-sljr-session-token"],telPhone:this.ruleForm.username,reqNum:""}));
 						//需保存token 成功后跳转
 						this.$router.push({path:"/storeMsg"})
 

@@ -31,66 +31,90 @@
 				msg: 'Welcome to Your Vue.js App'
 			}
 		},
-		methods:{
-			loginOut(){
+		methods: {
+			loginOut() {
 				this.$http({
-					method:"POST",
-					url:"/api/terminal/exit",
+					method: "POST",
+					url: "/api/terminal/exit",
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					}
-			}).then((res)=>{
-					if(res.data.code == "000000"){
-						this.$router.push({path:"/login"})
-					}else{
+				}).then((res) => {
+					if(res.data.code == "000000") {
+						this.$router.push({
+							path: "/login"
+						})
+					} else {
 						this.$message({
-							type:"error",
-							message:res.data.messages
+							type: "error",
+							message: res.data.messages
 						})
 					}
-				},(res)=>{
+				}, (res) => {
 					this.$message({
-						type:"error",
-						message:res.data.messages
+						type: "error",
+						message: res.data.messages
 					})
 				})
 			},
 			// 路由接口调试
-			routerApi(){
+			routerApi() {
 				this.$http({
-					method:"POST",
-					url:"/api/terminal/step",
+					method: "POST",
+					url: "/api/terminal/step",
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
-					body:{
-						"userId":"12345678912",      // TODO
-						"request":"12345678912",
-						"level":"12345678912",
+					body: {
+						"userId": JSON.parse(sessionStorage.getItem("userInfo")).telPhone, // TODO    手机号码
+						"request": this.msg, // 请求流水号
+						"level": "1",
 					}
-				}).then((res)=>{
+				}).then((res) => {
 					console.log(res)
-				},(res)=>{
+				}, (res) => {
 					this.$message({
-						type:"error",
-						message:res.data.messages
+						type: "error",
+						message: res.data.messages
+					})
+				})
+			},
+			// 登录时回到待提交接口
+			stepLogin() {
+				this.$http({
+					method: "POST",
+					url: "/api/terminal/stepLogin",
+					headers: {
+						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+					},
+					body: {
+						"userId": "12345678912", // TODO
+						"request": "12345678912",
+					}
+				}).then((res) => {
+					console.log(res)
+				}, (res) => {
+					this.$message({
+						type: "error",
+						message: res.data.messages
 					})
 				})
 			}
 		},
-		mounted:function(){
-			// this.routerApi();
+		mounted: function() {
+			this.routerApi();
+			console.log(JSON.parse(sessionStorage.getItem("userInfo")))
 		}
 	}
 </script>
 
 <style lang='scss' scoped>
 	.home {
-		.fix_top{
-			width:100%;
+		.fix_top {
+			width: 100%;
 			position: fixed;
-			top:0;
-			left:0;
+			top: 0;
+			left: 0;
 			background-color: #fff;
 			z-index: 200;
 		}
