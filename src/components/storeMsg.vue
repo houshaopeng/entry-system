@@ -61,7 +61,7 @@
 							</el-col>
 							<el-col :xs="12" :sm="12" :md="12" :lg="12" v-if="channelsShow">
 								<el-select v-model="ruleForm.recommendedChannels" placeholder="请选择具体的推荐渠道">
-									<el-option v-for="item in channels" :key="item.value" :label="item.value" :value="item.label">
+									<el-option v-for="item in channels" :key="item.constant_value" :label="item.constant_value" :value="item.constant_label">
 									</el-option>
 								</el-select>
 							</el-col>
@@ -458,7 +458,7 @@
 		<!--缓存，下一步按钮-->
 		<div class="footer">
 			<el-button type="primary" @click="Temporary">缓存</el-button>
-			<el-button type="primary" @click="updateImg">下一步</el-button>
+			<el-button type="primary" @click="nextstep">下一步</el-button>
 		</div>
 	</div>
 </template>
@@ -1094,6 +1094,7 @@
 			changeChannel() {
 				if(this.ruleForm.recommendedID == 1 || this.ruleForm.recommendedID == 2) {
 					this.channelsShow = true;
+					this.getChannelUserName();
 				} else {
 					this.channelsShow = false;
 					this.ruleForm.recommendedChannels = "";
@@ -1133,7 +1134,7 @@
 				}).then((res) => {
 					if(res.data.code == '000000') {
 						this.msg = res.data.data.requestNo;
-						console.log(res);
+
 					} else {
 						this.$message({
 							type: "error",
@@ -1149,15 +1150,17 @@
 				})
 			},
 			getChannelUserName() { //获取渠道具体人员
-				console.log(JSON.parse(sessionStorage.getItem("userInfo")).userToken)
 				this.$http({
 					method: "POST",
 					url: "/api/terminal/getChannelUserName",
 					headers: {
 								"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
-							}
+							},
+					body:{
+						"channelNo":this.ruleForm.recommendedID
+					}
 					}).then((res) => {
-					console.log(res.data)
+						console.log(res.data)
 					if(res.data.code == "000000") {
 						this.channels = res.data.data
 					} else {
@@ -1173,11 +1176,9 @@
 					})
 				})
 			},
-
 			getMerchantType() { //获取商户类型
 				this.$http({
 					method: "POST",
-
 					url: "/api/terminal/getMerchantType",
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
@@ -1254,7 +1255,7 @@
 					})
 				}) //暂存
 			},
-			updateImg() {
+			nextstep() {
 				this.$http({
 					method: "POST",
 					url: "/api/terminal/basicSubmit",
@@ -1318,6 +1319,23 @@
 						message:res.data.errMsg
 
 					})
+				})
+			},
+			stepLogin(){
+				this.$http({
+					method:"POST",
+					url:"/api/terminal/stepLogin",
+					headers: {
+						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+					},
+					body:{
+						"userId":"1320835005",
+						"request":"WD862404966896"
+					}
+				}).then((res)=>{
+					console.log(res.data)
+				},(res)=>{
+
 				})
 			}
 		},

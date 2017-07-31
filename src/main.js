@@ -19,6 +19,26 @@ Vue.config.productionTip = false;
 Vue.use(ElementUI);
 Vue.use(VueRouter);
 Vue.use(VueResource);
+
+
+
+/*const router = new VueRouter({
+  routes
+});
+
+
+ router.beforeEach((to, from, next) => {
+  NProgress.start();
+ if (to.path == '/login') {
+     sessionStorage.removeItem('userInfo');
+  }
+  let user = JSON.parse(sessionStorage.getItem('userInfo'));
+  if (!user && to.path != '/login' ) {
+    next({ path: '/login' })
+  } else {
+    next();
+  }
+})*/
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

@@ -333,13 +333,13 @@
 			//图片上传插件部分 end
 			onSubmit() {
 				this.delectImg();
-//				this.$refs.vueFileUploader0.uploadAll();
-				this.$router.push({
+				this.$refs.vueFileUploader0.uploadAll();
+				/*this.$router.push({
 					name: '影像资料上传2',
 					params: {
 						currentOrder: this.msg
 					}
-				});
+				});*/
 				
 			},
 			// 删除图片(提交前删除)
@@ -349,13 +349,14 @@
 					method:"POST",
 					url:"/api/terminal/deleteImg",
 					headers: {
-						"x-sljr-session-token": "6b8b0e4e841107d250d63fdb3166d1ac",
+						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+						// "x-sljr-session-token": "08814d4762b788690fc256cd8d089fe4",
 					},
 					body:{
-						"imgSrcs":"http://terminal-repeater.oss-cn-shanghai.aliyuncs.com/e6b4729b53ee8158fce423ba07480afd/001/personalDataImg/1501467704002.jpg,http://terminal-repeater.oss-cn-shanghai.aliyuncs.com/e6b4729b53ee8158fce423ba07480afd/001/personalDataImg/1501467704242.jpg",      // 图片src地址(多张逗号拼接)
-						"type":"1",         //
-						"userId":"e6b4729b53ee8158fce423ba07480afd",       // 用户唯一标识
-						"requestNo":"001",    // 申请编号
+						"imgSrcs":"",      // 图片src地址(多张逗号拼接)   TODO
+						"type":"1",         //  TODO
+						"userId":"",       // 用户唯一标识登录的手机号码	TODO
+						"requestNo":this.$route.params.currentOrder,    // 申请编号
 					}
 				}).then((res)=>{
 					console.log(res)
