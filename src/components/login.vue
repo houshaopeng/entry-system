@@ -24,16 +24,21 @@
 <script>
 	export default {
 		data() {
+
 			var checkTel = (rule, value, callback) => {
 				if(!value) {
 					return callback(new Error('手机号不能为空'));
+					this.username =false;
 				} else if(!/^(13[0-9]|14[0-9]|15[0-9]|18[0-9])\d{8}$/i.test(value)) {
 					return callback(new Error('请输入正确手机号'));
+					this.username =false;
 				} else {
+					this.username =true;
 					callback();
 				}
 			};
 			return {
+				username:false,
 				getcode:"获取验证码",
 				getcodeshow:false,
 				ruleForm: {
@@ -62,37 +67,40 @@
 		},
 		methods: {
 			getCode(){								//获取验证码
+				console.log(this.username)
+				if(this.username){
+					if(this.ruleForm.username.length==11){
+					var countdown  = 60;
+					this.getcodeshow = true;
+					var timer = setInterval(()=>{
+									if(countdown>0){
+										countdown--;
+										this.getcode = "重新发送"+countdown+"s";
+									}else if(countdown == 0){
+										clearInterval(timer)
+										this.getcode = "重新发送"
+										this.getcodeshow = false;
+									}
+								},1000)
 
-				var countdown  = 60;
-				this.getcodeshow = true;
-				var timer = setInterval(()=>{
-								if(countdown>0){
-									countdown--;
-									this.getcode = "重新发送"+countdown+"s";
-								}else if(countdown == 0){
-									clearInterval(timer)
-									this.getcode = "重新发送"
-									this.getcodeshow = false;
-								}
-							},1000)
+					this.$http.post("/api/getMessageCode", {
+						"userId":this.ruleForm.username
+					}).then((res) => {
+						if(res.data.code == '000000') {
+							//获取验证码成功
+						} else {
 
-				this.$http.post("/api/getMessageCode", {
-					"userId":this.ruleForm.username
-				}).then((res) => {
-					if(res.data.code == '000000') {
-						//获取验证码成功
-					} else {
-							this.$message({
+						}
+					}, (res) => {
+						this.$message({
 							message: res.data.messages,
 							type: 'error'
 						})
-					}
-				}, (res) => {
-					this.$message({
-						message: res.data.messages,
-						type: 'error'
 					})
-				})
+				}
+				}
+
+
 			},
 			login(){								//登录
 				this.$http({
@@ -104,7 +112,7 @@
 					}
 				}).then((res)=>{
 					if(res.data.code == "000000"){
-						sessionStorage.setItem('userInfo', JSON.stringify({userToken:res.data.data["x-sljr-session-token"],telPhone:this.ruleForm.username,reqNum:""}));
+						sessionStorage.setItem('userInfo', JSON.stringify({userToken:res.data.data["x-sljr-session-token"]}));
 						//需保存token 成功后跳转
 						this.$router.push({path:"/storeMsg"})
 
