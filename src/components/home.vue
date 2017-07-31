@@ -77,27 +77,7 @@
 					})
 				})
 			},
-			// 登录时回到待提交接口
-			stepLogin(){
-				this.$http({
-					method:"POST",
-					url:"/api/terminal/stepLogin",
-					headers: {
-						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
-					},
-					body:{
-						"userId":"12345678912",      // TODO
-						"request":"12345678912",
-					}
-				}).then((res)=>{
-					console.log(res)
-				},(res)=>{
-					this.$message({
-						type:"error",
-						message:res.data.messages
-					})
-				})
-			}
+			
 		},
 		mounted:function(){
 			this.routerApi();
