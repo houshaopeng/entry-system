@@ -114,7 +114,7 @@
 				</el-row>
 			</div>
 			<div class="footer">
-				<el-button type="primary">提交</el-button>
+				<el-button type="primary" @click="onSubmit">提交</el-button>
 			</div>
 		</div>
 	</div>
@@ -127,7 +127,7 @@
 		name: 'imageFileUpload2',
 		data() {
 			return {
-
+				msg:'',
 				//图片上传插件部分 start
 				//过滤器回调
 				files: [],
@@ -199,6 +199,17 @@
 				this.$refs.vueFileUploader.clearAll();
 			},
 			//图片上传插件部分 end
+			onSubmit(){
+				this.$router.push({
+					name: '借款服务协议确认',
+					params: {
+						currentOrder: this.msg
+					}
+				});
+			},
+		},
+		created: function() {
+			this.msg = this.$route.params.currentOrder;
 		},
 		components: {
 			VueFileUpload,

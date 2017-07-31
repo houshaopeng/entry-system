@@ -1087,11 +1087,8 @@
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					}
 				}).then((res) => {
-					console.log("===>>>");
-						console.log(res);
-						console.log("<<<===");
 					if(res.data.code == '000000') {
-						
+
 					} else {
 
 					}
@@ -1256,7 +1253,12 @@
 						}
 					}
 				}).then((res) => {
-					console.log(res)
+					this.$router.push({
+						name: '影像资料上传',
+						params: {
+							currentOrder: this.msg
+						}
+					});
 				}, (res) => {
 					this.$message({
 						type: "error",
