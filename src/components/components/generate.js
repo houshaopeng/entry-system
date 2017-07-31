@@ -10,7 +10,7 @@ const generateOptions = () => {
   autoUpload:true,
   filters:[],
   formData:{},
-  // headers:{"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken},
+  headers:{"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken},
   maxItems:Number.MAX_VALUE,
   withCredentials:false,
   responseType:"json"
