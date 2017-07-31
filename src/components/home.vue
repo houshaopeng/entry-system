@@ -54,7 +54,7 @@
 					method:"POST",
 					url:"/api/terminal/step",
 					headers: {
-						"x-sljr-session-token": "6b8b0e4e841107d250d63fdb3166d1ac",
+						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
 					body:{
 						"userId":"12345678912",      // TODO
