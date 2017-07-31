@@ -60,13 +60,18 @@
 				},
 				flagArr:[],
 				msg:"",
+				token:""
 			};
 		},
 		methods: {
 			getCode(){								//获取验证码
 				var countdown  = 60;
-				this.getcodeshow = true;
-				var timer = setInterval(()=>{
+				this.$http.post("/api/getMessageCode", {
+					"userId":this.ruleForm.username
+				}).then((res) => {
+					if(res.data.code == '000000') {
+							this.getcodeshow = true;
+							var timer = setInterval(()=>{
 								if(countdown>0){
 									countdown--;
 									this.getcode = "重新发送"+countdown+"s";
@@ -76,11 +81,6 @@
 									this.getcodeshow = false;
 								}
 							},1000)
-
-				this.$http.post("/api/getMessageCode", {
-					"userId":this.ruleForm.username
-				}).then((res) => {
-					if(res.data.code == '000000') {
 						//获取验证码成功
 					} else {
 							this.$message({
@@ -99,11 +99,12 @@
 			applicationNumber() {
 				this.$http.post("/api/terminal/getNumber", "", {
 					headers: {
-						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+						"x-sljr-session-token": this.token,
 					}
 				}).then((res) => {
 					if(res.data.code == '000000') {
 						this.msg = res.data.data.requestNo;
+						
 						this.stepLogin();
 					} else {
 						this.$message({
@@ -124,16 +125,22 @@
 					method:"POST",
 					url:"/api/terminal/stepLogin",
 					headers: {
-						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+						"x-sljr-session-token": this.token,
 					},
 					body:{
-						"userId":JSON.parse(sessionStorage.getItem("userInfo")).telPhone,
+						"userId":this.ruleForm.username,
 						"requestNo":this.msg
 					}
 				}).then((res)=>{
 					if(res.data.code=="000000"){
+						sessionStorage.setItem('userInfo', JSON.stringify({userToken:res.data.data["x-sljr-session-token"],telPhone:this.ruleForm.username,requestNo:this.msg}));
 						this.flagArr = res.data.data.list;
-						console.log(this.flagArr)
+						for(let i =0;i<this.flagArr.length;i++){
+							if(this.flagArr[i]){
+								this.$router.push({path:this.flagArr[i].value});
+								return false;
+							}
+						}
 					}else{
 						this.$message({
 							type:"error",
@@ -157,16 +164,10 @@
 					}
 				}).then((res)=>{
 					if(res.data.code == "000000"){
-						sessionStorage.setItem('userInfo', JSON.stringify({userToken:res.data.data["x-sljr-session-token"],telPhone:this.ruleForm.username,requestNo:this.msg}));
+						this.token = res.data.data["x-sljr-session-token"];
+						this.applicationNumber();
 						//需保存token 成功后跳转
 						// this.$router.push({path:"/storeMsg"})
-						for(let i =0;i<this.flagArr.length;i++){
-							if(this.flagArr[i]){
-								this.$router.push({path:this.flagArr[i].value});
-								return false;
-							}
-						}
-
 					}else{
 						this.$message({
 							type:"error",
@@ -195,7 +196,7 @@
 			}
 		},
 		mounted:function(){
-			this.applicationNumber();
+			
 		}
 	}
 </script>

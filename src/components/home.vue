@@ -81,8 +81,7 @@
 			}
 		},
 		mounted: function() {
-			this.routerApi();
-			console.log(JSON.parse(sessionStorage.getItem("userInfo")))
+		
 		}
 	}
 </script>
