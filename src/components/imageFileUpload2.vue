@@ -127,7 +127,7 @@
 		name: 'imageFileUpload2',
 		data() {
 			return {
-				msg:'',
+				msg: '',
 				//图片上传插件部分 start
 				//过滤器回调
 				files: [],
@@ -198,8 +198,32 @@
 			clearAll() {
 				this.$refs.vueFileUploader.clearAll();
 			},
+			// 删除图片(提交前删除)
+			delectImg() {
+				this.$http({
+					method: "POST",
+					url: "/api/terminal/deleteImg",
+					body: {
+						"imgSrcs": "", // 图片src地址(多张逗号拼接)
+						"type": "", //
+						"userId": "", // 用户唯一标识
+						"requestNo": "", // 申请编号
+					}
+				}, {
+					headers: {
+						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+					}
+				}).then((res) => {
+					console.log(res)
+				}, (res) => {
+					this.$message({
+						type: "error",
+						message: res.data.messages
+					})
+				})
+			},
 			//图片上传插件部分 end
-			onSubmit(){
+			onSubmit() {
 				this.$router.push({
 					name: '借款服务协议确认',
 					params: {

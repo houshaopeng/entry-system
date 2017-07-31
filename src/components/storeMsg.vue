@@ -516,8 +516,10 @@
 				}
 			};
 			return {
-				msg: 'WD1234567890',
+
+				msg: '',
 				channelsShow: false, //渠道是否显示隐藏
+
 				ruleForm: {
 					name: '',
 					contractType: '0', //网点合同类型
@@ -1088,33 +1090,43 @@
 					}
 				}).then((res) => {
 					if(res.data.code == '000000') {
-
-					} else {
-
-					}
-				})
-			},
-			getChannelUserName() { //获取渠道具体人员
-				this.$http({
-					method: "POST",
-					url: "/api/terminal/getChannelUserName"
-				}, {
-					headers: {
-						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
-					}
-				}).then((res) => {
-					console.log(res.data)
-					if(res.data.code == "000000") {
-						this.channels = res.data.data
+						this.msg = res.data.data.requestNo;
+						console.log(res);
 					} else {
 						this.$message({
 							type: "error",
 							message: res.data.messages
 						})
 					}
+
+				},(res) => {
+						this.$message({
+							message: res.data.messages,
+							type: 'error'
+						})
+				})
+			},
+			getChannelUserName() { //获取渠道具体人员
+				console.log(JSON.parse(sessionStorage.getItem("userInfo")).userToken)
+				this.$http({
+					method: "POST",
+					url: "/api/terminal/getChannelUserName",
+					headers: {
+								"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+							}
+					}).then((res) => {
+					console.log(res.data)
+					if(res.data.code == "000000") {
+						this.channels = res.data.data
+					} else {
+						this.$message({
+							type: "error",
+							message: res.data.errMsg
+						})
+					}
 				}, (res) => {
 					this.$message({
-						message: res.data.messages,
+						message: res.data.errMsg,
 						type: 'error'
 					})
 				})
@@ -1135,7 +1147,7 @@
 					}
 				}, (res) => {
 					this.$message({
-						message: res.data.messages,
+						message: res.data.errMsg,
 						type: "error"
 					})
 				})
@@ -1196,8 +1208,8 @@
 					console.log(res)
 				}, (res) => {
 					this.$message({
-						type: "error",
-						message: res.data.messages
+						type:"error",
+						message:res.data.errMsg
 					})
 				}) //暂存
 			},
@@ -1261,8 +1273,9 @@
 					});
 				}, (res) => {
 					this.$message({
-						type: "error",
-						message: res.data.messages
+						type:"error",
+						message:res.data.errMsg
+
 					})
 				})
 			}
