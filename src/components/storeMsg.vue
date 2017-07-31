@@ -1050,9 +1050,10 @@
 				}
 			},
 			changeChannel() {
+				this.getChannelUserName();
 				if(this.ruleForm.recommendedID == 1 || this.ruleForm.recommendedID == 2) {
 					this.channelsShow = true;
-					this.getChannelUserName();
+					// this.getChannelUserName();
 				} else {
 					this.channelsShow = false;
 					this.ruleForm.recommendedChannels = "";
@@ -1301,7 +1302,6 @@
 		mounted: function() {
 			this.getMachineModel();
 			this.applicationNumber();
-			this.getChannelUserName();
 			this.getMerchantType();
 		}
 	}
