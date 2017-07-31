@@ -1308,11 +1308,8 @@
 					}
 				}).then((res) => {
 					this.$router.push({
-						name: '影像资料上传',
-						params: {
-							currentOrder: this.msg
-						}
-					});
+						path: '/imageFileUpload'
+					})
 				}, (res) => {
 					this.$message({
 						type:"error",
