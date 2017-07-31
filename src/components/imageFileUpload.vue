@@ -26,7 +26,7 @@
 								<span class="img_name" v-html="file.name"></span>
 								<span v-text='onStatus(file)' class="img_status"></span>
 								 <vue-loading type="bars" color="#d9544e" :size="{ width: '50px', height: '50px' }"></vue-loading>
-								<span class="close" @click="deleteItem(file)"> × </span>
+								<span class="close" @click="deleteImg(file)"> × </span>
 							</div>
 							<div>
 								<div class="no_img1" v-show="files0.length<1">
@@ -56,7 +56,7 @@
 							<div class="img_item_box" v-for='(file,index) in files1' @click="getIndex(index)" style="float: left">
 								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file))" style="width: 200px;">
 								<span class="img_name" v-html="file.name"></span>
-								<span class="close" @click="deleteItem(file)"> × </span>
+								<span class="close" @click="deleteImg(file)"> × </span>
 							</div>
 							<div>
 								<div class="no_img1" v-show="files1.length<1">
@@ -86,7 +86,7 @@
 							<div class="img_item_box" v-for='(file,index) in files2' @click="getIndex(index)" style="float: left">
 								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file))" style="width: 200px;">
 								<span class="img_name" v-html="file.name"></span>
-								<span class="close" @click="deleteItem(file)"> × </span>
+								<!-- <span class="close" @click="deleteImg(file)"> × </span> -->
 							</div>
 							<div>
 								<div class="no_img1" v-show="files2.length<1">
@@ -125,7 +125,7 @@
 							<div class="img_item_box" v-for='(file,index) in files3' @click="getIndex(index)" style="float: left">
 								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file))" style="width: 200px;">
 								<span class="img_name" v-html="file.name"></span>
-								<span class="close" @click="deleteItem(file)"> × </span>
+								<span class="close" @click="deleteImg(file)"> × </span>
 							</div>
 							<div>
 								<div class="no_img1" v-show="files3.length<1">
@@ -239,7 +239,7 @@
 				reqopts0: {
 					formData: {
 						'type':'1',
-						'userId':'yibingtao',
+						'userId':JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 						'requestNo':'001',
 					},
 					responseType: 'json',
@@ -248,7 +248,7 @@
 				reqopts1: {
 					formData: {
 						'type':'2',
-						'userId':'yibingtao',
+						'userId':JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 						'requestNo':'001',
 					},
 					responseType: 'json',
@@ -257,7 +257,7 @@
 				reqopts2: {
 					formData: {
 						'type':'3',
-						'userId':'yibingtao',
+						'userId':JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 						'requestNo':'001',
 					},
 					responseType: 'json',
@@ -266,13 +266,14 @@
 				reqopts3: {
 					formData: {
 						'type':'4',
-						'userId':'yibingtao',
+						'userId':JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 						'requestNo':'001',
 					},
 					responseType: 'json',
 					withCredentials: false
 				},
 				//图片上传插件部分 end
+				deleteArr:[],
 			}
 		},
 		methods: {
@@ -307,7 +308,10 @@
 			uploadItem(file) {
 				file.upload();
 			},
-			deleteItem(file) {
+			
+			deleteImg(file) {
+				console.log(file)
+				// this.deleteArr.push();
 				file.remove();
 			},
 			uploadAll() {
@@ -328,17 +332,45 @@
 			},
 			//图片上传插件部分 end
 			onSubmit() {
-				this.$refs.vueFileUploader0.uploadAll();
+				this.delectImg();
+				// this.$refs.vueFileUploader0.uploadAll();
 				/*this.$router.push({
 					path: '/imageFileUpload2'
 				});*/
 			},
+			// 删除图片(提交前删除)
+			delectImg(){
+				this.$http({
+					method:"POST",
+					url:"/api/terminal/deleteImg",
+					body:{
+						"imgSrcs":"http://terminal-repeater.oss-cn-shanghai.aliyuncs.com/e6b4729b53ee8158fce423ba07480afd/001/personalDataImg/1501467704002.jpg,http://terminal-repeater.oss-cn-shanghai.aliyuncs.com/e6b4729b53ee8158fce423ba07480afd/001/personalDataImg/1501467704242.jpg",      // 图片src地址(多张逗号拼接)
+						"type":"1",         //
+						"userId":JSON.parse(sessionStorage.getItem("userInfo")).userToken,       // 用户唯一标识
+						"requestNo":"001",    // 申请编号
+					}
+				},{
+					headers: {
+						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+					}
+				}).then((res)=>{
+					console.log(res)
+				},(res)=>{
+					this.$message({
+						type:"error",
+						message:res.data.messages
+					})
+				})
+			}
 		},
 		components: {
 			VueFileUpload,
 			Modal,
 			vueLoading
 		},
+		mounted:function(){
+			// console.log(this.$route.params.)
+		}
 	}
 </script>
 

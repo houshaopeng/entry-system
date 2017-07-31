@@ -35,16 +35,12 @@
 			loginOut(){
 				this.$http({
 					method:"POST",
-					url:"/api/terminal/loginOut",
-					body:{
-						"username":"12345678912"
-					}
-				},{
+					url:"/api/terminal/exit",
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					}
-				}).then((res)=>{
-					console.log(res)
+			}).then((res)=>{
+					console.log(res)      //  TODO
 				},(res)=>{
 					this.$message({
 						type:"error",
