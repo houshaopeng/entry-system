@@ -60,8 +60,13 @@
 		},
 		methods: {
 			getCode(){								//获取验证码
-				this.$http.post("/api/getCode", {
+				this.$http.post("/api/getMessageCode", {
 					"userId":this.ruleForm.username
+				},
+				{
+					headers: {
+						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+					}
 				}).then((res) => {
 					console.log(res)
 					if(res.data.code == '000000') {
@@ -84,12 +89,11 @@
 						"password":this.ruleForm.codeID
 					}
 				}).then((res)=>{
-					console.log(res)
-
 					if(res.data.code == "000000"){
-
+						sessionStorage.setItem('userInfo', JSON.stringify({userToken:res.data.data.token}));
 						//需保存token 成功后跳转
 						this.$router.push({path:"/storeMsg"})
+
 					}else{
 						this.$message({
 							type:"error",

@@ -35,9 +35,36 @@
 			loginOut(){
 				this.$http({
 					method:"POST",
-					url:"/api/loginOut",
+					url:"/api/terminal/loginOut",
 					body:{
 						"username":"12345678912"
+					}
+				},{
+					headers: {
+						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+					}
+				}).then((res)=>{
+					console.log(res)
+				},(res)=>{
+					this.$message({
+						type:"error",
+						message:res.data.messages
+					})
+				})
+			},
+			// 路由接口调试
+			routerApi(){
+				this.$http({
+					method:"POST",
+					url:"/api/terminal/step",
+					body:{
+						"userId":"12345678912",      // TODO
+						"request":"12345678912",
+						"level":"12345678912",
+					}
+				},{
+					headers: {
+						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					}
 				}).then((res)=>{
 					console.log(res)
@@ -48,6 +75,9 @@
 					})
 				})
 			}
+		},
+		mounted:function(){
+			this.routerApi();
 		}
 	}
 </script>
@@ -60,7 +90,7 @@
 			top:0;
 			left:0;
 			background-color: #fff;
-			z-index: 2;
+			z-index: 200;
 		}
 		.header {
 			height: 100px;
