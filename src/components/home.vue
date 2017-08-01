@@ -81,7 +81,6 @@
 			}
 		},
 		mounted: function() {
-		
 		}
 	}
 </script>
