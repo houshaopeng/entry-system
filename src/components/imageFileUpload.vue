@@ -19,13 +19,13 @@
 								</vue-file-upload>
 								<span v-if="!files0.length">未选择任何文件</span>
 								<span v-else>一共选择{{files0.length}}个文件</span>
-								<input type="button" value="清空图片" @click="clearAll" class="clear_buttton" />
+								<!-- <input type="button" value="清空图片" @click="clearAll" class="clear_buttton" /> -->
 							</div>
 							<div class="img_item_box" v-for='(file,index) in files0' @click="getIndex(index)" style="float: left">
 								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file),0)" style="width: 200px;">
 								<span class="img_name" v-html="file.name"></span>
 								<span v-text='onStatus(file)' class="img_status"></span>
-								<vue-loading type="bars" color="#d9544e" :size="{ width: '50px', height: '50px' }"></vue-loading>
+								<vue-loading type="bars" color="#d9544e" :size="{ width: '20px', height: '20px' }"></vue-loading>
 								<span class="close" @click="deleteImg(file)"> × </span>
 							</div>
 							<div>
@@ -50,7 +50,7 @@
 								</vue-file-upload>
 								<span v-if="!files1.length">未选择任何文件</span>
 								<span v-else>一共选择{{files1.length}}个文件</span>
-								<input type="button" value="清空图片" @click="clearAll" class="clear_buttton" />
+								<!-- <input type="button" value="清空图片" @click="clearAll" class="clear_buttton" /> -->
 							</div>
 							<div class="img_item_box" v-for='(file,index) in files1' @click="getIndex(index)" style="float: left">
 								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file),1)" style="width: 200px;">
@@ -80,7 +80,7 @@
 								</vue-file-upload>
 								<span v-if="!files2.length">未选择任何文件</span>
 								<span v-else>一共选择{{files2.length}}个文件</span>
-								<input type="button" value="清空图片" @click="clearAll" class="clear_buttton" />
+								<!-- <input type="button" value="清空图片" @click="clearAll" class="clear_buttton" /> -->
 							</div>
 							<div class="img_item_box" v-for='(file,index) in files2' @click="getIndex(index)" style="float: left">
 								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file),2)" style="width: 200px;">
@@ -119,7 +119,7 @@
 								</vue-file-upload>
 								<span v-if="!files3.length">未选择任何文件</span>
 								<span v-else>一共选择{{files3.length}}个文件</span>
-								<input type="button" value="清空图片" @click="clearAll" class="clear_buttton" />
+								<!-- <input type="button" value="清空图片" @click="clearAll" class="clear_buttton" /> -->
 							</div>
 							<div class="img_item_box" v-for='(file,index) in files3' @click="getIndex(index)" style="float: left">
 								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file),3)" style="width: 200px;">
@@ -365,7 +365,6 @@
 					},
 					body:{
 						"userId":JSON.parse(sessionStorage.getItem("userInfo")).telPhone,      // TODO    手机号码
-						 
 						"level":"2",
 						"requestNo":JSON.parse(sessionStorage.getItem("userInfo")).requestNo    // 请求流水号
 					}
@@ -494,6 +493,8 @@
 					background: rgba(0, 0, 0, 0.5);
 					position: absolute;
 					left: 0;
+					color: #ffffff;
+					padding: 3px;
 					top: 0;
 				}
 				.close {

@@ -15,7 +15,18 @@
 				</el-input>
 			</el-form-item>
 			<el-form-item>
-				<el-button class="btn_login" type="primary" @click = "login">登录</el-button>
+				
+				<el-checkbox  @click="dialogFormVisible = true" v-model="checked"></el-checkbox>
+				<el-button type="text" @click="dialogFormVisible = true">我已认真阅读并同意《注册协议》</el-button>
+				<el-dialog title="咨询协议" :visible.sync="dialogFormVisible">
+					
+					<div slot="footer" class="dialog-footer" style="text-align:center;">
+						<el-button type="primary" @click="dialogFormVisible = false">同意</el-button>
+					</div>
+				</el-dialog>
+			</el-form-item>
+			<el-form-item>
+				<el-button class="btn_login" type="primary" @click="login">登录</el-button>
 			</el-form-item>
 		</el-form>
 	</div>
@@ -28,19 +39,21 @@
 			var checkTel = (rule, value, callback) => {
 				if(!value) {
 					return callback(new Error('手机号不能为空'));
-					this.username =false;
+					this.username = false;
 				} else if(!/^(13[0-9]|14[0-9]|15[0-9]|18[0-9])\d{8}$/i.test(value)) {
 					return callback(new Error('请输入正确手机号'));
-					this.username =false;
+					this.username = false;
 				} else {
-					this.username =true;
+					this.username = true;
 					callback();
 				}
 			};
 			return {
-				username:false,
-				getcode:"获取验证码",
-				getcodeshow:false,
+				checked:"",
+				dialogFormVisible:false,
+				username: false,
+				getcode: "获取验证码",
+				getcodeshow: false,
 				ruleForm: {
 					username: '',
 					codeID: '',
@@ -63,29 +76,29 @@
 						}
 					],
 				},
-				flagArr:[],
-				msg:"",
-				token:""
+				flagArr: [],
+				msg: "",
+				token: ""
 			};
 		},
 		methods: {
-			getCode(){								//获取验证码
-				var countdown  = 60;
+			getCode() { //获取验证码
+				var countdown = 60;
 				this.$http.post("/api/getMessageCode", {
-					"userId":this.ruleForm.username
+					"userId": this.ruleForm.username
 				}).then((res) => {
 					if(res.data.code == '000000') {
-							this.getcodeshow = true;
-							var timer = setInterval(()=>{
-								if(countdown>0){
-									countdown--;
-									this.getcode = "重新发送"+countdown+"s";
-								}else if(countdown == 0){
-									clearInterval(timer)
-									this.getcode = "重新发送"
-									this.getcodeshow = false;
-								}
-							},1000)
+						this.getcodeshow = true;
+						var timer = setInterval(() => {
+							if(countdown > 0) {
+								countdown--;
+								this.getcode = "重新发送" + countdown + "s";
+							} else if(countdown == 0) {
+								clearInterval(timer)
+								this.getcode = "重新发送"
+								this.getcodeshow = false;
+							}
+						}, 1000)
 						//获取验证码成功
 					} else {
 						this.$message({
@@ -113,70 +126,76 @@
 						})
 					}
 
-				},(res) => {
-						this.$message({
-							message: res.data.messages,
-							type: 'error'
-						})
-				})
-			},
-			stepLogin(){
-				this.$http({
-					method:"POST",
-					url:"/api/terminal/stepLogin",
-					headers: {
-						"x-sljr-session-token": this.token,
-					},
-					body:{
-						"userId":this.ruleForm.username,
-						"requestNo":this.msg
-					}
-				}).then((res)=>{
-					if(res.data.code=="000000"){
-						
-						this.flagArr = res.data.data.list;
-						for(let i =0;i<this.flagArr.length;i++){
-							if(this.flagArr[i]){
-								this.$router.push({path:this.flagArr[i].value});
-								return false;
-							}
-						}
-					}else{
-						this.$message({
-							type:"error",
-							message:res.data.messages
-						})
-					}
-				},(res)=>{
+				}, (res) => {
 					this.$message({
-						type:"error",
-						message:res.data.messages
+						message: res.data.messages,
+						type: 'error'
 					})
 				})
 			},
-			login(){								//登录
+			stepLogin() {
 				this.$http({
-					method:"POST",
-					url:"/api/login",
-					body:{
-						"userId":this.ruleForm.username,
-						"password":this.ruleForm.codeID
+					method: "POST",
+					url: "/api/terminal/stepLogin",
+					headers: {
+						"x-sljr-session-token": this.token,
+					},
+					body: {
+						"userId": this.ruleForm.username,
+						"requestNo": this.msg
 					}
-				}).then((res)=>{
-					if(res.data.code == "000000"){
-						this.token = res.data.data["x-sljr-session-token"];
-						this.applicationNumber();
-						
-					}else{
+				}).then((res) => {
+					if(res.data.code == "000000") {
+
+						this.flagArr = res.data.data.list;
+						for(let i = 0; i < this.flagArr.length; i++) {
+							if(this.flagArr[i]) {
+								this.$router.push({
+									path: this.flagArr[i].value
+								});
+								return false;
+							}
+						}
+					} else {
 						this.$message({
-							type:"error",
-							message:res.data.messages
+							type: "error",
+							message: res.data.messages
 						})
 					}
-				},(res)=>{
+				}, (res) => {
 					this.$message({
-						type:"error",
-						message:res.data.messages
+						type: "error",
+						message: res.data.messages
+					})
+				})
+			},
+			login() { //登录
+				this.$http({
+					method: "POST",
+					url: "/api/login",
+					body: {
+						"userId": this.ruleForm.username,
+						"password": this.ruleForm.codeID
+					}
+				}).then((res) => {
+					if(res.data.code == "000000") {
+						this.token = res.data.data["x-sljr-session-token"];
+						this.applicationNumber();
+						sessionStorage.setItem('userInfo', JSON.stringify({
+							userToken: res.data.data["x-sljr-session-token"],
+							telPhone: this.ruleForm.username,
+							requestNo: this.msg
+						}));
+					} else {
+						this.$message({
+							type: "error",
+							message: res.data.messages
+						})
+					}
+				}, (res) => {
+					this.$message({
+						type: "error",
+						message: res.data.messages
 					})
 				})
 			},
@@ -194,8 +213,8 @@
 				this.$refs[formName].resetFields();
 			}
 		},
-		mounted:function(){
-			
+		mounted: function() {
+
 		}
 	}
 </script>
