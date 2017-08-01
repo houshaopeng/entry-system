@@ -1435,7 +1435,6 @@
 					{"msgBind":this.ruleForm.msgBind2,"msgName":this.ruleForm.msgName2,"msgTel":this.ruleForm.msgTel2},
 					{"msgBind":this.ruleForm.msgBind3,"msgName":this.ruleForm.msgName3,"msgTel":this.ruleForm.msgTel3}
 				]
-
 				this.$http({
 					method: "POST",
 					url: "/api/terminal/basicSubmit",
@@ -1495,9 +1494,9 @@
 					}
 				}).then((res) => {
 							if(res.data.code=="000000"){
-								/*this.$router.push({
+								this.$router.push({
 									path: '/imageFileUpload'
-								})*/
+								})
 							}
 
 						}, (res) => {
@@ -1513,6 +1512,11 @@
 					}
 				});
 			},
+			verification(){					//四要素验证
+				this.$http({
+					method:"POST"
+				})
+			}
 
 		},
 		created: function() {},

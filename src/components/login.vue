@@ -19,7 +19,7 @@
 				<el-button type="text" @click="dialogFormVisible = true">我已认真阅读并同意《注册协议》</el-button>
 				<el-dialog title="咨询协议" :visible.sync="dialogFormVisible">
 					<div slot="footer" class="dialog-footer" style="text-align:center;">
-						<el-button type="primary" @click="dialogFormVisible = false">同意</el-button>
+						<el-button type="primary" @click="dialogFormVisible = false,checked=true">同意</el-button>
 					</div>
 				</el-dialog>
 			</el-form-item>
