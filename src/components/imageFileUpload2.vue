@@ -20,7 +20,7 @@
 								</vue-file-upload>
 								<span v-if="!files0.length">未选择任何文件</span>
 								<span v-else>一共选择{{files0.length}}个文件</span>
-								<input type="button" value="清空图片" @click="clearAll" class="clear_buttton" />
+								<!-- <input type="button" value="清空图片" @click="clearAll" class="clear_buttton" /> -->
 							</div>
 							<div class="img_item_box" v-for='(file,index) in files0' @click="getIndex(index)" style="float: left">
 								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file),0)" style="width: 200px;">
@@ -61,7 +61,7 @@
 								</vue-file-upload>
 								<span v-if="!files1.length">未选择任何文件</span>
 								<span v-else>一共选择{{files1.length}}个文件</span>
-								<input type="button" value="清空图片" @click="clearAll" class="clear_buttton" />
+								<!-- <input type="button" value="清空图片" @click="clearAll" class="clear_buttton" /> -->
 							</div>
 							<div class="img_item_box" v-for='(file,index) in files1' @click="getIndex(index)" style="float: left">
 								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file),1)" style="width: 200px;">
@@ -100,7 +100,7 @@
 								</vue-file-upload>
 								<span v-if="!files2.length">未选择任何文件</span>
 								<span v-else>一共选择{{files2.length}}个文件</span>
-								<input type="button" value="清空图片" @click="clearAll" class="clear_buttton" />
+								<!-- <input type="button" value="清空图片" @click="clearAll" class="clear_buttton" /> -->
 							</div>
 							<div class="img_item_box" v-for='(file,index) in files2' @click="getIndex(index)" style="float: left">
 								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file),2)" style="width: 200px;">
@@ -124,7 +124,7 @@
 								</vue-file-upload>
 								<span v-if="!files3.length">未选择任何文件</span>
 								<span v-else>一共选择{{files3.length}}个文件</span>
-								<input type="button" value="清空图片" @click="clearAll" class="clear_buttton" />
+								<!-- <input type="button" value="清空图片" @click="clearAll" class="clear_buttton" /> -->
 							</div>
 							<div class="img_item_box" v-for='(file,index) in files3' @click="getIndex(index)" style="float: left">
 								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file),3)" style="width: 200px;">
@@ -408,6 +408,27 @@
 					if(res.data.dara=="000000"){
 
 					}
+				},(res)=>{
+					this.$message({
+						type:"error",
+						message:res.data.messages
+					})
+				})
+			},
+			// 更改状态
+			updateStates(){
+				this.$http({
+					method:"POST",
+					url:"/api/terminal/updateOrderStatus",
+					headers: {
+						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+					},
+					body:{
+						"pagination":4,      // 图片src地址(多张逗号拼接)   TODO
+						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo,         //  申请编号
+					}
+				}).then((res)=>{
+					console.log(res)
 				},(res)=>{
 					this.$message({
 						type:"error",
