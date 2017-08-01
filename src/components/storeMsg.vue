@@ -1381,6 +1381,7 @@
 			nextstep(formName) {
 				this.$refs[formName].validate((valid) => {
 					if(valid && (this.address.province != "请选择") && (this.address.city != "请选择") && (this.address.district != "请选择") && (this.address2.province != "请选择") && (this.address2.city != "请选择") && (this.address2.district != "请选择") && (this.address3.province != "请选择") && (this.address3.city != "请选择") && (this.address3.district != "请选择") && (this.address4.province != "请选择") && (this.address4.city != "请选择") && (this.address4.district != "请选择")) {
+						
 						var contactAddress = this.address.province + "&" + this.address.city + "&" + this.address.district + "&" + this.ruleForm.contactAddress;
 						var registerAddress = this.address2.province + "&" + this.address2.city + "&" + this.address2.district + "&" + this.ruleForm.registeredAddress;
 						var nativeAddress = this.address3.province + "&" + this.address3.city + "&" + this.address3.district + "&" + this.ruleForm.applicantResAddress;
