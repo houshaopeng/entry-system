@@ -466,17 +466,16 @@
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="预留手机号" prop="reserPhone">
 							<el-input v-model="ruleForm.reserPhone" placeholder="请输入预留手机号">
-								<template slot="append"><el-button>获取验证码</el-button></template>
 							</el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="6">
+					<!-- <el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="验证码" prop="verificaCode">
 							<el-input v-model="ruleForm.verificaCode" placeholder="请输入验证码">
 								<template slot="append"><el-button>提交</el-button></template>
 							</el-input>
 						</el-form-item>
-					</el-col>
+					</el-col> -->
 				</el-row>
 			</el-form>
 		</div>
@@ -642,35 +641,35 @@
 				},
 				region: [{
 						region: "华北区",
-						value: "000001"
+						value: "1"
 					},
 					{
 						region: "华东区",
-						value: "000002"
+						value: "2"
 					},
 					{
 						region: "东北区",
-						value: "000003"
+						value: "3"
 					},
 					{
 						region: "华中区",
-						value: "000004"
+						value: "4"
 					},
 					{
 						region: "华南区",
-						value: "000005"
+						value: "5"
 					},
 					{
 						region: "西南区",
-						value: "000006"
+						value: "6"
 					},
 					{
 						region: "西北区",
-						value: "000007"
+						value: "7"
 					},
 					{
 						region: "港澳台",
-						value: "000008"
+						value: "8"
 					}
 				],
 				recommended: [{
@@ -1305,11 +1304,23 @@
 				var registerAddress = this.address2.province+"&"+this.address2.city+"&"+this.address2.district+"&"+this.ruleForm.registeredAddress;
 				var nativeAddress = this.address3.province+"&"+this.address3.city+"&"+this.address3.district+"&"+this.ruleForm.applicantResAddress;
 				var address = this.address4.province+"&"+this.address4.city+"&"+this.address4.district+"&"+this.ruleForm.applicantCurrAddress;
-				var contacts = {"2121":123};
-				console.log(contactAddress)
-				console.log(registerAddress)
-				console.log(nativeAddress)
-				console.log(address)
+				var mainProduct = [{
+						"name":this.ruleForm.productName1,
+						"distance":this.ruleForm.productPrice1,
+					},
+					{
+						"name":this.ruleForm.productName2,
+						"distance":this.ruleForm.productPrice2,
+					},{
+						"name":this.ruleForm.productName3,
+						"distance":this.ruleForm.productPrice3,
+					}]
+				var contacts = [
+					{"msgBind1":this.ruleForm.msgBind1,"msgName1":this.ruleForm.msgName1,"msgTel1":this.ruleForm.msgTel1},
+					{"msgBind2":this.ruleForm.msgBind2,"msgName2":this.ruleForm.msgName2,"msgTel2":this.ruleForm.msgTel2},
+					{"msgBind3":this.ruleForm.msgBind3,"msgName3":this.ruleForm.msgName3,"msgTel1":this.ruleForm.msgTel3}
+				]
+
 				this.$http({
 					method: "POST",
 					url: "/api/terminal/Temporary",
@@ -1319,8 +1330,8 @@
 					body: {
 						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo,
 						"basicReqInfo": {
-							"contractType": this.ruleForm.contractType,
-							"terminalType": this.ruleForm.networkType,
+							"contractType": Number(this.ruleForm.contractType),
+							"terminalType": Number(this.ruleForm.networkType),
 							"terminalArea": this.ruleForm.belongRegion,
 							"terminalName": this.ruleForm.networkName,
 							"terminalContact": this.ruleForm.networkContact,
@@ -1329,12 +1340,12 @@
 							"contactAddress":contactAddress,
 							"salesmanName": this.ruleForm.salesmanName,
 							"salesmanNo": this.ruleForm.salesmanNumber,
-							"machineType": this.machines.machineType,
+							"machineType": JSON.stringify(this.machines),
 							"aroundFinancialInfo": this.companys,
 							"joinSuperiority": this.ruleForm.goodpoint.toString()
 						},
 						"shopManagementReqInfo": {
-							"isBrandFranchise": this.ruleForm.isJoin,
+							"isBrandFranchise": Number(this.ruleForm.isJoin),
 							"merchantType": this.ruleForm.businessType,
 							"createTime": this.ruleForm.createTime,
 							"openingTime": this.ruleForm.startTime,
@@ -1343,20 +1354,20 @@
 							"legalPersonName": this.ruleForm.legalName,
 							"legalPersonPhone": this.ruleForm.legalTel,
 							"legalPersonIdCard": this.ruleForm.legalId,
-							"averageTurnover": this.ruleForm.threeMoney,
-							"totalTurnover": this.ruleForm.yearMoney,
-							"mainProduct": this.ruleForm.productName1,
-							"averageDayFlow": this.ruleForm.dailyPeople
+							"averageTurnover": Number(this.ruleForm.threeMoney)*100,
+							"totalTurnover": Number(this.ruleForm.yearMoney)*100,
+							"mainProduct": mainProduct,
+							"averageDayFlow": Number(this.ruleForm.dailyPeople)
 						},
 						"proposerReqInfo": {
 							"name": this.ruleForm.applicantName,
-							"nativePlace": this.ruleForm.applicantName,
-							"healthStatus": this.ruleForm.applicantOrigin,
-							"educational": this.ruleForm.healthStatus,
-							"maritalStatus": this.ruleForm.maritalStatus,
+							"idCard": this.ruleForm.idNumber,
+							"healthStatus": Number(this.ruleForm.healthStatus),
+							"educational": Number(this.ruleForm.healthStatus),
+							"maritalStatus": Number(this.ruleForm.maritalStatus),
 							"nativeAddress": nativeAddress,
 							"address": address,
-							"shares": this.ruleForm.applicantPercent,
+							"shares": Number(this.ruleForm.applicantPercent),
 							"contacts": JSON.stringify(contacts)
 						},
 						"bankReqInfo": {
@@ -1380,8 +1391,24 @@
 				var contactAddress = this.address.province+"&"+this.address.city+"&"+this.address.district+"&"+this.ruleForm.contactAddress;
 				var registerAddress = this.address2.province+"&"+this.address2.city+"&"+this.address2.district+"&"+this.ruleForm.registeredAddress;
 				var nativeAddress = this.address3.province+"&"+this.address3.city+"&"+this.address3.district+"&"+this.ruleForm.applicantResAddress;
-				var address = this.address4.province+"&"+this.address4.city+"&"+this.address4.district+"&"+this.ruleForm.applicantCurrAddress
-				var contacts = {};
+				var address = this.address4.province+"&"+this.address4.city+"&"+this.address4.district+"&"+this.ruleForm.applicantCurrAddress;
+				var mainProduct = [{
+						"name":this.ruleForm.productName1,
+						"distance":this.ruleForm.productPrice1,
+					},
+					{
+						"name":this.ruleForm.productName2,
+						"distance":this.ruleForm.productPrice2,
+					},{
+						"name":this.ruleForm.productName3,
+						"distance":this.ruleForm.productPrice3,
+					}]
+				var contacts = [
+					{"msgBind1":this.ruleForm.msgBind1,"msgName1":this.ruleForm.msgName1,"msgTel1":this.ruleForm.msgTel1},
+					{"msgBind2":this.ruleForm.msgBind2,"msgName2":this.ruleForm.msgName2,"msgTel2":this.ruleForm.msgTel2},
+					{"msgBind3":this.ruleForm.msgBind3,"msgName3":this.ruleForm.msgName3,"msgTel1":this.ruleForm.msgTel3}
+				]
+
 				this.$http({
 					method: "POST",
 					url: "/api/terminal/basicSubmit",
@@ -1390,9 +1417,9 @@
 					},
 					body: {
 						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo,
-						"basicInfo": {
-							"contractType": this.ruleForm.contractType,
-							"terminalType": this.ruleForm.networkType,
+						"basicReqInfo": {
+							"contractType": Number(this.ruleForm.contractType),
+							"terminalType": Number(this.ruleForm.networkType),
 							"terminalArea": this.ruleForm.belongRegion,
 							"terminalName": this.ruleForm.networkName,
 							"terminalContact": this.ruleForm.networkContact,
@@ -1401,12 +1428,12 @@
 							"contactAddress":contactAddress,
 							"salesmanName": this.ruleForm.salesmanName,
 							"salesmanNo": this.ruleForm.salesmanNumber,
-							"machineType": this.machines.machineType,
+							"machineType": JSON.stringify(this.machines),
 							"aroundFinancialInfo": this.companys,
 							"joinSuperiority": this.ruleForm.goodpoint.toString()
 						},
-						"shopManagementInfo": {
-							"isBrandFranchise": this.ruleForm.isJoin,
+						"shopManagementReqInfo": {
+							"isBrandFranchise": Number(this.ruleForm.isJoin),
 							"merchantType": this.ruleForm.businessType,
 							"createTime": this.ruleForm.createTime,
 							"openingTime": this.ruleForm.startTime,
@@ -1415,28 +1442,35 @@
 							"legalPersonName": this.ruleForm.legalName,
 							"legalPersonPhone": this.ruleForm.legalTel,
 							"legalPersonIdCard": this.ruleForm.legalId,
-							"averageTurnover": this.ruleForm.threeMoney,
-							"totalTurnover": this.ruleForm.yearMoney,
-							"mainProduct": this.ruleForm.productName1,
-							"averageDayFlow": this.ruleForm.dailyPeople
+							"averageTurnover": Number(this.ruleForm.threeMoney)*100,
+							"totalTurnover": Number(this.ruleForm.yearMoney)*100,
+							"mainProduct": mainProduct,
+							"averageDayFlow": Number(this.ruleForm.dailyPeople)
 						},
-						"proposerInfo": {
-							"name": "",
-							"nativePlace": this.ruleForm.applicantName,
-							"healthStatus": this.ruleForm.applicantOrigin,
-							"educational": this.ruleForm.healthStatus,
-							"maritalStatus": this.ruleForm.maritalStatus,
+						"proposerReqInfo": {
+							"name": this.ruleForm.applicantName,
+							"idCard": this.ruleForm.idNumber,
+							"healthStatus": Number(this.ruleForm.healthStatus),
+							"educational": Number(this.ruleForm.healthStatus),
+							"maritalStatus": Number(this.ruleForm.maritalStatus),
 							"nativeAddress": nativeAddress,
 							"address": address,
-							"shares": this.ruleForm.applicantPercent,
+							"shares": Number(this.ruleForm.applicantPercent),
 							"contacts": JSON.stringify(contacts)
-						}
+						},
+						"bankReqInfo": {
+						    "bankCard": "6228480402564890018",
+						    "openProvince": "11",
+						    "openCity":"q",
+						    "subBranchName":"q",
+						    "bankPhone": "12345678901"
+						  }
 					}
 				}).then((res) => {
 					if(res.data.code=="000000"){
-						this.$router.push({
+						/*this.$router.push({
 							path: '/imageFileUpload'
-						})
+						})*/
 					}
 
 				}, (res) => {
