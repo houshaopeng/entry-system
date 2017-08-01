@@ -168,8 +168,8 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24">
-						<el-form-item label="注册地址" prop="changeAddr">
-							<el-checkbox-group v-model="ruleForm.changeAddr">
+						<el-form-item label="注册地址">
+							<el-checkbox-group v-model="changeAddr">
 								<el-checkbox label="与联系地址相同" name="type"></el-checkbox>
 							</el-checkbox-group>
 						</el-form-item>
@@ -178,7 +178,7 @@
 						<el-form-item label="" prop="registeredAddress">
 							<el-row>
 								<el-col :xs="18" :sm="18" :md="18" :lg="18">
-									<address-picker :opts="obj2" v-model="address2"></address-picker>
+									<address-picker :opts="obj2" v-model="address2" @blur="changeaddr2"></address-picker>
 								</el-col>
 								<el-col :xs="6" :sm="6" :md="6" :lg="6">
 									<el-input v-model="ruleForm.registeredAddress" placeholder="请输入详细联系地址"></el-input>
@@ -242,7 +242,7 @@
 				</el-row> -->
 				<el-row :gutter="10">
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
-						<el-form-item label="主营商品2" prop="productName1">
+						<el-form-item label="主营商品1" prop="productName1">
 							<el-input :maxlength="30" v-model="ruleForm.productName1" placeholder="请输入商品名称">
 							</el-input>
 						</el-form-item>
@@ -472,16 +472,9 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="预留手机号" prop="reserPhone">
-							<el-input v-model="ruleForm.reserPhone" placeholder="请输入预留手机号"></el-input>
+							<el-input :maxlength="11" v-model="ruleForm.reserPhone" placeholder="请输入预留手机号"></el-input>
 						</el-form-item>
 					</el-col>
-					<!-- <el-col :xs="24" :sm="12" :md="8" :lg="6">
-						<el-form-item label="验证码" prop="verificaCode">
-							<el-input v-model="ruleForm.verificaCode" placeholder="请输入验证码">
-								<template slot="append"><el-button>提交</el-button></template>
-							</el-input>
-						</el-form-item>
-					</el-col> -->
 				</el-row>
 			</div>
 
@@ -583,9 +576,11 @@
 				}
 			};
 			return {
-
 				msg1: '',
 				channelsShow: false, //渠道是否显示隐藏
+				changeAddr: '', //与联系地址相同
+				companyStep: '', //判断周边金融信息是否全部不为空
+				machineStep:'',
 				ruleForm: {
 					name: '',
 					contractType: '0', //网点合同类型
@@ -603,7 +598,6 @@
 					businessType: '', //商户类型
 					createTime: '', //成立时间
 					startTime: '', //开业时间
-					changeAddr: '', //与联系地址相同
 					registeredAddress: '', //注册地址详细地址
 					zipCode: '', //邮政编码
 					legalName: '', //法人姓名
@@ -611,19 +605,6 @@
 					legalId: '', //法人身份证号
 					threeMoney: '', //近三月平均营业额
 					yearMoney: '', //去年全年营业额
-					// mainProduct: [{
-					// 		productName: "",
-					// 		productPrice: ""
-					// 	},
-					// 	{
-					// 		productName: "",
-					// 		productPrice: ""
-					// 	},
-					// 	{
-					// 		productName: "",
-					// 		productPrice: ""
-					// 	},
-					// ],
 					productName1: '', //商品名称1
 					productName2: '', //商品名称2
 					productName3: '', //商品名称3
@@ -636,7 +617,6 @@
 					healthStatus: '', //健康状况
 					applicantDegree: '', //申请人学历
 					maritalStatus: '', //婚姻状况
-					// applicantOrigin: '', //申请人籍贯
 					applicantResAddress: '', //申请人户籍地址
 					applicantCurrAddress: '', //申请人现居住地址
 					applicantPercent: '', //申请人占股比列
@@ -735,7 +715,7 @@
 				companys: [{
 					companyName: "",
 					companyDistance: ""
-				}, ],
+				}],
 				address: {}, //联系地址
 				obj: {
 					label: {
@@ -1021,7 +1001,7 @@
 						validator: checkNum,
 						trigger: 'blur'
 					}],
-					/*productName1: [{
+					productName1: [{
 						required: true,
 						message: '请输入商品名',
 						trigger: 'blur'
@@ -1051,7 +1031,7 @@
 					}, {
 						validator: checkNum,
 						trigger: 'blur'
-					}],*/
+					}],
 					productPrice3: [{
 						required: true,
 						message: '请输入商品价格',
@@ -1219,6 +1199,11 @@
 					return event.target.value;
 				}
 			},
+			changeaddr2(){
+				if(this.changeAddr){
+//					this.changeAddr = !this.changeAddr;
+				}
+			},
 			changeChannel() {
 				this.getChannelUserName();
 				if(this.ruleForm.recommendedID == 1 || this.ruleForm.recommendedID == 2) {
@@ -1326,25 +1311,37 @@
 				})
 			},
 			Temporary() { //缓存
-				var contactAddress = this.address.province+"&"+this.address.city+"&"+this.address.district+"&"+this.ruleForm.contactAddress;
-				var registerAddress = this.address2.province+"&"+this.address2.city+"&"+this.address2.district+"&"+this.ruleForm.registeredAddress;
-				var nativeAddress = this.address3.province+"&"+this.address3.city+"&"+this.address3.district+"&"+this.ruleForm.applicantResAddress;
-				var address = this.address4.province+"&"+this.address4.city+"&"+this.address4.district+"&"+this.ruleForm.applicantCurrAddress;
+				var contactAddress = this.address.province + "&" + this.address.city + "&" + this.address.district + "&" + this.ruleForm.contactAddress;
+				var registerAddress = this.address2.province + "&" + this.address2.city + "&" + this.address2.district + "&" + this.ruleForm.registeredAddress;
+				var nativeAddress = this.address3.province + "&" + this.address3.city + "&" + this.address3.district + "&" + this.ruleForm.applicantResAddress;
+				var address = this.address4.province + "&" + this.address4.city + "&" + this.address4.district + "&" + this.ruleForm.applicantCurrAddress;
 				var mainProduct = [{
-						"name":this.ruleForm.productName1,
-						"distance":this.ruleForm.productPrice1,
+						"name": this.ruleForm.productName1,
+						"distance": this.ruleForm.productPrice1,
 					},
 					{
-						"name":this.ruleForm.productName2,
-						"distance":this.ruleForm.productPrice2,
-					},{
-						"name":this.ruleForm.productName3,
-						"distance":this.ruleForm.productPrice3,
-					}]
-				var contacts = [
-					{"msgBind":this.ruleForm.msgBind1,"msgName":this.ruleForm.msgName1,"msgTel":this.ruleForm.msgTel1},
-					{"msgBind":this.ruleForm.msgBind2,"msgName":this.ruleForm.msgName2,"msgTel":this.ruleForm.msgTel2},
-					{"msgBind":this.ruleForm.msgBind3,"msgName":this.ruleForm.msgName3,"msgTel":this.ruleForm.msgTel3}
+						"name": this.ruleForm.productName2,
+						"distance": this.ruleForm.productPrice2,
+					}, {
+						"name": this.ruleForm.productName3,
+						"distance": this.ruleForm.productPrice3,
+					}
+				]
+				var contacts = [{
+						"msgBind": this.ruleForm.msgBind1,
+						"msgName": this.ruleForm.msgName1,
+						"msgTel": this.ruleForm.msgTel1
+					},
+					{
+						"msgBind": this.ruleForm.msgBind2,
+						"msgName": this.ruleForm.msgName2,
+						"msgTel": this.ruleForm.msgTel2
+					},
+					{
+						"msgBind": this.ruleForm.msgBind3,
+						"msgName": this.ruleForm.msgName3,
+						"msgTel": this.ruleForm.msgTel3
+					}
 				]
 				this.$http({
 					method: "POST",
@@ -1379,8 +1376,8 @@
 							"legalPersonName": this.ruleForm.legalName,
 							"legalPersonPhone": this.ruleForm.legalTel,
 							"legalPersonIdCard": this.ruleForm.legalId,
-							"averageTurnover": Number(this.ruleForm.threeMoney)*100,
-							"totalTurnover": Number(this.ruleForm.yearMoney)*100,
+							"averageTurnover": Number(this.ruleForm.threeMoney) * 100,
+							"totalTurnover": Number(this.ruleForm.yearMoney) * 100,
 							"mainProduct": mainProduct,
 							"averageDayFlow": Number(this.ruleForm.dailyPeople)
 						},
@@ -1414,87 +1411,111 @@
 			},
 			nextstep(formName) {
 				this.$refs[formName].validate((valid) => {
-					if(valid && (this.address.province != "请选择") && (this.address.city != "请选择") && (this.address.district != "请选择") && (this.address2.province != "请选择") && (this.address2.city != "请选择") && (this.address2.district != "请选择") && (this.address3.province != "请选择") && (this.address3.city != "请选择") && (this.address3.district != "请选择") && (this.address4.province != "请选择") && (this.address4.city != "请选择") && (this.address4.district != "请选择")) {
-				var contactAddress = this.address.province+"&"+this.address.city+"&"+this.address.district+"&"+this.ruleForm.contactAddress;
-				var registerAddress = this.address2.province+"&"+this.address2.city+"&"+this.address2.district+"&"+this.ruleForm.registeredAddress;
-				var nativeAddress = this.address3.province+"&"+this.address3.city+"&"+this.address3.district+"&"+this.ruleForm.applicantResAddress;
-				var address = this.address4.province+"&"+this.address4.city+"&"+this.address4.district+"&"+this.ruleForm.applicantCurrAddress;
-				var mainProduct = [{
-						"name":this.ruleForm.productName1,
-						"distance":this.ruleForm.productPrice1,
-					},
-					{
-						"name":this.ruleForm.productName2,
-						"distance":this.ruleForm.productPrice2,
-					},{
-						"name":this.ruleForm.productName3,
-						"distance":this.ruleForm.productPrice3,
-					}]
-				var contacts = [
-					{"msgBind":this.ruleForm.msgBind1,"msgName":this.ruleForm.msgName1,"msgTel":this.ruleForm.msgTel1},
-					{"msgBind":this.ruleForm.msgBind2,"msgName":this.ruleForm.msgName2,"msgTel":this.ruleForm.msgTel2},
-					{"msgBind":this.ruleForm.msgBind3,"msgName":this.ruleForm.msgName3,"msgTel":this.ruleForm.msgTel3}
-				]
-				var machineType
-				this.$http({
-					method: "POST",
-					url: "/api/terminal/basicSubmit",
-					headers: {
-						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
-					},
-					body: {
-						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo,
-						"basicReqInfo": {
-							"contractType": Number(this.ruleForm.contractType),
-							"terminalType": Number(this.ruleForm.networkType),
-							"terminalArea": this.ruleForm.belongRegion,
-							"terminalName": this.ruleForm.networkName,
-							"terminalContact": this.ruleForm.networkContact,
-							"terminalPhone": this.ruleForm.contactTel,
-							"recommendChanel": this.ruleForm.recommendedID,
-							"contactAddress":contactAddress,
-							"salesmanName": this.ruleForm.salesmanName,
-							"salesmanNo": this.ruleForm.salesmanNumber,
-							"machineType": JSON.stringify(this.machines),
-							"aroundFinancialInfo": this.companys,
-							"joinSuperiority": this.ruleForm.goodpoint.toString()
-						},
-						"shopManagementReqInfo": {
-							"isBrandFranchise": Number(this.ruleForm.isJoin),
-							"merchantType": this.ruleForm.businessType,
-							"createTime": this.ruleForm.createTime,
-							"openingTime": this.ruleForm.startTime,
-							"registerAddress":registerAddress,
-							"postalCode": this.ruleForm.zipCode,
-							"legalPersonName": this.ruleForm.legalName,
-							"legalPersonPhone": this.ruleForm.legalTel,
-							"legalPersonIdCard": this.ruleForm.legalId,
-							"averageTurnover": Number(this.ruleForm.threeMoney)*100,
-							"totalTurnover": Number(this.ruleForm.yearMoney)*100,
-							"mainProduct": mainProduct,
-							"averageDayFlow": Number(this.ruleForm.dailyPeople)
-						},
-						"proposerReqInfo": {
-							"name": this.ruleForm.applicantName,
-							"idCard": this.ruleForm.idNumber,
-							"healthStatus": Number(this.ruleForm.healthStatus),
-							"educational": Number(this.ruleForm.healthStatus),
-							"maritalStatus": Number(this.ruleForm.maritalStatus),
-							"nativeAddress": nativeAddress,
-							"address": address,
-							"shares": Number(this.ruleForm.applicantPercent),
-							"contacts": JSON.stringify(contacts)
-						},
-						"bankReqInfo": {
-						    "bankCard": "6228480402564890018",
-						    "openProvince": "11",
-						    "openCity":"q",
-						    "subBranchName":"q",
-						    "bankPhone": "12345678901"
-						  }
+					for(var i = 0; i < this.companys.length; i++) {
+						if(this.companys[i].companyDistance != "" && this.companys[i].companyName != "") {
+							this.companyStep = 1;
+						}
+
 					}
-				}).then((res) => {
-							if(res.data.code=="000000"){
+					for(var i = 0; i < this.machines.length; i++) {
+						if(this.machines[i].machineType != "") {
+							this.machineStep = 1;
+						}
+
+					}
+					if(valid && (this.address.province != "请选择") && (this.address.city != "请选择") && (this.address.district != "请选择") && (this.address2.province != "请选择") && (this.address2.city != "请选择") && (this.address2.district != "请选择") && (this.address3.province != "请选择") && (this.address3.city != "请选择") && (this.address3.district != "请选择") && (this.address4.province != "请选择") && (this.address4.city != "请选择") && (this.address4.district != "请选择") && (this.companyStep != "") && (this.machineStep != "")) {
+						var contactAddress = this.address.province + "&" + this.address.city + "&" + this.address.district + "&" + this.ruleForm.contactAddress;
+						var registerAddress = this.address2.province + "&" + this.address2.city + "&" + this.address2.district + "&" + this.ruleForm.registeredAddress;
+						var nativeAddress = this.address3.province + "&" + this.address3.city + "&" + this.address3.district + "&" + this.ruleForm.applicantResAddress;
+						var address = this.address4.province + "&" + this.address4.city + "&" + this.address4.district + "&" + this.ruleForm.applicantCurrAddress;
+						var mainProduct = [{
+								"name": this.ruleForm.productName1,
+								"distance": this.ruleForm.productPrice1,
+							},
+							{
+								"name": this.ruleForm.productName2,
+								"distance": this.ruleForm.productPrice2,
+							}, {
+								"name": this.ruleForm.productName3,
+								"distance": this.ruleForm.productPrice3,
+							}
+						]
+						var contacts = [{
+								"msgBind": this.ruleForm.msgBind1,
+								"msgName": this.ruleForm.msgName1,
+								"msgTel": this.ruleForm.msgTel1
+							},
+							{
+								"msgBind": this.ruleForm.msgBind2,
+								"msgName": this.ruleForm.msgName2,
+								"msgTel": this.ruleForm.msgTel2
+							},
+							{
+								"msgBind": this.ruleForm.msgBind3,
+								"msgName": this.ruleForm.msgName3,
+								"msgTel": this.ruleForm.msgTel3
+							}
+						]
+						var machineType
+						this.$http({
+							method: "POST",
+							url: "/api/terminal/basicSubmit",
+							headers: {
+								"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+							},
+							body: {
+								"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo,
+								"basicReqInfo": {
+									"contractType": Number(this.ruleForm.contractType),
+									"terminalType": Number(this.ruleForm.networkType),
+									"terminalArea": this.ruleForm.belongRegion,
+									"terminalName": this.ruleForm.networkName,
+									"terminalContact": this.ruleForm.networkContact,
+									"terminalPhone": this.ruleForm.contactTel,
+									"recommendChanel": this.ruleForm.recommendedID,
+									"contactAddress": contactAddress,
+									"salesmanName": this.ruleForm.salesmanName,
+									"salesmanNo": this.ruleForm.salesmanNumber,
+									"machineType": JSON.stringify(this.machines),
+									"aroundFinancialInfo": this.companys,
+									"joinSuperiority": this.ruleForm.goodpoint.toString()
+								},
+								"shopManagementReqInfo": {
+									"isBrandFranchise": Number(this.ruleForm.isJoin),
+									"merchantType": this.ruleForm.businessType,
+									"createTime": this.ruleForm.createTime,
+									"openingTime": this.ruleForm.startTime,
+									"registerAddress": registerAddress,
+									"postalCode": this.ruleForm.zipCode,
+									"legalPersonName": this.ruleForm.legalName,
+									"legalPersonPhone": this.ruleForm.legalTel,
+									"legalPersonIdCard": this.ruleForm.legalId,
+									"averageTurnover": Number(this.ruleForm.threeMoney) * 100,
+									"totalTurnover": Number(this.ruleForm.yearMoney) * 100,
+									"mainProduct": mainProduct,
+									"averageDayFlow": Number(this.ruleForm.dailyPeople)
+								},
+								"proposerReqInfo": {
+									"name": this.ruleForm.applicantName,
+									"idCard": this.ruleForm.idNumber,
+									"healthStatus": Number(this.ruleForm.healthStatus),
+									"educational": Number(this.ruleForm.healthStatus),
+									"maritalStatus": Number(this.ruleForm.maritalStatus),
+									"nativeAddress": nativeAddress,
+									"address": address,
+									"shares": Number(this.ruleForm.applicantPercent),
+									"contacts": JSON.stringify(contacts)
+								},
+								"bankReqInfo": {
+									"bankCard": "6228480402564890018",
+									"openProvince": "11",
+									"openCity": "q",
+									"subBranchName": "q",
+									"bankPhone": "12345678901"
+								}
+							}
+						}).then((res) => {
+							if(res.data.code == "000000") {
 								this.$router.push({
 									path: '/imageFileUpload'
 								})
@@ -1508,14 +1529,30 @@
 							})
 						})
 					} else {
-						console.log('error submit!!');
+						this.$message({
+								type: "error",
+								message: "请将页面所有信息补充完整"
+
+							})
 						return false;
 					}
 				});
 			},
 
 		},
-		created: function() {},
+		watch: {
+			changeAddr:function(){
+				if(this.changeAddr){
+					this.obj2.default.province = this.address.province;
+					this.obj2.default.city = this.address.city;
+					this.obj2.default.district = this.address.district;
+				}else{
+					this.obj2.default.province = "北京";
+					this.obj2.default.city = "北京";
+					this.obj2.default.district = "东城区";
+				}
+			},
+		},
 		components: {
 			Chinaddress
 		},
