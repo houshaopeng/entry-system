@@ -304,7 +304,7 @@
 			<div class="content">
 				<el-row :gutter="10">
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
-						<el-form-item label="申店主姓名" prop="applicantName">
+						<el-form-item label="申请店主姓名" prop="applicantName">
 							<el-input :maxlength="30" v-model="ruleForm.applicantName" placeholder="请输入申请人姓名"></el-input>
 						</el-form-item>
 					</el-col>
@@ -448,19 +448,6 @@
 							</el-input>
 						</el-form-item>
 					</el-col>
-					<!-- <address-picker :opts="obj4" v-model="address4"></address-picker> -->
-					<!-- <el-col :xs="24" :sm="12" :md="8" :lg="6">
-						<el-form-item label="开户行省份" prop="bankProvice">
-							<el-input v-model="ruleForm.bankProvice" placeholder="请输入开户行省份">
-							</el-input>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="6">
-						<el-form-item label="开户行城市" prop="bankCity">
-							<el-input v-model="ruleForm.bankCity" placeholder="请输入开户行城市">
-							</el-input>
-						</el-form-item>
-					</el-col> -->
 					<el-col :xs="24" :sm="12" :md="8" :lg="10">
 						<Chinaddress :opts="bankObj" v-model="bankAddress" id="address-picker"></Chinaddress>
 					</el-col>
@@ -472,16 +459,9 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="预留手机号" prop="reserPhone">
-							<el-input v-model="ruleForm.reserPhone" placeholder="请输入预留手机号"></el-input>
+							<el-input v-model="ruleForm.reserPhone" :maxlength="11" placeholder="请输入预留手机号"></el-input>
 						</el-form-item>
 					</el-col>
-					<!-- <el-col :xs="24" :sm="12" :md="8" :lg="6">
-						<el-form-item label="验证码" prop="verificaCode">
-							<el-input v-model="ruleForm.verificaCode" placeholder="请输入验证码">
-								<template slot="append"><el-button>提交</el-button></template>
-							</el-input>
-						</el-form-item>
-					</el-col> -->
 				</el-row>
 			</div>
 
@@ -516,7 +496,7 @@
 			<!--缓存，下一步按钮-->
 			<div class="footer">
 				<el-button type="primary" @click="Temporary">缓存</el-button>
-				<el-button type="primary" @click="nextstep('ruleForm')">下一步</el-button>
+				<el-button type="primary" @click="verifyFourElements('ruleForm')">下一步</el-button>
 			</div>
 		</el-form>
 	</div>
@@ -1396,11 +1376,11 @@
 							"contacts": JSON.stringify(contacts)
 						},
 						"bankReqInfo": {
-							"bankCard": "6228480402564890018",
-							"openProvince": "11",
-							"openCity": "q",
-							"subBranchName": "q",
-							"bankPhone": "12345678901"
+							"bankCard": this.ruleForm.bankCardNumber,
+							"openProvince": this.bankAddress.province,
+							"openCity": this.bankAddress.city,
+							"subBranchName": this.ruleForm.bankNam,
+							"bankPhone": this.ruleForm.reserPhone
 						}
 					}
 				}).then((res) => {
@@ -1408,13 +1388,11 @@
 				}, (res) => {
 					this.$message({
 						type: "error",
-						message: res.data.errMsg
+						message: res.data.messages
 					})
 				})
 			},
-			nextstep(formName) {
-				this.$refs[formName].validate((valid) => {
-					if(valid && (this.address.province != "请选择") && (this.address.city != "请选择") && (this.address.district != "请选择") && (this.address2.province != "请选择") && (this.address2.city != "请选择") && (this.address2.district != "请选择") && (this.address3.province != "请选择") && (this.address3.city != "请选择") && (this.address3.district != "请选择") && (this.address4.province != "请选择") && (this.address4.city != "请选择") && (this.address4.district != "请选择")) {
+			nextstep() {
 				var contactAddress = this.address.province+"&"+this.address.city+"&"+this.address.district+"&"+this.ruleForm.contactAddress;
 				var registerAddress = this.address2.province+"&"+this.address2.city+"&"+this.address2.district+"&"+this.ruleForm.registeredAddress;
 				var nativeAddress = this.address3.province+"&"+this.address3.city+"&"+this.address3.district+"&"+this.ruleForm.applicantResAddress;
@@ -1485,11 +1463,11 @@
 							"contacts": JSON.stringify(contacts)
 						},
 						"bankReqInfo": {
-						    "bankCard": "6228480402564890018",
-						    "openProvince": "11",
-						    "openCity":"q",
-						    "subBranchName":"q",
-						    "bankPhone": "12345678901"
+						    "bankCard": this.ruleForm.bankCardNumber,
+							"openProvince": this.bankAddress.province,
+							"openCity": this.bankAddress.city,
+							"subBranchName": this.ruleForm.bankNam,
+							"bankPhone": this.ruleForm.reserPhone
 						  }
 					}
 				}).then((res) => {
@@ -1502,19 +1480,49 @@
 						}, (res) => {
 							this.$message({
 								type: "error",
-								message: res.data.errMsg
+								message: res.data.messages
 
 							})
 						})
+
+
+			},
+			verifyFourElements(formName){					//四要素验证
+				this.$refs[formName].validate((valid) => {
+					if(valid && (this.address.province != "请选择") && (this.address.city != "请选择") && (this.address.district != "请选择") && (this.address2.province != "请选择") && (this.address2.city != "请选择") && (this.address2.district != "请选择") && (this.address3.province != "请选择") && (this.address3.city != "请选择") && (this.address3.district != "请选择") && (this.address4.province != "请选择") && (this.address4.city != "请选择") && (this.address4.district != "请选择")) {
+							this.$http({
+								method:"POST",
+								url:"/api/verifyFourElements",
+								headers:{
+									"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken
+								},
+								body:{
+									"name":this.ruleForm.applicantName,
+									"idNumber":this.ruleForm.idNumber,
+									"phone":this.ruleForm.reserPhone,
+									"cardNo":this.ruleForm.bankCardNumber,
+								}
+							}).then((res)=>{
+								if(res.data.code=="000000"){
+									if(res.data.data.result=="一致"){
+										this.nextstep()
+									}
+								}else{
+									this.$message({
+									type: "error",
+									message: res.data.messages
+								})
+								}
+							},(res)=>{
+								this.$message({
+									type: "error",
+									message: res.data.messages
+								})
+							})
 					} else {
 						console.log('error submit!!');
 						return false;
 					}
-				});
-			},
-			verification(){					//四要素验证
-				this.$http({
-					method:"POST"
 				})
 			}
 
