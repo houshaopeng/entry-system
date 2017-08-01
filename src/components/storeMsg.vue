@@ -1097,7 +1097,7 @@
 				this.getChannelUserName();
 				if(this.ruleForm.recommendedID == 1 || this.ruleForm.recommendedID == 2) {
 					this.channelsShow = true;
-				
+
 				} else {
 					this.channelsShow = false;
 					this.ruleForm.recommendedChannels = "";
@@ -1128,7 +1128,7 @@
 				})
 			},
 
-			
+
 			getChannelUserName() { //获取渠道具体人员
 				this.$http({
 					method: "POST",
@@ -1178,16 +1178,16 @@
 			// 路由接口调试
 			routerApi(){
 				this.msg1 = JSON.parse(sessionStorage.getItem("userInfo")).requestNo
-			
+
 				this.$http({
 					method:"POST",
-					url:"/api/terminal/step",    
+					url:"/api/terminal/step",
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
 					body:{
 						"userId":JSON.parse(sessionStorage.getItem("userInfo")).telPhone,      // TODO    手机号码
-						 
+
 						"level":"1",
 						"requestNo":JSON.parse(sessionStorage.getItem("userInfo")).requestNo    // 请求流水号
 					}
@@ -1203,6 +1203,15 @@
 				})
 			},
 			Temporary() { //缓存
+				var contactAddress = this.address.province+"&"+this.address.city+"&"+this.address.district+"&"+this.ruleForm.contactAddress;
+				var registerAddress = this.address2.province+"&"+this.address2.city+"&"+this.address2.district+"&"+this.ruleForm.registeredAddress;
+				var nativeAddress = this.address3.province+"&"+this.address3.city+"&"+this.address3.district+"&"+this.ruleForm.applicantResAddress;
+				var address = this.address4.province+"&"+this.address4.city+"&"+this.address4.district+"&"+this.ruleForm.applicantCurrAddress;
+				var contacts = {"2121":123};
+				console.log(contactAddress)
+				console.log(registerAddress)
+				console.log(nativeAddress)
+				console.log(address)
 				this.$http({
 					method: "POST",
 					url: "/api/terminal/Temporary",
@@ -1219,7 +1228,7 @@
 							"terminalContact": this.ruleForm.networkContact,
 							"terminalPhone": this.ruleForm.contactTel,
 							"recommendChanel": this.ruleForm.recommendedID,
-							"contactAddress": this.ruleForm.contactAddress,
+							"contactAddress":contactAddress,
 							"salesmanName": this.ruleForm.salesmanName,
 							"salesmanNo": this.ruleForm.salesmanNumber,
 							"machineType": this.machines.machineType,
@@ -1231,7 +1240,7 @@
 							"merchantType": this.ruleForm.businessType,
 							"createTime":this.ruleForm.createTime,
 							"openingTime": this.ruleForm.startTime,
-							"registerAddress": this.ruleForm.registeredAddress,
+							"registerAddress":registerAddress,
 							"postalCode": this.ruleForm.zipCode,
 							"legalPersonName":this.ruleForm.legalName,
 							"legalPersonPhone":this.ruleForm.legalTel,
@@ -1247,10 +1256,10 @@
 							"healthStatus": this.ruleForm.applicantOrigin,
 							"educational": this.ruleForm.healthStatus,
 							"maritalStatus": this.ruleForm.maritalStatus,
-							"nativeAddress": this.ruleForm.applicantOrigin,
-							"address": this.address4+this.ruleForm.applicantCurrAddress,
+							"nativeAddress": nativeAddress,
+							"address": address,
 							"shares": this.ruleForm.applicantPercent,
-							"contacts": ""
+							"contacts": JSON.stringify(contacts)
 						}
 					}
 				}).then((res) => {
@@ -1260,9 +1269,14 @@
 						type:"error",
 						message:res.data.errMsg
 					})
-				}) //暂存
+				})
 			},
 			nextstep() {
+				var contactAddress = this.address.province+"&"+this.address.city+"&"+this.address.district+"&"+this.ruleForm.contactAddress;
+				var registerAddress = this.address2.province+"&"+this.address2.city+"&"+this.address2.district+"&"+this.ruleForm.registeredAddress;
+				var nativeAddress = this.address3.province+"&"+this.address3.city+"&"+this.address3.district+"&"+this.ruleForm.applicantResAddress;
+				var address = this.address4.province+"&"+this.address4.city+"&"+this.address4.district+"&"+this.ruleForm.applicantCurrAddress
+				var contacts = {};
 				this.$http({
 					method: "POST",
 					url: "/api/terminal/basicSubmit",
@@ -1279,7 +1293,7 @@
 							"terminalContact": this.ruleForm.networkContact,
 							"terminalPhone": this.ruleForm.contactTel,
 							"recommendChanel": this.ruleForm.recommendedID,
-							"contactAddress": this.ruleForm.contactAddress,
+							"contactAddress":contactAddress,
 							"salesmanName": this.ruleForm.salesmanName,
 							"salesmanNo": this.ruleForm.salesmanNumber,
 							"machineType": this.machines.machineType,
@@ -1291,7 +1305,7 @@
 							"merchantType": this.ruleForm.businessType,
 							"createTime":this.ruleForm.createTime,
 							"openingTime": this.ruleForm.startTime,
-							"registerAddress": this.ruleForm.registeredAddress,
+							"registerAddress":registerAddress,
 							"postalCode": this.ruleForm.zipCode,
 							"legalPersonName":this.ruleForm.legalName,
 							"legalPersonPhone":this.ruleForm.legalTel,
@@ -1307,10 +1321,10 @@
 							"healthStatus": this.ruleForm.applicantOrigin,
 							"educational": this.ruleForm.healthStatus,
 							"maritalStatus": this.ruleForm.maritalStatus,
-							"nativeAddress": this.ruleForm.applicantOrigin,
-							"address": this.address4+this.ruleForm.applicantCurrAddress,
+							"nativeAddress": nativeAddress,
+							"address": address,
 							"shares": this.ruleForm.applicantPercent,
-							"contacts": ""
+							"contacts": JSON.stringify(contacts)
 						}
 					}
 				}).then((res) => {
@@ -1325,17 +1339,17 @@
 					})
 				})
 			},
-			
+
 		},
 		created:function(){
-			
+
 		},
 		mounted: function() {
 			this.getMachineModel();
 			this.routerApi();
 			this.getMerchantType();
 			console.log(JSON.parse(sessionStorage.getItem("userInfo")))
-			
+
 		}
 	}
 </script>
