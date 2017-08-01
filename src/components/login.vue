@@ -14,12 +14,10 @@
 					<el-button slot="append" type="primary" :disabled="getcodeshow" @click="getCode">{{getcode}}</el-button>
 				</el-input>
 			</el-form-item>
-			<el-form-item>
-				
+			<el-form-item v-if="isFlag">
 				<el-checkbox  @click="dialogFormVisible = true" v-model="checked"></el-checkbox>
 				<el-button type="text" @click="dialogFormVisible = true">我已认真阅读并同意《注册协议》</el-button>
 				<el-dialog title="咨询协议" :visible.sync="dialogFormVisible">
-					
 					<div slot="footer" class="dialog-footer" style="text-align:center;">
 						<el-button type="primary" @click="dialogFormVisible = false">同意</el-button>
 					</div>
@@ -49,7 +47,8 @@
 				}
 			};
 			return {
-				checked:"",
+				isFlag:false,
+				checked:false,
 				dialogFormVisible:false,
 				username: false,
 				getcode: "获取验证码",
@@ -88,6 +87,13 @@
 					"userId": this.ruleForm.username
 				}).then((res) => {
 					if(res.data.code == '000000') {
+						if(res.data.data.isFlag == "1"){
+							this.isFlag = true;
+							console.log(this.isFlag)
+						}else if(res.data.data.isFlag == "2"){
+							this.isFlag = false;
+							console.log(this.isFlag)
+						}
 						this.getcodeshow = true;
 						var timer = setInterval(() => {
 							if(countdown > 0) {
@@ -170,34 +176,42 @@
 				})
 			},
 			login() { //登录
-				this.$http({
-					method: "POST",
-					url: "/api/login",
-					body: {
-						"userId": this.ruleForm.username,
-						"password": this.ruleForm.codeID
-					}
-				}).then((res) => {
-					if(res.data.code == "000000") {
-						this.token = res.data.data["x-sljr-session-token"];
-						this.applicationNumber();
-						sessionStorage.setItem('userInfo', JSON.stringify({
-							userToken: res.data.data["x-sljr-session-token"],
-							telPhone: this.ruleForm.username,
-							requestNo: this.msg
-						}));
-					} else {
+				if(this.isFlag&&this.checked){
+					this.isFlag =false;
+					this.$http({
+						method: "POST",
+						url: "/api/login",
+						body: {
+							"userId": this.ruleForm.username,
+							"password": this.ruleForm.codeID
+						}
+					}).then((res) => {
+						if(res.data.code == "000000") {
+							this.token = res.data.data["x-sljr-session-token"];
+							this.applicationNumber();
+							sessionStorage.setItem('userInfo', JSON.stringify({
+								userToken: res.data.data["x-sljr-session-token"],
+								telPhone: this.ruleForm.username,
+								requestNo: this.msg
+							}));
+						} else {
+							this.$message({
+								type: "error",
+								message: res.data.messages
+							})
+						}
+					}, (res) => {
 						this.$message({
 							type: "error",
 							message: res.data.messages
 						})
-					}
-				}, (res) => {
-					this.$message({
-						type: "error",
-						message: res.data.messages
 					})
-				})
+				}else{
+					this.$message({
+						type:"error",
+						message:"请认真阅读并同意《注册协议》"
+					})
+				}
 			},
 			submitForm(formName) {
 				this.$refs[formName].validate((valid) => {
