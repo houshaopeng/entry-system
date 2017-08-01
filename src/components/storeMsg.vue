@@ -283,18 +283,23 @@
 			</el-form>
 		</div>
 
-		<!--申请人信息-->
+		<!--店主信息-->
 		<div class="title">
 			<el-row>
-				<h3>申请人信息</h3>
+				<h3>店主信息</h3>
 			</el-row>
 		</div>
 		<div class="content">
 			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-position="left" label-width="121px" class="demo-ruleForm">
 				<el-row :gutter="10">
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
-						<el-form-item label="申请人姓名" prop="applicantName">
+						<el-form-item label="申店主姓名" prop="applicantName">
 							<el-input :maxlength="30" v-model="ruleForm.applicantName" placeholder="请输入申请人姓名"></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="6">
+						<el-form-item label="身份证号" prop="idNumber">
+							<el-input :maxlength="18" v-model="ruleForm.idNumber" placeholder="请输入身份证号"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
@@ -321,11 +326,11 @@
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="6">
+					<!--<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="申请人籍贯" prop="applicantOrigin">
 							<el-input :maxlength="30" v-model="ruleForm.applicantOrigin" placeholder="请输入申请人籍贯"></el-input>
 						</el-form-item>
-					</el-col>
+					</el-col>-->
 					<el-col :xs="24" :sm="24" :md="24" :lg="18">
 						<el-form-item label="申请人户籍地址" prop="applicantResAddress">
 							<el-col :xs="18" :sm="18" :md="18" :lg="18">
@@ -552,7 +557,8 @@
 					productPrice2: '', //商品价格2
 					productPrice3: '', //商品价格3
 					dailyPeople: '', //店铺日均人流量
-					applicantName: '', //申请人姓名
+					applicantName: '', //申店主姓名
+					idNumber:'',//身份证号
 					healthStatus: '', //健康状况
 					applicantDegree: '', //申请人学历
 					maritalStatus: '', //婚姻状况
@@ -978,6 +984,11 @@
 						message: '请输入申请人姓名',
 						trigger: 'blur'
 					}],
+					idNumber:[{
+						required: true,
+						validator: checkIdCard,
+						trigger: 'blur'
+					}],
 					healthStatus: [{
 						required: true,
 						message: '请选择健康状况',
@@ -993,11 +1004,11 @@
 						message: '请选择婚姻状况',
 						trigger: 'change'
 					}],
-					applicantOrigin: [{
+/*					applicantOrigin: [{
 						required: true,
 						message: '请输入申请人籍贯',
 						trigger: 'blur'
-					}],
+					}],*/
 					applicantResAddress: [{
 						required: true,
 						message: '请输入申请人户籍地址',
@@ -1095,7 +1106,7 @@
 				this.getChannelUserName();
 				if(this.ruleForm.recommendedID == 1 || this.ruleForm.recommendedID == 2) {
 					this.channelsShow = true;
-				
+
 				} else {
 					this.channelsShow = false;
 					this.ruleForm.recommendedChannels = "";
@@ -1126,19 +1137,18 @@
 				})
 			},
 
-			
 			getChannelUserName() { //获取渠道具体人员
 				this.$http({
 					method: "POST",
 					url: "/api/terminal/getChannelUserName",
 					headers: {
-								"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
-							},
-					body:{
-						"channelNo":this.ruleForm.recommendedID
+						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+					},
+					body: {
+						"channelNo": this.ruleForm.recommendedID
 					}
-					}).then((res) => {
-						console.log(res.data)
+				}).then((res) => {
+					console.log(res.data)
 					if(res.data.code == "000000") {
 						this.channels = res.data.data
 					} else {
@@ -1174,29 +1184,29 @@
 
 			},
 			// 路由接口调试
-			routerApi(){
-				this.msg1 = JSON.parse(sessionStorage.getItem("userInfo")).requestNo
-			
+			routerApi() {
+				this.msg1 = JSON.parse(sessionStorage.getItem("userInfo")).requestNo;
+
 				this.$http({
-					method:"POST",
-					url:"/api/terminal/step",    
+					method: "POST",
+					url: "/api/terminal/step",
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
-					body:{
-						"userId":JSON.parse(sessionStorage.getItem("userInfo")).telPhone,      // TODO    手机号码
-						 
-						"level":"1",
-						"requestNo":JSON.parse(sessionStorage.getItem("userInfo")).requestNo    // 请求流水号
+					body: {
+						"userId": JSON.parse(sessionStorage.getItem("userInfo")).telPhone, // TODO    手机号码
+
+						"level": "1",
+						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo // 请求流水号
 					}
-				}).then((res)=>{
-					if(res.data.dara=="000000"){
+				}).then((res) => {
+					if(res.data.dara == "000000") {
 						alert(666)
 					}
-				},(res)=>{
+				}, (res) => {
 					this.$message({
-						type:"error",
-						message:res.data.messages
+						type: "error",
+						message: res.data.messages
 					})
 				})
 			},
@@ -1255,8 +1265,8 @@
 					console.log(res)
 				}, (res) => {
 					this.$message({
-						type:"error",
-						message:res.data.errMsg
+						type: "error",
+						message: res.data.errMsg
 					})
 				}) //暂存
 			},
@@ -1317,16 +1327,16 @@
 					})
 				}, (res) => {
 					this.$message({
-						type:"error",
-						message:res.data.errMsg
+						type: "error",
+						message: res.data.errMsg
 
 					})
 				})
 			},
-			
+
 		},
-		created:function(){
-			
+		created: function() {
+
 		},
 		mounted: function() {
 			this.getMachineModel();
@@ -1334,7 +1344,7 @@
 			this.getMerchantType();
 
 			console.log(JSON.parse(sessionStorage.getItem("userInfo")).requestNo)
-			
+
 		}
 	}
 </script>

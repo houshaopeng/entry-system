@@ -81,7 +81,7 @@
 			}
 		},
 		mounted: function() {
-			this.routerApi();
+//			this.routerApi();
 			console.log(JSON.parse(sessionStorage.getItem("userInfo")))
 		}
 	}
