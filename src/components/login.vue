@@ -19,7 +19,7 @@
 				<el-button type="text" @click="dialogFormVisible = true">我已认真阅读并同意《注册协议》</el-button>
 				<el-dialog title="咨询协议" :visible.sync="dialogFormVisible">
 					<div slot="footer" class="dialog-footer" style="text-align:center;">
-						<el-button type="primary" @click="dialogFormVisible = false">同意</el-button>
+						<el-button type="primary" @click="dialogFormVisible = false,checked = true">同意</el-button>
 					</div>
 				</el-dialog>
 			</el-form-item>
@@ -176,9 +176,20 @@
 				})
 			},
 			login() { //登录
-				if(this.isFlag&&this.checked){
+				if(!this.isFlag){
+					this.gologin()
+				}else if(this.isFlag&&this.checked){
 					this.isFlag =false;
-					this.$http({
+					this.gologin()
+				}else{
+					this.$message({
+						type:"error",
+						message:"请认真阅读并同意《注册协议》"
+					})
+				}
+			},
+			gologin(){
+				this.$http({
 						method: "POST",
 						url: "/api/login",
 						body: {
@@ -206,12 +217,6 @@
 							message: res.data.messages
 						})
 					})
-				}else{
-					this.$message({
-						type:"error",
-						message:"请认真阅读并同意《注册协议》"
-					})
-				}
 			},
 			submitForm(formName) {
 				this.$refs[formName].validate((valid) => {

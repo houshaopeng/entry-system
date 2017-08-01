@@ -580,7 +580,7 @@
 				channelsShow: false, //渠道是否显示隐藏
 				changeAddr: '', //与联系地址相同
 				companyStep: '', //判断周边金融信息是否全部不为空
-				machineStep:'',
+				machineStep: '',
 				ruleForm: {
 					name: '',
 					contractType: '0', //网点合同类型
@@ -1199,9 +1199,9 @@
 					return event.target.value;
 				}
 			},
-			changeaddr2(){
-				if(this.changeAddr){
-//					this.changeAddr = !this.changeAddr;
+			changeaddr2() {
+				if(this.changeAddr) {
+					//					this.changeAddr = !this.changeAddr;
 				}
 			},
 			changeChannel() {
@@ -1415,7 +1415,6 @@
 						if(this.companys[i].companyDistance != "" && this.companys[i].companyName != "") {
 							this.companyStep = 1;
 						}
-
 					}
 					for(var i = 0; i < this.machines.length; i++) {
 						if(this.machines[i].machineType != "") {
@@ -1530,23 +1529,28 @@
 						})
 					} else {
 						this.$message({
-								type: "error",
-								message: "请将页面所有信息补充完整"
+							type: "error",
+							message: "请将页面所有信息补充完整"
 
-							})
+						})
 						return false;
 					}
 				});
 			},
+			verification() { //四要素验证
+				this.$http({
+					method: "POST"
+				})
+			}
 
 		},
 		watch: {
-			changeAddr:function(){
-				if(this.changeAddr){
+			changeAddr: function() {
+				if(this.changeAddr) {
 					this.obj2.default.province = this.address.province;
 					this.obj2.default.city = this.address.city;
 					this.obj2.default.district = this.address.district;
-				}else{
+				} else {
 					this.obj2.default.province = "北京";
 					this.obj2.default.city = "北京";
 					this.obj2.default.district = "东城区";
