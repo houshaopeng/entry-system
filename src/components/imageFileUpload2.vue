@@ -23,7 +23,7 @@
 								<input type="button" value="清空图片" @click="clearAll" class="clear_buttton" />
 							</div>
 							<div class="img_item_box" v-for='(file,index) in files0' @click="getIndex(index)" style="float: left">
-								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file))" style="width: 200px;">
+								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file),0)" style="width: 200px;">
 								<span class="img_name" v-html="file.name"></span>
 								<span v-text='onStatus(file)' class="img_status"></span>
 								<vue-loading type="bars" color="#d9544e" :size="{ width: '50px', height: '50px' }"></vue-loading>
@@ -64,7 +64,7 @@
 								<input type="button" value="清空图片" @click="clearAll" class="clear_buttton" />
 							</div>
 							<div class="img_item_box" v-for='(file,index) in files1' @click="getIndex(index)" style="float: left">
-								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file))" style="width: 200px;">
+								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file),1)" style="width: 200px;">
 								<span class="img_name" v-html="file.name"></span>
 								<span class="close" @click="deleteImg(file)"> × </span>
 							</div>
@@ -103,7 +103,7 @@
 								<input type="button" value="清空图片" @click="clearAll" class="clear_buttton" />
 							</div>
 							<div class="img_item_box" v-for='(file,index) in files2' @click="getIndex(index)" style="float: left">
-								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file))" style="width: 200px;">
+								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file),2)" style="width: 200px;">
 								<span class="img_name" v-html="file.name"></span>
 								<!-- <span class="close" @click="deleteImg(file)"> × </span> -->
 							</div>
@@ -127,7 +127,7 @@
 								<input type="button" value="清空图片" @click="clearAll" class="clear_buttton" />
 							</div>
 							<div class="img_item_box" v-for='(file,index) in files3' @click="getIndex(index)" style="float: left">
-								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file))" style="width: 200px;">
+								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file),3)" style="width: 200px;">
 								<span class="img_name" v-html="file.name"></span>
 								<span class="close" @click="deleteImg(file)"> × </span>
 							</div>
@@ -143,6 +143,9 @@
 					</el-col>
 				</el-row>
 			</div>
+			<!-- 弹出层的模态框 start-->
+				<Modal :modelTogg="modelTogg" :imgSrc="imgSrc" @closeModal="closeModal" @upperPage="upperPage" :files="tempFile" @nextPage="nextPage"></Modal>
+			<!-- 弹出层的模态框 end-->
 			<div class="footer">
 				<el-button type="primary" @click="onSubmit">提交</el-button>
 			</div>
@@ -269,6 +272,11 @@
 				},
 				//图片上传插件部分 end
 				deleteArr: [],
+				//弹出模态框
+				modelTogg: false,
+				imgSrc: '',
+				tempFile:'',
+				initIndex:0,
 			}
 		},
 		methods: {
@@ -312,6 +320,52 @@
 			clearAll() {
 				this.$refs.vueFileUploader.clearAll();
 			},
+			// 模态框部分  start
+			getIndex(val) {
+				this.index = val;
+			},
+			showModal(val,idx) {
+				if(idx == 0){
+                    this.tempFile = this.files0;
+                }else if(idx == 1){
+                    this.tempFile = this.files1;
+                }else if(idx == 2){
+                    this.tempFile = this.files2;
+                }else if(idx == 3){
+                     this.tempFile = this.files3;
+                }
+                this.initIndex = 0;
+                this.imgSrc =val;
+                this.modelTogg = true;
+			},
+			closeModal() {
+				this.modelTogg = false;
+			},
+			upperPage(val) {
+				var data = val;
+				this.srcArr = [];
+				for(var i = 0; i < data.length; i++) {
+					this.srcArr.push(window.URL.createObjectURL(data[i].file));
+				}
+				this.index--;
+				if(this.index == -1) {
+					this.index = this.srcArr.length - 1;
+				}
+				this.imgSrc = this.srcArr[this.index];
+			},
+			nextPage(val) {
+				var data = val;
+				this.srcArr = [];
+				for(var i = 0; i < data.length; i++) {
+					this.srcArr.push(window.URL.createObjectURL(data[i].file));
+				}
+				this.index++;
+				if(this.index == this.srcArr.length) {
+					this.index = 0;
+				}
+				this.imgSrc = this.srcArr[this.index];
+			},
+			// 模态框部分  end
 			// 删除图片(提交前删除)
 			deleteImg(file) {
 				this.$http({
@@ -340,19 +394,19 @@
 				console.log(JSON.parse(sessionStorage.getItem("userInfo")).requestNo)
 				this.$http({
 					method:"POST",
-					url:"/api/terminal/step",    
+					url:"/api/terminal/step",
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
 					body:{
 						"userId":JSON.parse(sessionStorage.getItem("userInfo")).telPhone,      // TODO    手机号码
-						 
+
 						"level":"3",
 						"requestNo":JSON.parse(sessionStorage.getItem("userInfo")).requestNo    // 请求流水号
 					}
 				}).then((res)=>{
 					if(res.data.dara=="000000"){
-			
+
 					}
 				},(res)=>{
 					this.$message({
@@ -469,7 +523,7 @@
 			}
 		}
 	}
-	
+
 	.no_img1 {
 		display: inline-block;
 		width: 200px;

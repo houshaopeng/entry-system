@@ -117,6 +117,7 @@
 				}).then((res) => {
 					if(res.data.code == '000000') {
 						this.msg = res.data.data.requestNo;
+						sessionStorage.setItem('userInfo', JSON.stringify({userToken:this.token,telPhone:this.ruleForm.username,requestNo:this.msg}));
 						this.stepLogin();
 					} else {
 						this.$message({
