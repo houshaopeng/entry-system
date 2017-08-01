@@ -352,7 +352,7 @@
 					}
 				}).then((res)=>{
 					if(res.data.dara=="000000"){
-						alert(666)
+			
 					}
 				},(res)=>{
 					this.$message({
@@ -371,7 +371,6 @@
 		created: function() {
 			this.routerApi();
 		},
-
 		components: {
 			VueFileUpload,
 			Modal,

@@ -8,8 +8,8 @@
 			<div class="link_btn">
 				<el-button @click="$router.push({path: '/storeMsg'})">门店信息录入</el-button> ——————
 				<el-button @click="$router.push({path: '/imageFileUpload'})">影像资料上传</el-button> ——————
-				<el-button @click="$router.push({path: '/loanAgreement'})">借款协议服务确认</el-button> ——————
-				<el-button @click="$router.push({path: '/loanContract'})">借款合同确认</el-button>
+				<el-button @click="$router.push({path: '/imageFileUpload2'})">影像资料上传</el-button> ——————
+				<el-button @click="$router.push({path: '/loanAgreement'})">借款合同确认</el-button>
 			</div>
 			<hr />
 		</div>
@@ -81,8 +81,12 @@
 			}
 		},
 		mounted: function() {
+<<<<<<< HEAD
 //			this.routerApi();
 			console.log(JSON.parse(sessionStorage.getItem("userInfo")))
+=======
+		
+>>>>>>> 475da3ce546da5445b6e22f3776ee322a3d3697a
 		}
 	}
 </script>
