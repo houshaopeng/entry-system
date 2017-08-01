@@ -227,7 +227,7 @@
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<el-row :gutter="10" v-for="(item,index)  in ruleForm.mainProduct">
+				<el-row :gutter="10" v-for="(item,index)  in ruleForm.mainProduct"  :key="item.id">
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item  prop="productName1" label="主营商品"> 
 						<!-- <span>主营商品</span>{{index+1}}:</span> -->
@@ -446,7 +446,8 @@
 							</el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="6">
+					<!-- <address-picker :opts="obj4" v-model="address4"></address-picker> -->
+					<!-- <el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="开户行省份" prop="bankProvice">
 							<el-input v-model="ruleForm.bankProvice" placeholder="请输入开户行省份">
 							</el-input>
@@ -457,6 +458,9 @@
 							<el-input v-model="ruleForm.bankCity" placeholder="请输入开户行城市">
 							</el-input>
 						</el-form-item>
+					</el-col> -->
+					<el-col :xs="24" :sm="12" :md="8" :lg="10">
+						<Chinaddress :opts="bankObj" v-model="bankAddress" id="address-picker"></Chinaddress>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="开户支行名称" prop="bankName">
@@ -521,6 +525,7 @@
 </template>
 
 <script>
+	import Chinaddress from './components/Chinaddress.vue'
 	export default {
 		name: 'storeMsg',
 		data() {
@@ -625,7 +630,7 @@
 					healthStatus: '', //健康状况
 					applicantDegree: '', //申请人学历
 					maritalStatus: '', //婚姻状况
-					applicantOrigin: '', //申请人籍贯
+					// applicantOrigin: '', //申请人籍贯
 					applicantResAddress: '', //申请人户籍地址
 					applicantCurrAddress: '', //申请人现居住地址
 					applicantPercent: '', //申请人占股比列
@@ -705,6 +710,21 @@
 						applicationNo: '-1'
 					}
 				],
+				// 	银行开户行
+				bankAddress: {}, //联系地址
+				bankObj: {
+					label: {
+						province: '',
+						city: '',
+						district: ''
+					},
+					default: {
+						province: '北京',
+						city: '北京',
+					},
+					noLabel: true
+				},
+
 				//推荐渠道
 				companys: [{
 						companyName: "",
@@ -1001,7 +1021,7 @@
 						validator: checkNum,
 						trigger: 'blur'
 					}],
-					productName1: [{
+					/*productName1: [{
 						required: true,
 						message: '请输入商品名',
 						trigger: 'blur'
@@ -1031,7 +1051,7 @@
 					}, {
 						validator: checkNum,
 						trigger: 'blur'
-					}],
+					}],*/
 					productPrice3: [{
 						required: true,
 						message: '请输入商品价格',
@@ -1282,7 +1302,6 @@
 			// 路由接口调试
 			routerApi(){
 				this.msg1 = JSON.parse(sessionStorage.getItem("userInfo")).requestNo
-
 				this.$http({
 					method:"POST",
 					url:"/api/terminal/step",
@@ -1312,10 +1331,6 @@
 				var nativeAddress = this.address3.province+"&"+this.address3.city+"&"+this.address3.district+"&"+this.ruleForm.applicantResAddress;
 				var address = this.address4.province+"&"+this.address4.city+"&"+this.address4.district+"&"+this.ruleForm.applicantCurrAddress;
 				var contacts = {"2121":123};
-				console.log(contactAddress)
-				console.log(registerAddress)
-				console.log(nativeAddress)
-				console.log(address)
 				this.$http({
 					method: "POST",
 					url: "/api/terminal/Temporary",
@@ -1357,7 +1372,7 @@
 						"proposerReqInfo": {
 							"name": this.ruleForm.applicantName,
 							"nativePlace": this.ruleForm.applicantName,
-							"healthStatus": this.ruleForm.applicantOrigin,
+							// "healthStatus": this.ruleForm.applicantOrigin,
 							"educational": this.ruleForm.healthStatus,
 							"maritalStatus": this.ruleForm.maritalStatus,
 							"nativeAddress": nativeAddress,
@@ -1409,7 +1424,7 @@
 							"salesmanNo": this.ruleForm.salesmanNumber,
 							"machineType": this.machines.machineType,
 							"aroundFinancialInfo": this.companys,
-							"joinSuperiority": this.ruleForm.goodpoint.toString()
+							"joinSuperiority": this.ruleForm.goodpoint.toString(),
 						},
 						"shopManagementInfo": {
 							"isBrandFranchise": this.ruleForm.isJoin,
@@ -1423,11 +1438,11 @@
 							"legalPersonIdCard": this.ruleForm.legalId,
 							"averageTurnover": this.ruleForm.threeMoney,
 							"totalTurnover": this.ruleForm.yearMoney,
-							"mainProduct": this.ruleForm.productName1,
+							"mainProduct": this.ruleForm.mainProduct,
 							"averageDayFlow": this.ruleForm.dailyPeople
 						},
 						"proposerInfo": {
-							"name": "",
+							"name": this.ruleForm.name,
 							"nativePlace": this.ruleForm.applicantName,
 							"healthStatus": this.ruleForm.applicantOrigin,
 							"educational": this.ruleForm.healthStatus,
@@ -1456,6 +1471,9 @@
 
 		},
 		created:function(){
+		},
+		components:{
+			Chinaddress
 		},
 		mounted: function() {
 			this.getMachineModel();
