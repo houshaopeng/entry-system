@@ -227,22 +227,23 @@
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<el-row :gutter="10">
+				<el-row :gutter="10" v-for="(item,index)  in ruleForm.mainProduct">
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
-						<el-form-item label="主营商品1" prop="productName1">
-							<el-input :maxlength="30" v-model="ruleForm.productName1" placeholder="请输入商品名称">
+						<el-form-item  prop="productName1" label="主营商品"> 
+						<!-- <span>主营商品</span>{{index+1}}:</span> -->
+							<el-input :maxlength="30" v-model="item.productName" placeholder="请输入商品名称" >
 							</el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="均价" prop="productPrice1">
-							<el-input :maxlength="30" v-model="ruleForm.productPrice1" placeholder="请输入商品价格">
+							<el-input :maxlength="30" v-model="item.productPrice1" placeholder="请输入商品价格">
 								<template slot="append">元</template>
 							</el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<el-row :gutter="10">
+				<!-- <el-row :gutter="10">
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="主营商品2" prop="productName2">
 							<el-input :maxlength="30" v-model="ruleForm.productName2" placeholder="请输入商品名称">
@@ -271,7 +272,7 @@
 							</el-input>
 						</el-form-item>
 					</el-col>
-				</el-row>
+				</el-row> -->
 				<el-row :gutter="10">
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="店铺日均人流量" prop="dailyPeople">
@@ -441,7 +442,7 @@
 				<el-row :gutter="10">
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="银行卡卡号" prop="bankCardNumber">
-							<el-input :maxlength="18" v-model="ruleForm.bankCardNumber" placeholder="请输入银行卡卡号">
+							<el-input :maxlength="19" v-model="ruleForm.bankCardNumber" placeholder="请输入银行卡卡号">
 							</el-input>
 						</el-form-item>
 					</el-col>
@@ -607,12 +608,17 @@
 					legalId: '', //法人身份证号
 					threeMoney: '', //近三月平均营业额
 					yearMoney: '', //去年全年营业额
-					productName1: '', //商品名称1
+					mainProduct:[
+						{productName:"",productPrice:""},
+						{productName:"",productPrice:""},
+						{productName:"",productPrice:""},
+					],
+					/*productName1: '', //商品名称1
 					productName2: '', //商品名称2
 					productName3: '', //商品名称3
 					productPrice1: '', //商品价格1
 					productPrice2: '', //商品价格2
-					productPrice3: '', //商品价格3
+					productPrice3: '', //商品价格3*/
 					dailyPeople: '', //店铺日均人流量
 					applicantName: '', //申店主姓名
 					idNumber: '', //身份证号
@@ -1345,7 +1351,7 @@
 							"legalPersonIdCard": this.ruleForm.legalId,
 							"averageTurnover": this.ruleForm.threeMoney,
 							"totalTurnover": this.ruleForm.yearMoney,
-							"mainProduct": this.ruleForm.productName1,
+							"mainProduct": this.ruleForm.mainProduct,
 							"averageDayFlow": this.ruleForm.dailyPeople
 						},
 						"proposerInfo": {
