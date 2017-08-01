@@ -25,7 +25,6 @@
 								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file),0)" style="width: 200px;">
 								<span class="img_name" v-html="file.name"></span>
 								<span v-text='onStatus(file)' class="img_status"></span>
-								<vue-loading type="bars" color="#d9544e" :size="{ width: '20px', height: '20px' }"></vue-loading>
 								<span class="close" @click="deleteImg(file)"> × </span>
 							</div>
 							<div>
@@ -55,6 +54,7 @@
 							<div class="img_item_box" v-for='(file,index) in files1' @click="getIndex(index)" style="float: left">
 								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file),1)" style="width: 200px;">
 								<span class="img_name" v-html="file.name"></span>
+								<span v-text='onStatus(file)' class="img_status"></span>
 								<span class="close" @click="deleteImg(file)"> × </span>
 							</div>
 							<div>
@@ -85,7 +85,8 @@
 							<div class="img_item_box" v-for='(file,index) in files2' @click="getIndex(index)" style="float: left">
 								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file),2)" style="width: 200px;">
 								<span class="img_name" v-html="file.name"></span>
-								<!-- <span class="close" @click="deleteImg(file)"> × </span> -->
+								<span v-text='onStatus(file)' class="img_status"></span>
+								<span class="close" @click="deleteImg(file)"> × </span>
 							</div>
 							<div>
 								<div class="no_img1" v-show="files2.length<1">
@@ -124,6 +125,7 @@
 							<div class="img_item_box" v-for='(file,index) in files3' @click="getIndex(index)" style="float: left">
 								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file),3)" style="width: 200px;">
 								<span class="img_name" v-html="file.name"></span>
+								<span v-text='onStatus(file)' class="img_status"></span>
 								<span class="close" @click="deleteImg(file)"> × </span>
 							</div>
 							<div>
@@ -164,6 +166,7 @@
 			return {
 				//图片上传插件部分 start
 				//过滤器回调
+			
 				files0: [],
 				files1: [],
 				files2: [],
@@ -183,10 +186,10 @@
 				//事件回调
 				cbEvents0: {
 					onCompleteUpload: (file, response, status, header) => {
-						
+					
 					},
 					onAddFileSuccess: (file) => {
-
+						
 					}
 				},
 				cbEvents1: {
@@ -194,7 +197,7 @@
 						
 					},
 					onAddFileSuccess: (file) => {
-
+						
 					}
 				},
 				cbEvents2: {
@@ -202,7 +205,7 @@
 						
 					},
 					onAddFileSuccess: (file) => {
-
+						
 					}
 				},
 				cbEvents3: {
@@ -210,7 +213,7 @@
 						
 					},
 					onAddFileSuccess: (file) => {
-
+						
 					}
 				},
 				reqopts0: {
@@ -290,9 +293,7 @@
 			uploadItem(file) {
 				file.upload();
 			},
-
 			deleteImg(file) {
-				console.log(file)
 				file.remove();
 			},
 			uploadAll() {
@@ -324,11 +325,10 @@
 			//图片上传插件部分 end
 			onSubmit() {
 				this.delectImg();
-				this.$refs.vueFileUploader0.uploadAll();
+				
 				this.$router.push({
 					path: '/imageFileUpload2'
 				})
-
 			},
 			// 删除图片(提交前删除)
 			delectImg() {
@@ -337,16 +337,17 @@
 					url: "/api/terminal/deleteImg",
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
-						// "x-sljr-session-token": "08814d4762b788690fc256cd8d089fe4",
 					},
 					body: {
 						"imgSrcs": "", // 图片src地址(多张逗号拼接)   TODO
 						"type": "1", //  TODO
-						"userId": "", // 用户唯一标识登录的手机号码	TODO
-						"requestNo": this.$route.params.currentOrder, // 申请编号
+						"userId": JSON.parse(sessionStorage.getItem("userInfo")).telPhone, // 用户唯一标识登录的手机号
+						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo, // 申请编号
 					}
 				}).then((res) => {
-					console.log(res)
+					if(res.data.code =="000000"){
+						
+					}
 				}, (res) => {
 					this.$message({
 						type: "error",
@@ -415,9 +416,8 @@
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
 					body:{
-						"pagination":3,      // 图片src地址(多张逗号拼接)   TODO
-						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).telPhone,         //  申请编号
-						
+						"pagination":3,     
+						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo,         //  申请编号
 					}
 				}).then((res)=>{
 					console.log(res)
@@ -436,7 +436,6 @@
 		},
 		mounted:function(){
 			this.routerApi();
-
 			// console.log(this.$route.params.)
 		}
 	}
