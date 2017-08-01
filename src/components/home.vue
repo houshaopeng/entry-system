@@ -9,7 +9,8 @@
 				<el-button @click="$router.push({path: '/storeMsg'})">门店信息录入</el-button> ——————
 				<el-button @click="$router.push({path: '/imageFileUpload'})">影像资料上传</el-button> ——————
 				<el-button @click="$router.push({path: '/imageFileUpload2'})">影像资料上传</el-button> ——————
-				<el-button @click="$router.push({path: '/loanContract'})">借款协议</el-button>
+
+				<el-button @click="$router.push({path: '/loanContract'})">借款合同确认</el-button>
 			</div>
 			<hr />
 		</div>

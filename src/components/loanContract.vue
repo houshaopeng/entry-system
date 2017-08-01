@@ -19,7 +19,7 @@
 			</div>
 		</div>
 		<div class="footer">
-			<el-button type="primary">提交</el-button>
+			<el-button type="primary">确认借款</el-button>
 		</div>
 	</div>
 	</div>

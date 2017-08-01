@@ -1,15 +1,15 @@
 <template>
 	<!--资料填写页面-->
 	<div class="storeMsg">
-		<!--网点基本信息-->
-		<div class="title">
-			<el-row>
-				<h3>网点基本信息</h3>
-				<p>申请编号:{{msg1}}</p>
-			</el-row>
-		</div>
-		<div class="content">
-			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-position="left" label-width="121px" class="demo-ruleForm">
+		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-position="left" label-width="121px" class="demo-ruleForm">
+			<!--网点基本信息-->
+			<div class="title">
+				<el-row>
+					<h3>网点基本信息</h3>
+					<p>申请编号:{{msg1}}</p>
+				</el-row>
+			</div>
+			<div class="content">
 				<el-row :gutter="10">
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="网点合同类型" prop="contractType">
@@ -19,7 +19,6 @@
 							</el-radio-group>
 						</el-form-item>
 					</el-col>
-
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="网点类型" prop="networkType">
 							<el-radio-group v-model="ruleForm.networkType">
@@ -101,46 +100,44 @@
 						</el-form-item>
 					</el-col>
 				</el-row>
-			</el-form>
-		</div>
+			</div>
 
-		<!--周边金融业信息-->
-		<div class="title">
-			<el-row>
-				<h3>
+			<!--周边金融业信息-->
+			<div class="title">
+				<el-row>
+					<h3>
 					周边金融业信息
 					<span>正规金融机构与民间金融均可列入</span>
 				</h3>
-			</el-row>
-		</div>
-		<div class="content">
-			<el-form label-position="left" label-width="121px" class="demo-ruleForm addOne">
-				<el-row :gutter="10" v-for="company in companys" :key="company.value">
-					<el-col :xs="18" :sm="18" :md="8" :lg="6">
-						<el-form-item label="名称" prop="companyName">
-							<el-input :maxlength="30" v-model="company.companyName" placeholder="请输入公司名称"></el-input>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="18" :sm="18" :md="8" :lg="6">
-						<el-form-item label="离店距离" prop="companyDistance">
-							<el-input :maxlength="30" @keyup.native="checkNum" v-model="company.companyDistance" placeholder="请输入距离">
-								<template slot="append">米</template>
-							</el-input>
-						</el-form-item>
-					</el-col>
 				</el-row>
-				<el-button type="primary" class="btn_add2" @click="addCompany">添加一行</el-button>
-			</el-form>
-		</div>
+			</div>
+			<div class="content">
+				<div class="addOne">
+					<el-row :gutter="10" v-for="company in companys" :key="company.value">
+						<el-col :xs="18" :sm="18" :md="8" :lg="6">
+							<el-form-item label="名称">
+								<el-input :maxlength="30" v-model="company.companyName" placeholder="请输入公司名称"></el-input>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="18" :sm="18" :md="8" :lg="6">
+							<el-form-item label="离店距离" prop="companyDistance">
+								<el-input :maxlength="30" @keyup.native="checkNum" v-model="company.companyDistance" placeholder="请输入距离">
+									<template slot="append">米</template>
+								</el-input>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-button type="primary" class="btn_add2" @click="addCompany">添加一行</el-button>
+				</div>
+			</div>
 
-		<!--店铺经营信息-->
-		<div class="title">
-			<el-row>
-				<h3>店铺经营信息</h3>
-			</el-row>
-		</div>
-		<div class="content">
-			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-position="left" label-width="121px" class="demo-ruleForm">
+			<!--店铺经营信息-->
+			<div class="title">
+				<el-row>
+					<h3>店铺经营信息</h3>
+				</el-row>
+			</div>
+			<div class="content">
 				<el-row :gutter="10">
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="是否品牌加盟店" prop="isJoin">
@@ -201,7 +198,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="法人电话" prop="legalTel">
-							<el-input v-model="ruleForm.legalTel" placeholder="请输入法人电话"></el-input>
+							<el-input :maxlength="11" v-model="ruleForm.legalTel" placeholder="请输入法人电话"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
@@ -227,11 +224,11 @@
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<el-row :gutter="10" v-for="(item,index)  in ruleForm.mainProduct"  :key="item.id">
+				<!-- <el-row :gutter="10" v-for="(item,index)  in ruleForm.mainProduct" :key="item.id">
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
-						<el-form-item  prop="productName1" label="主营商品"> 
-						<!-- <span>主营商品</span>{{index+1}}:</span> -->
-							<el-input :maxlength="30" v-model="item.productName" placeholder="请输入商品名称" >
+						<el-form-item prop="productName1" label="主营商品">
+							<span>主营商品</span>{{index+1}}:</span>
+							<el-input :maxlength="30" v-model="item.productName" placeholder="请输入商品名称">
 							</el-input>
 						</el-form-item>
 					</el-col>
@@ -242,8 +239,23 @@
 							</el-input>
 						</el-form-item>
 					</el-col>
+				</el-row> -->
+				<el-row :gutter="10">
+					<el-col :xs="24" :sm="12" :md="8" :lg="6">
+						<el-form-item label="主营商品2" prop="productName1">
+							<el-input :maxlength="30" v-model="ruleForm.productName1" placeholder="请输入商品名称">
+							</el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="6">
+						<el-form-item label="均价" prop="productPrice1">
+							<el-input :maxlength="30" v-model="ruleForm.productPrice1" placeholder="请输入商品价格">
+								<template slot="append">元</template>
+							</el-input>
+						</el-form-item>
+					</el-col>
 				</el-row>
-				<!-- <el-row :gutter="10">
+				<el-row :gutter="10">
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="主营商品2" prop="productName2">
 							<el-input :maxlength="30" v-model="ruleForm.productName2" placeholder="请输入商品名称">
@@ -272,7 +284,7 @@
 							</el-input>
 						</el-form-item>
 					</el-col>
-				</el-row> -->
+				</el-row>
 				<el-row :gutter="10">
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="店铺日均人流量" prop="dailyPeople">
@@ -281,17 +293,15 @@
 						</el-form-item>
 					</el-col>
 				</el-row>
-			</el-form>
-		</div>
+			</div>
 
-		<!--店主信息-->
-		<div class="title">
-			<el-row>
-				<h3>店主信息</h3>
-			</el-row>
-		</div>
-		<div class="content">
-			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-position="left" label-width="121px" class="demo-ruleForm">
+			<!--店主信息-->
+			<div class="title">
+				<el-row>
+					<h3>店主信息</h3>
+				</el-row>
+			</div>
+			<div class="content">
 				<el-row :gutter="10">
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="申店主姓名" prop="applicantName">
@@ -327,11 +337,6 @@
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<!--<el-col :xs="24" :sm="12" :md="8" :lg="6">
-						<el-form-item label="申请人籍贯" prop="applicantOrigin">
-							<el-input :maxlength="30" v-model="ruleForm.applicantOrigin" placeholder="请输入申请人籍贯"></el-input>
-						</el-form-item>
-					</el-col>-->
 					<el-col :xs="24" :sm="24" :md="24" :lg="18">
 						<el-form-item label="申请人户籍地址" prop="applicantResAddress">
 							<el-col :xs="18" :sm="18" :md="18" :lg="18">
@@ -363,82 +368,79 @@
 				<el-row :gutter="10">
 					<el-col :xs="24" :sm="24" :md="24" :lg="18">
 						<el-form-item label="联系人信息" prop="">
-							<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-position="center" label-width="70px" class="demo-ruleForm">
-								<el-row style="margin-bottom: 20px;">
-									<el-col :xs="6" :sm="6" :md="6" :lg="6">
-										<el-form-item label="关系" prop="msgBind1">
-											<el-select v-model="ruleForm.msgBind1" placeholder="请选择与联系人之间的关系">
-												<el-option v-for="item in relationList" :key="item.value" :label="item.relationship" :value="item.relationValue">
-												</el-option>
-											</el-select>
-										</el-form-item>
-									</el-col>
-									<el-col :xs="6" :sm="6" :md="6" :lg="6">
-										<el-form-item label="姓名" prop="msgName1">
-											<el-input :maxlength="30" v-model="ruleForm.msgName1"></el-input>
-										</el-form-item>
-									</el-col>
-									<el-col :xs="6" :sm="6" :md="6" :lg="6">
-										<el-form-item label="手机号" prop="msgTel1">
-											<el-input :maxlength="11" v-model="ruleForm.msgTel1"></el-input>
-										</el-form-item>
-									</el-col>
-								</el-row>
-								<el-row style="margin-bottom: 20px;">
-									<el-col :xs="6" :sm="6" :md="6" :lg="6">
-										<el-form-item label="关系" prop="msgBind2">
-											<el-select v-model="ruleForm.msgBind2" placeholder="请选择与联系人之间的关系">
-												<el-option v-for="item in relationList" :key="item.value" :label="item.relationship" :value="item.relationValue">
-												</el-option>
-											</el-select>
-										</el-form-item>
-									</el-col>
-									<el-col :xs="6" :sm="6" :md="6" :lg="6">
-										<el-form-item label="姓名" prop="msgName2">
-											<el-input :maxlength="30" v-model="ruleForm.msgName2"></el-input>
-										</el-form-item>
-									</el-col>
-									<el-col :xs="6" :sm="6" :md="6" :lg="6">
-										<el-form-item label="手机号" prop="msgTel2">
-											<el-input :maxlength="11" v-model="ruleForm.msgTel2"></el-input>
-										</el-form-item>
-									</el-col>
-								</el-row>
-								<el-row style="margin-bottom: 20px;">
-									<el-col :xs="6" :sm="6" :md="6" :lg="6">
-										<el-form-item label="关系" prop="msgBind3">
-											<el-select v-model="ruleForm.msgBind3" placeholder="请选择与联系人之间的关系">
-												<el-option v-for="item in relationList" :key="item.value" :label="item.relationship" :value="item.relationValue">
-												</el-option>
-											</el-select>
-										</el-form-item>
-									</el-col>
-									<el-col :xs="6" :sm="6" :md="6" :lg="6">
-										<el-form-item label="姓名" prop="msgName3">
-											<el-input :maxlength="30" v-model="ruleForm.msgName3"></el-input>
-										</el-form-item>
-									</el-col>
-									<el-col :xs="6" :sm="6" :md="6" :lg="6">
-										<el-form-item label="手机号" prop="msgTel3">
-											<el-input :maxlength="11" v-model="ruleForm.msgTel3"></el-input>
-										</el-form-item>
-									</el-col>
-								</el-row>
-							</el-form>
+
+							<el-row style="margin-bottom: 20px;">
+								<el-col :xs="6" :sm="6" :md="6" :lg="6">
+									<el-form-item label="关系" prop="msgBind1" label-width="70px">
+										<el-select v-model="ruleForm.msgBind1" placeholder="请选择与联系人之间的关系">
+											<el-option v-for="item in relationList" :key="item.value" :label="item.relationship" :value="item.relationValue">
+											</el-option>
+										</el-select>
+									</el-form-item>
+								</el-col>
+								<el-col :xs="6" :sm="6" :md="6" :lg="6">
+									<el-form-item label="姓名" prop="msgName1" label-width="70px">
+										<el-input :maxlength="30" v-model="ruleForm.msgName1"></el-input>
+									</el-form-item>
+								</el-col>
+								<el-col :xs="6" :sm="6" :md="6" :lg="6">
+									<el-form-item label="手机号" prop="msgTel1" label-width="70px">
+										<el-input :maxlength="11" v-model="ruleForm.msgTel1"></el-input>
+									</el-form-item>
+								</el-col>
+							</el-row>
+							<el-row style="margin-bottom: 20px;">
+								<el-col :xs="6" :sm="6" :md="6" :lg="6">
+									<el-form-item label="关系" prop="msgBind2" label-width="70px">
+										<el-select v-model="ruleForm.msgBind2" placeholder="请选择与联系人之间的关系">
+											<el-option v-for="item in relationList" :key="item.value" :label="item.relationship" :value="item.relationValue">
+											</el-option>
+										</el-select>
+									</el-form-item>
+								</el-col>
+								<el-col :xs="6" :sm="6" :md="6" :lg="6">
+									<el-form-item label="姓名" prop="msgName2" label-width="70px">
+										<el-input :maxlength="30" v-model="ruleForm.msgName2"></el-input>
+									</el-form-item>
+								</el-col>
+								<el-col :xs="6" :sm="6" :md="6" :lg="6">
+									<el-form-item label="手机号" prop="msgTel2" label-width="70px">
+										<el-input :maxlength="11" v-model="ruleForm.msgTel2"></el-input>
+									</el-form-item>
+								</el-col>
+							</el-row>
+							<el-row style="margin-bottom: 20px;">
+								<el-col :xs="6" :sm="6" :md="6" :lg="6">
+									<el-form-item label="关系" prop="msgBind3" label-width="70px">
+										<el-select v-model="ruleForm.msgBind3" placeholder="请选择与联系人之间的关系">
+											<el-option v-for="item in relationList" :key="item.value" :label="item.relationship" :value="item.relationValue">
+											</el-option>
+										</el-select>
+									</el-form-item>
+								</el-col>
+								<el-col :xs="6" :sm="6" :md="6" :lg="6">
+									<el-form-item label="姓名" prop="msgName3" label-width="70px">
+										<el-input :maxlength="30" v-model="ruleForm.msgName3"></el-input>
+									</el-form-item>
+								</el-col>
+								<el-col :xs="6" :sm="6" :md="6" :lg="6">
+									<el-form-item label="手机号" prop="msgTel3" label-width="70px">
+										<el-input :maxlength="11" v-model="ruleForm.msgTel3"></el-input>
+									</el-form-item>
+								</el-col>
+							</el-row>
 						</el-form-item>
 					</el-col>
 				</el-row>
-			</el-form>
-		</div>
+			</div>
 
-		<!--银行卡信息验证-->
-		<div class="title">
-			<el-row>
-				<h3>银行卡信息验证</h3>
-			</el-row>
-		</div>
-		<div class="content">
-			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-position="left" label-width="121px" class="demo-ruleForm">
+			<!--银行卡信息验证-->
+			<div class="title">
+				<el-row>
+					<h3>银行卡信息验证</h3>
+				</el-row>
+			</div>
+			<div class="content">
 				<el-row :gutter="10">
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="银行卡卡号" prop="bankCardNumber">
@@ -470,30 +472,26 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="预留手机号" prop="reserPhone">
-							<el-input v-model="ruleForm.reserPhone" placeholder="请输入预留手机号">
-								<template slot="append"><el-button>获取验证码</el-button></template>
-							</el-input>
+							<el-input v-model="ruleForm.reserPhone" placeholder="请输入预留手机号"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="6">
+					<!-- <el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="验证码" prop="verificaCode">
 							<el-input v-model="ruleForm.verificaCode" placeholder="请输入验证码">
 								<template slot="append"><el-button>提交</el-button></template>
 							</el-input>
 						</el-form-item>
-					</el-col>
+					</el-col> -->
 				</el-row>
-			</el-form>
-		</div>
+			</div>
 
-		<!--入住终端机网络优势-->
-		<div class="title">
-			<el-row>
-				<h3>入驻终端机网络优势</h3>
-			</el-row>
-		</div>
-		<div class="content">
-			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm">
+			<!--入住终端机网络优势-->
+			<div class="title">
+				<el-row>
+					<h3>入驻终端机网络优势</h3>
+				</el-row>
+			</div>
+			<div class="content">
 				<el-row :gutter="10">
 					<el-col :xs="24" :sm="24" :md="18" :lg="14">
 						<el-form-item prop="goodpoint">
@@ -513,14 +511,14 @@
 						</el-form-item>
 					</el-col>
 				</el-row>
-			</el-form>
-		</div>
+			</div>
 
-		<!--缓存，下一步按钮-->
-		<div class="footer">
-			<el-button type="primary" @click="Temporary">缓存</el-button>
-			<el-button type="primary" @click="nextstep">下一步</el-button>
-		</div>
+			<!--缓存，下一步按钮-->
+			<div class="footer">
+				<el-button type="primary" @click="Temporary">缓存</el-button>
+				<el-button type="primary" @click="nextstep('ruleForm')">下一步</el-button>
+			</div>
+		</el-form>
 	</div>
 </template>
 
@@ -613,17 +611,25 @@
 					legalId: '', //法人身份证号
 					threeMoney: '', //近三月平均营业额
 					yearMoney: '', //去年全年营业额
-					mainProduct:[
-						{productName:"",productPrice:""},
-						{productName:"",productPrice:""},
-						{productName:"",productPrice:""},
-					],
-					/*productName1: '', //商品名称1
+					// mainProduct: [{
+					// 		productName: "",
+					// 		productPrice: ""
+					// 	},
+					// 	{
+					// 		productName: "",
+					// 		productPrice: ""
+					// 	},
+					// 	{
+					// 		productName: "",
+					// 		productPrice: ""
+					// 	},
+					// ],
+					productName1: '', //商品名称1
 					productName2: '', //商品名称2
 					productName3: '', //商品名称3
 					productPrice1: '', //商品价格1
 					productPrice2: '', //商品价格2
-					productPrice3: '', //商品价格3*/
+					productPrice3: '', //商品价格3
 					dailyPeople: '', //店铺日均人流量
 					applicantName: '', //申店主姓名
 					idNumber: '', //身份证号
@@ -643,45 +649,45 @@
 					msgTel1: '',
 					msgTel2: '',
 					msgTel3: '',
-					bankCardNumber:'',//银行卡卡号
-					bankProvice:'',//开户行省
-					bankCity:'',//开户行城市
-					bankName:'',//开户行名字
-					reserPhone:'',//预留手机号
-					verificaCode:'',//验证码
+					bankCardNumber: '', //银行卡卡号
+					bankProvice: '', //开户行省
+					bankCity: '', //开户行城市
+					bankName: '', //开户行名字
+					reserPhone: '', //预留手机号
+					verificaCode: '', //验证码
 					goodpoint: [], //终端机网络优势
 				},
 				region: [{
 						region: "华北区",
-						value: "000001"
+						value: "1"
 					},
 					{
 						region: "华东区",
-						value: "000002"
+						value: "2"
 					},
 					{
 						region: "东北区",
-						value: "000003"
+						value: "3"
 					},
 					{
 						region: "华中区",
-						value: "000004"
+						value: "4"
 					},
 					{
 						region: "华南区",
-						value: "000005"
+						value: "5"
 					},
 					{
 						region: "西南区",
-						value: "000006"
+						value: "6"
 					},
 					{
 						region: "西北区",
-						value: "000007"
+						value: "7"
 					},
 					{
 						region: "港澳台",
-						value: "000008"
+						value: "8"
 					}
 				],
 				recommended: [{
@@ -727,10 +733,9 @@
 
 				//推荐渠道
 				companys: [{
-						companyName: "",
-						companyDistance: ""
-					},
-				],
+					companyName: "",
+					companyDistance: ""
+				}, ],
 				address: {}, //联系地址
 				obj: {
 					label: {
@@ -953,11 +958,6 @@
 						validator: checkNum9,
 						trigger: 'blur'
 					}],
-					companyName: [{
-						required: true,
-						message: '请输入公司名称',
-						trigger: 'blur'
-					}],
 					isJoin: [{
 						required: true,
 						message: '请选择是否加盟',
@@ -1153,35 +1153,35 @@
 						validator: checkTel,
 						trigger: 'blur'
 					}],
-					bankCardNumber:[{
+					bankCardNumber: [{
 						required: true,
 						message: '请输入银行卡号',
 						trigger: 'blur'
-					},{
+					}, {
 						validator: checkBankCard,
 						trigger: 'blur'
 					}],
-					bankProvice:[{
+					bankProvice: [{
 						required: true,
 						message: '请输入开户行省份',
 						trigger: 'blur'
 					}],
-					bankCity:[{
+					bankCity: [{
 						required: true,
 						message: '请输入开户行城市',
 						trigger: 'blur'
 					}],
-					bankName:[{
+					bankName: [{
 						required: true,
 						message: '请输入开户行名称',
 						trigger: 'blur'
 					}],
-					reserPhone:[{
+					reserPhone: [{
 						required: true,
 						validator: checkTel,
 						trigger: 'blur'
 					}],
-					verificaCode:[{
+					verificaCode: [{
 						required: true,
 						message: '请输入验证码',
 						trigger: 'blur'
@@ -1300,19 +1300,19 @@
 
 			},
 			// 路由接口调试
-			routerApi(){
+			routerApi() {
 				this.msg1 = JSON.parse(sessionStorage.getItem("userInfo")).requestNo
 				this.$http({
-					method:"POST",
-					url:"/api/terminal/step",
+					method: "POST",
+					url: "/api/terminal/step",
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
-					body:{
-						"userId":JSON.parse(sessionStorage.getItem("userInfo")).telPhone,      // TODO    手机号码
+					body: {
+						"userId": JSON.parse(sessionStorage.getItem("userInfo")).telPhone, // TODO    手机号码
 
-						"level":"1",
-						"requestNo":JSON.parse(sessionStorage.getItem("userInfo")).requestNo    // 请求流水号
+						"level": "1",
+						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo // 请求流水号
 					}
 				}).then((res) => {
 					if(res.data.dara == "000000") {
@@ -1330,7 +1330,22 @@
 				var registerAddress = this.address2.province+"&"+this.address2.city+"&"+this.address2.district+"&"+this.ruleForm.registeredAddress;
 				var nativeAddress = this.address3.province+"&"+this.address3.city+"&"+this.address3.district+"&"+this.ruleForm.applicantResAddress;
 				var address = this.address4.province+"&"+this.address4.city+"&"+this.address4.district+"&"+this.ruleForm.applicantCurrAddress;
-				var contacts = {"2121":123};
+				var mainProduct = [{
+						"name":this.ruleForm.productName1,
+						"distance":this.ruleForm.productPrice1,
+					},
+					{
+						"name":this.ruleForm.productName2,
+						"distance":this.ruleForm.productPrice2,
+					},{
+						"name":this.ruleForm.productName3,
+						"distance":this.ruleForm.productPrice3,
+					}]
+				var contacts = [
+					{"msgBind":this.ruleForm.msgBind1,"msgName":this.ruleForm.msgName1,"msgTel":this.ruleForm.msgTel1},
+					{"msgBind":this.ruleForm.msgBind2,"msgName":this.ruleForm.msgName2,"msgTel":this.ruleForm.msgTel2},
+					{"msgBind":this.ruleForm.msgBind3,"msgName":this.ruleForm.msgName3,"msgTel":this.ruleForm.msgTel3}
+				]
 				this.$http({
 					method: "POST",
 					url: "/api/terminal/Temporary",
@@ -1340,8 +1355,98 @@
 					body: {
 						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo,
 						"basicReqInfo": {
-							"contractType": this.ruleForm.contractType,
-							"terminalType": this.ruleForm.networkType,
+							"contractType": Number(this.ruleForm.contractType),
+							"terminalType": Number(this.ruleForm.networkType),
+							"terminalArea": this.ruleForm.belongRegion,
+							"terminalName": this.ruleForm.networkName,
+							"terminalContact": this.ruleForm.networkContact,
+							"terminalPhone": this.ruleForm.contactTel,
+							"recommendChanel": this.ruleForm.recommendedID,
+							"contactAddress": contactAddress,
+							"salesmanName": this.ruleForm.salesmanName,
+							"salesmanNo": this.ruleForm.salesmanNumber,
+							"machineType": JSON.stringify(this.machines),
+							"aroundFinancialInfo": this.companys,
+							"joinSuperiority": this.ruleForm.goodpoint.toString()
+						},
+						"shopManagementReqInfo": {
+							"isBrandFranchise": Number(this.ruleForm.isJoin),
+							"merchantType": this.ruleForm.businessType,
+							"createTime": this.ruleForm.createTime,
+							"openingTime": this.ruleForm.startTime,
+							"registerAddress": registerAddress,
+							"postalCode": this.ruleForm.zipCode,
+							"legalPersonName": this.ruleForm.legalName,
+							"legalPersonPhone": this.ruleForm.legalTel,
+							"legalPersonIdCard": this.ruleForm.legalId,
+							"averageTurnover": Number(this.ruleForm.threeMoney)*100,
+							"totalTurnover": Number(this.ruleForm.yearMoney)*100,
+							"mainProduct": mainProduct,
+							"averageDayFlow": Number(this.ruleForm.dailyPeople)
+						},
+						"proposerReqInfo": {
+							"name": this.ruleForm.applicantName,
+							"idCard": this.ruleForm.idNumber,
+							"healthStatus": Number(this.ruleForm.healthStatus),
+							"educational": Number(this.ruleForm.healthStatus),
+							"maritalStatus": Number(this.ruleForm.maritalStatus),
+							"nativeAddress": nativeAddress,
+							"address": address,
+							"shares": Number(this.ruleForm.applicantPercent),
+							"contacts": JSON.stringify(contacts)
+						},
+						"bankReqInfo": {
+							"bankCard": "6228480402564890018",
+							"openProvince": "11",
+							"openCity": "q",
+							"subBranchName": "q",
+							"bankPhone": "12345678901"
+						}
+					}
+				}).then((res) => {
+					console.log(res)
+				}, (res) => {
+					this.$message({
+						type: "error",
+						message: res.data.errMsg
+					})
+				})
+			},
+			nextstep(formName) {
+				this.$refs[formName].validate((valid) => {
+					if(valid && (this.address.province != "请选择") && (this.address.city != "请选择") && (this.address.district != "请选择") && (this.address2.province != "请选择") && (this.address2.city != "请选择") && (this.address2.district != "请选择") && (this.address3.province != "请选择") && (this.address3.city != "请选择") && (this.address3.district != "请选择") && (this.address4.province != "请选择") && (this.address4.city != "请选择") && (this.address4.district != "请选择")) {
+				var contactAddress = this.address.province+"&"+this.address.city+"&"+this.address.district+"&"+this.ruleForm.contactAddress;
+				var registerAddress = this.address2.province+"&"+this.address2.city+"&"+this.address2.district+"&"+this.ruleForm.registeredAddress;
+				var nativeAddress = this.address3.province+"&"+this.address3.city+"&"+this.address3.district+"&"+this.ruleForm.applicantResAddress;
+				var address = this.address4.province+"&"+this.address4.city+"&"+this.address4.district+"&"+this.ruleForm.applicantCurrAddress;
+				var mainProduct = [{
+						"name":this.ruleForm.productName1,
+						"distance":this.ruleForm.productPrice1,
+					},
+					{
+						"name":this.ruleForm.productName2,
+						"distance":this.ruleForm.productPrice2,
+					},{
+						"name":this.ruleForm.productName3,
+						"distance":this.ruleForm.productPrice3,
+					}]
+				var contacts = [
+					{"msgBind":this.ruleForm.msgBind1,"msgName":this.ruleForm.msgName1,"msgTel":this.ruleForm.msgTel1},
+					{"msgBind":this.ruleForm.msgBind2,"msgName":this.ruleForm.msgName2,"msgTel":this.ruleForm.msgTel2},
+					{"msgBind":this.ruleForm.msgBind3,"msgName":this.ruleForm.msgName3,"msgTel":this.ruleForm.msgTel3}
+				]
+				var machineType
+				this.$http({
+					method: "POST",
+					url: "/api/terminal/basicSubmit",
+					headers: {
+						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+					},
+					body: {
+						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo,
+						"basicReqInfo": {
+							"contractType": Number(this.ruleForm.contractType),
+							"terminalType": Number(this.ruleForm.networkType),
 							"terminalArea": this.ruleForm.belongRegion,
 							"terminalName": this.ruleForm.networkName,
 							"terminalContact": this.ruleForm.networkContact,
@@ -1350,12 +1455,12 @@
 							"contactAddress":contactAddress,
 							"salesmanName": this.ruleForm.salesmanName,
 							"salesmanNo": this.ruleForm.salesmanNumber,
-							"machineType": this.machines.machineType,
+							"machineType": JSON.stringify(this.machines),
 							"aroundFinancialInfo": this.companys,
 							"joinSuperiority": this.ruleForm.goodpoint.toString()
 						},
 						"shopManagementReqInfo": {
-							"isBrandFranchise": this.ruleForm.isJoin,
+							"isBrandFranchise": Number(this.ruleForm.isJoin),
 							"merchantType": this.ruleForm.businessType,
 							"createTime": this.ruleForm.createTime,
 							"openingTime": this.ruleForm.startTime,
@@ -1364,20 +1469,20 @@
 							"legalPersonName": this.ruleForm.legalName,
 							"legalPersonPhone": this.ruleForm.legalTel,
 							"legalPersonIdCard": this.ruleForm.legalId,
-							"averageTurnover": this.ruleForm.threeMoney,
-							"totalTurnover": this.ruleForm.yearMoney,
-							"mainProduct": this.ruleForm.mainProduct,
-							"averageDayFlow": this.ruleForm.dailyPeople
+							"averageTurnover": Number(this.ruleForm.threeMoney)*100,
+							"totalTurnover": Number(this.ruleForm.yearMoney)*100,
+							"mainProduct": mainProduct,
+							"averageDayFlow": Number(this.ruleForm.dailyPeople)
 						},
 						"proposerReqInfo": {
 							"name": this.ruleForm.applicantName,
-							"nativePlace": this.ruleForm.applicantName,
-							// "healthStatus": this.ruleForm.applicantOrigin,
-							"educational": this.ruleForm.healthStatus,
-							"maritalStatus": this.ruleForm.maritalStatus,
+							"idCard": this.ruleForm.idNumber,
+							"healthStatus": Number(this.ruleForm.healthStatus),
+							"educational": Number(this.ruleForm.healthStatus),
+							"maritalStatus": Number(this.ruleForm.maritalStatus),
 							"nativeAddress": nativeAddress,
 							"address": address,
-							"shares": this.ruleForm.applicantPercent,
+							"shares": Number(this.ruleForm.applicantPercent),
 							"contacts": JSON.stringify(contacts)
 						},
 						"bankReqInfo": {
@@ -1389,90 +1494,29 @@
 						  }
 					}
 				}).then((res) => {
-					console.log(res)
-				}, (res) => {
-					this.$message({
-						type: "error",
-						message: res.data.errMsg
-					})
-				})
-			},
-			nextstep() {
-				var contactAddress = this.address.province+"&"+this.address.city+"&"+this.address.district+"&"+this.ruleForm.contactAddress;
-				var registerAddress = this.address2.province+"&"+this.address2.city+"&"+this.address2.district+"&"+this.ruleForm.registeredAddress;
-				var nativeAddress = this.address3.province+"&"+this.address3.city+"&"+this.address3.district+"&"+this.ruleForm.applicantResAddress;
-				var address = this.address4.province+"&"+this.address4.city+"&"+this.address4.district+"&"+this.ruleForm.applicantCurrAddress
-				var contacts = {};
-				this.$http({
-					method: "POST",
-					url: "/api/terminal/basicSubmit",
-					headers: {
-						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
-					},
-					body: {
-						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo,
-						"basicInfo": {
-							"contractType": this.ruleForm.contractType,
-							"terminalType": this.ruleForm.networkType,
-							"terminalArea": this.ruleForm.belongRegion,
-							"terminalName": this.ruleForm.networkName,
-							"terminalContact": this.ruleForm.networkContact,
-							"terminalPhone": this.ruleForm.contactTel,
-							"recommendChanel": this.ruleForm.recommendedID,
-							"contactAddress":contactAddress,
-							"salesmanName": this.ruleForm.salesmanName,
-							"salesmanNo": this.ruleForm.salesmanNumber,
-							"machineType": this.machines.machineType,
-							"aroundFinancialInfo": this.companys,
-							"joinSuperiority": this.ruleForm.goodpoint.toString(),
-						},
-						"shopManagementInfo": {
-							"isBrandFranchise": this.ruleForm.isJoin,
-							"merchantType": this.ruleForm.businessType,
-							"createTime": this.ruleForm.createTime,
-							"openingTime": this.ruleForm.startTime,
-							"registerAddress":registerAddress,
-							"postalCode": this.ruleForm.zipCode,
-							"legalPersonName": this.ruleForm.legalName,
-							"legalPersonPhone": this.ruleForm.legalTel,
-							"legalPersonIdCard": this.ruleForm.legalId,
-							"averageTurnover": this.ruleForm.threeMoney,
-							"totalTurnover": this.ruleForm.yearMoney,
-							"mainProduct": this.ruleForm.mainProduct,
-							"averageDayFlow": this.ruleForm.dailyPeople
-						},
-						"proposerInfo": {
-							"name": this.ruleForm.name,
-							"nativePlace": this.ruleForm.applicantName,
-							"healthStatus": this.ruleForm.applicantOrigin,
-							"educational": this.ruleForm.healthStatus,
-							"maritalStatus": this.ruleForm.maritalStatus,
-							"nativeAddress": nativeAddress,
-							"address": address,
-							"shares": this.ruleForm.applicantPercent,
-							"contacts": JSON.stringify(contacts)
-						}
-					}
-				}).then((res) => {
-					if(res.data.code=="000000"){
-						this.$router.push({
-							path: '/imageFileUpload'
+							if(res.data.code=="000000"){
+								this.$router.push({
+									path: '/imageFileUpload'
+								})
+							}
+
+						}, (res) => {
+							this.$message({
+								type: "error",
+								message: res.data.errMsg
+
+							})
 						})
+					} else {
+						console.log('error submit!!');
+						return false;
 					}
-
-				}, (res) => {
-					this.$message({
-						type: "error",
-						message: res.data.errMsg
-
-					})
-				})
+				});
 			},
 
 		},
-		created:function(){
-		},
-		components:{
+		created: function() {},
+		components: {
 			Chinaddress
 		},
 		mounted: function() {
