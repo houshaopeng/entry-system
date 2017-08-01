@@ -13,10 +13,10 @@
             <div class="left" @click="upperPage"></div>
             <div class="right" @click="nextPage"></div>
             <div class="bottom_box">
-                <span><img src="../assets/big.png" alt="" @click="bigImg()"></span>
-                <span><img src="../assets/turn.png" alt="" @click="turnImg()"></span>
-                <span><img src="../assets/small.png" alt="" @click="smallImg()"></span>
-                <span><a href="" id="downLoad" @click="downLoadImg(imgSrc)"><img src="../assets/download.png" alt="" ></a></span>
+                <span><img src="../../assets/big.png" alt="" @click="bigImg()"></span>
+                <span><img src="../../assets/turn.png" alt="" @click="turnImg()"></span>
+                <span><img src="../../assets/small.png" alt="" @click="smallImg()"></span>
+                <span><a href="" id="downLoad" @click="downLoadImg(imgSrc)"><img src="../../assets/download.png" alt="" ></a></span>
             </div>
         </div>
     </div>
@@ -189,7 +189,6 @@
                 this.$emit('upperPage',this.files);
             },
             nextPage(){
-                console.log(this.files);
                 this.$emit('nextPage',this.files);
             }
         },
@@ -224,7 +223,7 @@
                 position: absolute;
                 width: 30px;
                 height:30px;
-                background: url("../assets/close.png");
+                background: url("../../assets/close.png");
                 background-size: 100%;
                 right: -60px;
                 top:-25px;
@@ -236,12 +235,12 @@
                 height:40px;
             }
             .left{
-                background: url("../assets/left.png");
+                background: url("../../assets/left.png");
                 background-size: 100%;
                 left: -60px;
             }
             .right{
-                background: url("../assets/right.png");
+                background: url("../../assets/right.png");
                 background-size: 100%;
                 right: -60px;
             }

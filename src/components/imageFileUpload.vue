@@ -22,7 +22,7 @@
 								<input type="button" value="清空图片" @click="clearAll" class="clear_buttton" />
 							</div>
 							<div class="img_item_box" v-for='(file,index) in files0' @click="getIndex(index)" style="float: left">
-								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file))" style="width: 200px;">
+								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file),0)" style="width: 200px;">
 								<span class="img_name" v-html="file.name"></span>
 								<span v-text='onStatus(file)' class="img_status"></span>
 								<vue-loading type="bars" color="#d9544e" :size="{ width: '50px', height: '50px' }"></vue-loading>
@@ -41,7 +41,6 @@
 							</div>
 						</div>
 					</el-col>
-
 					<!--销售产品资料-->
 					<el-col :span="12" style="margin:10px 0">
 						<div class="img_title">
@@ -54,7 +53,7 @@
 								<input type="button" value="清空图片" @click="clearAll" class="clear_buttton" />
 							</div>
 							<div class="img_item_box" v-for='(file,index) in files1' @click="getIndex(index)" style="float: left">
-								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file))" style="width: 200px;">
+								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file),1)" style="width: 200px;">
 								<span class="img_name" v-html="file.name"></span>
 								<span class="close" @click="deleteImg(file)"> × </span>
 							</div>
@@ -84,7 +83,7 @@
 								<input type="button" value="清空图片" @click="clearAll" class="clear_buttton" />
 							</div>
 							<div class="img_item_box" v-for='(file,index) in files2' @click="getIndex(index)" style="float: left">
-								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file))" style="width: 200px;">
+								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file),2)" style="width: 200px;">
 								<span class="img_name" v-html="file.name"></span>
 								<!-- <span class="close" @click="deleteImg(file)"> × </span> -->
 							</div>
@@ -123,7 +122,7 @@
 								<input type="button" value="清空图片" @click="clearAll" class="clear_buttton" />
 							</div>
 							<div class="img_item_box" v-for='(file,index) in files3' @click="getIndex(index)" style="float: left">
-								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file))" style="width: 200px;">
+								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file),3)" style="width: 200px;">
 								<span class="img_name" v-html="file.name"></span>
 								<span class="close" @click="deleteImg(file)"> × </span>
 							</div>
@@ -145,6 +144,9 @@
 					</el-col>
 				</el-row>
 			</div>
+			<!-- 弹出层的模态框 start-->
+				<Modal :modelTogg="modelTogg" :imgSrc="imgSrc" @closeModal="closeModal" @upperPage="upperPage" :files="tempFile" @nextPage="nextPage"></Modal>
+			<!-- 弹出层的模态框 end-->
 			<div class="footer">
 				<el-button type="primary" @click="onSubmit">下一步</el-button>
 			</div>
@@ -155,7 +157,7 @@
 <script>
 	import VueFileUpload from './components/vue-file-upload.vue'
 	import vueLoading from 'vue-loading-template'
-	import Modal from './components/modal.vue'
+	import Modal from './components/modal2.vue'
 	export default {
 		name: 'imageFileUpload',
 		data() {
@@ -181,13 +183,7 @@
 				//事件回调
 				cbEvents0: {
 					onCompleteUpload: (file, response, status, header) => {
-						/*this.routerTogg++;
-						if(this.routerTogg == this.files.length && this.routerJump) {
-							this.fullscreenLoading = false;
-							this.$router.push({
-								path: '/channelOffering'
-							});
-						}*/
+						
 					},
 					onAddFileSuccess: (file) => {
 
@@ -195,13 +191,7 @@
 				},
 				cbEvents1: {
 					onCompleteUpload: (file, response, status, header) => {
-						/*this.routerTogg++;
-						if(this.routerTogg == this.files.length && this.routerJump) {
-							this.fullscreenLoading = false;
-							this.$router.push({
-								path: '/channelOffering'
-							});
-						}*/
+						
 					},
 					onAddFileSuccess: (file) => {
 
@@ -209,13 +199,7 @@
 				},
 				cbEvents2: {
 					onCompleteUpload: (file, response, status, header) => {
-						/*this.routerTogg++;
-						if(this.routerTogg == this.files.length && this.routerJump) {
-							this.fullscreenLoading = false;
-							this.$router.push({
-								path: '/channelOffering'
-							});
-						}*/
+						
 					},
 					onAddFileSuccess: (file) => {
 
@@ -223,13 +207,7 @@
 				},
 				cbEvents3: {
 					onCompleteUpload: (file, response, status, header) => {
-						/*this.routerTogg++;
-						if(this.routerTogg == this.files.length && this.routerJump) {
-							this.fullscreenLoading = false;
-							this.$router.push({
-								path: '/channelOffering'
-							});
-						}*/
+						
 					},
 					onAddFileSuccess: (file) => {
 
@@ -239,7 +217,7 @@
 					formData: {
 						'type': '1',
 						'userId': JSON.parse(sessionStorage.getItem("userInfo")).userToken,
-						'requestNo': '001',
+						'requestNo': JSON.parse(sessionStorage.getItem("userInfo")).requestNo,
 					},
 					responseType: 'json',
 					withCredentials: false
@@ -248,7 +226,7 @@
 					formData: {
 						'type': '2',
 						'userId': JSON.parse(sessionStorage.getItem("userInfo")).userToken,
-						'requestNo': '001',
+						'requestNo':JSON.parse(sessionStorage.getItem("userInfo")).requestNo,
 					},
 					responseType: 'json',
 					withCredentials: false
@@ -257,7 +235,7 @@
 					formData: {
 						'type': '3',
 						'userId': JSON.parse(sessionStorage.getItem("userInfo")).userToken,
-						'requestNo': '001',
+						'requestNo': JSON.parse(sessionStorage.getItem("userInfo")).requestNo,
 					},
 					responseType: 'json',
 					withCredentials: false
@@ -266,13 +244,18 @@
 					formData: {
 						'type': '4',
 						'userId': JSON.parse(sessionStorage.getItem("userInfo")).userToken,
-						'requestNo': '001',
+						'requestNo': JSON.parse(sessionStorage.getItem("userInfo")).requestNo,
 					},
 					responseType: 'json',
 					withCredentials: false
 				},
 				//图片上传插件部分 end
 				deleteArr: [],
+				// 弹出的模态框
+				modelTogg: false,
+				imgSrc: '',
+				tempFile:'',
+				initIndex:0,
 			}
 		},
 		methods: {
@@ -310,7 +293,6 @@
 
 			deleteImg(file) {
 				console.log(file)
-				// this.deleteArr.push();
 				file.remove();
 			},
 			uploadAll() {
@@ -319,9 +301,19 @@
 			clearAll() {
 				this.$refs.vueFileUploader.clearAll();
 			},
-			showModal(val) {
-				this.imgSrc = val;
-				this.modelTogg = true;
+			showModal(val,idx) {
+				if(idx == 0){
+                    this.tempFile = this.files0;
+                }else if(idx == 1){
+                    this.tempFile = this.files1;
+                }else if(idx == 2){
+                    this.tempFile = this.files2;
+                }else if(idx == 3){
+                     this.tempFile = this.files3;
+                }
+                this.initIndex = 0;
+                this.imgSrc =val;
+                this.modelTogg = true;
 			},
 			closeModal() {
 				this.modelTogg = false;
@@ -388,6 +380,33 @@
 					})
 				})
 			},
+
+			// 模态框部分  start
+			upperPage(val) {
+				var data = val;
+				this.srcArr = [];
+				for(var i = 0; i < data.length; i++) {
+					this.srcArr.push(window.URL.createObjectURL(data[i].file));
+				}
+				this.index--;
+				if(this.index == -1) {
+					this.index = this.srcArr.length - 1;
+				}
+				this.imgSrc = this.srcArr[this.index];
+			},
+			nextPage(val) {
+				var data = val;
+				this.srcArr = [];
+				for(var i = 0; i < data.length; i++) {
+					this.srcArr.push(window.URL.createObjectURL(data[i].file));
+				}
+				this.index++;
+				if(this.index == this.srcArr.length) {
+					this.index = 0;
+				}
+				this.imgSrc = this.srcArr[this.index];
+			},
+			// 模态框部分  end
 			// 更改状态
 			updateStates(){
 				this.$http({
@@ -395,7 +414,6 @@
 					url:"/api/terminal/updateOrderStatus",
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
-						// "x-sljr-session-token": "08814d4762b788690fc256cd8d089fe4",
 					},
 					body:{
 						"pagination":3,      // 图片src地址(多张逗号拼接)   TODO

@@ -211,7 +211,7 @@
         background: #ffffff;
         margin-left: -384px;
         border: 1px solid #bbbbbb;
-        top:50px;
+        top:250px;
         z-index:50;
         .img_box{
             background: #e5e5e5;

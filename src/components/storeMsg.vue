@@ -631,15 +631,12 @@
 						channelName: '无',
 						applicationNo: '-1'
 					}
-				], //推荐渠道
+				], 
+				//推荐渠道
 				companys: [{
 						companyName: "",
 						companyDistance: ""
 					},
-					{
-						companyName: "",
-						distance: ""
-					}
 				],
 				address: {}, //联系地址
 				obj: {
@@ -1314,9 +1311,12 @@
 						}
 					}
 				}).then((res) => {
-					this.$router.push({
-						path: '/imageFileUpload'
-					})
+					if(res.data.code=="000000"){
+						this.$router.push({
+							path: '/imageFileUpload'
+						})
+					}
+					
 				}, (res) => {
 					this.$message({
 						type:"error",
