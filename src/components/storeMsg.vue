@@ -1334,7 +1334,6 @@
 			this.getMachineModel();
 			this.routerApi();
 			this.getMerchantType();
-
 			console.log(JSON.parse(sessionStorage.getItem("userInfo")))
 			
 		}
