@@ -704,7 +704,7 @@
 						channelName: '无',
 						applicationNo: '-1'
 					}
-				], 
+				],
 				//推荐渠道
 				companys: [{
 						companyName: "",
@@ -1324,7 +1324,7 @@
 					},
 					body: {
 						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo,
-						"basicInfo": {
+						"basicReqInfo": {
 							"contractType": this.ruleForm.contractType,
 							"terminalType": this.ruleForm.networkType,
 							"terminalArea": this.ruleForm.belongRegion,
@@ -1339,7 +1339,7 @@
 							"aroundFinancialInfo": this.companys,
 							"joinSuperiority": this.ruleForm.goodpoint.toString()
 						},
-						"shopManagementInfo": {
+						"shopManagementReqInfo": {
 							"isBrandFranchise": this.ruleForm.isJoin,
 							"merchantType": this.ruleForm.businessType,
 							"createTime": this.ruleForm.createTime,
@@ -1354,8 +1354,8 @@
 							"mainProduct": this.ruleForm.mainProduct,
 							"averageDayFlow": this.ruleForm.dailyPeople
 						},
-						"proposerInfo": {
-							"name": "",
+						"proposerReqInfo": {
+							"name": this.ruleForm.applicantName,
 							"nativePlace": this.ruleForm.applicantName,
 							"healthStatus": this.ruleForm.applicantOrigin,
 							"educational": this.ruleForm.healthStatus,
@@ -1364,7 +1364,14 @@
 							"address": address,
 							"shares": this.ruleForm.applicantPercent,
 							"contacts": JSON.stringify(contacts)
-						}
+						},
+						"bankReqInfo": {
+						    "bankCard": "6228480402564890018",
+						    "openProvince": "11",
+						    "openCity":"q",
+						    "subBranchName":"q",
+						    "bankPhone": "12345678901"
+						  }
 					}
 				}).then((res) => {
 					console.log(res)
@@ -1437,7 +1444,7 @@
 							path: '/imageFileUpload'
 						})
 					}
-					
+
 				}, (res) => {
 					this.$message({
 						type: "error",
