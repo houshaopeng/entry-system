@@ -18,35 +18,41 @@
 								<span style="margin: 0 20px 0 24px;">经营情况证明：</span>
 								<vue-file-upload url="/api/terminal/uploadImg" ref="vueFileUploader0" v-bind:events='cbEvents0' v-bind:filters="filters" v-bind:request-options="reqopts0" v-on:onAdd="onAddItem0">
 								</vue-file-upload>
-								<span v-if="!files0.length">未选择任何文件</span>
-								<span v-else>一共选择{{files0.length}}个文件</span>
+								<span v-if="!files00.length">未选择任何文件</span>
+								<span v-else>一共选择{{files00.length}}个文件</span>
 								<!-- <input type="button" value="清空图片" @click="clearAll" class="clear_buttton" /> -->
 							</div>
-							<div class="img_item_box" v-for='(file,index) in files0' @click="getIndex(index)" style="float: left">
+							<div class="img_item_box" v-for='(file,index) in files0' @click="getIndex(index)" style="float: left" v-show="false">
 								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file),0)" style="width: 200px;">
 								<span class="img_name" v-html="file.name"></span>
 								<span v-text='onStatus(file)' class="img_status"></span>
 								<vue-loading type="bars" color="#d9544e" :size="{ width: '50px', height: '50px' }"></vue-loading>
 								<span class="close" @click="deleteImg(file)"> × </span>
 							</div>
+							<div class="img_item_box" v-for='(file,index) in files00' @click="getIndex(index)" style="float: left">
+								<img :src='file.imgSrc' alt=""style="width: 200px;">
+								<span class="img_name" v-html="file.imgName"></span>
+								<span class="img_status">上传成功</span>
+								<span class="close" @click="deleteImg(file)"> × </span>
+							</div>
 							<div>
-								<div class="no_img1">
-									<span>身份证正面</span>
+								<div class="no_img1" v-show="files00.length<1">
+									<span>6个月银行流水或对公银行流水</span>
 								</div>
-								<div class="no_img1">
-									<span>身份证反面</span>
+								<div class="no_img1" v-show="files00.length<2">
+									<span>6个月银行流水或对公银行流水</span>
 								</div>
-								<div class="no_img1">
-									<span>手持身份证</span>
+								<div class="no_img1" v-show="files00.length<3">
+									<span>6个月银行流水或对公银行流水</span>
 								</div>
-								<div class="no_img1">
-									<span>身份证正面</span>
+								<div class="no_img1" v-show="files00.length<4">
+									<span>6个月银行流水或对公银行流水</span>
 								</div>
-								<div class="no_img1">
-									<span>身份证反面</span>
+								<div class="no_img1" v-show="files00.length<5">
+									<span>6个月银行流水或对公银行流水</span>
 								</div>
-								<div class="no_img1">
-									<span>手持身份证</span>
+								<div class="no_img1" v-show="files00.length<6">
+									<span>6个月银行流水或对公银行流水</span>
 								</div>
 							</div>
 						</div>
@@ -59,33 +65,39 @@
 								<span style="margin: 0 20px 0 24px;">收入证明：</span>
 								<vue-file-upload url="/api/terminal/uploadImg" ref="vueFileUploader1" v-bind:events='cbEvents1' v-bind:filters="filters" v-bind:request-options="reqopts1" v-on:onAdd="onAddItem1">
 								</vue-file-upload>
-								<span v-if="!files1.length">未选择任何文件</span>
-								<span v-else>一共选择{{files1.length}}个文件</span>
+								<span v-if="!files11.length">未选择任何文件</span>
+								<span v-else>一共选择{{files11.length}}个文件</span>
 								<!-- <input type="button" value="清空图片" @click="clearAll" class="clear_buttton" /> -->
 							</div>
-							<div class="img_item_box" v-for='(file,index) in files1' @click="getIndex(index)" style="float: left">
+							<div class="img_item_box" v-for='(file,index) in files1' @click="getIndex(index)" style="float: left" v-show='false'>
 								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file),1)" style="width: 200px;">
 								<span class="img_name" v-html="file.name"></span>
 								<span class="close" @click="deleteImg(file)"> × </span>
 							</div>
+							<div class="img_item_box" v-for='(file,index) in files11' @click="getIndex(index)" style="float: left">
+								<img :src='file.imgSrc' alt=""style="width: 200px;">
+								<span class="img_name" v-html="file.imgName"></span>
+								<span class="img_status">上传成功</span>
+								<span class="close" @click="deleteImg(file)"> × </span>
+							</div>
 							<div>
-								<div class="no_img1">
-									<span>质检报告复印件</span>
+								<div class="no_img1" v-show="files11.length<1">
+									<span>6个月银行流水或对公银行流水</span>
 								</div>
-								<div class="no_img1">
-									<span>商标注册受理书</span>
+								<div class="no_img1" v-show="files11.length<2">
+									<span>6个月银行流水或对公银行流水</span>
 								</div>
-								<div class="no_img1">
-									<span>产品清单</span>
+								<div class="no_img1" v-show="files11.length<3">
+									<span>6个月银行流水或对公银行流水</span>
 								</div>
-								<div class="no_img1">
-									<span>质检报告复印件</span>
+								<div class="no_img1" v-show="files11.length<4">
+									<span>6个月银行流水或对公银行流水</span>
 								</div>
-								<div class="no_img1">
-									<span>商标注册受理书</span>
+								<div class="no_img1" v-show="files11.length<5">
+									<span>6个月银行流水或对公银行流水</span>
 								</div>
-								<div class="no_img1">
-									<span>产品清单</span>
+								<div class="no_img1" v-show="files11.length<6">
+									<span>6个月银行流水或对公银行流水</span>
 								</div>
 							</div>
 						</div>
@@ -98,17 +110,23 @@
 								<span style="margin: 0 20px 0 24px;">居住证明(任选一个)：</span>
 								<vue-file-upload url="/api/terminal/uploadImg" ref="vueFileUploader2" v-bind:events='cbEvents2' v-bind:filters="filters" v-bind:request-options="reqopts2" v-on:onAdd="onAddItem2">
 								</vue-file-upload>
-								<span v-if="!files2.length">未选择任何文件</span>
-								<span v-else>一共选择{{files2.length}}个文件</span>
+								<span v-if="!files22.length">未选择任何文件</span>
+								<span v-else>一共选择{{files22.length}}个文件</span>
 								<!-- <input type="button" value="清空图片" @click="clearAll" class="clear_buttton" /> -->
 							</div>
-							<div class="img_item_box" v-for='(file,index) in files2' @click="getIndex(index)" style="float: left">
+							<div class="img_item_box" v-for='(file,index) in files2' @click="getIndex(index)" style="float: left " v-show="false">
 								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file),2)" style="width: 200px;">
 								<span class="img_name" v-html="file.name"></span>
 								<!-- <span class="close" @click="deleteImg(file)"> × </span> -->
 							</div>
+							<div class="img_item_box" v-for='(file,index) in files22' @click="getIndex(index)" style="float: left">
+								<img :src='file.imgSrc' alt=""style="width: 200px;">
+								<span class="img_name" v-html="file.imgName"></span>
+								<span class="img_status">上传成功</span>
+								<span class="close" @click="deleteImg(file)"> × </span>
+							</div>
 							<div>
-								<div class="no_img1">
+								<div class="no_img1" v-show="files33.length<1">
 									<span>居住证明</span>
 								</div>
 							</div>
@@ -122,13 +140,19 @@
 								<span style="margin: 0 20px 0 24px;">办公场所证明(任选一个)：</span>
 								<vue-file-upload url="/api/terminal/uploadImg" ref="vueFileUploader3" v-bind:events='cbEvents3' v-bind:filters="filters" v-bind:request-options="reqopts3" v-on:onAdd="onAddItem3">
 								</vue-file-upload>
-								<span v-if="!files3.length">未选择任何文件</span>
-								<span v-else>一共选择{{files3.length}}个文件</span>
+								<span v-if="!files33.length">未选择任何文件</span>
+								<span v-else>一共选择{{files33.length}}个文件</span>
 								<!-- <input type="button" value="清空图片" @click="clearAll" class="clear_buttton" /> -->
 							</div>
-							<div class="img_item_box" v-for='(file,index) in files3' @click="getIndex(index)" style="float: left">
+							<div class="img_item_box" v-for='(file,index) in files3' @click="getIndex(index)" style="float: left" v-show="false">
 								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file),3)" style="width: 200px;">
 								<span class="img_name" v-html="file.name"></span>
+								<span class="close" @click="deleteImg(file)"> × </span>
+							</div>
+							<div class="img_item_box" v-for='(file,index) in files33' @click="getIndex(index)" style="float: left">
+								<img :src='file.imgSrc' alt=""style="width: 200px;">
+								<span class="img_name" v-html="file.imgName"></span>
+								<span class="img_status">上传成功</span>
 								<span class="close" @click="deleteImg(file)"> × </span>
 							</div>
 							<div>
@@ -167,6 +191,11 @@
 				files1: [],
 				files2: [],
 				files3: [],
+				files00: [],
+				files11: [],
+				files22: [],
+				files33: [],
+				lists:[],
 				filters: [{
 					name: "imageFilter",
 					fn(file) {
@@ -174,7 +203,7 @@
 							return false;
 						} else {
 							var type = '|' + file.type.slice(file.type.lastIndexOf('/') + 1) + '|';
-							return '|jpg|png|jpeg|bmp|gif|pdf|vnd.openxmlformats-officedocument.wordprocessingml.document|msword|'.indexOf(type) !== -1;
+							return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
 						}
 
 					}
@@ -182,25 +211,13 @@
 				//事件回调
 				cbEvents0: {
 					onCompleteUpload: (file, response, status, header) => {
-						/*						this.routerTogg++;
-												if(this.routerTogg == this.files.length && this.routerJump) {
-													this.fullscreenLoading = false;
-													this.$router.push({
-														path: '/channelOffering'
-													});
-												}*/
+						this.echoImg();
 					},
 					onAddFileSuccess: (file) => {}
 				},
 				cbEvents1: {
 					onCompleteUpload: (file, response, status, header) => {
-						/*this.routerTogg++;
-						if(this.routerTogg == this.files.length && this.routerJump) {
-							this.fullscreenLoading = false;
-							this.$router.push({
-								path: '/channelOffering'
-							});
-						}*/
+						this.echoImg();
 					},
 					onAddFileSuccess: (file) => {
 
@@ -208,27 +225,15 @@
 				},
 				cbEvents2: {
 					onCompleteUpload: (file, response, status, header) => {
-						/*this.routerTogg++;
-						if(this.routerTogg == this.files.length && this.routerJump) {
-							this.fullscreenLoading = false;
-							this.$router.push({
-								path: '/channelOffering'
-							});
-						}*/
+						this.echoImg();
 					},
 					onAddFileSuccess: (file) => {
-
+						this.echoImg();
 					}
 				},
 				cbEvents3: {
 					onCompleteUpload: (file, response, status, header) => {
-						/*this.routerTogg++;
-						if(this.routerTogg == this.files.length && this.routerJump) {
-							this.fullscreenLoading = false;
-							this.$router.push({
-								path: '/channelOffering'
-							});
-						}*/
+						
 					},
 					onAddFileSuccess: (file) => {
 
@@ -236,36 +241,36 @@
 				},
 				reqopts0: {
 					formData: {
-						'type': '1',
+						'type': '5',
 						'userId': JSON.parse(sessionStorage.getItem("userInfo")).userToken,
-						'requestNo': '001',
+						'requestNo':JSON.parse(sessionStorage.getItem("userInfo")).requestNo,
 					},
 					responseType: 'json',
 					withCredentials: false
 				},
 				reqopts1: {
 					formData: {
-						'type': '2',
+						'type': '6',
 						'userId': JSON.parse(sessionStorage.getItem("userInfo")).userToken,
-						'requestNo': '001',
+						'requestNo':JSON.parse(sessionStorage.getItem("userInfo")).requestNo,
 					},
 					responseType: 'json',
 					withCredentials: false
 				},
 				reqopts2: {
 					formData: {
-						'type': '3',
+						'type': '7',
 						'userId': JSON.parse(sessionStorage.getItem("userInfo")).userToken,
-						'requestNo': '001',
+						'requestNo':JSON.parse(sessionStorage.getItem("userInfo")).requestNo,
 					},
 					responseType: 'json',
 					withCredentials: false
 				},
 				reqopts3: {
 					formData: {
-						'type': '4',
+						'type': '8',
 						'userId': JSON.parse(sessionStorage.getItem("userInfo")).userToken,
-						'requestNo': '001',
+						'requestNo':JSON.parse(sessionStorage.getItem("userInfo")).requestNo,
 					},
 					responseType: 'json',
 					withCredentials: false
@@ -415,6 +420,8 @@
 					})
 				})
 			},
+			
+
 			// 更改状态
 			updateStates(){
 				this.$http({
@@ -428,7 +435,87 @@
 						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo,         //  申请编号
 					}
 				}).then((res)=>{
-					console.log(res)
+					if(res.data.code=="000000"){
+						this.$router.push({
+							path: '/loanContract'
+						})
+					}else{
+						this.$message({
+							type:"error",
+							message:res.data.messages
+						})
+					}
+				},(res)=>{
+					this.$message({
+						type:"error",
+						message:res.data.messages
+					})
+				})
+			},
+			deleteImg(file) {
+				// file.remove();
+				this.$http({
+					method: "POST",
+					url: "/api/terminal/deleteImg",
+					headers: {
+						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+					},
+					body: {
+						
+						"src": file.imgSrc, // 图片src地址(多张逗号拼接)   TODO
+						"type": file.type, //  TODO
+						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo, // 申请编号
+						"imgNo":file.imgNo
+					}
+				}).then((res) => {
+					this.echoImg();
+					if(res.data.code =="000000"){
+						
+					}
+				}, (res) => {
+					this.$message({
+						type: "error",
+						message: res.data.messages
+
+					})
+				})
+			},
+			// 回显调用
+			echoImg(){
+				this.$http({
+					method:"POST",
+					url:"/api/terminal/EchoImg",
+					headers: {
+						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+					},
+					body:{
+						"page":"4",     
+						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo,         //  申请编号
+					}
+				}).then((res)=>{ 
+					if(res.data.code=="000000"){            // TODO
+						this.lists = res.data.imgEchos;
+						this.files00=[];
+						this.files11=[];
+						this.files22=[];
+						this.files33=[];
+						if(this.lists){
+							for(var i =0;i<this.lists.length;i++){
+								if(this.lists[i].type==5){
+									this.files00.push(this.lists[i])
+								}else if(this.lists[i].type==6){
+									this.files11.push(this.lists[i])
+								}else if(this.lists[i].type==7){
+									this.files22.push(this.lists[i])
+								}else if(this.lists[i].type==8){
+									this.files33.push(this.lists[i])
+								}
+							}
+							// console.log()
+						}else{
+
+						}
+					}
 				},(res)=>{
 					this.$message({
 						type:"error",
@@ -437,14 +524,15 @@
 				})
 			},
 			onSubmit() {
-				this.$router.push({
-						path: '/loanContract'
-					})
+				this.updateStates();
 			},
+
 		},
 		//图片上传插件部分 end
 		created: function() {
 			this.routerApi();
+			this.echoImg();
+
 		},
 		components: {
 			VueFileUpload,
@@ -505,6 +593,8 @@
 					background: rgba(0, 0, 0, 0.5);
 					position: absolute;
 					left: 0;
+					color: #ffffff;
+					padding: 3px;
 					top: 0;
 				}
 				.close {
@@ -549,6 +639,7 @@
 		display: inline-block;
 		width: 200px;
 		height: 200px;
+		font-size: 12px;
 		text-align: center;
 		margin: 10px 20px;
 		background: #e5e5e5 url("../assets/pic.png") no-repeat center;

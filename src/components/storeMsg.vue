@@ -563,7 +563,6 @@
 				}
 			};
 			return {
-
 				msg1: '',
 				channelsShow: false, //渠道是否显示隐藏
 				changeAddr: '', //与联系地址相同
@@ -1297,8 +1296,8 @@
 						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo // 请求流水号
 					}
 				}).then((res) => {
-					if(res.data.dara == "000000") {
-						alert(666)
+					if(res.data.code == "000000") {
+						
 					}
 				}, (res) => {
 					this.$message({
