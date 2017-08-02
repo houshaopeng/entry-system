@@ -159,7 +159,9 @@
 						console.log(res.data.data)
 						this.flagArr = res.data.data.list;
 						for(let i = 0; i < this.flagArr.length; i++) {
-							if(this.flagArr[i]) {
+							if(this.flagArr[i].flag) {
+								console.log(i)
+								console.log(this.flagArr[i])
 								this.$router.push({
 									path: this.flagArr[i].value
 								});

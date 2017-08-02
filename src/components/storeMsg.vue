@@ -1297,7 +1297,7 @@
 					}
 				}).then((res) => {
 					if(res.data.code == "000000") {
-						
+
 					}
 				}, (res) => {
 					this.$message({
@@ -1360,8 +1360,8 @@
 							"legalPersonName": this.ruleForm.legalName,
 							"legalPersonPhone": this.ruleForm.legalTel,
 							"legalPersonIdCard": this.ruleForm.legalId,
-							"averageTurnover": Number(this.ruleForm.threeMoney)*100,
-							"totalTurnover": Number(this.ruleForm.yearMoney)*100,
+							"averageTurnover": Number(this.ruleForm.threeMoney),
+							"totalTurnover": Number(this.ruleForm.yearMoney),
 							"mainProduct": mainProduct,
 							"averageDayFlow": Number(this.ruleForm.dailyPeople)
 						},
@@ -1452,8 +1452,8 @@
 							"legalPersonName": this.ruleForm.legalName,
 							"legalPersonPhone": this.ruleForm.legalTel,
 							"legalPersonIdCard": this.ruleForm.legalId,
-							"averageTurnover": Number(this.ruleForm.threeMoney)*100,
-							"totalTurnover": Number(this.ruleForm.yearMoney)*100,
+							"averageTurnover": Number(this.ruleForm.threeMoney),
+							"totalTurnover": Number(this.ruleForm.yearMoney),
 							"mainProduct": mainProduct,
 							"averageDayFlow": Number(this.ruleForm.dailyPeople)
 						},
@@ -1585,15 +1585,15 @@
 								legalName: json.shopManagementReqInfo.legalPersonName, //法人姓名
 								legalTel: json.shopManagementReqInfo.legalPersonPhone, //法人电话
 								legalId: json.shopManagementReqInfo.legalPersonIdCard, //法人身份证号
-								threeMoney: json.shopManagementReqInfo.averageTurnover/100, //近三月平均营业额
-								yearMoney: json.shopManagementReqInfo.totalTurnover/100, //去年全年营业额
+								threeMoney: json.shopManagementReqInfo.averageTurnover.toString(), //近三月平均营业额
+								yearMoney: json.shopManagementReqInfo.totalTurnover.toString(), //去年全年营业额
 								productName1: json.shopManagementReqInfo.mainProduct[0].name, //商品名称1
 								productName2: json.shopManagementReqInfo.mainProduct[1].name, //商品名称2
 								productName3: json.shopManagementReqInfo.mainProduct[2].name, //商品名称3
 								productPrice1: json.shopManagementReqInfo.mainProduct[0].distance, //商品价格1
 								productPrice2: json.shopManagementReqInfo.mainProduct[1].distance, //商品价格2
 								productPrice3: json.shopManagementReqInfo.mainProduct[2].distance, //商品价格3
-								dailyPeople: json.shopManagementReqInfo.averageDayFlow, //店铺日均人流量
+								dailyPeople: json.shopManagementReqInfo.averageDayFlow.toString(), //店铺日均人流量
 
 								applicantName: json.proposerReqInfo.name, //申店主姓名
 								idNumber: json.proposerReqInfo.idCard, //身份证号
@@ -1602,7 +1602,7 @@
 								maritalStatus: json.proposerReqInfo.maritalStatus.toString(), //婚姻状况
 								applicantResAddress: json.proposerReqInfo.nativeAddress.split("&")[3], //申请人户籍地址
 								applicantCurrAddress: json.proposerReqInfo.address.split("&")[3], //申请人现居住地址
-								applicantPercent: json.proposerReqInfo.shares, //申请人占股比列
+								applicantPercent: json.proposerReqInfo.shares.toString(), //申请人占股比列
 								msgBind1: JSON.parse(json.proposerReqInfo.contacts)[0].msgBind, //联系人信息
 								msgBind2: JSON.parse(json.proposerReqInfo.contacts)[1].msgBind,
 								msgBind3: JSON.parse(json.proposerReqInfo.contacts)[2].msgBind,
