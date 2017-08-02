@@ -563,7 +563,6 @@
 				}
 			};
 			return {
-
 				msg1: '',
 				channelsShow: false, //渠道是否显示隐藏
 				changeAddr: '', //与联系地址相同
@@ -1214,7 +1213,7 @@
 			},
 			// 获取机器编号
 			getMachineModel() {
-				this.$http.post("/api/terminal/getMachineModel", "", {
+				this.$http.post(process.env.API+"/terminal/getMachineModel", "", {
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					}
@@ -1238,7 +1237,7 @@
 			getChannelUserName() { //获取渠道具体人员
 				this.$http({
 					method: "POST",
-					url: "/api/terminal/getChannelUserName",
+					url: process.env.API+"/terminal/getChannelUserName",
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
@@ -1265,7 +1264,7 @@
 			getMerchantType() { //获取商户类型
 				this.$http({
 					method: "POST",
-					url: "/api/terminal/getMerchantType",
+					url: process.env.API+"/terminal/getMerchantType",
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					}
@@ -1286,7 +1285,7 @@
 				this.msg1 = JSON.parse(sessionStorage.getItem("userInfo")).requestNo
 				this.$http({
 					method: "POST",
-					url: "/api/terminal/step",
+					url: process.env.API+"/terminal/step",
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
@@ -1297,8 +1296,8 @@
 						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo // 请求流水号
 					}
 				}).then((res) => {
-					if(res.data.dara == "000000") {
-						alert(666)
+					if(res.data.code == "000000") {
+						
 					}
 				}, (res) => {
 					this.$message({
@@ -1330,7 +1329,7 @@
 				]
 				this.$http({
 					method: "POST",
-					url: "/api/terminal/Temporary",
+					url: process.env.API+"/terminal/Temporary",
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
@@ -1422,7 +1421,7 @@
 				]
 				this.$http({
 					method: "POST",
-					url: "/api/terminal/basicSubmit",
+					url: process.env.API+"/terminal/basicSubmit",
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
@@ -1510,7 +1509,7 @@
 					if(valid && (this.address.province != "请选择") && (this.address.city != "请选择") && (this.address.district != "请选择") && (this.address2.province != "请选择") && (this.address2.city != "请选择") && (this.address2.district != "请选择") && (this.address3.province != "请选择") && (this.address3.city != "请选择") && (this.address3.district != "请选择") && (this.address4.province != "请选择") && (this.address4.city != "请选择") && (this.address4.district != "请选择") && (this.companyStep != "") && (this.machineStep != "")) {
 							this.$http({
 								method:"POST",
-								url:"/api/verifyFourElements",
+								url:process.env.API+"/verifyFourElements",
 								headers:{
 									"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken
 								},
@@ -1546,7 +1545,7 @@
 			stepLogin() {
 				this.$http({
 					method: "POST",
-					url: "/api/terminal/stepLogin",
+					url: process.env.API+"/terminal/stepLogin",
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken
 					},
