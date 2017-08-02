@@ -233,7 +233,7 @@
 				},
 				cbEvents3: {
 					onCompleteUpload: (file, response, status, header) => {
-						
+
 					},
 					onAddFileSuccess: (file) => {
 
@@ -420,7 +420,7 @@
 					})
 				})
 			},
-			
+
 
 			// 更改状态
 			updateStates(){
@@ -461,7 +461,7 @@
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
 					body: {
-						
+
 						"src": file.imgSrc, // 图片src地址(多张逗号拼接)   TODO
 						"type": file.type, //  TODO
 						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo, // 申请编号
@@ -470,13 +470,12 @@
 				}).then((res) => {
 					this.echoImg();
 					if(res.data.code =="000000"){
-						
+
 					}
 				}, (res) => {
 					this.$message({
 						type: "error",
 						message: res.data.messages
-
 					})
 				})
 			},
@@ -489,10 +488,10 @@
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
 					body:{
-						"page":"4",     
+						"page":"4",
 						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo,         //  申请编号
 					}
-				}).then((res)=>{ 
+				}).then((res)=>{
 					if(res.data.code=="000000"){            // TODO
 						this.lists = res.data.imgEchos;
 						this.files00=[];
@@ -526,7 +525,6 @@
 			onSubmit() {
 				this.updateStates();
 			},
-
 		},
 		//图片上传插件部分 end
 		created: function() {
