@@ -1549,8 +1549,8 @@
 							this.msg1 = json.requestNo;
 							this.machines =JSON.parse(json.basicReqInfo.machineType)//机器型号
 							this.ruleForm={
-								contractType: json.basicReqInfo.contractType, //网点合同类型
-								networkType: json.basicReqInfo.terminalType, //网点类型
+								contractType: json.basicReqInfo.contractType.toString(), //网点合同类型
+								networkType: json.basicReqInfo.terminalType+'', //网点类型
 								belongRegion: json.basicReqInfo.terminalArea, //所属区域
 								networkName: json.basicReqInfo.terminalName, //网点名称
 								networkContact: json.basicReqInfo.terminalContact, //网点联系人
@@ -1561,8 +1561,8 @@
 								salesmanName: json.basicReqInfo.salesmanName, //业务员名字
 								salesmanNumber:json.basicReqInfo.salesmanNo, //业务员工号
 
-								isJoin: json.shopManagementReqInfo.isBrandFranchise, //是否品牌加盟店
-								businessType: json.shopManagementReqInfo.merchantType, //商户类型
+								isJoin: json.shopManagementReqInfo.isBrandFranchise.toString(), //是否品牌加盟店
+								businessType: json.shopManagementReqInfo.merchantType.toString(), //商户类型
 								createTime: json.shopManagementReqInfo.createTime, //成立时间
 								startTime: json.shopManagementReqInfo.openingTime, //开业时间
 								changeAddr: json.shopManagementReqInfo.registerAddress, //与联系地址相同
@@ -1604,7 +1604,7 @@
 								bankCity: json.bankReqInfo.openCity, //开户行城市
 								bankName: json.bankReqInfo.subBranchName, //开户行名字
 								reserPhone: json.bankReqInfo.bankPhone, //预留手机号
-								goodpoint: json.basicReqInfo.joinSuperiority.spilt(","), //终端机网络优势
+								goodpoint: json.basicReqInfo.joinSuperiority, //终端机网络优势
 							}
 						}
 					} else {
