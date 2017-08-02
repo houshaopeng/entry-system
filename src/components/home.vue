@@ -35,7 +35,7 @@
 			loginOut() {
 				this.$http({
 					method: "POST",
-					url: "/api/terminal/exit",
+					url: process.env.API+"/terminal/exit",
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					}
@@ -62,7 +62,7 @@
 			stepLogin() {
 				this.$http({
 					method: "POST",
-					url: "/api/terminal/stepLogin",
+					url: process.env.API+"/terminal/stepLogin",
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},

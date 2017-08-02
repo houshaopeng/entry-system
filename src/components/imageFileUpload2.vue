@@ -16,7 +16,7 @@
 						<div class="img_title">
 							<div>
 								<span style="margin: 0 20px 0 24px;">经营情况证明：</span>
-								<vue-file-upload url="/api/terminal/uploadImg" ref="vueFileUploader0" v-bind:events='cbEvents0' v-bind:filters="filters" v-bind:request-options="reqopts0" v-on:onAdd="onAddItem0">
+								<vue-file-upload url="/terminal-repeater/terminal/uploadImg" ref="vueFileUploader0" v-bind:events='cbEvents0' v-bind:filters="filters" v-bind:request-options="reqopts0" v-on:onAdd="onAddItem0">
 								</vue-file-upload>
 								<span v-if="!files00.length">未选择任何文件</span>
 								<span v-else>一共选择{{files00.length}}个文件</span>
@@ -63,7 +63,7 @@
 						<div class="img_title">
 							<div>
 								<span style="margin: 0 20px 0 24px;">收入证明：</span>
-								<vue-file-upload url="/api/terminal/uploadImg" ref="vueFileUploader1" v-bind:events='cbEvents1' v-bind:filters="filters" v-bind:request-options="reqopts1" v-on:onAdd="onAddItem1">
+								<vue-file-upload url="/terminal-repeater/terminal/uploadImg" ref="vueFileUploader1" v-bind:events='cbEvents1' v-bind:filters="filters" v-bind:request-options="reqopts1" v-on:onAdd="onAddItem1">
 								</vue-file-upload>
 								<span v-if="!files11.length">未选择任何文件</span>
 								<span v-else>一共选择{{files11.length}}个文件</span>
@@ -108,7 +108,7 @@
 						<div class="img_title">
 							<div>
 								<span style="margin: 0 20px 0 24px;">居住证明(任选一个)：</span>
-								<vue-file-upload url="/api/terminal/uploadImg" ref="vueFileUploader2" v-bind:events='cbEvents2' v-bind:filters="filters" v-bind:request-options="reqopts2" v-on:onAdd="onAddItem2">
+								<vue-file-upload url="/terminal-repeater/terminal/uploadImg" ref="vueFileUploader2" v-bind:events='cbEvents2' v-bind:filters="filters" v-bind:request-options="reqopts2" v-on:onAdd="onAddItem2">
 								</vue-file-upload>
 								<span v-if="!files22.length">未选择任何文件</span>
 								<span v-else>一共选择{{files22.length}}个文件</span>
@@ -138,7 +138,7 @@
 						<div class="img_title">
 							<div>
 								<span style="margin: 0 20px 0 24px;">办公场所证明(任选一个)：</span>
-								<vue-file-upload url="/api/terminal/uploadImg" ref="vueFileUploader3" v-bind:events='cbEvents3' v-bind:filters="filters" v-bind:request-options="reqopts3" v-on:onAdd="onAddItem3">
+								<vue-file-upload url="/terminal-repeater/terminal/uploadImg" ref="vueFileUploader3" v-bind:events='cbEvents3' v-bind:filters="filters" v-bind:request-options="reqopts3" v-on:onAdd="onAddItem3">
 								</vue-file-upload>
 								<span v-if="!files33.length">未选择任何文件</span>
 								<span v-else>一共选择{{files33.length}}个文件</span>
@@ -456,7 +456,7 @@
 				// file.remove();
 				this.$http({
 					method: "POST",
-					url: "/api/terminal/deleteImg",
+					url: process.env.API+"/terminal/deleteImg",
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
@@ -484,7 +484,7 @@
 			echoImg(){
 				this.$http({
 					method:"POST",
-					url:"/api/terminal/EchoImg",
+					url:process.env.API+"/terminal/EchoImg",
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
