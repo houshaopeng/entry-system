@@ -15,7 +15,7 @@
 				</el-input>
 			</el-form-item>
 			<el-form-item v-if="isFlag">
-				<el-checkbox  @click="dialogFormVisible = true" v-model="checked"></el-checkbox>
+				<el-checkbox @click="dialogFormVisible = true" v-model="checked"></el-checkbox>
 				<el-button type="text" @click="dialogFormVisible = true">我已认真阅读并同意《注册协议》</el-button>
 				<el-dialog title="咨询协议" :visible.sync="dialogFormVisible">
 					<div slot="footer" class="dialog-footer" style="text-align:center;">
@@ -47,9 +47,9 @@
 				}
 			};
 			return {
-				isFlag:false,
-				checked:false,
-				dialogFormVisible:false,
+				isFlag: false,
+				checked: false,
+				dialogFormVisible: false,
 				username: false,
 				getcode: "获取验证码",
 				getcodeshow: false,
@@ -68,8 +68,8 @@
 							trigger: 'blur'
 						},
 						{
-							min: 6,
-							max: 6,
+							min: 5,
+							max: 5,
 							message: '请输入正确验证码',
 							trigger: 'blur'
 						}
@@ -83,14 +83,14 @@
 		methods: {
 			getCode() { //获取验证码
 				var countdown = 60;
-				this.$http.post(process.env.API+"/getMessageCode", {
+				this.$http.post(process.env.API + "/getMessageCode", {
 					"userId": this.ruleForm.username
 				}).then((res) => {
 					if(res.data.code == '000000') {
-						if(res.data.data.isFlag == "1"){
+						if(res.data.data.isFlag == "1") {
 							this.isFlag = true;
 							console.log(this.isFlag)
-						}else if(res.data.data.isFlag == "2"){
+						} else if(res.data.data.isFlag == "2") {
 							this.isFlag = false;
 							console.log(this.isFlag)
 						}
@@ -116,14 +116,18 @@
 			},
 			// 申请编号
 			applicationNumber() {
-				this.$http.post(process.env.API+"/terminal/getNumber", "", {
+				this.$http.post(process.env.API + "/terminal/getNumber", "", {
 					headers: {
 						"x-sljr-session-token": this.token,
 					}
 				}).then((res) => {
 					if(res.data.code == '000000') {
 						this.msg = res.data.data.requestNo;
-						sessionStorage.setItem('userInfo', JSON.stringify({userToken:this.token,telPhone:this.ruleForm.username,requestNo:this.msg}));
+						sessionStorage.setItem('userInfo', JSON.stringify({
+							userToken: this.token,
+							telPhone: this.ruleForm.username,
+							requestNo: this.msg
+						}));
 						this.stepLogin();
 					} else {
 						this.$message({
@@ -142,7 +146,7 @@
 			stepLogin() {
 				this.$http({
 					method: "POST",
-					url: process.env.API+"/terminal/stepLogin",
+					url: process.env.API + "/terminal/stepLogin",
 					headers: {
 						"x-sljr-session-token": this.token,
 					},
@@ -168,7 +172,7 @@
 							message: res.data.messages
 						})
 					}
-				},(res) => {
+				}, (res) => {
 					this.$message({
 						type: "error",
 						message: res.data.messages
@@ -176,28 +180,34 @@
 				})
 			},
 			login() { //登录
-				if(!this.isFlag){
+				if(!this.isFlag) {
 					this.gologin()
-				}else if(this.isFlag&&this.checked){
-					this.isFlag =false;
+				} else if(this.isFlag && this.checked) {
+					this.isFlag = false;
 					this.gologin()
-				}else{
+				} else {
 					this.$message({
-						type:"error",
-						message:"请勾选认真阅读并同意《注册协议》"
+						type: "error",
+						message: "请勾选认真阅读并同意《注册协议》"
 					})
 				}
 			},
-			gologin(){
-				if(!this.ruleForm.codeID){
+			gologin() {
+				if(!this.ruleForm.username) {
 					this.$message({
-						type:"error",
-						message:"验证码不能为空"
-					})
-				}else{
-					this.$http({
+							type: "error",
+							message: "手机号不能为空"
+						})
+				} else {
+					if(!this.ruleForm.codeID) {
+						this.$message({
+							type: "error",
+							message: "验证码不能为空"
+						})
+					} else {
+						this.$http({
 							method: "POST",
-							url: process.env.API+"/login",
+							url: process.env.API + "/login",
 							body: {
 								"userId": this.ruleForm.username,
 								"password": this.ruleForm.codeID
@@ -223,6 +233,7 @@
 								message: res.data.messages
 							})
 						})
+					}
 				}
 			},
 			submitForm(formName) {

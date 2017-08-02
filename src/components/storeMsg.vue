@@ -448,7 +448,7 @@
 							</el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="10">
+					<el-col :xs="24" :sm="24" :md="16" :lg="12" style="margin-bottom: 22px;">
 						<Chinaddress :opts="bankObj" v-model="bankAddress" id="address-picker"></Chinaddress>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
