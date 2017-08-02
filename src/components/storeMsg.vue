@@ -1343,7 +1343,7 @@
 							"terminalName": this.ruleForm.networkName,
 							"terminalContact": this.ruleForm.networkContact,
 							"terminalPhone": this.ruleForm.contactTel,
-							"recommendChanel": this.ruleForm.recommendedID,
+							"recommendChanel": this.ruleForm.recommendedID+'&'+this.ruleForm.recommendedChannels,
 							"contactAddress": contactAddress,
 							"salesmanName": this.ruleForm.salesmanName,
 							"salesmanNo": this.ruleForm.salesmanNumber,
@@ -1381,7 +1381,7 @@
 							"bankCard": this.ruleForm.bankCardNumber,
 							"openProvince": this.bankAddress.province,
 							"openCity": this.bankAddress.city,
-							"subBranchName": this.ruleForm.bankNam,
+							"subBranchName": this.ruleForm.bankName,
 							"bankPhone": this.ruleForm.reserPhone
 						}
 					}
@@ -1473,7 +1473,7 @@
 						    "bankCard": this.ruleForm.bankCardNumber,
 							"openProvince": this.bankAddress.province,
 							"openCity": this.bankAddress.city,
-							"subBranchName": this.ruleForm.bankNam,
+							"subBranchName": this.ruleForm.bankName,
 							"bankPhone": this.ruleForm.reserPhone
 						  }
 					}
@@ -1563,6 +1563,7 @@
 							console.log(json.basicReqInfo.joinSuperiority)
 							this.msg1 = json.requestNo;
 							this.machines =JSON.parse(json.basicReqInfo.machineType)//机器型号
+							this.companys = json.basicReqInfo.aroundFinancialInfo;
 							this.ruleForm={
 								contractType: json.basicReqInfo.contractType.toString(), //网点合同类型
 								networkType: json.basicReqInfo.terminalType.toString(), //网点类型
@@ -1570,9 +1571,9 @@
 								networkName: json.basicReqInfo.terminalName, //网点名称
 								networkContact: json.basicReqInfo.terminalContact, //网点联系人
 								contactTel: json.basicReqInfo.terminalPhone, //联系电话
-								recommendedID: json.basicReqInfo.recommendChanel, //推荐渠道
-								recommendedChannels: json.basicReqInfo.recommendChanel, //具体渠道
-								contactAddress: json.basicReqInfo.contactAddress, //联系地址
+								recommendedID: json.basicReqInfo.recommendChanel.split("&")[0], //推荐渠道
+								recommendedChannels: json.basicReqInfo.recommendChanel.split("&")[1], //具体渠道
+								contactAddress: json.basicReqInfo.contactAddress.split("&")[3], //联系地址
 								salesmanName: json.basicReqInfo.salesmanName, //业务员名字
 								salesmanNumber:json.basicReqInfo.salesmanNo, //业务员工号
 
@@ -1580,7 +1581,7 @@
 								businessType: json.shopManagementReqInfo.merchantType.toString(), //商户类型
 								createTime: new Date(json.shopManagementReqInfo.createTime), //成立时间
 								startTime: new Date(json.shopManagementReqInfo.openingTime), //开业时间
-								registeredAddress: json.shopManagementReqInfo.registerAddress, //注册地址详细地址
+								registeredAddress: json.shopManagementReqInfo.registerAddress.split("&")[3], //注册地址详细地址
 								zipCode: json.shopManagementReqInfo.postalCode, //邮政编码
 								legalName: json.shopManagementReqInfo.legalPersonName, //法人姓名
 								legalTel: json.shopManagementReqInfo.legalPersonPhone, //法人电话
@@ -1600,18 +1601,18 @@
 								healthStatus: json.proposerReqInfo.healthStatus.toString(), //健康状况
 								applicantDegree: json.proposerReqInfo.educational.toString(), //申请人学历
 								maritalStatus: json.proposerReqInfo.maritalStatus.toString(), //婚姻状况
-								applicantResAddress: json.proposerReqInfo.nativeAddress, //申请人户籍地址
-								applicantCurrAddress: json.proposerReqInfo.address, //申请人现居住地址
+								applicantResAddress: json.proposerReqInfo.nativeAddress.split("&")[3], //申请人户籍地址
+								applicantCurrAddress: json.proposerReqInfo.address.split("&")[3], //申请人现居住地址
 								applicantPercent: json.proposerReqInfo.shares, //申请人占股比列
-								msgBind1: json.proposerReqInfo.contacts[0].msgBind, //联系人信息
-								msgBind2: json.proposerReqInfo.contacts[1].msgBind,
-								msgBind3: json.proposerReqInfo.contacts[2].msgBind,
-								msgName1: json.proposerReqInfo.contacts[0].msgName,
-								msgName2: json.proposerReqInfo.contacts[1].msgName,
-								msgName3: json.proposerReqInfo.contacts[2].msgName,
-								msgTel1: json.proposerReqInfo.contacts[0].msgTel,
-								msgTel2: json.proposerReqInfo.contacts[1].msgTel,
-								msgTel3: json.proposerReqInfo.contacts[2].msgTel,
+								msgBind1: JSON.parse(json.proposerReqInfo.contacts)[0].msgBind, //联系人信息
+								msgBind2: JSON.parse(json.proposerReqInfo.contacts)[1].msgBind,
+								msgBind3: JSON.parse(json.proposerReqInfo.contacts)[2].msgBind,
+								msgName1: JSON.parse(json.proposerReqInfo.contacts)[0].msgName,
+								msgName2: JSON.parse(json.proposerReqInfo.contacts)[1].msgName,
+								msgName3: JSON.parse(json.proposerReqInfo.contacts)[2].msgName,
+								msgTel1: JSON.parse(json.proposerReqInfo.contacts)[0].msgTel,
+								msgTel2: JSON.parse(json.proposerReqInfo.contacts)[1].msgTel,
+								msgTel3: JSON.parse(json.proposerReqInfo.contacts)[2].msgTel,
 
 								bankCardNumber: json.bankReqInfo.bankCard, //银行卡卡号
 								bankProvice: json.bankReqInfo.openProvince, //开户行省
