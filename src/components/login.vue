@@ -116,7 +116,7 @@
 			},
 			// 申请编号
 			applicationNumber() {
-				this.$http.post("/api/terminal/getNumber", "", {
+				this.$http.post(process.env.API+"/terminal/getNumber", "", {
 					headers: {
 						"x-sljr-session-token": this.token,
 					}
@@ -142,7 +142,7 @@
 			stepLogin() {
 				this.$http({
 					method: "POST",
-					url: "/api/terminal/stepLogin",
+					url: process.env.API+"/terminal/stepLogin",
 					headers: {
 						"x-sljr-session-token": this.token,
 					},
@@ -197,7 +197,7 @@
 				}else{
 					this.$http({
 							method: "POST",
-							url: "/api/login",
+							url: process.env.API+"/login",
 							body: {
 								"userId": this.ruleForm.username,
 								"password": this.ruleForm.codeID
