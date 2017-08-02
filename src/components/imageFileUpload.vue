@@ -28,7 +28,7 @@
 								<span class="close" @click="deleteImg(file)"> × </span>
 							</div>
 							<div class="img_item_box" v-for='(file,index) in files00' @click="getIndex(index)" style="float: left">
-								<img :src='file.imgSrc' alt=""style="width: 200px;">
+								<img :src='file.imgSrc' alt="" style="width: 200px;">
 								<span class="img_name" v-html="file.imgName"></span>
 								<span class="img_status">上传成功</span>
 								<span class="close" @click="deleteImg(file)"> × </span>
@@ -64,7 +64,7 @@
 								<span class="close" @click="deleteImg(file)"> × </span>
 							</div> -->
 							<div class="img_item_box" v-for='(file,index) in files11' @click="getIndex(index)" style="float: left">
-								<img :src='file.imgSrc' alt=""style="width: 200px;">
+								<img :src='file.imgSrc' alt="" style="width: 200px;">
 								<span class="img_name" v-html="file.imgName"></span>
 								<span class="img_status">上传成功</span>
 								<span class="close" @click="deleteImg(file)"> × </span>
@@ -101,7 +101,7 @@
 								<span class="close" @click="deleteImg(file)"> × </span>
 							</div> -->
 							<div class="img_item_box" v-for='(file,index) in files22' @click="getIndex(index)" style="float: left">
-								<img :src='file.imgSrc' alt=""style="width: 200px;">
+								<img :src='file.imgSrc' alt="" style="width: 200px;">
 								<span class="img_name" v-html="file.imgName"></span>
 								<span class="img_status">上传成功</span>
 								<span class="close" @click="deleteImg(file)"> × </span>
@@ -147,7 +147,7 @@
 								<span class="close" @click="deleteImg(file)"> × </span>
 							</div> -->
 							<div class="img_item_box" v-for='(file,index) in files33' @click="getIndex(index)" style="float: left">
-								<img :src='file.imgSrc' alt=""style="width: 200px;">
+								<img :src='file.imgSrc' alt="" style="width: 200px;">
 								<span class="img_name" v-html="file.imgName"></span>
 								<span class="img_status">上传成功</span>
 								<span class="close" @click="deleteImg(file)"> × </span>
@@ -171,7 +171,7 @@
 				</el-row>
 			</div>
 			<!-- 弹出层的模态框 start-->
-				<Modal :modelTogg="modelTogg" :imgSrc="imgSrc" @closeModal="closeModal" @upperPage="upperPage" :files="tempFile" @nextPage="nextPage"></Modal>
+			<Modal :modelTogg="modelTogg" :imgSrc="imgSrc" @closeModal="closeModal" @upperPage="upperPage" :files="tempFile" @nextPage="nextPage"></Modal>
 			<!-- 弹出层的模态框 end-->
 			<div class="footer">
 				<el-button type="primary" @click="onSubmit">下一步</el-button>
@@ -190,16 +190,16 @@
 			return {
 				//图片上传插件部分 start
 				//过滤器回调
-				files00:[],
-				files11:[],
-				files22:[],
-				files33:[],
+				files00: [],
+				files11: [],
+				files22: [],
+				files33: [],
 				files0: [],
 				files1: [],
 				files2: [],
 				files3: [],
 				// aa:true,
-				initId:0,
+				initId: 0,
 				filters: [{
 					name: "imageFilter",
 					fn(file) {
@@ -229,7 +229,7 @@
 						this.echoImg();
 					},
 					onAddFileSuccess: (file) => {
-						
+
 					}
 				},
 				cbEvents2: {
@@ -237,7 +237,7 @@
 						this.echoImg();
 					},
 					onAddFileSuccess: (file) => {
-						
+
 					}
 				},
 				cbEvents3: {
@@ -245,7 +245,7 @@
 						this.echoImg();
 					},
 					onAddFileSuccess: (file) => {
-						
+
 					}
 				},
 				reqopts0: {
@@ -262,7 +262,7 @@
 					formData: {
 						'type': '2',
 						'userId': JSON.parse(sessionStorage.getItem("userInfo")).userToken,
-						'requestNo':JSON.parse(sessionStorage.getItem("userInfo")).requestNo,
+						'requestNo': JSON.parse(sessionStorage.getItem("userInfo")).requestNo,
 					},
 					responseType: 'json',
 					withCredentials: false
@@ -290,8 +290,8 @@
 				// 弹出的模态框
 				modelTogg: false,
 				imgSrc: '',
-				tempFile:'',
-				initIndex:0,
+				tempFile: '',
+				initIndex: 0,
 			}
 		},
 		methods: {
@@ -335,16 +335,16 @@
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
 					body: {
-						
+
 						"src": file.imgSrc, // 图片src地址(多张逗号拼接)   TODO
 						"type": file.type, //  TODO
 						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo, // 申请编号
-						"imgNo":file.imgNo
+						"imgNo": file.imgNo
 					}
 				}).then((res) => {
 					this.echoImg();
-					if(res.data.code =="000000"){
-						
+					if(res.data.code == "000000") {
+
 					}
 				}, (res) => {
 					this.$message({
@@ -360,19 +360,19 @@
 			clearAll() {
 				this.$refs.vueFileUploader.clearAll();
 			},
-			showModal(val,idx) {
-				if(idx == 0){
-                    this.tempFile = this.files0;
-                }else if(idx == 1){
-                    this.tempFile = this.files1;
-                }else if(idx == 2){
-                    this.tempFile = this.files2;
-                }else if(idx == 3){
-                     this.tempFile = this.files3;
-                }
-                this.initIndex = 0;
-                this.imgSrc =val;
-                this.modelTogg = true;
+			showModal(val, idx) {
+				if(idx == 0) {
+					this.tempFile = this.files0;
+				} else if(idx == 1) {
+					this.tempFile = this.files1;
+				} else if(idx == 2) {
+					this.tempFile = this.files2;
+				} else if(idx == 3) {
+					this.tempFile = this.files3;
+				}
+				this.initIndex = 0;
+				this.imgSrc = val;
+				this.modelTogg = true;
 			},
 			closeModal() {
 				this.modelTogg = false;
@@ -386,30 +386,51 @@
 			},
 			// 删除图片(提交前删除)
 			delectImg() {
-				
-			},
-			// 路由接口调试
-			routerApi(){
-				console.log(JSON.parse(sessionStorage.getItem("userInfo")).requestNo)
 				this.$http({
-					method:"POST",
-					url:"/api/terminal/step",    
+					method: "POST",
+					url: process.env.API + "/terminal/deleteImg",
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
-					body:{
-						"userId":JSON.parse(sessionStorage.getItem("userInfo")).telPhone,      // TODO    手机号码
-						"level":"2",
-						"requestNo":JSON.parse(sessionStorage.getItem("userInfo")).requestNo    // 请求流水号
+					body: {
+						"imgSrcs": "", // 图片src地址(多张逗号拼接)   TODO
+						"type": "1", //  TODO
+						"userId": JSON.parse(sessionStorage.getItem("userInfo")).telPhone, // 用户唯一标识登录的手机号
+						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo, // 申请编号
 					}
-				}).then((res)=>{
-					if(res.data.dara=="000000"){
-	
+				}).then((res) => {
+					if(res.data.code == "000000") {
+
 					}
-				},(res)=>{
+				}, (res) => {
 					this.$message({
-						type:"error",
-						message:res.data.messages
+						type: "error",
+						message: res.data.messages
+					})
+				})
+			},
+			// 路由接口调试
+			routerApi() {
+				console.log(JSON.parse(sessionStorage.getItem("userInfo")).requestNo)
+				this.$http({
+					method: "POST",
+					url: process.env.API + "/terminal/step",
+					headers: {
+						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+					},
+					body: {
+						"userId": JSON.parse(sessionStorage.getItem("userInfo")).telPhone, // TODO    手机号码
+						"level": "2",
+						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo // 请求流水号
+					}
+				}).then((res) => {
+					if(res.data.dara == "000000") {
+
+					}
+				}, (res) => {
+					this.$message({
+						type: "error",
+						message: res.data.messages
 					})
 				})
 			},
@@ -441,44 +462,44 @@
 			},
 			// 模态框部分  end
 			// 更改状态
-			updateStates(){
+			updateStates() {
 				this.$http({
-					method:"POST",
-					url:"/api/terminal/updateOrderStatus",
+					method: "POST",
+					url: process.env.API + "/terminal/updateOrderStatus",
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
-					body:{
-						"pagination":3,     
-						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo,         //  申请编号
+					body: {
+						"pagination": 3,
+						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo, //  申请编号
 					}
-				}).then((res)=>{
-					if(res.data.code=="000000"){
+				}).then((res) => {
+					if(res.data.code == "000000") {
 						this.$router.push({
 							path: '/imageFileUpload2'
 						})
 					}
-				},(res)=>{
+				}, (res) => {
 					this.$message({
-						type:"error",
-						message:res.data.messages
+						type: "error",
+						message: res.data.messages
 					})
 				})
 			},
 			// 回显调用
-			echoImg(){
+			echoImg() {
 				this.$http({
-					method:"POST",
-					url:"/api/terminal/EchoImg",
+					method: "POST",
+					url: "/api/terminal/EchoImg",
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
-					body:{
-						"page":"3",     
-						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo,         //  申请编号
+					body: {
+						"page": "3",
+						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo, //  申请编号
 					}
-				}).then((res)=>{ 
-					if(res.data.code=="000000"){            // TODO
+				}).then((res) => {
+					if(res.data.code == "000000") { // TODO
 						this.lists = res.data.imgEchos;
 						this.files00=[];
 						this.files11=[];
@@ -500,10 +521,10 @@
 
 						}
 					}
-				},(res)=>{
+				}, (res) => {
 					this.$message({
-						type:"error",
-						message:res.data.messages
+						type: "error",
+						message: res.data.messages
 					})
 				})
 			}
@@ -513,8 +534,8 @@
 			Modal,
 			vueLoading
 		},
-		mounted:function(){
-			
+		mounted: function() {
+
 			this.routerApi();
 			this.echoImg();
 			// console.log(this.$route.params.)
