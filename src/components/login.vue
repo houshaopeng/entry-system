@@ -152,7 +152,7 @@
 					}
 				}).then((res) => {
 					if(res.data.code == "000000") {
-
+						console.log(res.data.data)
 						this.flagArr = res.data.data.list;
 						for(let i = 0; i < this.flagArr.length; i++) {
 							if(this.flagArr[i]) {
@@ -168,7 +168,7 @@
 							message: res.data.messages
 						})
 					}
-				}, (res) => {
+				},(res) => {
 					this.$message({
 						type: "error",
 						message: res.data.messages

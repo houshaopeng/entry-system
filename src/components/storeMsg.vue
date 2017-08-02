@@ -1384,7 +1384,12 @@
 						}
 					}
 				}).then((res) => {
-					console.log(res)
+					if(res.data.code=="000000"){
+						this.$message({
+							type:"success",
+							message:"暂存成功"
+						})
+					}
 				}, (res) => {
 					this.$message({
 						type: "error",
@@ -1524,7 +1529,97 @@
 						return false;
 					}
 				})
-			}
+			},
+			stepLogin() {
+				this.$http({
+					method: "POST",
+					url: "/api/terminal/stepLogin",
+					headers: {
+						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken
+					},
+					body: {
+						"userId":JSON.parse(sessionStorage.getItem("userInfo")).telPhone,
+						"requestNo":JSON.parse(sessionStorage.getItem("userInfo")).requestNo
+					}
+				}).then((res) => {
+					if(res.data.code == "000000") {
+						console.log(res.data)
+						if(res.data.data.json){
+							var json = res.data.data.json;
+							this.msg1 = json.requestNo;
+							this.machines =JSON.parse(json.basicReqInfo.machineType)//机器型号
+							this.ruleForm={
+								contractType: json.basicReqInfo.contractType, //网点合同类型
+								networkType: json.basicReqInfo.terminalType, //网点类型
+								belongRegion: json.basicReqInfo.terminalArea, //所属区域
+								networkName: json.basicReqInfo.terminalName, //网点名称
+								networkContact: json.basicReqInfo.terminalContact, //网点联系人
+								contactTel: json.basicReqInfo.terminalPhone, //联系电话
+								recommendedID: json.basicReqInfo.recommendChanel, //推荐渠道
+								recommendedChannels: json.basicReqInfo.recommendChanel, //具体渠道
+								contactAddress: json.basicReqInfo.contactAddress, //联系地址
+								salesmanName: json.basicReqInfo.salesmanName, //业务员名字
+								salesmanNumber:json.basicReqInfo.salesmanNo, //业务员工号
+
+								isJoin: json.shopManagementReqInfo.isBrandFranchise, //是否品牌加盟店
+								businessType: json.shopManagementReqInfo.merchantType, //商户类型
+								createTime: json.shopManagementReqInfo.createTime, //成立时间
+								startTime: json.shopManagementReqInfo.openingTime, //开业时间
+								changeAddr: json.shopManagementReqInfo.registerAddress, //与联系地址相同
+								registeredAddress: json.shopManagementReqInfo.registerAddress, //注册地址详细地址
+								zipCode: json.shopManagementReqInfo.postalCode, //邮政编码
+								legalName: json.shopManagementReqInfo.legalPersonName, //法人姓名
+								legalTel: json.shopManagementReqInfo.legalPersonPhone, //法人电话
+								legalId: json.shopManagementReqInfo.legalPersonIdCard, //法人身份证号
+								threeMoney: json.shopManagementReqInfo.averageTurnover, //近三月平均营业额
+								yearMoney: json.shopManagementReqInfo.totalTurnover, //去年全年营业额
+								productName1: json.shopManagementReqInfo.mainProduct[0].name, //商品名称1
+								productName2: json.shopManagementReqInfo.mainProduct[1].name, //商品名称2
+								productName3: json.shopManagementReqInfo.mainProduct[2].name, //商品名称3
+								productPrice1: json.shopManagementReqInfo.mainProduct[0].distance, //商品价格1
+								productPrice2: json.shopManagementReqInfo.mainProduct[1].distance, //商品价格2
+								productPrice3: json.shopManagementReqInfo.mainProduct[2].distance, //商品价格3
+								dailyPeople: json.shopManagementReqInfo.averageDayFlow, //店铺日均人流量
+
+								applicantName: json.proposerReqInfo.name, //申店主姓名
+								idNumber: json.proposerReqInfo.idCard, //身份证号
+								healthStatus: json.proposerReqInfo.healthStatus, //健康状况
+								applicantDegree: json.proposerReqInfo.educational, //申请人学历
+								maritalStatus: json.proposerReqInfo.maritalStatus, //婚姻状况
+								applicantResAddress: json.proposerReqInfo.nativeAddress, //申请人户籍地址
+								applicantCurrAddress: json.proposerReqInfo.address, //申请人现居住地址
+								applicantPercent: json.proposerReqInfo.shares, //申请人占股比列
+								msgBind1: json.proposerReqInfo.contacts[0].msgBind, //联系人信息
+								msgBind2: json.proposerReqInfo.contacts[1].msgBind,
+								msgBind3: json.proposerReqInfo.contacts[2].msgBind,
+								msgName1: json.proposerReqInfo.contacts[0].msgName,
+								msgName2: json.proposerReqInfo.contacts[1].msgName,
+								msgName3: json.proposerReqInfo.contacts[2].msgName,
+								msgTel1: json.proposerReqInfo.contacts[0].msgTel,
+								msgTel2: json.proposerReqInfo.contacts[1].msgTel,
+								msgTel3: json.proposerReqInfo.contacts[2].msgTel,
+
+								bankCardNumber: json.bankReqInfo.bankCard, //银行卡卡号
+								bankProvice: json.bankReqInfo.openProvince, //开户行省
+								bankCity: json.bankReqInfo.openCity, //开户行城市
+								bankName: json.bankReqInfo.subBranchName, //开户行名字
+								reserPhone: json.bankReqInfo.bankPhone, //预留手机号
+								goodpoint: json.basicReqInfo.joinSuperiority.spilt(","), //终端机网络优势
+							}
+						}
+					} else {
+						this.$message({
+							type: "error",
+							message: res.data.messages
+						})
+					}
+				},(res) => {
+					this.$message({
+						type: "error",
+						message: res.data.messages
+					})
+				})
+			},
 
 		},
 		created: function() {},
@@ -1535,6 +1630,7 @@
 			this.getMachineModel();
 			this.routerApi();
 			this.getMerchantType();
+			this.stepLogin(); //请求暂存数据 渲染页面
 		}
 	}
 </script>
