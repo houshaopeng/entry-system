@@ -83,7 +83,7 @@
 		methods: {
 			getCode() { //获取验证码
 				var countdown = 60;
-				this.$http.post("/api/getMessageCode", {
+				this.$http.post(process.env.API+"/getMessageCode", {
 					"userId": this.ruleForm.username
 				}).then((res) => {
 					if(res.data.code == '000000') {
@@ -116,7 +116,7 @@
 			},
 			// 申请编号
 			applicationNumber() {
-				this.$http.post("/api/terminal/getNumber", "", {
+				this.$http.post(process.env.API+"/terminal/getNumber", "", {
 					headers: {
 						"x-sljr-session-token": this.token,
 					}
@@ -142,7 +142,7 @@
 			stepLogin() {
 				this.$http({
 					method: "POST",
-					url: "/api/terminal/stepLogin",
+					url: process.env.API+"/terminal/stepLogin",
 					headers: {
 						"x-sljr-session-token": this.token,
 					},
@@ -184,39 +184,46 @@
 				}else{
 					this.$message({
 						type:"error",
-						message:"请认真阅读并同意《注册协议》"
+						message:"请勾选认真阅读并同意《注册协议》"
 					})
 				}
 			},
 			gologin(){
-				this.$http({
-						method: "POST",
-						url: "/api/login",
-						body: {
-							"userId": this.ruleForm.username,
-							"password": this.ruleForm.codeID
-						}
-					}).then((res) => {
-						if(res.data.code == "000000") {
-							this.token = res.data.data["x-sljr-session-token"];
-							this.applicationNumber();
-							sessionStorage.setItem('userInfo', JSON.stringify({
-								userToken: res.data.data["x-sljr-session-token"],
-								telPhone: this.ruleForm.username,
-								requestNo: this.msg
-							}));
-						} else {
+				if(!this.ruleForm.codeID){
+					this.$message({
+						type:"error",
+						message:"验证码不能为空"
+					})
+				}else{
+					this.$http({
+							method: "POST",
+							url: process.env.API+"/login",
+							body: {
+								"userId": this.ruleForm.username,
+								"password": this.ruleForm.codeID
+							}
+						}).then((res) => {
+							if(res.data.code == "000000") {
+								this.token = res.data.data["x-sljr-session-token"];
+								this.applicationNumber();
+								sessionStorage.setItem('userInfo', JSON.stringify({
+									userToken: res.data.data["x-sljr-session-token"],
+									telPhone: this.ruleForm.username,
+									requestNo: this.msg
+								}));
+							} else {
+								this.$message({
+									type: "error",
+									message: res.data.messages
+								})
+							}
+						}, (res) => {
 							this.$message({
 								type: "error",
 								message: res.data.messages
 							})
-						}
-					}, (res) => {
-						this.$message({
-							type: "error",
-							message: res.data.messages
 						})
-					})
+				}
 			},
 			submitForm(formName) {
 				this.$refs[formName].validate((valid) => {
