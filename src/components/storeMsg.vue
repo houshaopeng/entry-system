@@ -168,7 +168,7 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24">
-						<el-form-item label="注册地址">
+						<el-form-item label="注册地址" prop="changeAddr">
 							<el-checkbox-group v-model="changeAddr">
 								<el-checkbox label="与联系地址相同" name="type"></el-checkbox>
 							</el-checkbox-group>
@@ -178,7 +178,7 @@
 						<el-form-item label="" prop="registeredAddress">
 							<el-row>
 								<el-col :xs="18" :sm="18" :md="18" :lg="18">
-									<address-picker :opts="obj2" v-model="address2" @blur="changeaddr2"></address-picker>
+									<address-picker :opts="obj2" v-model="address2"></address-picker>
 								</el-col>
 								<el-col :xs="6" :sm="6" :md="6" :lg="6">
 									<el-input v-model="ruleForm.registeredAddress" placeholder="请输入详细联系地址"></el-input>
@@ -242,7 +242,7 @@
 				</el-row> -->
 				<el-row :gutter="10">
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
-						<el-form-item label="主营商品1" prop="productName1">
+						<el-form-item label="主营商品2" prop="productName1">
 							<el-input :maxlength="30" v-model="ruleForm.productName1" placeholder="请输入商品名称">
 							</el-input>
 						</el-form-item>
@@ -304,7 +304,7 @@
 			<div class="content">
 				<el-row :gutter="10">
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
-						<el-form-item label="申店主姓名" prop="applicantName">
+						<el-form-item label="申请店主姓名" prop="applicantName">
 							<el-input :maxlength="30" v-model="ruleForm.applicantName" placeholder="请输入申请人姓名"></el-input>
 						</el-form-item>
 					</el-col>
@@ -448,19 +448,6 @@
 							</el-input>
 						</el-form-item>
 					</el-col>
-					<!-- <address-picker :opts="obj4" v-model="address4"></address-picker> -->
-					<!-- <el-col :xs="24" :sm="12" :md="8" :lg="6">
-						<el-form-item label="开户行省份" prop="bankProvice">
-							<el-input v-model="ruleForm.bankProvice" placeholder="请输入开户行省份">
-							</el-input>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="6">
-						<el-form-item label="开户行城市" prop="bankCity">
-							<el-input v-model="ruleForm.bankCity" placeholder="请输入开户行城市">
-							</el-input>
-						</el-form-item>
-					</el-col> -->
 					<el-col :xs="24" :sm="12" :md="8" :lg="10">
 						<Chinaddress :opts="bankObj" v-model="bankAddress" id="address-picker"></Chinaddress>
 					</el-col>
@@ -472,7 +459,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="预留手机号" prop="reserPhone">
-							<el-input :maxlength="11" v-model="ruleForm.reserPhone" placeholder="请输入预留手机号"></el-input>
+							<el-input v-model="ruleForm.reserPhone" :maxlength="11" placeholder="请输入预留手机号"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -509,7 +496,7 @@
 			<!--缓存，下一步按钮-->
 			<div class="footer">
 				<el-button type="primary" @click="Temporary">缓存</el-button>
-				<el-button type="primary" @click="nextstep('ruleForm')">下一步</el-button>
+				<el-button type="primary" @click="verifyFourElements('ruleForm')">下一步</el-button>
 			</div>
 		</el-form>
 	</div>
@@ -576,6 +563,7 @@
 				}
 			};
 			return {
+
 				msg1: '',
 				channelsShow: false, //渠道是否显示隐藏
 				changeAddr: '', //与联系地址相同
@@ -605,6 +593,19 @@
 					legalId: '', //法人身份证号
 					threeMoney: '', //近三月平均营业额
 					yearMoney: '', //去年全年营业额
+					// mainProduct: [{
+					// 		productName: "",
+					// 		productPrice: ""
+					// 	},
+					// 	{
+					// 		productName: "",
+					// 		productPrice: ""
+					// 	},
+					// 	{
+					// 		productName: "",
+					// 		productPrice: ""
+					// 	},
+					// ],
 					productName1: '', //商品名称1
 					productName2: '', //商品名称2
 					productName3: '', //商品名称3
@@ -617,6 +618,7 @@
 					healthStatus: '', //健康状况
 					applicantDegree: '', //申请人学历
 					maritalStatus: '', //婚姻状况
+					// applicantOrigin: '', //申请人籍贯
 					applicantResAddress: '', //申请人户籍地址
 					applicantCurrAddress: '', //申请人现居住地址
 					applicantPercent: '', //申请人占股比列
@@ -715,7 +717,7 @@
 				companys: [{
 					companyName: "",
 					companyDistance: ""
-				}],
+				}, ],
 				address: {}, //联系地址
 				obj: {
 					label: {
@@ -1001,7 +1003,7 @@
 						validator: checkNum,
 						trigger: 'blur'
 					}],
-					productName1: [{
+					/*productName1: [{
 						required: true,
 						message: '请输入商品名',
 						trigger: 'blur'
@@ -1031,7 +1033,7 @@
 					}, {
 						validator: checkNum,
 						trigger: 'blur'
-					}],
+					}],*/
 					productPrice3: [{
 						required: true,
 						message: '请输入商品价格',
@@ -1199,12 +1201,6 @@
 					return event.target.value;
 				}
 			},
-			changeaddr2() {
-				alert(1)
-				if(this.changeAddr) {
-					this.changeAddr = !this.changeAddr;
-				}
-			},
 			changeChannel() {
 				this.getChannelUserName();
 				if(this.ruleForm.recommendedID == 1 || this.ruleForm.recommendedID == 2) {
@@ -1312,37 +1308,25 @@
 				})
 			},
 			Temporary() { //缓存
-				var contactAddress = this.address.province + "&" + this.address.city + "&" + this.address.district + "&" + this.ruleForm.contactAddress;
-				var registerAddress = this.address2.province + "&" + this.address2.city + "&" + this.address2.district + "&" + this.ruleForm.registeredAddress;
-				var nativeAddress = this.address3.province + "&" + this.address3.city + "&" + this.address3.district + "&" + this.ruleForm.applicantResAddress;
-				var address = this.address4.province + "&" + this.address4.city + "&" + this.address4.district + "&" + this.ruleForm.applicantCurrAddress;
+				var contactAddress = this.address.province+"&"+this.address.city+"&"+this.address.district+"&"+this.ruleForm.contactAddress;
+				var registerAddress = this.address2.province+"&"+this.address2.city+"&"+this.address2.district+"&"+this.ruleForm.registeredAddress;
+				var nativeAddress = this.address3.province+"&"+this.address3.city+"&"+this.address3.district+"&"+this.ruleForm.applicantResAddress;
+				var address = this.address4.province+"&"+this.address4.city+"&"+this.address4.district+"&"+this.ruleForm.applicantCurrAddress;
 				var mainProduct = [{
-						"name": this.ruleForm.productName1,
-						"distance": this.ruleForm.productPrice1,
+						"name":this.ruleForm.productName1,
+						"distance":this.ruleForm.productPrice1,
 					},
 					{
-						"name": this.ruleForm.productName2,
-						"distance": this.ruleForm.productPrice2,
-					}, {
-						"name": this.ruleForm.productName3,
-						"distance": this.ruleForm.productPrice3,
-					}
-				]
-				var contacts = [{
-						"msgBind": this.ruleForm.msgBind1,
-						"msgName": this.ruleForm.msgName1,
-						"msgTel": this.ruleForm.msgTel1
-					},
-					{
-						"msgBind": this.ruleForm.msgBind2,
-						"msgName": this.ruleForm.msgName2,
-						"msgTel": this.ruleForm.msgTel2
-					},
-					{
-						"msgBind": this.ruleForm.msgBind3,
-						"msgName": this.ruleForm.msgName3,
-						"msgTel": this.ruleForm.msgTel3
-					}
+						"name":this.ruleForm.productName2,
+						"distance":this.ruleForm.productPrice2,
+					},{
+						"name":this.ruleForm.productName3,
+						"distance":this.ruleForm.productPrice3,
+					}]
+				var contacts = [
+					{"msgBind":this.ruleForm.msgBind1,"msgName":this.ruleForm.msgName1,"msgTel":this.ruleForm.msgTel1},
+					{"msgBind":this.ruleForm.msgBind2,"msgName":this.ruleForm.msgName2,"msgTel":this.ruleForm.msgTel2},
+					{"msgBind":this.ruleForm.msgBind3,"msgName":this.ruleForm.msgName3,"msgTel":this.ruleForm.msgTel3}
 				]
 				this.$http({
 					method: "POST",
@@ -1377,8 +1361,8 @@
 							"legalPersonName": this.ruleForm.legalName,
 							"legalPersonPhone": this.ruleForm.legalTel,
 							"legalPersonIdCard": this.ruleForm.legalId,
-							"averageTurnover": Number(this.ruleForm.threeMoney) * 100,
-							"totalTurnover": Number(this.ruleForm.yearMoney) * 100,
+							"averageTurnover": Number(this.ruleForm.threeMoney)*100,
+							"totalTurnover": Number(this.ruleForm.yearMoney)*100,
 							"mainProduct": mainProduct,
 							"averageDayFlow": Number(this.ruleForm.dailyPeople)
 						},
@@ -1394,23 +1378,123 @@
 							"contacts": JSON.stringify(contacts)
 						},
 						"bankReqInfo": {
-							"bankCard": "6228480402564890018",
-							"openProvince": "11",
-							"openCity": "q",
-							"subBranchName": "q",
-							"bankPhone": "12345678901"
+							"bankCard": this.ruleForm.bankCardNumber,
+							"openProvince": this.bankAddress.province,
+							"openCity": this.bankAddress.city,
+							"subBranchName": this.ruleForm.bankNam,
+							"bankPhone": this.ruleForm.reserPhone
 						}
 					}
 				}).then((res) => {
-					console.log(res)
+					if(res.data.code=="000000"){
+						this.$message({
+							type:"success",
+							message:"暂存成功"
+						})
+					}
 				}, (res) => {
 					this.$message({
 						type: "error",
-						message: res.data.errMsg
+						message: res.data.messages
 					})
 				})
 			},
-			nextstep(formName) {
+			nextstep() {
+				var contactAddress = this.address.province+"&"+this.address.city+"&"+this.address.district+"&"+this.ruleForm.contactAddress;
+				var registerAddress = this.address2.province+"&"+this.address2.city+"&"+this.address2.district+"&"+this.ruleForm.registeredAddress;
+				var nativeAddress = this.address3.province+"&"+this.address3.city+"&"+this.address3.district+"&"+this.ruleForm.applicantResAddress;
+				var address = this.address4.province+"&"+this.address4.city+"&"+this.address4.district+"&"+this.ruleForm.applicantCurrAddress;
+				var mainProduct = [{
+						"name":this.ruleForm.productName1,
+						"distance":this.ruleForm.productPrice1,
+					},
+					{
+						"name":this.ruleForm.productName2,
+						"distance":this.ruleForm.productPrice2,
+					},{
+						"name":this.ruleForm.productName3,
+						"distance":this.ruleForm.productPrice3,
+					}]
+				var contacts = [
+					{"msgBind":this.ruleForm.msgBind1,"msgName":this.ruleForm.msgName1,"msgTel":this.ruleForm.msgTel1},
+					{"msgBind":this.ruleForm.msgBind2,"msgName":this.ruleForm.msgName2,"msgTel":this.ruleForm.msgTel2},
+					{"msgBind":this.ruleForm.msgBind3,"msgName":this.ruleForm.msgName3,"msgTel":this.ruleForm.msgTel3}
+				]
+				this.$http({
+					method: "POST",
+					url: process.env.API+"/terminal/basicSubmit",
+					headers: {
+						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+					},
+					body: {
+						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo,
+						"basicReqInfo": {
+							"contractType": Number(this.ruleForm.contractType),
+							"terminalType": Number(this.ruleForm.networkType),
+							"terminalArea": this.ruleForm.belongRegion,
+							"terminalName": this.ruleForm.networkName,
+							"terminalContact": this.ruleForm.networkContact,
+							"terminalPhone": this.ruleForm.contactTel,
+							"recommendChanel": this.ruleForm.recommendedID,
+							"contactAddress":contactAddress,
+							"salesmanName": this.ruleForm.salesmanName,
+							"salesmanNo": this.ruleForm.salesmanNumber,
+							"machineType": JSON.stringify(this.machines),
+							"aroundFinancialInfo": this.companys,
+							"joinSuperiority": this.ruleForm.goodpoint.toString()
+						},
+						"shopManagementReqInfo": {
+							"isBrandFranchise": Number(this.ruleForm.isJoin),
+							"merchantType": this.ruleForm.businessType,
+							"createTime": this.ruleForm.createTime,
+							"openingTime": this.ruleForm.startTime,
+							"registerAddress":registerAddress,
+							"postalCode": this.ruleForm.zipCode,
+							"legalPersonName": this.ruleForm.legalName,
+							"legalPersonPhone": this.ruleForm.legalTel,
+							"legalPersonIdCard": this.ruleForm.legalId,
+							"averageTurnover": Number(this.ruleForm.threeMoney)*100,
+							"totalTurnover": Number(this.ruleForm.yearMoney)*100,
+							"mainProduct": mainProduct,
+							"averageDayFlow": Number(this.ruleForm.dailyPeople)
+						},
+						"proposerReqInfo": {
+							"name": this.ruleForm.applicantName,
+							"idCard": this.ruleForm.idNumber,
+							"healthStatus": Number(this.ruleForm.healthStatus),
+							"educational": Number(this.ruleForm.healthStatus),
+							"maritalStatus": Number(this.ruleForm.maritalStatus),
+							"nativeAddress": nativeAddress,
+							"address": address,
+							"shares": Number(this.ruleForm.applicantPercent),
+							"contacts": JSON.stringify(contacts)
+						},
+						"bankReqInfo": {
+						    "bankCard": this.ruleForm.bankCardNumber,
+							"openProvince": this.bankAddress.province,
+							"openCity": this.bankAddress.city,
+							"subBranchName": this.ruleForm.bankNam,
+							"bankPhone": this.ruleForm.reserPhone
+						  }
+					}
+				}).then((res) => {
+							if(res.data.code=="000000"){
+								this.$router.push({
+									path: '/imageFileUpload'
+								})
+							}
+
+						}, (res) => {
+							this.$message({
+								type: "error",
+								message: res.data.messages
+
+							})
+						})
+
+
+			},
+			verifyFourElements(formName){					//四要素验证
 				this.$refs[formName].validate((valid) => {
 					for(var i = 0; i < this.companys.length; i++) {
 						if(this.companys[i].companyDistance != "" && this.companys[i].companyName != "") {
@@ -1424,125 +1508,132 @@
 
 					}
 					if(valid && (this.address.province != "请选择") && (this.address.city != "请选择") && (this.address.district != "请选择") && (this.address2.province != "请选择") && (this.address2.city != "请选择") && (this.address2.district != "请选择") && (this.address3.province != "请选择") && (this.address3.city != "请选择") && (this.address3.district != "请选择") && (this.address4.province != "请选择") && (this.address4.city != "请选择") && (this.address4.district != "请选择") && (this.companyStep != "") && (this.machineStep != "")) {
-						var contactAddress = this.address.province + "&" + this.address.city + "&" + this.address.district + "&" + this.ruleForm.contactAddress;
-						var registerAddress = this.address2.province + "&" + this.address2.city + "&" + this.address2.district + "&" + this.ruleForm.registeredAddress;
-						var nativeAddress = this.address3.province + "&" + this.address3.city + "&" + this.address3.district + "&" + this.ruleForm.applicantResAddress;
-						var address = this.address4.province + "&" + this.address4.city + "&" + this.address4.district + "&" + this.ruleForm.applicantCurrAddress;
-						var mainProduct = [{
-								"name": this.ruleForm.productName1,
-								"distance": this.ruleForm.productPrice1,
-							},
-							{
-								"name": this.ruleForm.productName2,
-								"distance": this.ruleForm.productPrice2,
-							}, {
-								"name": this.ruleForm.productName3,
-								"distance": this.ruleForm.productPrice3,
-							}
-						]
-						var contacts = [{
-								"msgBind": this.ruleForm.msgBind1,
-								"msgName": this.ruleForm.msgName1,
-								"msgTel": this.ruleForm.msgTel1
-							},
-							{
-								"msgBind": this.ruleForm.msgBind2,
-								"msgName": this.ruleForm.msgName2,
-								"msgTel": this.ruleForm.msgTel2
-							},
-							{
-								"msgBind": this.ruleForm.msgBind3,
-								"msgName": this.ruleForm.msgName3,
-								"msgTel": this.ruleForm.msgTel3
-							}
-						]
-						var machineType
-						this.$http({
-							method: "POST",
-							url: process.env.API+"/terminal/basicSubmit",
-							headers: {
-								"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
-							},
-							body: {
-								"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo,
-								"basicReqInfo": {
-									"contractType": Number(this.ruleForm.contractType),
-									"terminalType": Number(this.ruleForm.networkType),
-									"terminalArea": this.ruleForm.belongRegion,
-									"terminalName": this.ruleForm.networkName,
-									"terminalContact": this.ruleForm.networkContact,
-									"terminalPhone": this.ruleForm.contactTel,
-									"recommendChanel": this.ruleForm.recommendedID,
-									"contactAddress": contactAddress,
-									"salesmanName": this.ruleForm.salesmanName,
-									"salesmanNo": this.ruleForm.salesmanNumber,
-									"machineType": JSON.stringify(this.machines),
-									"aroundFinancialInfo": this.companys,
-									"joinSuperiority": this.ruleForm.goodpoint.toString()
+							this.$http({
+								method:"POST",
+								url:process.env.API+"/verifyFourElements",
+								headers:{
+									"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken
 								},
-								"shopManagementReqInfo": {
-									"isBrandFranchise": Number(this.ruleForm.isJoin),
-									"merchantType": this.ruleForm.businessType,
-									"createTime": this.ruleForm.createTime,
-									"openingTime": this.ruleForm.startTime,
-									"registerAddress": registerAddress,
-									"postalCode": this.ruleForm.zipCode,
-									"legalPersonName": this.ruleForm.legalName,
-									"legalPersonPhone": this.ruleForm.legalTel,
-									"legalPersonIdCard": this.ruleForm.legalId,
-									"averageTurnover": Number(this.ruleForm.threeMoney) * 100,
-									"totalTurnover": Number(this.ruleForm.yearMoney) * 100,
-									"mainProduct": mainProduct,
-									"averageDayFlow": Number(this.ruleForm.dailyPeople)
-								},
-								"proposerReqInfo": {
-									"name": this.ruleForm.applicantName,
-									"idCard": this.ruleForm.idNumber,
-									"healthStatus": Number(this.ruleForm.healthStatus),
-									"educational": Number(this.ruleForm.healthStatus),
-									"maritalStatus": Number(this.ruleForm.maritalStatus),
-									"nativeAddress": nativeAddress,
-									"address": address,
-									"shares": Number(this.ruleForm.applicantPercent),
-									"contacts": JSON.stringify(contacts)
-								},
-								"bankReqInfo": {
-									"bankCard": "6228480402564890018",
-									"openProvince": "11",
-									"openCity": "q",
-									"subBranchName": "q",
-									"bankPhone": "12345678901"
+								body:{
+									"name":this.ruleForm.applicantName,
+									"idNumber":this.ruleForm.idNumber,
+									"phone":this.ruleForm.reserPhone,
+									"cardNo":this.ruleForm.bankCardNumber,
 								}
-							}
-						}).then((res) => {
-							if(res.data.code == "000000") {
-								this.$router.push({
-									path: '/imageFileUpload'
+							}).then((res)=>{
+								if(res.data.code=="000000"){
+									if(res.data.data.result=="一致"){
+										this.nextstep()
+									}
+								}else{
+									this.$message({
+									type: "error",
+									message: res.data.messages
 								})
-							}
-
-						}, (res) => {
-							this.$message({
-								type: "error",
-								message: res.data.errMsg
-
+								}
+							},(res)=>{
+								this.$message({
+									type: "error",
+									message: res.data.messages
+								})
 							})
-						})
+					} else {
+						console.log('error submit!!');
+						return false;
+					}
+				})
+			},
+			stepLogin() {
+				this.$http({
+					method: "POST",
+					url: process.env.API+"/terminal/stepLogin",
+					headers: {
+						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken
+					},
+					body: {
+						"userId":JSON.parse(sessionStorage.getItem("userInfo")).telPhone,
+						"requestNo":JSON.parse(sessionStorage.getItem("userInfo")).requestNo
+					}
+				}).then((res) => {
+					if(res.data.code == "000000") {
+						if(res.data.data.json){
+
+							var json = res.data.data.json;
+							console.log(json.proposerReqInfo.contacts[0].msgBind)
+							console.log(json.basicReqInfo.joinSuperiority)
+							this.msg1 = json.requestNo;
+							this.machines =JSON.parse(json.basicReqInfo.machineType)//机器型号
+							this.ruleForm={
+								contractType: json.basicReqInfo.contractType.toString(), //网点合同类型
+								networkType: json.basicReqInfo.terminalType.toString(), //网点类型
+								belongRegion: json.basicReqInfo.terminalArea, //所属区域
+								networkName: json.basicReqInfo.terminalName, //网点名称
+								networkContact: json.basicReqInfo.terminalContact, //网点联系人
+								contactTel: json.basicReqInfo.terminalPhone, //联系电话
+								recommendedID: json.basicReqInfo.recommendChanel, //推荐渠道
+								recommendedChannels: json.basicReqInfo.recommendChanel, //具体渠道
+								contactAddress: json.basicReqInfo.contactAddress, //联系地址
+								salesmanName: json.basicReqInfo.salesmanName, //业务员名字
+								salesmanNumber:json.basicReqInfo.salesmanNo, //业务员工号
+
+								isJoin: json.shopManagementReqInfo.isBrandFranchise.toString(), //是否品牌加盟店
+								businessType: json.shopManagementReqInfo.merchantType.toString(), //商户类型
+								createTime: new Date(json.shopManagementReqInfo.createTime), //成立时间
+								startTime: new Date(json.shopManagementReqInfo.openingTime), //开业时间
+								registeredAddress: json.shopManagementReqInfo.registerAddress, //注册地址详细地址
+								zipCode: json.shopManagementReqInfo.postalCode, //邮政编码
+								legalName: json.shopManagementReqInfo.legalPersonName, //法人姓名
+								legalTel: json.shopManagementReqInfo.legalPersonPhone, //法人电话
+								legalId: json.shopManagementReqInfo.legalPersonIdCard, //法人身份证号
+								threeMoney: json.shopManagementReqInfo.averageTurnover/100, //近三月平均营业额
+								yearMoney: json.shopManagementReqInfo.totalTurnover/100, //去年全年营业额
+								productName1: json.shopManagementReqInfo.mainProduct[0].name, //商品名称1
+								productName2: json.shopManagementReqInfo.mainProduct[1].name, //商品名称2
+								productName3: json.shopManagementReqInfo.mainProduct[2].name, //商品名称3
+								productPrice1: json.shopManagementReqInfo.mainProduct[0].distance, //商品价格1
+								productPrice2: json.shopManagementReqInfo.mainProduct[1].distance, //商品价格2
+								productPrice3: json.shopManagementReqInfo.mainProduct[2].distance, //商品价格3
+								dailyPeople: json.shopManagementReqInfo.averageDayFlow, //店铺日均人流量
+
+								applicantName: json.proposerReqInfo.name, //申店主姓名
+								idNumber: json.proposerReqInfo.idCard, //身份证号
+								healthStatus: json.proposerReqInfo.healthStatus.toString(), //健康状况
+								applicantDegree: json.proposerReqInfo.educational.toString(), //申请人学历
+								maritalStatus: json.proposerReqInfo.maritalStatus.toString(), //婚姻状况
+								applicantResAddress: json.proposerReqInfo.nativeAddress, //申请人户籍地址
+								applicantCurrAddress: json.proposerReqInfo.address, //申请人现居住地址
+								applicantPercent: json.proposerReqInfo.shares, //申请人占股比列
+								msgBind1: json.proposerReqInfo.contacts[0].msgBind, //联系人信息
+								msgBind2: json.proposerReqInfo.contacts[1].msgBind,
+								msgBind3: json.proposerReqInfo.contacts[2].msgBind,
+								msgName1: json.proposerReqInfo.contacts[0].msgName,
+								msgName2: json.proposerReqInfo.contacts[1].msgName,
+								msgName3: json.proposerReqInfo.contacts[2].msgName,
+								msgTel1: json.proposerReqInfo.contacts[0].msgTel,
+								msgTel2: json.proposerReqInfo.contacts[1].msgTel,
+								msgTel3: json.proposerReqInfo.contacts[2].msgTel,
+
+								bankCardNumber: json.bankReqInfo.bankCard, //银行卡卡号
+								bankProvice: json.bankReqInfo.openProvince, //开户行省
+								bankCity: json.bankReqInfo.openCity, //开户行城市
+								bankName: json.bankReqInfo.subBranchName, //开户行名字
+								reserPhone: json.bankReqInfo.bankPhone, //预留手机号
+								goodpoint: json.basicReqInfo.joinSuperiority.split(","), //终端机网络优势
+							}
+						}
 					} else {
 						this.$message({
 							type: "error",
-							message: "请将页面所有信息补充完整"
-
+							message: res.data.messages
 						})
-						return false;
 					}
-				});
-			},
-			verification() { //四要素验证
-				this.$http({
-					method: "POST"
+				},(res) => {
+					this.$message({
+						type: "error",
+						message: res.data.messages
+					})
 				})
-			}
+			},
 
 		},
 		watch: {
@@ -1558,6 +1649,7 @@
 				}
 			},
 		},
+		created: function() {},
 		components: {
 			Chinaddress
 		},
@@ -1565,6 +1657,7 @@
 			this.getMachineModel();
 			this.routerApi();
 			this.getMerchantType();
+			this.stepLogin(); //请求暂存数据 渲染页面
 		}
 	}
 </script>
