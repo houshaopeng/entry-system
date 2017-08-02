@@ -28,7 +28,7 @@
 		name: 'home',
 		data() {
 			return {
-				
+
 			}
 		},
 		methods: {
@@ -57,7 +57,7 @@
 					})
 				})
 			},
-			
+
 			// 登录时回到待提交接口
 			stepLogin() {
 				this.$http({
