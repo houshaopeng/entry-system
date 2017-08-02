@@ -370,7 +370,7 @@
 			deleteImg(file) {
 				this.$http({
 					method: "POST",
-					url: "/api/terminal/deleteImg",
+					url: process.env.API+"/terminal/deleteImg",
 					headers: {
 						"x-sljr-session-token": "6b8b0e4e841107d250d63fdb3166d1ac",
 					},
@@ -394,7 +394,7 @@
 				console.log(JSON.parse(sessionStorage.getItem("userInfo")).requestNo)
 				this.$http({
 					method:"POST",
-					url:"/api/terminal/step",
+					url:process.env.API+"/terminal/step",
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
@@ -419,7 +419,7 @@
 			updateStates(){
 				this.$http({
 					method:"POST",
-					url:"/api/terminal/updateOrderStatus",
+					url:process.env.API+"/terminal/updateOrderStatus",
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
@@ -438,7 +438,7 @@
 			},
 			onSubmit() {
 				this.$router.push({
-						path: '/loanAgreement'
+						path: '/loanContract'
 					})
 			},
 		},

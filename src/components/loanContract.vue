@@ -19,7 +19,7 @@
 			</div>
 		</div>
 		<div class="footer">
-			<el-button type="primary">确认借款</el-button>
+			<el-button type="primary" @click="onSubmit">确认借款</el-button>
 		</div>
 	</div>
 	</div>
@@ -29,38 +29,73 @@
 	export default {
 		data() {
 			return {
-				isAgree: ''
+				isAgree: '',
 			}
 		},
-		methods:{
+		methods: {
 			// 路由接口调试
-			routerApi(){
+			routerApi() {
 				console.log(JSON.parse(sessionStorage.getItem("userInfo")).requestNo)
 				this.$http({
-					method:"POST",
-					url:"/api/terminal/step",    
+					method: "POST",
+					url: process.env.API+"/terminal/step",
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
-					body:{
-						"userId":JSON.parse(sessionStorage.getItem("userInfo")).telPhone,      // TODO    手机号码
-						 
-						"level":"4",
-						"requestNo":JSON.parse(sessionStorage.getItem("userInfo")).requestNo    // 请求流水号
+					body: {
+						"userId": JSON.parse(sessionStorage.getItem("userInfo")).telPhone, // TODO    手机号码
+
+						"level": "4",
+						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo // 请求流水号
 					}
-				}).then((res)=>{
-					if(res.data.dara=="000000"){
+				}).then((res) => {
+					if(res.data.dara == "000000") {
 						alert(666)
 					}
-				},(res)=>{
+				}, (res) => {
 					this.$message({
-						type:"error",
-						message:res.data.messages
+						type: "error",
+						message: res.data.messages
 					})
 				})
 			},
+			onSubmit() {
+				if(this.isAgree) {
+					this.$http({
+						method: "POST",
+						url: process.env.API+"/terminal/loanSubmit",
+						headers: {
+							"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+						},
+						body: {
+//							"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo
+							"requestNo": "WD870432186664"
+						}
+					}).then((res) => {
+						if(res.data.code == '000000') {
+							console.log(res)
+						} else {
+							this.$message({
+								message: res.data.messages,
+								type: 'error'
+							})
+						}
+
+					}, (res) => {
+						this.$message({
+							message: res.data.messages,
+							type: 'error'
+						})
+					})
+				} else {
+					this.$message({
+						type: "error",
+						message: "请确认是否已确认同意本协议"
+					})
+				}
+			},
 		},
-		mounted:function(){
+		mounted: function() {
 			this.routerApi();
 		}
 	}

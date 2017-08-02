@@ -1200,8 +1200,9 @@
 				}
 			},
 			changeaddr2() {
+				alert(1)
 				if(this.changeAddr) {
-					//					this.changeAddr = !this.changeAddr;
+					this.changeAddr = !this.changeAddr;
 				}
 			},
 			changeChannel() {
@@ -1217,7 +1218,7 @@
 			},
 			// 获取机器编号
 			getMachineModel() {
-				this.$http.post("/api/terminal/getMachineModel", "", {
+				this.$http.post(process.env.API+"/terminal/getMachineModel", "", {
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					}
@@ -1241,7 +1242,7 @@
 			getChannelUserName() { //获取渠道具体人员
 				this.$http({
 					method: "POST",
-					url: "/api/terminal/getChannelUserName",
+					url: process.env.API+"/terminal/getChannelUserName",
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
@@ -1268,7 +1269,7 @@
 			getMerchantType() { //获取商户类型
 				this.$http({
 					method: "POST",
-					url: "/api/terminal/getMerchantType",
+					url: process.env.API+"/terminal/getMerchantType",
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					}
@@ -1289,7 +1290,7 @@
 				this.msg1 = JSON.parse(sessionStorage.getItem("userInfo")).requestNo
 				this.$http({
 					method: "POST",
-					url: "/api/terminal/step",
+					url: process.env.API+"/terminal/step",
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
@@ -1345,7 +1346,7 @@
 				]
 				this.$http({
 					method: "POST",
-					url: "/api/terminal/Temporary",
+					url: process.env.API+"/terminal/Temporary",
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
@@ -1458,7 +1459,7 @@
 						var machineType
 						this.$http({
 							method: "POST",
-							url: "/api/terminal/basicSubmit",
+							url: process.env.API+"/terminal/basicSubmit",
 							headers: {
 								"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 							},
