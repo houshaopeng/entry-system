@@ -169,7 +169,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24">
 						<el-form-item label="注册地址" prop="changeAddr">
-							<el-checkbox-group v-model="ruleForm.changeAddr">
+							<el-checkbox-group v-model="changeAddr">
 								<el-checkbox label="与联系地址相同" name="type"></el-checkbox>
 							</el-checkbox-group>
 						</el-form-item>
@@ -566,6 +566,9 @@
 
 				msg1: '',
 				channelsShow: false, //渠道是否显示隐藏
+				changeAddr: '', //与联系地址相同
+				companyStep: '', //判断周边金融信息是否全部不为空
+				machineStep: '',
 				ruleForm: {
 					name: '',
 					contractType: '0', //网点合同类型
@@ -583,7 +586,6 @@
 					businessType: '', //商户类型
 					createTime: '', //成立时间
 					startTime: '', //开业时间
-					changeAddr: '', //与联系地址相同
 					registeredAddress: '', //注册地址详细地址
 					zipCode: '', //邮政编码
 					legalName: '', //法人姓名
@@ -1494,7 +1496,18 @@
 			},
 			verifyFourElements(formName){					//四要素验证
 				this.$refs[formName].validate((valid) => {
-					if(valid && (this.address.province != "请选择") && (this.address.city != "请选择") && (this.address.district != "请选择") && (this.address2.province != "请选择") && (this.address2.city != "请选择") && (this.address2.district != "请选择") && (this.address3.province != "请选择") && (this.address3.city != "请选择") && (this.address3.district != "请选择") && (this.address4.province != "请选择") && (this.address4.city != "请选择") && (this.address4.district != "请选择")) {
+					for(var i = 0; i < this.companys.length; i++) {
+						if(this.companys[i].companyDistance != "" && this.companys[i].companyName != "") {
+							this.companyStep = 1;
+						}
+					}
+					for(var i = 0; i < this.machines.length; i++) {
+						if(this.machines[i].machineType != "") {
+							this.machineStep = 1;
+						}
+
+					}
+					if(valid && (this.address.province != "请选择") && (this.address.city != "请选择") && (this.address.district != "请选择") && (this.address2.province != "请选择") && (this.address2.city != "请选择") && (this.address2.district != "请选择") && (this.address3.province != "请选择") && (this.address3.city != "请选择") && (this.address3.district != "请选择") && (this.address4.province != "请选择") && (this.address4.city != "请选择") && (this.address4.district != "请选择") && (this.companyStep != "") && (this.machineStep != "")) {
 							this.$http({
 								method:"POST",
 								url:"/api/verifyFourElements",
@@ -1543,14 +1556,16 @@
 					}
 				}).then((res) => {
 					if(res.data.code == "000000") {
-						console.log(res.data)
 						if(res.data.data.json){
+
 							var json = res.data.data.json;
+							console.log(json.proposerReqInfo.contacts[0].msgBind)
+							console.log(json.basicReqInfo.joinSuperiority)
 							this.msg1 = json.requestNo;
 							this.machines =JSON.parse(json.basicReqInfo.machineType)//机器型号
 							this.ruleForm={
 								contractType: json.basicReqInfo.contractType.toString(), //网点合同类型
-								networkType: json.basicReqInfo.terminalType+'', //网点类型
+								networkType: json.basicReqInfo.terminalType.toString(), //网点类型
 								belongRegion: json.basicReqInfo.terminalArea, //所属区域
 								networkName: json.basicReqInfo.terminalName, //网点名称
 								networkContact: json.basicReqInfo.terminalContact, //网点联系人
@@ -1563,16 +1578,15 @@
 
 								isJoin: json.shopManagementReqInfo.isBrandFranchise.toString(), //是否品牌加盟店
 								businessType: json.shopManagementReqInfo.merchantType.toString(), //商户类型
-								createTime: json.shopManagementReqInfo.createTime, //成立时间
-								startTime: json.shopManagementReqInfo.openingTime, //开业时间
-								changeAddr: json.shopManagementReqInfo.registerAddress, //与联系地址相同
+								createTime: new Date(json.shopManagementReqInfo.createTime), //成立时间
+								startTime: new Date(json.shopManagementReqInfo.openingTime), //开业时间
 								registeredAddress: json.shopManagementReqInfo.registerAddress, //注册地址详细地址
 								zipCode: json.shopManagementReqInfo.postalCode, //邮政编码
 								legalName: json.shopManagementReqInfo.legalPersonName, //法人姓名
 								legalTel: json.shopManagementReqInfo.legalPersonPhone, //法人电话
 								legalId: json.shopManagementReqInfo.legalPersonIdCard, //法人身份证号
-								threeMoney: json.shopManagementReqInfo.averageTurnover, //近三月平均营业额
-								yearMoney: json.shopManagementReqInfo.totalTurnover, //去年全年营业额
+								threeMoney: json.shopManagementReqInfo.averageTurnover/100, //近三月平均营业额
+								yearMoney: json.shopManagementReqInfo.totalTurnover/100, //去年全年营业额
 								productName1: json.shopManagementReqInfo.mainProduct[0].name, //商品名称1
 								productName2: json.shopManagementReqInfo.mainProduct[1].name, //商品名称2
 								productName3: json.shopManagementReqInfo.mainProduct[2].name, //商品名称3
@@ -1583,9 +1597,9 @@
 
 								applicantName: json.proposerReqInfo.name, //申店主姓名
 								idNumber: json.proposerReqInfo.idCard, //身份证号
-								healthStatus: json.proposerReqInfo.healthStatus, //健康状况
-								applicantDegree: json.proposerReqInfo.educational, //申请人学历
-								maritalStatus: json.proposerReqInfo.maritalStatus, //婚姻状况
+								healthStatus: json.proposerReqInfo.healthStatus.toString(), //健康状况
+								applicantDegree: json.proposerReqInfo.educational.toString(), //申请人学历
+								maritalStatus: json.proposerReqInfo.maritalStatus.toString(), //婚姻状况
 								applicantResAddress: json.proposerReqInfo.nativeAddress, //申请人户籍地址
 								applicantCurrAddress: json.proposerReqInfo.address, //申请人现居住地址
 								applicantPercent: json.proposerReqInfo.shares, //申请人占股比列
@@ -1604,7 +1618,7 @@
 								bankCity: json.bankReqInfo.openCity, //开户行城市
 								bankName: json.bankReqInfo.subBranchName, //开户行名字
 								reserPhone: json.bankReqInfo.bankPhone, //预留手机号
-								goodpoint: json.basicReqInfo.joinSuperiority, //终端机网络优势
+								goodpoint: json.basicReqInfo.joinSuperiority.split(","), //终端机网络优势
 							}
 						}
 					} else {
@@ -1621,6 +1635,19 @@
 				})
 			},
 
+		},
+		watch: {
+			changeAddr: function() {
+				if(this.changeAddr) {
+					this.obj2.default.province = this.address.province;
+					this.obj2.default.city = this.address.city;
+					this.obj2.default.district = this.address.district;
+				} else {
+					this.obj2.default.province = "北京";
+					this.obj2.default.city = "北京";
+					this.obj2.default.district = "东城区";
+				}
+			},
 		},
 		created: function() {},
 		components: {
