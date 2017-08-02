@@ -21,7 +21,7 @@
 								<span v-else>一共选择{{files00.length}}个文件</span>
 								<!-- <input type="button" value="清空图片" @click="clearAll" class="clear_buttton" /> -->
 							</div>
-							<div class="img_item_box" v-for='(file,index) in files0' @click="getIndex(index)" style="float: left" v-show="aa">
+							<div class="img_item_box" v-for='(file,index) in files0' @click="getIndex(index)" style="float: left" v-show="false">
 								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file),0)" style="width: 200px;">
 								<span class="img_name" v-html="file.name"></span>
 								<span v-text='onStatus(file)' class="img_status"></span>
@@ -484,18 +484,21 @@
 						this.files11=[];
 						this.files22=[];
 						this.files33=[];
-						for(var i =0;i<this.lists.length;i++){
-							if(this.lists[i].type==1){
-								this.files00.push(this.lists[i])
-							}else if(this.lists[i].type==2){
-								this.files11.push(this.lists[i])
-							}else if(this.lists[i].type==3){
-								this.files22.push(this.lists[i])
-							}else if(this.lists[i].type==4){
-								this.files33.push(this.lists[i])
+						if(this.lists){
+							for(var i =0;i<this.lists.length;i++){
+								if(this.lists[i].type==1){
+									this.files00.push(this.lists[i])
+								}else if(this.lists[i].type==2){
+									this.files11.push(this.lists[i])
+								}else if(this.lists[i].type==3){
+									this.files22.push(this.lists[i])
+								}else if(this.lists[i].type==4){
+									this.files33.push(this.lists[i])
+								}
 							}
-						}
+						}else{
 
+						}
 					}
 				},(res)=>{
 					this.$message({

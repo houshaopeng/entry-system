@@ -59,9 +59,35 @@
 					})
 				})
 			},
+			// 项目状态查询
+			initStatus(){
+				this.$http({
+					method:"POST",
+					url:process.env.API+"/terminal/queryProject",
+					headers: {
+						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+					},
+					body:{
+						
+						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo,         //  申请编号
+					}
+				}).then((res)=>{
+					if(res.data.code=="000000"){
+						this.$router.push({
+							path: '/loanContract'
+						})
+					}
+				},(res)=>{
+					this.$message({
+						type:"error",
+						message:res.data.messages
+					})
+				})
+			},
 		},
 		mounted:function(){
 			this.routerApi();
+			this.initStatus();
 		}
 	}
 </script>
