@@ -2,14 +2,14 @@
 	<div class="login">
 		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm">
 			<h1>商户登录</h1>
-			<el-form-item prop="username">
-				<el-input :maxlength="11" v-model="ruleForm.username">
+			<el-form-item>
+				<el-input :maxlength="11" @blur="checkTel" v-model="ruleForm.username">
 					<template slot="prepend"><img src="../assets/telephone (2).png" alt="手机" /></template>
 				</el-input>
 
 			</el-form-item>
-			<el-form-item prop="codeID">
-				<el-input :maxlength="6" v-model="ruleForm.codeID">
+			<el-form-item>
+				<el-input @change="Codechange" :maxlength="6" v-model="ruleForm.codeID">
 					<template slot="prepend"><img src="../assets/password.png" alt="密码" /></template>
 					<el-button slot="append" type="primary" :disabled="getcodeshow" @click="getCode">{{getcode}}</el-button>
 				</el-input>
@@ -24,7 +24,7 @@
 				</el-dialog>
 			</el-form-item>
 			<el-form-item>
-				<el-button class="btn_login" type="primary" @click="login">登录</el-button>
+				<el-button class="btn_login" :disabled="dislogin" type="primary" @click="login">登录</el-button>
 			</el-form-item>
 		</el-form>
 	</div>
@@ -33,19 +33,6 @@
 <script>
 	export default {
 		data() {
-
-			var checkTel = (rule, value, callback) => {
-				if(!value) {
-					return callback(new Error('手机号不能为空'));
-					this.username = false;
-				} else if(!/^(13[0-9]|14[0-9]|15[0-9]|18[0-9])\d{8}$/i.test(value)) {
-					return callback(new Error('请输入正确手机号'));
-					this.username = false;
-				} else {
-					this.username = true;
-					callback();
-				}
-			};
 			return {
 				isFlag: false,
 				checked: false,
@@ -53,27 +40,10 @@
 				username: false,
 				getcode: "获取验证码",
 				getcodeshow: false,
+				dislogin:true,
 				ruleForm: {
 					username: '',
 					codeID: '',
-				},
-				rules: {
-					username: [{
-						validator: checkTel,
-						trigger: 'blur'
-					}],
-					codeID: [{
-							required: true,
-							message: '请输入验证码',
-							trigger: 'blur'
-						},
-						{
-							min: 5,
-							max: 5,
-							message: '请输入正确验证码',
-							trigger: 'blur'
-						}
-					],
 				},
 				flagArr: [],
 				msg: "",
@@ -81,7 +51,43 @@
 			};
 		},
 		methods: {
+			checkTel() {
+				if(!this.ruleForm.username) {
+					this.$message({
+							message: "手机号不能为空",
+							type: 'error'
+						})
+					this.username = false;
+				} else if(!/^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])\d{8}$/i.test(this.ruleForm.username)) {
+					this.$message({
+							message: "请输入正确手机号",
+							type: 'error'
+						})
+					this.username = false;
+				} else {
+					this.username = true;
+
+				}
+			},
+			Codechange(){
+				if(this.ruleForm.codeID.length){
+					this.dislogin=false;
+				}else{
+					this.dislogin=true;
+				}
+			},
 			getCode() { //获取验证码
+				if(!this.ruleForm.username) {
+					this.$message({
+							type: "error",
+							message: "手机号不能为空"
+						})
+				} else if(!/^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])\d{8}$/i.test(this.ruleForm.username)) {
+					this.$message({
+							message: "请输入正确手机号",
+							type: 'error'
+						})
+				}else{
 				var countdown = 60;
 				this.$http.post(process.env.API + "/getMessageCode", {
 					"userId": this.ruleForm.username
@@ -113,6 +119,7 @@
 						})
 					}
 				})
+				}
 			},
 			// 申请编号
 			applicationNumber() {
@@ -160,8 +167,6 @@
 						this.flagArr = res.data.data.list;
 						for(let i = 0; i < this.flagArr.length; i++) {
 							if(this.flagArr[i].flag) {
-								console.log(i)
-								console.log(this.flagArr[i])
 								this.$router.push({
 									path: this.flagArr[i].value
 								});
@@ -184,6 +189,11 @@
 			login() { //登录
 				if(!this.isFlag) {
 					this.gologin()
+				}else if(!/^\d{5}$/.test(this.ruleForm.codeID)){
+					this.$message({
+						type: "error",
+						message: "请输入正确的验证码"
+					})
 				} else if(this.isFlag && this.checked) {
 					this.isFlag = false;
 					this.gologin()

@@ -486,8 +486,8 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="6" :sm="6" :md="6" :lg="6">
-						<el-form-item prop="name">
-							<el-input :maxlength="200" v-model="ruleForm.name" placeholder="请列举其他优势"></el-input>
+						<el-form-item prop="outadvantage">
+							<el-input :maxlength="200" v-model="ruleForm.outadvantage" placeholder="请列举其他优势"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -592,19 +592,6 @@
 					legalId: '', //法人身份证号
 					threeMoney: '', //近三月平均营业额
 					yearMoney: '', //去年全年营业额
-					// mainProduct: [{
-					// 		productName: "",
-					// 		productPrice: ""
-					// 	},
-					// 	{
-					// 		productName: "",
-					// 		productPrice: ""
-					// 	},
-					// 	{
-					// 		productName: "",
-					// 		productPrice: ""
-					// 	},
-					// ],
 					productName1: '', //商品名称1
 					productName2: '', //商品名称2
 					productName3: '', //商品名称3
@@ -617,7 +604,6 @@
 					healthStatus: '', //健康状况
 					applicantDegree: '', //申请人学历
 					maritalStatus: '', //婚姻状况
-					// applicantOrigin: '', //申请人籍贯
 					applicantResAddress: '', //申请人户籍地址
 					applicantCurrAddress: '', //申请人现居住地址
 					applicantPercent: '', //申请人占股比列
@@ -637,6 +623,7 @@
 					reserPhone: '', //预留手机号
 					verificaCode: '', //验证码
 					goodpoint: [], //终端机网络优势
+					outadvantage:'',//终端其他优势
 				},
 				region: [{
 						region: "华北区",
@@ -874,15 +861,9 @@
 					}
 				},
 				rules: {
-					name: [{
+					outadvantage: [{
 							required: true,
-							message: '请输入活动名称',
-							trigger: 'blur'
-						},
-						{
-							min: 3,
-							max: 5,
-							message: '长度在 3 到 5 个字符',
+							message: '请输入其他优势',
 							trigger: 'blur'
 						}
 					],
@@ -1002,7 +983,7 @@
 						validator: checkNum,
 						trigger: 'blur'
 					}],
-					/*productName1: [{
+					productName1: [{
 						required: true,
 						message: '请输入商品名',
 						trigger: 'blur'
@@ -1032,7 +1013,7 @@
 					}, {
 						validator: checkNum,
 						trigger: 'blur'
-					}],*/
+					}],
 					productPrice3: [{
 						required: true,
 						message: '请输入商品价格',
@@ -1245,7 +1226,6 @@
 						"channelNo": this.ruleForm.recommendedID
 					}
 				}).then((res) => {
-					console.log(res.data)
 					if(res.data.code == "000000") {
 						this.channels = res.data.data
 					} else {
@@ -1509,7 +1489,7 @@
 					if(valid && (this.address.province != "请选择") && (this.address.city != "请选择") && (this.address.district != "请选择") && (this.address2.province != "请选择") && (this.address2.city != "请选择") && (this.address2.district != "请选择") && (this.address3.province != "请选择") && (this.address3.city != "请选择") && (this.address3.district != "请选择") && (this.address4.province != "请选择") && (this.address4.city != "请选择") && (this.address4.district != "请选择") && (this.companyStep != "") && (this.machineStep != "")) {
 							this.$http({
 								method:"POST",
-								url:process.env.API+"/verifyFourElements",
+								url:process.env.API+"/terminal/verifyFourElements",
 								headers:{
 									"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken
 								},
@@ -1523,12 +1503,17 @@
 								if(res.data.code=="000000"){
 									if(res.data.data.result=="一致"){
 										this.nextstep()
+									}else{
+										this.$message({
+											type: "error",
+											message:'银行卡四要素'+res.data.data.result
+										})
 									}
 								}else{
 									this.$message({
-									type: "error",
-									message: res.data.messages
-								})
+										type: "error",
+										message: res.data.messages
+									})
 								}
 							},(res)=>{
 								this.$message({
@@ -1537,12 +1522,15 @@
 								})
 							})
 					} else {
-						console.log('error submit!!');
+						this.$message({
+							type:'error',
+							message:'请完善相关信息'
+						})
 						return false;
 					}
 				})
 			},
-			stepLogin() {
+			stepLogin() {						//回显
 				this.$http({
 					method: "POST",
 					url: process.env.API+"/terminal/stepLogin",
@@ -1558,8 +1546,23 @@
 						if(res.data.data.json){
 
 							var json = res.data.data.json;
-							console.log(json.proposerReqInfo.contacts[0].msgBind)
-							console.log(json.basicReqInfo.joinSuperiority)
+
+							this.obj.default.province = json.basicReqInfo.contactAddress.split("&")[0];
+							this.obj.default.city = json.basicReqInfo.contactAddress.split("&")[1];
+							this.obj.default.district = json.basicReqInfo.contactAddress.split("&")[2];
+
+							this.obj2.default.province = json.shopManagementReqInfo.registerAddress.split("&")[0];
+							this.obj2.default.city = json.shopManagementReqInfo.registerAddress.split("&")[1];
+							this.obj2.default.district = json.shopManagementReqInfo.registerAddress.split("&")[2];
+
+							this.obj3.default.province = json.proposerReqInfo.nativeAddress.split("&")[0];
+							this.obj3.default.city = json.proposerReqInfo.nativeAddress.split("&")[1];
+							this.obj3.default.district = json.proposerReqInfo.nativeAddress.split("&")[2];
+
+							this.obj4.default.province = json.proposerReqInfo.address.split("&")[0];
+							this.obj4.default.city = json.proposerReqInfo.address.split("&")[1];
+							this.obj4.default.district = json.proposerReqInfo.address.split("&")[2];
+
 							this.msg1 = json.requestNo;
 							this.machines =JSON.parse(json.basicReqInfo.machineType)//机器型号
 							this.companys = json.basicReqInfo.aroundFinancialInfo;
