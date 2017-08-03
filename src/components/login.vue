@@ -4,15 +4,21 @@
 			<h1>商户登录</h1>
 			<el-form-item>
 				<el-input :maxlength="11" @blur="checkTel" v-model="ruleForm.username">
-					<template slot="prepend"><img src="../assets/telephone (2).png" alt="手机" /></template>
+					<template slot="prepend">
+						<img src="../assets/telephone (2).png" alt="手机" />
+					</template>
 				</el-input>
 
 			</el-form-item>
-			<el-form-item>
+			<el-form-item style="position: relative;">
 				<el-input @change="Codechange" :maxlength="6" v-model="ruleForm.codeID">
-					<template slot="prepend"><img src="../assets/password.png" alt="密码" /></template>
-					<el-button slot="append" type="primary" :disabled="getcodeshow" @click="getCode">{{getcode}}</el-button>
+					<template slot="prepend">
+						<img src="../assets/password.png" alt="密码" />
+					</template>
 				</el-input>
+				<el-button type="primary" :disabled="getcodeshow" @click="getCode" style="position: absolute;top:0;right:0;border-radius: 0 4px 4px 0;">
+					{{getcode}}
+				</el-button>
 			</el-form-item>
 			<el-form-item v-if="isFlag">
 				<el-checkbox @click="dialogFormVisible = true" v-model="checked"></el-checkbox>
@@ -39,7 +45,7 @@
 				dialogFormVisible: false,
 				getcode: "获取验证码",
 				getcodeshow: false,
-				dislogin:true,
+				dislogin: true,
 				ruleForm: {
 					username: '',
 					codeID: '',
@@ -63,11 +69,11 @@
 						})
 				}
 			},
-			Codechange(){
-				if(this.ruleForm.codeID.length){
-					this.dislogin=false;
-				}else{
-					this.dislogin=true;
+			Codechange() {
+				if(this.ruleForm.codeID.length) {
+					this.dislogin = false;
+				} else {
+					this.dislogin = true;
 				}
 			},
 			getCode() { //获取验证码
@@ -106,15 +112,15 @@
 								this.getcode = "再次获取"
 								this.getcodeshow = false;
 							}
-						}, 1000)
-						//获取验证码成功
-					} else {
-						this.$message({
-							message: res.data.messages,
-							type: 'error'
-						})
-					}
-				})
+							//获取验证码成功
+							})
+						} else {
+							this.$message({
+								message: res.data.messages,
+								type: 'error'
+							})
+						}
+					})
 				}
 			},
 			// 申请编号
@@ -182,8 +188,7 @@
 					})
 				})
 			},
-			login() { //登录
-
+			login() { 								//登录
 				//验证手机号码
 				if(!/^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])\d{8}$/i.test(this.ruleForm.username)){
 					this.$message({
