@@ -88,6 +88,10 @@
 				}else{
 				var countdown = 60;
 				this.editCode = false;
+				this.getCodeTime++;
+				if(this.getCodeTime>1){
+					this.this.getCodeTime=2;
+				}
 				this.$http.post(process.env.API + "/getMessageCode", {
 					"userId": this.ruleForm.username,
 					"getMessageCodeFlag":this.getCodeTime
