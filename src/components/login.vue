@@ -11,7 +11,7 @@
 
 			</el-form-item>
 			<el-form-item style="position: relative;">
-				<el-input @change="Codechange" :maxlength="6" v-model="ruleForm.codeID">
+				<el-input @change="Codechange" :maxlength="6" v-model="ruleForm.codeID" :disabled="editCode">
 					<template slot="prepend">
 						<img src="../assets/password.png" alt="密码" />
 					</template>
@@ -40,6 +40,7 @@
 	export default {
 		data() {
 			return {
+				editCode:true,
 				isFlag: false,
 				checked: false,
 				dialogFormVisible: false,
@@ -78,21 +79,15 @@
 				}
 			},
 			getCode() { //获取验证码
-
-				if(!this.ruleForm.username) {
-					// this.$message({
-					// 	type: "error",
-					// 	message: "手机号不能为空"
-					// })
-					return false;
-				}else if(!/^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])\d{8}$/i.test(this.ruleForm.username)) {
-					// this.$message({
-					// 	message: "请输入正确手机号",
-					// 	type: 'error'
-					// })
+				if(!/^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])\d{8}$/i.test(this.ruleForm.username)) {
+					this.$message({
+						message: "请输入正确手机号",
+						type: 'error'
+					})
 					return false;
 				}else{
 				var countdown = 60;
+				this.editCode = false;
 				this.getCodeTime++;
 				if(this.getCodeTime>1){
 					this.this.getCodeTime=2;
