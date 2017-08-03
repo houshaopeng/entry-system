@@ -10,13 +10,15 @@
 				</el-input>
 
 			</el-form-item>
-			<el-form-item>
+			<el-form-item style="position: relative;">
 				<el-input @change="Codechange" :maxlength="6" v-model="ruleForm.codeID">
 					<template slot="prepend">
 						<img src="../assets/password.png" alt="密码" />
 					</template>
-					<el-button slot="append" type="primary" :disabled="getcodeshow" @click="getCode">{{getcode}}</el-button>
 				</el-input>
+				<el-button type="primary" :disabled="getcodeshow" @click="getCode" style="position: absolute;top:0;right:0;border-radius: 0 4px 4px 0;">
+					{{getcode}}
+				</el-button>
 			</el-form-item>
 			<el-form-item v-if="isFlag">
 				<el-checkbox @click="dialogFormVisible = true" v-model="checked"></el-checkbox>
