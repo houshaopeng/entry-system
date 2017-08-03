@@ -96,7 +96,7 @@
 					"userId": this.ruleForm.username,
 					"getMessageCodeFlag":this.getCodeTime
 				}).then((res) => {
-					if(res.data.code == '0000') {
+					if(res.data.code == '000000') {
 						if(res.data.data.isFlag == "1") {
 							this.isFlag = true;
 						} else if(res.data.data.isFlag == "2") {

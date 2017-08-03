@@ -1274,17 +1274,16 @@
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
 					body: {
-						"userId": JSON.parse(sessionStorage.getItem("userInfo")).telPhone, // TODO    手机号码
-
+						"userId": JSON.parse(sessionStorage.getItem("userInfo")).telPhone,
 						"level": "1",
-						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo // 请求流水号
+						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo
 					}
 				}).then((res) => {
 					if(res.data.code == "000000") {
 						if(res.data.data.json) {
 
 							var json = res.data.data.json;
-
+							console.log(json.basicReqInfo)
 							this.obj.default.province = json.basicReqInfo.contactAddress.split("&")[0];
 							this.obj.default.city = json.basicReqInfo.contactAddress.split("&")[1];
 							this.obj.default.district = json.basicReqInfo.contactAddress.split("&")[2];
