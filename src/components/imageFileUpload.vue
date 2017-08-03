@@ -251,7 +251,7 @@
 				reqopts0: {
 					formData: {
 						'type': '1',
-						'userId': JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+						'userId': JSON.parse(sessionStorage.getItem("userInfo")).telPhone,
 						'requestNo': JSON.parse(sessionStorage.getItem("userInfo")).requestNo,
 						'initId': this.initId,
 					},
@@ -261,7 +261,7 @@
 				reqopts1: {
 					formData: {
 						'type': '2',
-						'userId': JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+						'userId': JSON.parse(sessionStorage.getItem("userInfo")).telPhone,
 						'requestNo': JSON.parse(sessionStorage.getItem("userInfo")).requestNo,
 					},
 					responseType: 'json',
@@ -270,7 +270,7 @@
 				reqopts2: {
 					formData: {
 						'type': '3',
-						'userId': JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+						'userId': JSON.parse(sessionStorage.getItem("userInfo")).telPhone,
 						'requestNo': JSON.parse(sessionStorage.getItem("userInfo")).requestNo,
 					},
 					responseType: 'json',
@@ -279,7 +279,7 @@
 				reqopts3: {
 					formData: {
 						'type': '4',
-						'userId': JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+						'userId': JSON.parse(sessionStorage.getItem("userInfo")).telPhone,
 						'requestNo': JSON.parse(sessionStorage.getItem("userInfo")).requestNo,
 					},
 					responseType: 'json',
@@ -335,8 +335,6 @@
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
 					body: {
-
-						"src": file.imgSrc, // 图片src地址(多张逗号拼接)   TODO
 						"type": file.type, //  TODO
 						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo, // 申请编号
 						"imgNo": file.imgNo
@@ -384,31 +382,7 @@
 			onSubmit() {
 				this.updateStates();
 			},
-			// 删除图片(提交前删除)
-			delectImg() {
-				this.$http({
-					method: "POST",
-					url: process.env.API + "/terminal/deleteImg",
-					headers: {
-						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
-					},
-					body: {
-						"imgSrcs": "", // 图片src地址(多张逗号拼接)   TODO
-						"type": "1", //  TODO
-						"userId": JSON.parse(sessionStorage.getItem("userInfo")).telPhone, // 用户唯一标识登录的手机号
-						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo, // 申请编号
-					}
-				}).then((res) => {
-					if(res.data.code == "000000") {
-
-					}
-				}, (res) => {
-					this.$message({
-						type: "error",
-						message: res.data.messages
-					})
-				})
-			},
+			
 			// 路由接口调试
 			routerApi() {
 				console.log(JSON.parse(sessionStorage.getItem("userInfo")).requestNo)
@@ -419,7 +393,7 @@
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
 					body: {
-						"userId": JSON.parse(sessionStorage.getItem("userInfo")).telPhone, // TODO    手机号码
+						"userId": JSON.parse(sessionStorage.getItem("userInfo")).telPhone, //    手机号码
 						"level": "2",
 						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo // 请求流水号
 					}

@@ -73,8 +73,11 @@
 					}
 				}).then((res)=>{
 					if(res.data.code=="000000"){
-						this.$router.push({
-							path: '/loanContract'
+						// TODO
+					}else{
+						this.$message({
+							type:"error",
+							message:res.data.messages
 						})
 					}
 				},(res)=>{
