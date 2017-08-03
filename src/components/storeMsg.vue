@@ -1281,7 +1281,87 @@
 					}
 				}).then((res) => {
 					if(res.data.code == "000000") {
+						if(res.data.data.json) {
 
+							var json = res.data.data.json;
+
+							this.obj.default.province = json.basicReqInfo.contactAddress.split("&")[0];
+							this.obj.default.city = json.basicReqInfo.contactAddress.split("&")[1];
+							this.obj.default.district = json.basicReqInfo.contactAddress.split("&")[2];
+
+							this.obj2.default.province = json.shopManagementReqInfo.registerAddress.split("&")[0];
+							this.obj2.default.city = json.shopManagementReqInfo.registerAddress.split("&")[1];
+							this.obj2.default.district = json.shopManagementReqInfo.registerAddress.split("&")[2];
+
+							this.obj3.default.province = json.proposerReqInfo.nativeAddress.split("&")[0];
+							this.obj3.default.city = json.proposerReqInfo.nativeAddress.split("&")[1];
+							this.obj3.default.district = json.proposerReqInfo.nativeAddress.split("&")[2];
+
+							this.obj4.default.province = json.proposerReqInfo.address.split("&")[0];
+							this.obj4.default.city = json.proposerReqInfo.address.split("&")[1];
+							this.obj4.default.district = json.proposerReqInfo.address.split("&")[2];
+
+							this.msg1 = json.requestNo;
+							this.machines = JSON.parse(json.basicReqInfo.machineType) //机器型号
+							this.companys = json.basicReqInfo.aroundFinancialInfo;
+							this.ruleForm = {
+								contractType: json.basicReqInfo.contractType.toString(), //网点合同类型
+								networkType: json.basicReqInfo.terminalType.toString(), //网点类型
+								belongRegion: json.basicReqInfo.terminalArea, //所属区域
+								networkName: json.basicReqInfo.terminalName, //网点名称
+								networkContact: json.basicReqInfo.terminalContact, //网点联系人
+								contactTel: json.basicReqInfo.terminalPhone, //联系电话
+								recommendedID: json.basicReqInfo.recommendChanel.split("&")[0], //推荐渠道
+								recommendedChannels: json.basicReqInfo.recommendChanel.split("&")[1], //具体渠道
+								contactAddress: json.basicReqInfo.contactAddress.split("&")[3], //联系地址
+								salesmanName: json.basicReqInfo.salesmanName, //业务员名字
+								salesmanNumber: json.basicReqInfo.salesmanNo, //业务员工号
+
+								isJoin: json.shopManagementReqInfo.isBrandFranchise.toString(), //是否品牌加盟店
+								businessType: json.shopManagementReqInfo.merchantType.toString(), //商户类型
+								createTime: new Date(json.shopManagementReqInfo.createTime), //成立时间
+								startTime: new Date(json.shopManagementReqInfo.openingTime), //开业时间
+								registeredAddress: json.shopManagementReqInfo.registerAddress.split("&")[3], //注册地址详细地址
+								zipCode: json.shopManagementReqInfo.postalCode, //邮政编码
+								legalName: json.shopManagementReqInfo.legalPersonName, //法人姓名
+								legalTel: json.shopManagementReqInfo.legalPersonPhone, //法人电话
+								legalId: json.shopManagementReqInfo.legalPersonIdCard, //法人身份证号
+								threeMoney: json.shopManagementReqInfo.averageTurnover.toString(), //近三月平均营业额
+								yearMoney: json.shopManagementReqInfo.totalTurnover.toString(), //去年全年营业额
+								productName1: json.shopManagementReqInfo.mainProduct[0].name, //商品名称1
+								productName2: json.shopManagementReqInfo.mainProduct[1].name, //商品名称2
+								productName3: json.shopManagementReqInfo.mainProduct[2].name, //商品名称3
+								productPrice1: json.shopManagementReqInfo.mainProduct[0].distance, //商品价格1
+								productPrice2: json.shopManagementReqInfo.mainProduct[1].distance, //商品价格2
+								productPrice3: json.shopManagementReqInfo.mainProduct[2].distance, //商品价格3
+								dailyPeople: json.shopManagementReqInfo.averageDayFlow.toString(), //店铺日均人流量
+
+								applicantName: json.proposerReqInfo.name, //申店主姓名
+								idNumber: json.proposerReqInfo.idCard, //身份证号
+								healthStatus: json.proposerReqInfo.healthStatus.toString(), //健康状况
+								applicantDegree: json.proposerReqInfo.educational.toString(), //申请人学历
+								maritalStatus: json.proposerReqInfo.maritalStatus.toString(), //婚姻状况
+								applicantResAddress: json.proposerReqInfo.nativeAddress.split("&")[3], //申请人户籍地址
+								applicantCurrAddress: json.proposerReqInfo.address.split("&")[3], //申请人现居住地址
+								applicantPercent: json.proposerReqInfo.shares.toString(), //申请人占股比列
+								msgBind1: JSON.parse(json.proposerReqInfo.contacts)[0].msgBind, //联系人信息
+								msgBind2: JSON.parse(json.proposerReqInfo.contacts)[1].msgBind,
+								msgBind3: JSON.parse(json.proposerReqInfo.contacts)[2].msgBind,
+								msgName1: JSON.parse(json.proposerReqInfo.contacts)[0].msgName,
+								msgName2: JSON.parse(json.proposerReqInfo.contacts)[1].msgName,
+								msgName3: JSON.parse(json.proposerReqInfo.contacts)[2].msgName,
+								msgTel1: JSON.parse(json.proposerReqInfo.contacts)[0].msgTel,
+								msgTel2: JSON.parse(json.proposerReqInfo.contacts)[1].msgTel,
+								msgTel3: JSON.parse(json.proposerReqInfo.contacts)[2].msgTel,
+
+								bankCardNumber: json.bankReqInfo.bankCard, //银行卡卡号
+								bankProvice: json.bankReqInfo.openProvince, //开户行省
+								bankCity: json.bankReqInfo.openCity, //开户行城市
+								bankName: json.bankReqInfo.subBranchName, //开户行名字
+								reserPhone: json.bankReqInfo.bankPhone, //预留手机号
+								goodpoint: json.basicReqInfo.joinSuperiority.split(","), //终端机网络优势
+							}
+						}
 					}
 				}, (res) => {
 					this.$message({
