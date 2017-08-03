@@ -11,7 +11,7 @@
 
 			</el-form-item>
 			<el-form-item style="position: relative;">
-				<el-input @change="Codechange" :maxlength="6" v-model="ruleForm.codeID" :disabled="editCode">
+				<el-input @change="Codechange" id="password" :maxlength="6" v-model="ruleForm.codeID" :disabled="editCode">
 					<template slot="prepend">
 						<img src="../assets/password.png" alt="密码" />
 					</template>
@@ -201,6 +201,9 @@
 					})
 				//验证码输入提示
 				}else if(!/^\d{6}$/.test(this.ruleForm.codeID)){
+					this.ruleForm.codeID = "";
+					var oTxt = document.getElementById('password');
+					var code = oTxt.getElementsByTagName('input')[0].focus();
 					this.$message({
 						type: "error",
 						message: "请输入正确的验证码"
