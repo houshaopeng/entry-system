@@ -475,7 +475,7 @@
 				<el-row :gutter="10">
 					<el-col :xs="24" :sm="24" :md="18" :lg="14">
 						<el-form-item prop="goodpoint">
-							<el-checkbox-group v-model="ruleForm.goodpoint">
+							<el-checkbox-group @change="changeGood" v-model="ruleForm.goodpoint">
 								<el-checkbox label="地理位置好"></el-checkbox>
 								<el-checkbox label="客户资源丰富"></el-checkbox>
 								<el-checkbox label="经营模式独特"></el-checkbox>
@@ -486,8 +486,8 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="6" :sm="6" :md="6" :lg="6">
-						<el-form-item prop="name">
-							<el-input :maxlength="200" v-model="ruleForm.name" placeholder="请列举其他优势"></el-input>
+						<el-form-item prop="another">
+							<el-input :maxlength="200" v-model="ruleForm.another" placeholder="请列举其他优势"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -592,19 +592,6 @@
 					legalId: '', //法人身份证号
 					threeMoney: '', //近三月平均营业额
 					yearMoney: '', //去年全年营业额
-					// mainProduct: [{
-					// 		productName: "",
-					// 		productPrice: ""
-					// 	},
-					// 	{
-					// 		productName: "",
-					// 		productPrice: ""
-					// 	},
-					// 	{
-					// 		productName: "",
-					// 		productPrice: ""
-					// 	},
-					// ],
 					productName1: '', //商品名称1
 					productName2: '', //商品名称2
 					productName3: '', //商品名称3
@@ -617,7 +604,6 @@
 					healthStatus: '', //健康状况
 					applicantDegree: '', //申请人学历
 					maritalStatus: '', //婚姻状况
-					// applicantOrigin: '', //申请人籍贯
 					applicantResAddress: '', //申请人户籍地址
 					applicantCurrAddress: '', //申请人现居住地址
 					applicantPercent: '', //申请人占股比列
@@ -874,15 +860,9 @@
 					}
 				},
 				rules: {
-					name: [{
+					another: [{
 							required: true,
 							message: '请输入活动名称',
-							trigger: 'blur'
-						},
-						{
-							min: 3,
-							max: 5,
-							message: '长度在 3 到 5 个字符',
 							trigger: 'blur'
 						}
 					],
@@ -1002,7 +982,7 @@
 						validator: checkNum,
 						trigger: 'blur'
 					}],
-					/*productName1: [{
+					productName1: [{
 						required: true,
 						message: '请输入商品名',
 						trigger: 'blur'
@@ -1032,7 +1012,7 @@
 					}, {
 						validator: checkNum,
 						trigger: 'blur'
-					}],*/
+					}],
 					productPrice3: [{
 						required: true,
 						message: '请输入商品价格',
@@ -1210,6 +1190,11 @@
 					this.ruleForm.recommendedChannels = "";
 				}
 
+			},
+			changeGood(){
+				if(this.ruleForm.goodpoint.indexOf("其他") != -1){
+					
+				}
 			},
 			// 获取机器编号
 			getMachineModel() {
@@ -1642,10 +1627,12 @@
 					this.obj2.default.province = this.address.province;
 					this.obj2.default.city = this.address.city;
 					this.obj2.default.district = this.address.district;
+					this.ruleForm.registeredAddress = this.ruleForm.contactAddress;
 				} else {
 					this.obj2.default.province = "北京";
 					this.obj2.default.city = "北京";
 					this.obj2.default.district = "东城区";
+					this.ruleForm.registeredAddress = "";
 				}
 			},
 		},

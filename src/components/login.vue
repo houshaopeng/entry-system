@@ -2,13 +2,13 @@
 	<div class="login">
 		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm">
 			<h1>商户登录</h1>
-			<el-form-item prop="username">
-				<el-input :maxlength="11" v-model="ruleForm.username">
+			<el-form-item>
+				<el-input :maxlength="11" @blur="checkTel" v-model="ruleForm.username">
 					<template slot="prepend"><img src="../assets/telephone (2).png" alt="手机" /></template>
 				</el-input>
 
 			</el-form-item>
-			<el-form-item prop="codeID">
+			<el-form-item>
 				<el-input :maxlength="6" v-model="ruleForm.codeID">
 					<template slot="prepend"><img src="../assets/password.png" alt="密码" /></template>
 					<el-button slot="append" type="primary" :disabled="getcodeshow" @click="getCode">{{getcode}}</el-button>
@@ -56,24 +56,6 @@
 				ruleForm: {
 					username: '',
 					codeID: '',
-				},
-				rules: {
-					username: [{
-						validator: checkTel,
-						trigger: 'blur'
-					}],
-					codeID: [{
-							required: true,
-							message: '请输入验证码',
-							trigger: 'blur'
-						},
-						{
-							min: 5,
-							max: 5,
-							message: '请输入正确验证码',
-							trigger: 'blur'
-						}
-					],
 				},
 				flagArr: [],
 				msg: "",
