@@ -90,7 +90,7 @@
 				this.editCode = false;
 				this.getCodeTime++;
 				if(this.getCodeTime>1){
-					this.this.getCodeTime=2;
+					this.getCodeTime=2;
 				}
 				this.$http.post(process.env.API + "/getMessageCode", {
 					"userId": this.ruleForm.username,
