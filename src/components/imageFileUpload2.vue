@@ -233,7 +233,7 @@
 				},
 				cbEvents3: {
 					onCompleteUpload: (file, response, status, header) => {
-
+						this.echoImg();
 					},
 					onAddFileSuccess: (file) => {
 
@@ -512,7 +512,7 @@
 									this.files33.push(this.lists[i])
 								}
 							}
-							// console.log()
+							// console.log(this.files33)
 						}else{
 
 						}
