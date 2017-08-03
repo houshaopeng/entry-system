@@ -448,7 +448,7 @@
 							</el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="10">
+					<el-col :xs="24" :sm="24" :md="16" :lg="12" style="margin-bottom: 22px;">
 						<Chinaddress :opts="bankObj" v-model="bankAddress" id="address-picker"></Chinaddress>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
@@ -475,7 +475,7 @@
 				<el-row :gutter="10">
 					<el-col :xs="24" :sm="24" :md="18" :lg="14">
 						<el-form-item prop="goodpoint">
-							<el-checkbox-group v-model="ruleForm.goodpoint">
+							<el-checkbox-group @change="changeGood" v-model="ruleForm.goodpoint">
 								<el-checkbox label="地理位置好"></el-checkbox>
 								<el-checkbox label="客户资源丰富"></el-checkbox>
 								<el-checkbox label="经营模式独特"></el-checkbox>
@@ -486,8 +486,8 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="6" :sm="6" :md="6" :lg="6">
-						<el-form-item prop="name">
-							<el-input :maxlength="200" v-model="ruleForm.name" placeholder="请列举其他优势"></el-input>
+						<el-form-item prop="another">
+							<el-input :maxlength="200" v-model="ruleForm.another" placeholder="请列举其他优势"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -604,7 +604,6 @@
 					healthStatus: '', //健康状况
 					applicantDegree: '', //申请人学历
 					maritalStatus: '', //婚姻状况
-					// applicantOrigin: '', //申请人籍贯
 					applicantResAddress: '', //申请人户籍地址
 					applicantCurrAddress: '', //申请人现居住地址
 					applicantPercent: '', //申请人占股比列
@@ -624,6 +623,7 @@
 					reserPhone: '', //预留手机号
 					verificaCode: '', //验证码
 					goodpoint: [], //终端机网络优势
+					another: '', //终端其他优势
 				},
 				region: [{
 						region: "华北区",
@@ -861,18 +861,11 @@
 					}
 				},
 				rules: {
-					name: [{
-							required: true,
-							message: '请输入活动名称',
-							trigger: 'blur'
-						},
-						{
-							min: 3,
-							max: 5,
-							message: '长度在 3 到 5 个字符',
-							trigger: 'blur'
-						}
-					],
+					another: [{
+						required: true,
+						message: '请输入活动名称',
+						trigger: 'blur'
+					}],
 					contractType: [{
 						required: true,
 						message: '请选择网点合同类型',
@@ -984,6 +977,37 @@
 					yearMoney: [{
 						required: true,
 						message: '请输入去年全年营业额',
+						trigger: 'blur'
+					}, {
+						validator: checkNum,
+						trigger: 'blur'
+					}],
+					productName1: [{
+						required: true,
+						message: '请输入商品名',
+						trigger: 'blur'
+					}],
+					productName2: [{
+						required: true,
+						message: '请输入商品名',
+						trigger: 'blur'
+					}],
+					productName3: [{
+						required: true,
+						message: '请输入商品名',
+						trigger: 'blur'
+					}],
+					productPrice1: [{
+						required: true,
+						message: '请输入商品价格',
+						trigger: 'blur'
+					}, {
+						validator: checkNum,
+						trigger: 'blur'
+					}],
+					productPrice2: [{
+						required: true,
+						message: '请输入商品价格',
 						trigger: 'blur'
 					}, {
 						validator: checkNum,
@@ -1167,9 +1191,14 @@
 				}
 
 			},
+			changeGood() {
+				if(this.ruleForm.goodpoint.indexOf("其他") != -1) {
+
+				}
+			},
 			// 获取机器编号
 			getMachineModel() {
-				this.$http.post(process.env.API+"/terminal/getMachineModel", "", {
+				this.$http.post(process.env.API + "/terminal/getMachineModel", "", {
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					}
@@ -1193,7 +1222,7 @@
 			getChannelUserName() { //获取渠道具体人员
 				this.$http({
 					method: "POST",
-					url: process.env.API+"/terminal/getChannelUserName",
+					url: process.env.API + "/terminal/getChannelUserName",
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
@@ -1201,7 +1230,6 @@
 						"channelNo": this.ruleForm.recommendedID
 					}
 				}).then((res) => {
-					console.log(res.data)
 					if(res.data.code == "000000") {
 						this.channels = res.data.data
 					} else {
@@ -1220,7 +1248,7 @@
 			getMerchantType() { //获取商户类型
 				this.$http({
 					method: "POST",
-					url: process.env.API+"/terminal/getMerchantType",
+					url: process.env.API + "/terminal/getMerchantType",
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					}
@@ -1241,7 +1269,7 @@
 				this.msg1 = JSON.parse(sessionStorage.getItem("userInfo")).requestNo
 				this.$http({
 					method: "POST",
-					url: process.env.API+"/terminal/step",
+					url: process.env.API + "/terminal/step",
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
@@ -1253,7 +1281,7 @@
 					}
 				}).then((res) => {
 					if(res.data.code == "000000") {
-						
+
 					}
 				}, (res) => {
 					this.$message({
@@ -1263,29 +1291,145 @@
 				})
 			},
 			Temporary() { //缓存
-				var contactAddress = this.address.province+"&"+this.address.city+"&"+this.address.district+"&"+this.ruleForm.contactAddress;
-				var registerAddress = this.address2.province+"&"+this.address2.city+"&"+this.address2.district+"&"+this.ruleForm.registeredAddress;
-				var nativeAddress = this.address3.province+"&"+this.address3.city+"&"+this.address3.district+"&"+this.ruleForm.applicantResAddress;
-				var address = this.address4.province+"&"+this.address4.city+"&"+this.address4.district+"&"+this.ruleForm.applicantCurrAddress;
+				var contactAddress = this.address.province + "&" + this.address.city + "&" + this.address.district + "&" + this.ruleForm.contactAddress;
+				var registerAddress = this.address2.province + "&" + this.address2.city + "&" + this.address2.district + "&" + this.ruleForm.registeredAddress;
+				var nativeAddress = this.address3.province + "&" + this.address3.city + "&" + this.address3.district + "&" + this.ruleForm.applicantResAddress;
+				var address = this.address4.province + "&" + this.address4.city + "&" + this.address4.district + "&" + this.ruleForm.applicantCurrAddress;
 				var mainProduct = [{
-						"name":this.ruleForm.productName1,
-						"distance":this.ruleForm.productPrice1,
+						"name": this.ruleForm.productName1,
+						"distance": this.ruleForm.productPrice1,
 					},
 					{
-						"name":this.ruleForm.productName2,
-						"distance":this.ruleForm.productPrice2,
-					},{
-						"name":this.ruleForm.productName3,
-						"distance":this.ruleForm.productPrice3,
-					}]
-				var contacts = [
-					{"msgBind":this.ruleForm.msgBind1,"msgName":this.ruleForm.msgName1,"msgTel":this.ruleForm.msgTel1},
-					{"msgBind":this.ruleForm.msgBind2,"msgName":this.ruleForm.msgName2,"msgTel":this.ruleForm.msgTel2},
-					{"msgBind":this.ruleForm.msgBind3,"msgName":this.ruleForm.msgName3,"msgTel":this.ruleForm.msgTel3}
+						"name": this.ruleForm.productName2,
+						"distance": this.ruleForm.productPrice2,
+					}, {
+						"name": this.ruleForm.productName3,
+						"distance": this.ruleForm.productPrice3,
+					}
+				]
+				var contacts = [{
+						"msgBind": this.ruleForm.msgBind1,
+						"msgName": this.ruleForm.msgName1,
+						"msgTel": this.ruleForm.msgTel1
+					},
+					{
+						"msgBind": this.ruleForm.msgBind2,
+						"msgName": this.ruleForm.msgName2,
+						"msgTel": this.ruleForm.msgTel2
+					},
+					{
+						"msgBind": this.ruleForm.msgBind3,
+						"msgName": this.ruleForm.msgName3,
+						"msgTel": this.ruleForm.msgTel3
+					}
 				]
 				this.$http({
 					method: "POST",
-					url: process.env.API+"/terminal/Temporary",
+					url: process.env.API + "/terminal/Temporary",
+					headers: {
+						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+					},
+					body: {
+						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo,
+						"basicReqInfo": {
+							"contractType": Number(this.ruleForm.contractType),
+							"terminalType": Number(this.ruleForm.networkType),
+							"terminalArea": this.ruleForm.belongRegion,
+							"terminalName": this.ruleForm.networkName,
+							"terminalContact": this.ruleForm.networkContact,
+							"terminalPhone": this.ruleForm.contactTel,
+							"recommendChanel": this.ruleForm.recommendedID + '&' + this.ruleForm.recommendedChannels,
+							"contactAddress": contactAddress,
+							"salesmanName": this.ruleForm.salesmanName,
+							"salesmanNo": this.ruleForm.salesmanNumber,
+							"machineType": JSON.stringify(this.machines),
+							"aroundFinancialInfo": this.companys,
+							"joinSuperiority": this.ruleForm.goodpoint.toString()
+						},
+						"shopManagementReqInfo": {
+							"isBrandFranchise": Number(this.ruleForm.isJoin),
+							"merchantType": this.ruleForm.businessType,
+							"createTime": this.ruleForm.createTime,
+							"openingTime": this.ruleForm.startTime,
+							"registerAddress": registerAddress,
+							"postalCode": this.ruleForm.zipCode,
+							"legalPersonName": this.ruleForm.legalName,
+							"legalPersonPhone": this.ruleForm.legalTel,
+							"legalPersonIdCard": this.ruleForm.legalId,
+							"averageTurnover": Number(this.ruleForm.threeMoney),
+							"totalTurnover": Number(this.ruleForm.yearMoney),
+							"mainProduct": mainProduct,
+							"averageDayFlow": Number(this.ruleForm.dailyPeople)
+						},
+						"proposerReqInfo": {
+							"name": this.ruleForm.applicantName,
+							"idCard": this.ruleForm.idNumber,
+							"healthStatus": Number(this.ruleForm.healthStatus),
+							"educational": Number(this.ruleForm.healthStatus),
+							"maritalStatus": Number(this.ruleForm.maritalStatus),
+							"nativeAddress": nativeAddress,
+							"address": address,
+							"shares": Number(this.ruleForm.applicantPercent),
+							"contacts": JSON.stringify(contacts)
+						},
+						"bankReqInfo": {
+							"bankCard": this.ruleForm.bankCardNumber,
+							"openProvince": this.bankAddress.province,
+							"openCity": this.bankAddress.city,
+							"subBranchName": this.ruleForm.bankName,
+							"bankPhone": this.ruleForm.reserPhone
+						}
+					}
+				}).then((res) => {
+					if(res.data.code == "000000") {
+						this.$message({
+							type: "success",
+							message: "暂存成功"
+						})
+					}
+				}, (res) => {
+					this.$message({
+						type: "error",
+						message: res.data.messages
+					})
+				})
+			},
+			nextstep() {
+				var contactAddress = this.address.province + "&" + this.address.city + "&" + this.address.district + "&" + this.ruleForm.contactAddress;
+				var registerAddress = this.address2.province + "&" + this.address2.city + "&" + this.address2.district + "&" + this.ruleForm.registeredAddress;
+				var nativeAddress = this.address3.province + "&" + this.address3.city + "&" + this.address3.district + "&" + this.ruleForm.applicantResAddress;
+				var address = this.address4.province + "&" + this.address4.city + "&" + this.address4.district + "&" + this.ruleForm.applicantCurrAddress;
+				var mainProduct = [{
+						"name": this.ruleForm.productName1,
+						"distance": this.ruleForm.productPrice1,
+					},
+					{
+						"name": this.ruleForm.productName2,
+						"distance": this.ruleForm.productPrice2,
+					}, {
+						"name": this.ruleForm.productName3,
+						"distance": this.ruleForm.productPrice3,
+					}
+				]
+				var contacts = [{
+						"msgBind": this.ruleForm.msgBind1,
+						"msgName": this.ruleForm.msgName1,
+						"msgTel": this.ruleForm.msgTel1
+					},
+					{
+						"msgBind": this.ruleForm.msgBind2,
+						"msgName": this.ruleForm.msgName2,
+						"msgTel": this.ruleForm.msgTel2
+					},
+					{
+						"msgBind": this.ruleForm.msgBind3,
+						"msgName": this.ruleForm.msgName3,
+						"msgTel": this.ruleForm.msgTel3
+					}
+				]
+				this.$http({
+					method: "POST",
+					url: process.env.API + "/terminal/basicSubmit",
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
@@ -1336,120 +1480,27 @@
 							"bankCard": this.ruleForm.bankCardNumber,
 							"openProvince": this.bankAddress.province,
 							"openCity": this.bankAddress.city,
-							"subBranchName": this.ruleForm.bankNam,
+							"subBranchName": this.ruleForm.bankName,
 							"bankPhone": this.ruleForm.reserPhone
 						}
 					}
 				}).then((res) => {
-					if(res.data.code=="000000"){
-						this.$message({
-							type:"success",
-							message:"暂存成功"
+					if(res.data.code == "000000") {
+						this.$router.push({
+							path: '/imageFileUpload'
 						})
 					}
+
 				}, (res) => {
 					this.$message({
 						type: "error",
 						message: res.data.messages
+
 					})
 				})
-			},
-			nextstep() {
-				var contactAddress = this.address.province+"&"+this.address.city+"&"+this.address.district+"&"+this.ruleForm.contactAddress;
-				var registerAddress = this.address2.province+"&"+this.address2.city+"&"+this.address2.district+"&"+this.ruleForm.registeredAddress;
-				var nativeAddress = this.address3.province+"&"+this.address3.city+"&"+this.address3.district+"&"+this.ruleForm.applicantResAddress;
-				var address = this.address4.province+"&"+this.address4.city+"&"+this.address4.district+"&"+this.ruleForm.applicantCurrAddress;
-				var mainProduct = [{
-						"name":this.ruleForm.productName1,
-						"distance":this.ruleForm.productPrice1,
-					},
-					{
-						"name":this.ruleForm.productName2,
-						"distance":this.ruleForm.productPrice2,
-					},{
-						"name":this.ruleForm.productName3,
-						"distance":this.ruleForm.productPrice3,
-					}]
-				var contacts = [
-					{"msgBind":this.ruleForm.msgBind1,"msgName":this.ruleForm.msgName1,"msgTel":this.ruleForm.msgTel1},
-					{"msgBind":this.ruleForm.msgBind2,"msgName":this.ruleForm.msgName2,"msgTel":this.ruleForm.msgTel2},
-					{"msgBind":this.ruleForm.msgBind3,"msgName":this.ruleForm.msgName3,"msgTel":this.ruleForm.msgTel3}
-				]
-				this.$http({
-					method: "POST",
-					url: process.env.API+"/terminal/basicSubmit",
-					headers: {
-						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
-					},
-					body: {
-						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo,
-						"basicReqInfo": {
-							"contractType": Number(this.ruleForm.contractType),
-							"terminalType": Number(this.ruleForm.networkType),
-							"terminalArea": this.ruleForm.belongRegion,
-							"terminalName": this.ruleForm.networkName,
-							"terminalContact": this.ruleForm.networkContact,
-							"terminalPhone": this.ruleForm.contactTel,
-							"recommendChanel": this.ruleForm.recommendedID,
-							"contactAddress":contactAddress,
-							"salesmanName": this.ruleForm.salesmanName,
-							"salesmanNo": this.ruleForm.salesmanNumber,
-							"machineType": JSON.stringify(this.machines),
-							"aroundFinancialInfo": this.companys,
-							"joinSuperiority": this.ruleForm.goodpoint.toString()
-						},
-						"shopManagementReqInfo": {
-							"isBrandFranchise": Number(this.ruleForm.isJoin),
-							"merchantType": this.ruleForm.businessType,
-							"createTime": this.ruleForm.createTime,
-							"openingTime": this.ruleForm.startTime,
-							"registerAddress":registerAddress,
-							"postalCode": this.ruleForm.zipCode,
-							"legalPersonName": this.ruleForm.legalName,
-							"legalPersonPhone": this.ruleForm.legalTel,
-							"legalPersonIdCard": this.ruleForm.legalId,
-							"averageTurnover": Number(this.ruleForm.threeMoney)*100,
-							"totalTurnover": Number(this.ruleForm.yearMoney)*100,
-							"mainProduct": mainProduct,
-							"averageDayFlow": Number(this.ruleForm.dailyPeople)
-						},
-						"proposerReqInfo": {
-							"name": this.ruleForm.applicantName,
-							"idCard": this.ruleForm.idNumber,
-							"healthStatus": Number(this.ruleForm.healthStatus),
-							"educational": Number(this.ruleForm.healthStatus),
-							"maritalStatus": Number(this.ruleForm.maritalStatus),
-							"nativeAddress": nativeAddress,
-							"address": address,
-							"shares": Number(this.ruleForm.applicantPercent),
-							"contacts": JSON.stringify(contacts)
-						},
-						"bankReqInfo": {
-						    "bankCard": this.ruleForm.bankCardNumber,
-							"openProvince": this.bankAddress.province,
-							"openCity": this.bankAddress.city,
-							"subBranchName": this.ruleForm.bankNam,
-							"bankPhone": this.ruleForm.reserPhone
-						  }
-					}
-				}).then((res) => {
-							if(res.data.code=="000000"){
-								this.$router.push({
-									path: '/imageFileUpload'
-								})
-							}
-
-						}, (res) => {
-							this.$message({
-								type: "error",
-								message: res.data.messages
-
-							})
-						})
-
 
 			},
-			verifyFourElements(formName){					//四要素验证
+			verifyFourElements(formName) { //四要素验证
 				this.$refs[formName].validate((valid) => {
 					for(var i = 0; i < this.companys.length; i++) {
 						if(this.companys[i].companyDistance != "" && this.companys[i].companyName != "") {
@@ -1463,110 +1514,134 @@
 
 					}
 					if(valid && (this.address.province != "请选择") && (this.address.city != "请选择") && (this.address.district != "请选择") && (this.address2.province != "请选择") && (this.address2.city != "请选择") && (this.address2.district != "请选择") && (this.address3.province != "请选择") && (this.address3.city != "请选择") && (this.address3.district != "请选择") && (this.address4.province != "请选择") && (this.address4.city != "请选择") && (this.address4.district != "请选择") && (this.companyStep != "") && (this.machineStep != "")) {
-							this.$http({
-								method:"POST",
-								url:process.env.API+"/verifyFourElements",
-								headers:{
-									"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken
-								},
-								body:{
-									"name":this.ruleForm.applicantName,
-									"idNumber":this.ruleForm.idNumber,
-									"phone":this.ruleForm.reserPhone,
-									"cardNo":this.ruleForm.bankCardNumber,
-								}
-							}).then((res)=>{
-								if(res.data.code=="000000"){
-									if(res.data.data.result=="一致"){
-										this.nextstep()
-									}
-								}else{
+						this.$http({
+							method: "POST",
+							url: process.env.API + "/terminal/verifyFourElements",
+							headers: {
+								"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken
+							},
+							body: {
+								"name": this.ruleForm.applicantName,
+								"idNumber": this.ruleForm.idNumber,
+								"phone": this.ruleForm.reserPhone,
+								"cardNo": this.ruleForm.bankCardNumber,
+							}
+						}).then((res) => {
+							if(res.data.code == "000000") {
+								if(res.data.data.result == "一致") {
+									this.nextstep()
+								} else {
 									this.$message({
-									type: "error",
-									message: res.data.messages
-								})
+										type: "error",
+										message: '银行卡四要素' + res.data.data.result
+									})
 								}
-							},(res)=>{
+							} else {
 								this.$message({
 									type: "error",
 									message: res.data.messages
 								})
+							}
+						}, (res) => {
+							this.$message({
+								type: "error",
+								message: res.data.messages
 							})
+						})
 					} else {
-						console.log('error submit!!');
+						this.$message({
+							type: 'error',
+							message: '请完善相关信息'
+						})
 						return false;
 					}
 				})
 			},
-			stepLogin() {
+			stepLogin() { //回显
 				this.$http({
 					method: "POST",
-					url: process.env.API+"/terminal/stepLogin",
+					url: process.env.API + "/terminal/stepLogin",
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken
 					},
 					body: {
-						"userId":JSON.parse(sessionStorage.getItem("userInfo")).telPhone,
-						"requestNo":JSON.parse(sessionStorage.getItem("userInfo")).requestNo
+						"userId": JSON.parse(sessionStorage.getItem("userInfo")).telPhone,
+						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo
 					}
 				}).then((res) => {
 					if(res.data.code == "000000") {
-						if(res.data.data.json){
+						if(res.data.data.json) {
 
 							var json = res.data.data.json;
-							console.log(json.proposerReqInfo.contacts[0].msgBind)
-							console.log(json.basicReqInfo.joinSuperiority)
+
+							this.obj.default.province = json.basicReqInfo.contactAddress.split("&")[0];
+							this.obj.default.city = json.basicReqInfo.contactAddress.split("&")[1];
+							this.obj.default.district = json.basicReqInfo.contactAddress.split("&")[2];
+
+							this.obj2.default.province = json.shopManagementReqInfo.registerAddress.split("&")[0];
+							this.obj2.default.city = json.shopManagementReqInfo.registerAddress.split("&")[1];
+							this.obj2.default.district = json.shopManagementReqInfo.registerAddress.split("&")[2];
+
+							this.obj3.default.province = json.proposerReqInfo.nativeAddress.split("&")[0];
+							this.obj3.default.city = json.proposerReqInfo.nativeAddress.split("&")[1];
+							this.obj3.default.district = json.proposerReqInfo.nativeAddress.split("&")[2];
+
+							this.obj4.default.province = json.proposerReqInfo.address.split("&")[0];
+							this.obj4.default.city = json.proposerReqInfo.address.split("&")[1];
+							this.obj4.default.district = json.proposerReqInfo.address.split("&")[2];
+
 							this.msg1 = json.requestNo;
-							this.machines =JSON.parse(json.basicReqInfo.machineType)//机器型号
-							this.ruleForm={
+							this.machines = JSON.parse(json.basicReqInfo.machineType) //机器型号
+							this.companys = json.basicReqInfo.aroundFinancialInfo;
+							this.ruleForm = {
 								contractType: json.basicReqInfo.contractType.toString(), //网点合同类型
 								networkType: json.basicReqInfo.terminalType.toString(), //网点类型
 								belongRegion: json.basicReqInfo.terminalArea, //所属区域
 								networkName: json.basicReqInfo.terminalName, //网点名称
 								networkContact: json.basicReqInfo.terminalContact, //网点联系人
 								contactTel: json.basicReqInfo.terminalPhone, //联系电话
-								recommendedID: json.basicReqInfo.recommendChanel, //推荐渠道
-								recommendedChannels: json.basicReqInfo.recommendChanel, //具体渠道
-								contactAddress: json.basicReqInfo.contactAddress, //联系地址
+								recommendedID: json.basicReqInfo.recommendChanel.split("&")[0], //推荐渠道
+								recommendedChannels: json.basicReqInfo.recommendChanel.split("&")[1], //具体渠道
+								contactAddress: json.basicReqInfo.contactAddress.split("&")[3], //联系地址
 								salesmanName: json.basicReqInfo.salesmanName, //业务员名字
-								salesmanNumber:json.basicReqInfo.salesmanNo, //业务员工号
+								salesmanNumber: json.basicReqInfo.salesmanNo, //业务员工号
 
 								isJoin: json.shopManagementReqInfo.isBrandFranchise.toString(), //是否品牌加盟店
 								businessType: json.shopManagementReqInfo.merchantType.toString(), //商户类型
 								createTime: new Date(json.shopManagementReqInfo.createTime), //成立时间
 								startTime: new Date(json.shopManagementReqInfo.openingTime), //开业时间
-								registeredAddress: json.shopManagementReqInfo.registerAddress, //注册地址详细地址
+								registeredAddress: json.shopManagementReqInfo.registerAddress.split("&")[3], //注册地址详细地址
 								zipCode: json.shopManagementReqInfo.postalCode, //邮政编码
 								legalName: json.shopManagementReqInfo.legalPersonName, //法人姓名
 								legalTel: json.shopManagementReqInfo.legalPersonPhone, //法人电话
 								legalId: json.shopManagementReqInfo.legalPersonIdCard, //法人身份证号
-								threeMoney: json.shopManagementReqInfo.averageTurnover/100, //近三月平均营业额
-								yearMoney: json.shopManagementReqInfo.totalTurnover/100, //去年全年营业额
+								threeMoney: json.shopManagementReqInfo.averageTurnover.toString(), //近三月平均营业额
+								yearMoney: json.shopManagementReqInfo.totalTurnover.toString(), //去年全年营业额
 								productName1: json.shopManagementReqInfo.mainProduct[0].name, //商品名称1
 								productName2: json.shopManagementReqInfo.mainProduct[1].name, //商品名称2
 								productName3: json.shopManagementReqInfo.mainProduct[2].name, //商品名称3
 								productPrice1: json.shopManagementReqInfo.mainProduct[0].distance, //商品价格1
 								productPrice2: json.shopManagementReqInfo.mainProduct[1].distance, //商品价格2
 								productPrice3: json.shopManagementReqInfo.mainProduct[2].distance, //商品价格3
-								dailyPeople: json.shopManagementReqInfo.averageDayFlow, //店铺日均人流量
+								dailyPeople: json.shopManagementReqInfo.averageDayFlow.toString(), //店铺日均人流量
 
 								applicantName: json.proposerReqInfo.name, //申店主姓名
 								idNumber: json.proposerReqInfo.idCard, //身份证号
 								healthStatus: json.proposerReqInfo.healthStatus.toString(), //健康状况
 								applicantDegree: json.proposerReqInfo.educational.toString(), //申请人学历
 								maritalStatus: json.proposerReqInfo.maritalStatus.toString(), //婚姻状况
-								applicantResAddress: json.proposerReqInfo.nativeAddress, //申请人户籍地址
-								applicantCurrAddress: json.proposerReqInfo.address, //申请人现居住地址
-								applicantPercent: json.proposerReqInfo.shares, //申请人占股比列
-								msgBind1: json.proposerReqInfo.contacts[0].msgBind, //联系人信息
-								msgBind2: json.proposerReqInfo.contacts[1].msgBind,
-								msgBind3: json.proposerReqInfo.contacts[2].msgBind,
-								msgName1: json.proposerReqInfo.contacts[0].msgName,
-								msgName2: json.proposerReqInfo.contacts[1].msgName,
-								msgName3: json.proposerReqInfo.contacts[2].msgName,
-								msgTel1: json.proposerReqInfo.contacts[0].msgTel,
-								msgTel2: json.proposerReqInfo.contacts[1].msgTel,
-								msgTel3: json.proposerReqInfo.contacts[2].msgTel,
+								applicantResAddress: json.proposerReqInfo.nativeAddress.split("&")[3], //申请人户籍地址
+								applicantCurrAddress: json.proposerReqInfo.address.split("&")[3], //申请人现居住地址
+								applicantPercent: json.proposerReqInfo.shares.toString(), //申请人占股比列
+								msgBind1: JSON.parse(json.proposerReqInfo.contacts)[0].msgBind, //联系人信息
+								msgBind2: JSON.parse(json.proposerReqInfo.contacts)[1].msgBind,
+								msgBind3: JSON.parse(json.proposerReqInfo.contacts)[2].msgBind,
+								msgName1: JSON.parse(json.proposerReqInfo.contacts)[0].msgName,
+								msgName2: JSON.parse(json.proposerReqInfo.contacts)[1].msgName,
+								msgName3: JSON.parse(json.proposerReqInfo.contacts)[2].msgName,
+								msgTel1: JSON.parse(json.proposerReqInfo.contacts)[0].msgTel,
+								msgTel2: JSON.parse(json.proposerReqInfo.contacts)[1].msgTel,
+								msgTel3: JSON.parse(json.proposerReqInfo.contacts)[2].msgTel,
 
 								bankCardNumber: json.bankReqInfo.bankCard, //银行卡卡号
 								bankProvice: json.bankReqInfo.openProvince, //开户行省
@@ -1582,7 +1657,7 @@
 							message: res.data.messages
 						})
 					}
-				},(res) => {
+				}, (res) => {
 					this.$message({
 						type: "error",
 						message: res.data.messages
@@ -1597,10 +1672,12 @@
 					this.obj2.default.province = this.address.province;
 					this.obj2.default.city = this.address.city;
 					this.obj2.default.district = this.address.district;
+					this.ruleForm.registeredAddress = this.ruleForm.contactAddress;
 				} else {
 					this.obj2.default.province = "北京";
 					this.obj2.default.city = "北京";
 					this.obj2.default.district = "东城区";
+					this.ruleForm.registeredAddress = "";
 				}
 			},
 		},

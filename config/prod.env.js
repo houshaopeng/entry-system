@@ -1,4 +1,4 @@
 module.exports = {
   NODE_ENV: '"production"',
-  API: '"/api"'
+  API: '"/terminal-repeater"'
 }

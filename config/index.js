@@ -28,10 +28,10 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-        "/api": {
+        "/terminal-repeater": {
             target:'http://116.62.134.180:9000',
             changeOrigin: true,
-            pathRewrite: {'^/api' : '/'},
+            pathRewrite: {'^/terminal-repeater' : '/'},
         },
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"
