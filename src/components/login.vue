@@ -100,29 +100,31 @@
 					if(res.data.code == '000000') {
 						if(res.data.data.isFlag == "1") {
 							this.isFlag = true;
-							console.log(this.isFlag)
 						} else if(res.data.data.isFlag == "2") {
 							this.isFlag = false;
-							console.log(this.isFlag)
 						}
 						this.getcodeshow = true;
 						var timer = setInterval(() => {
-							if(countdown > 0) {
-								countdown--;
-								this.getcode = "再次获取" + countdown + "s";
-							} else if(countdown == 0) {
-								clearInterval(timer)
-								this.getcode = "再次获取"
-								this.getcodeshow = false;
-							}
-							//获取验证码成功
-							})
+								if(countdown > 0) {
+									countdown--;
+									this.getcode = "再次获取" + countdown + "s";
+								} else if(countdown == 0) {
+									clearInterval(timer)
+									this.getcode = "再次获取"
+									this.getcodeshow = false;
+								}
+							},1000)
 						} else {
 							this.$message({
 								message: res.data.messages,
 								type: 'error'
 							})
 						}
+					},(res)=>{
+						this.$message({
+							message: res.data.messages,
+							type: 'error'
+						})
 					})
 				}
 			},
@@ -199,7 +201,7 @@
 						message: "请输入正确的手机号码"
 					})
 				//验证码输入提示
-				}else if(!/^\d{5}$/.test(this.ruleForm.codeID)){
+				}else if(!/^\d{6}$/.test(this.ruleForm.codeID)){
 					this.$message({
 						type: "error",
 						message: "请输入正确的验证码"
