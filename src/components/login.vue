@@ -1,6 +1,6 @@
 <template>
 	<div class="login">
-		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm">
+		<el-form :model="ruleForm" ref="ruleForm" class="demo-ruleForm">
 			<h1>商户登录</h1>
 			<el-form-item>
 				<el-input :maxlength="11" @blur="checkTel" v-model="ruleForm.username">
@@ -37,7 +37,6 @@
 				isFlag: false,
 				checked: false,
 				dialogFormVisible: false,
-				username: false,
 				getcode: "获取验证码",
 				getcodeshow: false,
 				dislogin:true,
@@ -57,16 +56,11 @@
 							message: "手机号不能为空",
 							type: 'error'
 						})
-					this.username = false;
 				} else if(!/^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])\d{8}$/i.test(this.ruleForm.username)) {
 					this.$message({
 							message: "请输入正确手机号",
 							type: 'error'
 						})
-					this.username = false;
-				} else {
-					this.username = true;
-
 				}
 			},
 			Codechange(){
@@ -78,15 +72,17 @@
 			},
 			getCode() { //获取验证码
 				if(!this.ruleForm.username) {
-					this.$message({
-							type: "error",
-							message: "手机号不能为空"
-						})
-				} else if(!/^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])\d{8}$/i.test(this.ruleForm.username)) {
-					this.$message({
-							message: "请输入正确手机号",
-							type: 'error'
-						})
+					// this.$message({
+					// 	type: "error",
+					// 	message: "手机号不能为空"
+					// })
+					return false;
+				}else if(!/^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])\d{8}$/i.test(this.ruleForm.username)) {
+					// this.$message({
+					// 	message: "请输入正确手机号",
+					// 	type: 'error'
+					// })
+					return false;
 				}else{
 				var countdown = 60;
 				this.$http.post(process.env.API + "/getMessageCode", {
@@ -104,10 +100,10 @@
 						var timer = setInterval(() => {
 							if(countdown > 0) {
 								countdown--;
-								this.getcode = "重新发送" + countdown + "s";
+								this.getcode = "再次获取" + countdown + "s";
 							} else if(countdown == 0) {
 								clearInterval(timer)
-								this.getcode = "重新发送"
+								this.getcode = "再次获取"
 								this.getcodeshow = false;
 							}
 						}, 1000)
@@ -187,66 +183,66 @@
 				})
 			},
 			login() { //登录
-				if(!this.isFlag) {
-					this.gologin()
+
+				//验证手机号码
+				if(!/^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])\d{8}$/i.test(this.ruleForm.username)){
+					this.$message({
+						type: "error",
+						message: "请输入正确的手机号码"
+					})
+				//验证码输入提示
 				}else if(!/^\d{5}$/.test(this.ruleForm.codeID)){
 					this.$message({
 						type: "error",
 						message: "请输入正确的验证码"
 					})
-				} else if(this.isFlag && this.checked) {
-					this.isFlag = false;
-					this.gologin()
-				} else {
-					this.$message({
-						type: "error",
-						message: "请勾选认真阅读并同意《注册协议》"
-					})
-				}
-			},
-			gologin() {
-				if(!this.ruleForm.username) {
-					this.$message({
-							type: "error",
-							message: "手机号不能为空"
-						})
-				} else {
-					if(!this.ruleForm.codeID) {
+				}else{
+					//手机号验证码输入都正确
+					if(!this.isFlag) {
+						this.gologin()
+					}else if(this.isFlag && this.checked) {
+						this.isFlag = false;
+						this.gologin()
+					}else {
 						this.$message({
 							type: "error",
-							message: "验证码不能为空"
-						})
-					} else {
-						this.$http({
-							method: "POST",
-							url: process.env.API + "/login",
-							body: {
-								"userId": this.ruleForm.username,
-								"password": this.ruleForm.codeID
-							}
-						}).then((res) => {
-							if(res.data.code == "000000") {
-								this.token = res.data.data["x-sljr-session-token"];
-								this.applicationNumber();
-								sessionStorage.setItem('userInfo', JSON.stringify({
-									userToken: res.data.data["x-sljr-session-token"],
-									telPhone: this.ruleForm.username,
-									requestNo: this.msg
-								}));
-							} else {
-								this.$message({
-									type: "error",
-									message: res.data.messages
-								})
-							}
-						}, (res) => {
-							this.$message({
-								type: "error",
-								message: res.data.messages
-							})
+							message: "请勾选认真阅读并同意《注册协议》"
 						})
 					}
 				}
+
+			},
+			gologin() {
+
+				this.$http({
+					method: "POST",
+					url: process.env.API + "/login",
+					body: {
+						"userId": this.ruleForm.username,
+						"password": this.ruleForm.codeID
+					}
+				}).then((res) => {
+					if(res.data.code == "000000") {
+						this.token = res.data.data["x-sljr-session-token"];
+						this.applicationNumber();
+						sessionStorage.setItem('userInfo', JSON.stringify({
+							userToken: res.data.data["x-sljr-session-token"],
+							telPhone: this.ruleForm.username,
+							requestNo: this.msg
+						}));
+					} else {
+						this.$message({
+							type: "error",
+							message: "请输入正确的验证码"
+						})
+					}
+				}, (res) => {
+					this.$message({
+						type: "error",
+						message: res.data.messages
+					})
+				})
+
 			},
 			submitForm(formName) {
 				this.$refs[formName].validate((valid) => {
