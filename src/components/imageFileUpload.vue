@@ -28,7 +28,7 @@
 								<span class="close" @click="deleteImg(file)"> × </span>
 							</div>
 							<div class="img_item_box" v-for='(file,index) in files00' @click="getIndex(index)" style="float: left">
-								<img :src='file.imgSrc' alt="" style="width: 200px;">
+								<img :src='file.imgSrc' alt="" style="width: 200px;" @click="showModal(file.imgSrc,0)" >
 								<span class="img_name" v-html="file.imgName"></span>
 								<span class="img_status">上传成功</span>
 								<span class="close" @click="deleteImg(file)"> × </span>
@@ -64,7 +64,7 @@
 								<span class="close" @click="deleteImg(file)"> × </span>
 							</div> -->
 							<div class="img_item_box" v-for='(file,index) in files11' @click="getIndex(index)" style="float: left">
-								<img :src='file.imgSrc' alt="" style="width: 200px;">
+								<img :src='file.imgSrc' alt="" style="width: 200px;" @click="showModal(file.imgSrc,1)" >
 								<span class="img_name" v-html="file.imgName"></span>
 								<span class="img_status">上传成功</span>
 								<span class="close" @click="deleteImg(file)"> × </span>
@@ -101,7 +101,7 @@
 								<span class="close" @click="deleteImg(file)"> × </span>
 							</div> -->
 							<div class="img_item_box" v-for='(file,index) in files22' @click="getIndex(index)" style="float: left">
-								<img :src='file.imgSrc' alt="" style="width: 200px;">
+								<img :src='file.imgSrc' alt="" style="width: 200px;" @click="showModal(file.imgSrc,2)" >
 								<span class="img_name" v-html="file.imgName"></span>
 								<span class="img_status">上传成功</span>
 								<span class="close" @click="deleteImg(file)"> × </span>
@@ -147,7 +147,7 @@
 								<span class="close" @click="deleteImg(file)"> × </span>
 							</div> -->
 							<div class="img_item_box" v-for='(file,index) in files33' @click="getIndex(index)" style="float: left">
-								<img :src='file.imgSrc' alt="" style="width: 200px;">
+								<img :src='file.imgSrc' alt="" style="width: 200px;" @click="showModal(file.imgSrc,3)">
 								<span class="img_name" v-html="file.imgName"></span>
 								<span class="img_status">上传成功</span>
 								<span class="close" @click="deleteImg(file)"> × </span>
@@ -360,13 +360,13 @@
 			},
 			showModal(val, idx) {
 				if(idx == 0) {
-					this.tempFile = this.files0;
+					this.tempFile = this.files00;
 				} else if(idx == 1) {
-					this.tempFile = this.files1;
+					this.tempFile = this.files11;
 				} else if(idx == 2) {
-					this.tempFile = this.files2;
+					this.tempFile = this.files22;
 				} else if(idx == 3) {
-					this.tempFile = this.files3;
+					this.tempFile = this.files33;
 				}
 				this.initIndex = 0;
 				this.imgSrc = val;
@@ -414,7 +414,7 @@
 				var data = val;
 				this.srcArr = [];
 				for(var i = 0; i < data.length; i++) {
-					this.srcArr.push(window.URL.createObjectURL(data[i].file));
+					this.srcArr.push(data[i].imgSrc);
 				}
 				this.index--;
 				if(this.index == -1) {
@@ -423,10 +423,11 @@
 				this.imgSrc = this.srcArr[this.index];
 			},
 			nextPage(val) {
+				console.log(val)
 				var data = val;
 				this.srcArr = [];
 				for(var i = 0; i < data.length; i++) {
-					this.srcArr.push(window.URL.createObjectURL(data[i].file));
+					this.srcArr.push(data[i].imgSrc);
 				}
 				this.index++;
 				if(this.index == this.srcArr.length) {
