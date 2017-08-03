@@ -1,6 +1,6 @@
 <template>
 	<div class="login">
-		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm">
+		<el-form :model="ruleForm" ref="ruleForm" class="demo-ruleForm">
 			<h1>商户登录</h1>
 			<el-form-item>
 				<el-input :maxlength="11" @blur="checkTel" v-model="ruleForm.username">
