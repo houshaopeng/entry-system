@@ -556,7 +556,7 @@
 				}
 			};
 			var checkBankCard = (rule, value, callback) => {
-				if(!/^([1-9]{1})(\d{14}|\d{18})$/.test(value)) {
+				if(!/^[\d]{16,19}$/.test(value)) {
 					return callback(new Error('银行卡卡号不正确'));
 				} else {
 					callback();
