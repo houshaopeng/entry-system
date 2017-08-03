@@ -592,19 +592,6 @@
 					legalId: '', //法人身份证号
 					threeMoney: '', //近三月平均营业额
 					yearMoney: '', //去年全年营业额
-					// mainProduct: [{
-					// 		productName: "",
-					// 		productPrice: ""
-					// 	},
-					// 	{
-					// 		productName: "",
-					// 		productPrice: ""
-					// 	},
-					// 	{
-					// 		productName: "",
-					// 		productPrice: ""
-					// 	},
-					// ],
 					productName1: '', //商品名称1
 					productName2: '', //商品名称2
 					productName3: '', //商品名称3
@@ -1002,37 +989,6 @@
 						validator: checkNum,
 						trigger: 'blur'
 					}],
-					/*productName1: [{
-						required: true,
-						message: '请输入商品名',
-						trigger: 'blur'
-					}],
-					productName2: [{
-						required: true,
-						message: '请输入商品名',
-						trigger: 'blur'
-					}],
-					productName3: [{
-						required: true,
-						message: '请输入商品名',
-						trigger: 'blur'
-					}],
-					productPrice1: [{
-						required: true,
-						message: '请输入商品价格',
-						trigger: 'blur'
-					}, {
-						validator: checkNum,
-						trigger: 'blur'
-					}],
-					productPrice2: [{
-						required: true,
-						message: '请输入商品价格',
-						trigger: 'blur'
-					}, {
-						validator: checkNum,
-						trigger: 'blur'
-					}],*/
 					productPrice3: [{
 						required: true,
 						message: '请输入商品价格',
@@ -1360,8 +1316,8 @@
 							"legalPersonName": this.ruleForm.legalName,
 							"legalPersonPhone": this.ruleForm.legalTel,
 							"legalPersonIdCard": this.ruleForm.legalId,
-							"averageTurnover": Number(this.ruleForm.threeMoney)*100,
-							"totalTurnover": Number(this.ruleForm.yearMoney)*100,
+							"averageTurnover": Number(this.ruleForm.threeMoney),
+							"totalTurnover": Number(this.ruleForm.yearMoney),
 							"mainProduct": mainProduct,
 							"averageDayFlow": Number(this.ruleForm.dailyPeople)
 						},

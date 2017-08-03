@@ -73,8 +73,11 @@
 					}
 				}).then((res)=>{
 					if(res.data.code=="000000"){
-						this.$router.push({
-							path: '/loanContract'
+						// TODO
+					}else{
+						this.$message({
+							type:"error",
+							message:res.data.messages
 						})
 					}
 				},(res)=>{
@@ -93,8 +96,7 @@
 							"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 						},
 						body: {
-//							"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo
-							"requestNo": "WD870432186664"
+							"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo
 						}
 					}).then((res) => {
 						if(res.data.code == '000000') {

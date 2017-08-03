@@ -242,7 +242,7 @@
 				reqopts0: {
 					formData: {
 						'type': '5',
-						'userId': JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+						'userId': JSON.parse(sessionStorage.getItem("userInfo")).telPhone,
 						'requestNo':JSON.parse(sessionStorage.getItem("userInfo")).requestNo,
 					},
 					responseType: 'json',
@@ -251,7 +251,7 @@
 				reqopts1: {
 					formData: {
 						'type': '6',
-						'userId': JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+						'userId': JSON.parse(sessionStorage.getItem("userInfo")).telPhone,
 						'requestNo':JSON.parse(sessionStorage.getItem("userInfo")).requestNo,
 					},
 					responseType: 'json',
@@ -260,7 +260,7 @@
 				reqopts2: {
 					formData: {
 						'type': '7',
-						'userId': JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+						'userId': JSON.parse(sessionStorage.getItem("userInfo")).telPhone,
 						'requestNo':JSON.parse(sessionStorage.getItem("userInfo")).requestNo,
 					},
 					responseType: 'json',
@@ -269,7 +269,7 @@
 				reqopts3: {
 					formData: {
 						'type': '8',
-						'userId': JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+						'userId': JSON.parse(sessionStorage.getItem("userInfo")).telPhone,
 						'requestNo':JSON.parse(sessionStorage.getItem("userInfo")).requestNo,
 					},
 					responseType: 'json',
@@ -380,13 +380,12 @@
 						"x-sljr-session-token": "6b8b0e4e841107d250d63fdb3166d1ac",
 					},
 					body: {
-						"imgSrcs": "http://terminal-repeater.oss-cn-shanghai.aliyuncs.com/e6b4729b53ee8158fce423ba07480afd/001/personalDataImg/1501467704002.jpg,http://terminal-repeater.oss-cn-shanghai.aliyuncs.com/e6b4729b53ee8158fce423ba07480afd/001/personalDataImg/1501467704242.jpg", // 图片src地址(多张逗号拼接)
-						"type": "1", //
-						"userId": "e6b4729b53ee8158fce423ba07480afd", // 用户唯一标识
-						"requestNo": "001", // 申请编号
+						"type": file.type, //  TODO
+						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo, // 申请编号
+						"imgNo": file.imgNo
 					}
 				}).then((res) => {
-					console.log(res)
+					
 				}, (res) => {
 					this.$message({
 						type: "error",

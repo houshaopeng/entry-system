@@ -49,9 +49,16 @@ export default new Router({
 					component: LoanContract,
 					name: '借款合同确认',
 					hidden: false
-				}
-
+				},
+				
 			]
 		},
+		{
+				path: '*',
+				hidden: true,
+				redirect: {
+					path: '/login'
+				}
+			}
 	]
 })
