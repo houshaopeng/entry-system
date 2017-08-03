@@ -8,7 +8,8 @@
 		</div>
 		<div class="content">
 			<div class="img_box">
-
+				<iframe src="http://test1.m.shanlincaifu.com/agreement/disperseAgreement/1/514155b9-62eb-4ebe-b3fc-e7f52eebcada" width="100%" height="400">
+				</iframe>
 			</div>
 			<div class="code">
 				<el-row>
@@ -38,7 +39,7 @@
 				console.log(JSON.parse(sessionStorage.getItem("userInfo")).requestNo)
 				this.$http({
 					method: "POST",
-					url: process.env.API+"/terminal/step",
+					url: process.env.API + "/terminal/step",
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
@@ -60,30 +61,30 @@
 				})
 			},
 			// 项目状态查询
-			initStatus(){
+			initStatus() {
 				this.$http({
-					method:"POST",
-					url:process.env.API+"/terminal/queryProject",
+					method: "POST",
+					url: process.env.API + "/terminal/queryProject",
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
-					body:{
+					body: {
 
-						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo,         //  申请编号
+						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo, //  申请编号
 					}
-				}).then((res)=>{
-					if(res.data.code=="000000"){
+				}).then((res) => {
+					if(res.data.code == "000000") {
 						// TODO
-					}else{
+					} else {
 						this.$message({
-							type:"error",
-							message:res.data.messages
+							type: "error",
+							message: res.data.messages
 						})
 					}
-				},(res)=>{
+				}, (res) => {
 					this.$message({
-						type:"error",
-						message:res.data.messages
+						type: "error",
+						message: res.data.messages
 					})
 				})
 			},
@@ -91,7 +92,7 @@
 				if(this.isAgree) {
 					this.$http({
 						method: "POST",
-						url: process.env.API+"/terminal/loanSubmit",
+						url: process.env.API + "/terminal/loanSubmit",
 						headers: {
 							"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 						},

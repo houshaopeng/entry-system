@@ -475,7 +475,7 @@
 				<el-row :gutter="10">
 					<el-col :xs="24" :sm="24" :md="18" :lg="14">
 						<el-form-item prop="goodpoint">
-							<el-checkbox-group @change="changeGood" v-model="ruleForm.goodpoint">
+							<el-checkbox-group v-model="ruleForm.goodpoint">
 								<el-checkbox label="地理位置好"></el-checkbox>
 								<el-checkbox label="客户资源丰富"></el-checkbox>
 								<el-checkbox label="经营模式独特"></el-checkbox>
@@ -861,11 +861,6 @@
 					}
 				},
 				rules: {
-					another: [{
-						required: true,
-						message: '请输入活动名称',
-						trigger: 'blur'
-					}],
 					contractType: [{
 						required: true,
 						message: '请选择网点合同类型',
@@ -1190,11 +1185,6 @@
 					this.ruleForm.recommendedChannels = "";
 				}
 
-			},
-			changeGood() {
-				if(this.ruleForm.goodpoint.indexOf("其他") != -1) {
-
-				}
 			},
 			// 获取机器编号
 			getMachineModel() {
@@ -1592,6 +1582,7 @@
 						}
 
 					}
+					if((this.ruleForm.goodpoint.indexOf("其他") != -1 && this.ruleForm.another) || (this.ruleForm.goodpoint.indexOf("其他") == -1)) {
 					if(valid && (this.address.province != "请选择") && (this.address.city != "请选择") && (this.address.district != "请选择") && (this.address2.province != "请选择") && (this.address2.city != "请选择") && (this.address2.district != "请选择") && (this.address3.province != "请选择") && (this.address3.city != "请选择") && (this.address3.district != "请选择") && (this.address4.province != "请选择") && (this.address4.city != "请选择") && (this.address4.district != "请选择") && (this.companyStep != "") && (this.machineStep != "") && ((this.ruleForm.recommendedID == 1 && this.ruleForm.recommendedChannels != "") || (this.ruleForm.recommendedID == 2 && this.ruleForm.recommendedChannels != "") || (this.ruleForm.recommendedID == 0 && this.ruleForm.recommendedChannels == "") || (this.ruleForm.recommendedID == 3 && this.ruleForm.recommendedChannels == ""))) {
 						this.$http({
 							method: "POST",
@@ -1633,6 +1624,12 @@
 							message: '请完善相关信息'
 						})
 						return false;
+					}
+					}else{
+						this.$message({
+							type: 'error',
+							message: '请输入网络优势其他信息'
+						})
 					}
 				})
 			},
