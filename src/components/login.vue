@@ -4,13 +4,17 @@
 			<h1>商户登录</h1>
 			<el-form-item>
 				<el-input :maxlength="11" @blur="checkTel" v-model="ruleForm.username">
-					<template slot="prepend"><img src="../assets/telephone (2).png" alt="手机" /></template>
+					<template slot="prepend">
+						<img src="../assets/telephone (2).png" alt="手机" />
+					</template>
 				</el-input>
 
 			</el-form-item>
 			<el-form-item>
-				<el-input :maxlength="6" v-model="ruleForm.codeID">
-					<template slot="prepend"><img src="../assets/password.png" alt="密码" /></template>
+				<el-input @change="Codechange" :maxlength="6" v-model="ruleForm.codeID">
+					<template slot="prepend">
+						<img src="../assets/password.png" alt="密码" />
+					</template>
 					<el-button slot="append" type="primary" :disabled="getcodeshow" @click="getCode">{{getcode}}</el-button>
 				</el-input>
 			</el-form-item>
@@ -24,7 +28,7 @@
 				</el-dialog>
 			</el-form-item>
 			<el-form-item>
-				<el-button class="btn_login" type="primary" @click="login">登录</el-button>
+				<el-button class="btn_login" :disabled="dislogin" type="primary" @click="login">登录</el-button>
 			</el-form-item>
 		</el-form>
 	</div>
@@ -33,19 +37,6 @@
 <script>
 	export default {
 		data() {
-
-			var checkTel = (rule, value, callback) => {
-				if(!value) {
-					return callback(new Error('手机号不能为空'));
-					this.username = false;
-				} else if(!/^(13[0-9]|14[0-9]|15[0-9]|18[0-9])\d{8}$/i.test(value)) {
-					return callback(new Error('请输入正确手机号'));
-					this.username = false;
-				} else {
-					this.username = true;
-					callback();
-				}
-			};
 			return {
 				isFlag: false,
 				checked: false,
@@ -53,6 +44,7 @@
 				username: false,
 				getcode: "获取验证码",
 				getcodeshow: false,
+				dislogin: true,
 				ruleForm: {
 					username: '',
 					codeID: '',
@@ -63,38 +55,75 @@
 			};
 		},
 		methods: {
+			checkTel() {
+				if(!this.ruleForm.username) {
+					this.$message({
+						message: "手机号不能为空",
+						type: 'error'
+					})
+					this.username = false;
+				} else if(!/^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])\d{8}$/i.test(this.ruleForm.username)) {
+					this.$message({
+						message: "请输入正确手机号",
+						type: 'error'
+					})
+					this.username = false;
+				} else {
+					this.username = true;
+
+				}
+			},
+			Codechange() {
+				if(this.ruleForm.codeID.length) {
+					this.dislogin = false;
+				} else {
+					this.dislogin = true;
+				}
+			},
 			getCode() { //获取验证码
-				var countdown = 60;
-				this.$http.post(process.env.API + "/getMessageCode", {
-					"userId": this.ruleForm.username
-				}).then((res) => {
-					if(res.data.code == '000000') {
-						if(res.data.data.isFlag == "1") {
-							this.isFlag = true;
-							console.log(this.isFlag)
-						} else if(res.data.data.isFlag == "2") {
-							this.isFlag = false;
-							console.log(this.isFlag)
-						}
-						this.getcodeshow = true;
-						var timer = setInterval(() => {
-							if(countdown > 0) {
-								countdown--;
-								this.getcode = "重新发送" + countdown + "s";
-							} else if(countdown == 0) {
-								clearInterval(timer)
-								this.getcode = "重新发送"
-								this.getcodeshow = false;
+				if(!this.ruleForm.username) {
+					this.$message({
+						type: "error",
+						message: "手机号不能为空"
+					})
+				} else if(!/^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])\d{8}$/i.test(this.ruleForm.username)) {
+					this.$message({
+						message: "请输入正确手机号",
+						type: 'error'
+					})
+				} else {
+					var countdown = 60;
+					this.$http.post(process.env.API + "/getMessageCode", {
+						"userId": this.ruleForm.username
+					}).then((res) => {
+						if(res.data.code == '000000') {
+							if(res.data.data.isFlag == "1") {
+								this.isFlag = true;
+								console.log(this.isFlag)
+							} else if(res.data.data.isFlag == "2") {
+								this.isFlag = false;
+								console.log(this.isFlag)
 							}
-						}, 1000)
-						//获取验证码成功
-					} else {
-						this.$message({
-							message: res.data.messages,
-							type: 'error'
-						})
-					}
-				})
+							this.getcodeshow = true;
+							var timer = setInterval(() => {
+								if(countdown > 0) {
+									countdown--;
+									this.getcode = "重新发送" + countdown + "s";
+								} else if(countdown == 0) {
+									clearInterval(timer)
+									this.getcode = "重新发送"
+									this.getcodeshow = false;
+								}
+							}, 1000)
+							//获取验证码成功
+						} else {
+							this.$message({
+								message: res.data.messages,
+								type: 'error'
+							})
+						}
+					})
+				}
 			},
 			// 申请编号
 			applicationNumber() {
@@ -141,7 +170,7 @@
 						console.log(res.data.data)
 						this.flagArr = res.data.data.list;
 						for(let i = 0; i < this.flagArr.length; i++) {
-							if(this.flagArr[i]) {
+							if(this.flagArr[i].flag) {
 								this.$router.push({
 									path: this.flagArr[i].value
 								});
@@ -164,6 +193,11 @@
 			login() { //登录
 				if(!this.isFlag) {
 					this.gologin()
+				} else if(!/^\d{5}$/.test(this.ruleForm.codeID)) {
+					this.$message({
+						type: "error",
+						message: "请输入正确的验证码"
+					})
 				} else if(this.isFlag && this.checked) {
 					this.isFlag = false;
 					this.gologin()
@@ -177,9 +211,9 @@
 			gologin() {
 				if(!this.ruleForm.username) {
 					this.$message({
-							type: "error",
-							message: "手机号不能为空"
-						})
+						type: "error",
+						message: "手机号不能为空"
+					})
 				} else {
 					if(!this.ruleForm.codeID) {
 						this.$message({
