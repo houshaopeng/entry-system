@@ -486,7 +486,7 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="6" :sm="6" :md="6" :lg="6">
-						<el-form-item prop="another">
+						<el-form-item>
 							<el-input :maxlength="200" v-model="ruleForm.another" placeholder="请列举其他优势"></el-input>
 						</el-form-item>
 					</el-col>
@@ -1592,7 +1592,7 @@
 						}
 
 					}
-					if(valid && (this.address.province != "请选择") && (this.address.city != "请选择") && (this.address.district != "请选择") && (this.address2.province != "请选择") && (this.address2.city != "请选择") && (this.address2.district != "请选择") && (this.address3.province != "请选择") && (this.address3.city != "请选择") && (this.address3.district != "请选择") && (this.address4.province != "请选择") && (this.address4.city != "请选择") && (this.address4.district != "请选择") && (this.companyStep != "") && (this.machineStep != "")) {
+					if(valid && (this.address.province != "请选择") && (this.address.city != "请选择") && (this.address.district != "请选择") && (this.address2.province != "请选择") && (this.address2.city != "请选择") && (this.address2.district != "请选择") && (this.address3.province != "请选择") && (this.address3.city != "请选择") && (this.address3.district != "请选择") && (this.address4.province != "请选择") && (this.address4.city != "请选择") && (this.address4.district != "请选择") && (this.companyStep != "") && (this.machineStep != "") && ((this.ruleForm.recommendedID == 1 && this.ruleForm.recommendedChannels != "") || (this.ruleForm.recommendedID == 2 && this.ruleForm.recommendedChannels != "") || (this.ruleForm.recommendedID == 0 && this.ruleForm.recommendedChannels == "") || (this.ruleForm.recommendedID == 3 && this.ruleForm.recommendedChannels == ""))) {
 						this.$http({
 							method: "POST",
 							url: process.env.API + "/terminal/verifyFourElements",
