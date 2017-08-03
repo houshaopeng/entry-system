@@ -426,6 +426,7 @@
 
 			// 更改状态
 			updateStates(){
+				
 				this.$http({
 					method:"POST",
 					url:process.env.API+"/terminal/updateOrderStatus",
@@ -438,6 +439,7 @@
 					}
 				}).then((res)=>{
 					if(res.data.code=="000000"){
+						console.log(res.data.code)
 						this.$router.push({
 							path: '/loanContract'
 						})
