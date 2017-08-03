@@ -1,7 +1,6 @@
 <template>
 	<div class="login">
 		<el-form :model="ruleForm"  ref="ruleForm" class="demo-ruleForm">
-
 			<h1>商户登录</h1>
 			<el-form-item>
 				<el-input :maxlength="11" @blur="checkTel" v-model="ruleForm.username">
@@ -44,6 +43,7 @@
 				dialogFormVisible: false,
 				username: false,
 				getcode: "获取验证码",
+				getCodeTime:0,
 				getcodeshow: false,
 				dislogin: true,
 				ruleForm: {
@@ -93,9 +93,14 @@
 						type: 'error'
 					})
 				} else {
+					this.getCodeTime++;
+					if(this.getCodeTime>1){
+						this.getCodeTime=2;
+					}
 					var countdown = 60;
 					this.$http.post(process.env.API + "/getMessageCode", {
-						"userId": this.ruleForm.username
+						"userId": this.ruleForm.username,
+						"getMessageCodeFlag":this.getCodeTime
 					}).then((res) => {
 						if(res.data.code == '000000') {
 							if(res.data.data.isFlag == "1") {
