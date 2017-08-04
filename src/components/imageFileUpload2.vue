@@ -37,22 +37,22 @@
 							</div>
 							<div>
 								<div class="no_img1" v-show="files00.length<1">
-									<span>6个月个人流水或对公银行流水</span>
+									<span>{{imgText}}</span>
 								</div>
 								<div class="no_img1" v-show="files00.length<2">
-									<span>6个月个人流水或对公银行流水</span>
+									<span>{{imgText}}</span>
 								</div>
 								<div class="no_img1" v-show="files00.length<3">
-									<span>6个月个人流水或对公银行流水</span>
+									<span>{{imgText}}</span>
 								</div>
 								<div class="no_img1" v-show="files00.length<4">
-									<span>6个月个人流水或对公银行流水</span>
+									<span>{{imgText}}</span>
 								</div>
 								<div class="no_img1" v-show="files00.length<5">
-									<span>6个月个人流水或对公银行流水</span>
+									<span>{{imgText}}</span>
 								</div>
 								<div class="no_img1" v-show="files00.length<6">
-									<span>6个月个人流水或对公银行流水</span>
+									<span>{{imgText}}</span>
 								</div>
 							</div>
 						</div>
@@ -82,22 +82,22 @@
 							</div>
 							<div>
 								<div class="no_img1" v-show="files11.length<1">
-									<span>6个月个人流水或对公银行流水</span>
+									<span>{{imgText}}</span>
 								</div>
 								<div class="no_img1" v-show="files11.length<2">
-									<span>6个月个人流水或对公银行流水</span>
+									<span>{{imgText}}</span>
 								</div>
 								<div class="no_img1" v-show="files11.length<3">
-									<span>6个月个人流水或对公银行流水</span>
+									<span>{{imgText}}</span>
 								</div>
 								<div class="no_img1" v-show="files11.length<4">
-									<span>6个月个人流水或对公银行流水</span>
+									<span>{{imgText}}</span>
 								</div>
 								<div class="no_img1" v-show="files11.length<5">
-									<span>6个月个人流水或对公银行流水</span>
+									<span>{{imgText}}</span>
 								</div>
 								<div class="no_img1" v-show="files11.length<6">
-									<span>6个月个人流水或对公银行流水</span>
+									<span>{{imgText}}</span>
 								</div>
 							</div>
 						</div>
@@ -333,6 +333,7 @@
 				imgSrc: '',
 				tempFile:'',
 				initIndex:0,
+				imgText:' 6个月个人流水',
 			}
 		},
 		methods: {

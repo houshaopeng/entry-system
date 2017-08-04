@@ -1367,6 +1367,8 @@
 								goodpoint: json.basicReqInfo.joinSuperiority.split(","), //终端机网络优势
 								another:json.basicReqInfo.joinSuperiority.split(",")[json.basicReqInfo.joinSuperiority.split(",").length-1]
 							}
+							console.log(this.ruleForm.recommendedChannels)
+							console.log("-----iou")
 						}
 					} else {
 						this.$message({
