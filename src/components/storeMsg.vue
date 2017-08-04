@@ -1621,12 +1621,12 @@
 							}
 						}).then((res) => {
 							if(res.data.code == "000000") {
-								if(res.data.data.result == "一致") {
+								if(res.data.data.resMsg == "一致") {
 									this.nextstep()
 								} else {
 									this.$message({
 										type: "error",
-										message: '银行卡四要素' + res.data.data.result
+										message: '银行卡四要素' + res.data.data.resMsg
 									})
 								}
 							} else {

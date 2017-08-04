@@ -167,7 +167,7 @@
 								<div class="no_img1" v-show="files33.length<1">
 									<span>办公场所证明</span>
 								</div>
-								<div class="no_img1" v-show="files33.length<1">
+								<div class="no_img1" v-show="files33.length<2">
 									<span>办公场所证明</span>
 								</div>
 							</div>
