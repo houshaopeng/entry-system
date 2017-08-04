@@ -130,7 +130,7 @@
 									<span>居住证明</span>
 								</div>
 							</div>
-							<div style="padding: 0 30px;">
+							<div style="padding: 0 30px;clear:both">
 								<ol>
 									<li>居住证明于90天内经营场所单据</li>
 									<li>经营场所反房屋所有权证或经营场所购房发票</li>
@@ -171,7 +171,7 @@
 									<span>办公场所证明</span>
 								</div>
 							</div>
-							<div style="padding: 0 30px;">
+							<div style="padding: 0 30px;clear:both">
 								<ol style="list-style-type: lower-alpha;">
 									<li>租赁合同+90 天内的租金发票或经营场所缴费单据（电费单/水费单/燃气单/固定电话费单）</li>
 									<li>办公场所自有，可提供以下房产证明资料+近90天内房产地址下的有效单据（以下材料任选其一，同时认可为资产证明）1.房屋所有权证2.购房发票3.购房合同4.按揭合同5.抵押合同</li>

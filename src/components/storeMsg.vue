@@ -1284,7 +1284,7 @@
 						if(res.data.data.json) {
 
 							var json = res.data.data.json;
-							console.log(json.basicReqInfo)
+
 							this.obj.default.province = json.basicReqInfo.contactAddress.split("&")[0];
 							this.obj.default.city = json.basicReqInfo.contactAddress.split("&")[1];
 							this.obj.default.district = json.basicReqInfo.contactAddress.split("&")[2];
@@ -1300,6 +1300,9 @@
 							this.obj4.default.province = json.proposerReqInfo.address.split("&")[0];
 							this.obj4.default.city = json.proposerReqInfo.address.split("&")[1];
 							this.obj4.default.district = json.proposerReqInfo.address.split("&")[2];
+
+							this.bankObj.default.province = json.bankReqInfo.openProvince;
+							this.bankObj.default.city = json.bankReqInfo.openCity;
 
 							this.msg1 = json.requestNo;
 							this.machines = JSON.parse(json.basicReqInfo.machineType) //机器型号
@@ -1360,6 +1363,7 @@
 								bankName: json.bankReqInfo.subBranchName, //开户行名字
 								reserPhone: json.bankReqInfo.bankPhone, //预留手机号
 								goodpoint: json.basicReqInfo.joinSuperiority.split(","), //终端机网络优势
+								another:json.basicReqInfo.joinSuperiority.split(",")[json.basicReqInfo.joinSuperiority.split(",").length-1]
 							}
 						}
 					}
@@ -1477,6 +1481,7 @@
 				})
 			},
 			nextstep() {
+				this.ruleForm.goodpoint.push(this.ruleForm.another)            //添加终端机其他优势
 				var contactAddress = this.address.province + "&" + this.address.city + "&" + this.address.district + "&" + this.ruleForm.contactAddress;
 				var registerAddress = this.address2.province + "&" + this.address2.city + "&" + this.address2.district + "&" + this.ruleForm.registeredAddress;
 				var nativeAddress = this.address3.province + "&" + this.address3.city + "&" + this.address3.district + "&" + this.ruleForm.applicantResAddress;
@@ -1678,6 +1683,9 @@
 							this.obj4.default.province = json.proposerReqInfo.address.split("&")[0];
 							this.obj4.default.city = json.proposerReqInfo.address.split("&")[1];
 							this.obj4.default.district = json.proposerReqInfo.address.split("&")[2];
+
+							this.bankObj.default.province = json.bankReqInfo.openProvince;
+							this.bankObj.default.city = json.bankReqInfo.openCity;
 
 							this.msg1 = json.requestNo;
 							this.machines = JSON.parse(json.basicReqInfo.machineType) //机器型号
