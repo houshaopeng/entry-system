@@ -475,7 +475,7 @@
 				<el-row :gutter="10">
 					<el-col :xs="24" :sm="24" :md="18" :lg="14">
 						<el-form-item prop="goodpoint">
-							<el-checkbox-group @change="changeGood" v-model="ruleForm.goodpoint">
+							<el-checkbox-group v-model="ruleForm.goodpoint">
 								<el-checkbox label="地理位置好"></el-checkbox>
 								<el-checkbox label="客户资源丰富"></el-checkbox>
 								<el-checkbox label="经营模式独特"></el-checkbox>
@@ -486,7 +486,7 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="6" :sm="6" :md="6" :lg="6">
-						<el-form-item prop="another">
+						<el-form-item>
 							<el-input :maxlength="200" v-model="ruleForm.another" placeholder="请列举其他优势"></el-input>
 						</el-form-item>
 					</el-col>
@@ -495,7 +495,7 @@
 
 			<!--缓存，下一步按钮-->
 			<div class="footer">
-				<el-button type="primary" @click="Temporary">缓存</el-button>
+				<el-button type="primary" @click="Temporary">暂存</el-button>
 				<el-button type="primary" @click="verifyFourElements('ruleForm')">下一步</el-button>
 			</div>
 		</el-form>
@@ -861,11 +861,6 @@
 					}
 				},
 				rules: {
-					another: [{
-						required: true,
-						message: '请输入活动名称',
-						trigger: 'blur'
-					}],
 					contractType: [{
 						required: true,
 						message: '请选择网点合同类型',
@@ -1191,11 +1186,6 @@
 				}
 
 			},
-			changeGood() {
-				if(this.ruleForm.goodpoint.indexOf("其他") != -1) {
-
-				}
-			},
 			// 获取机器编号
 			getMachineModel() {
 				this.$http.post(process.env.API + "/terminal/getMachineModel", "", {
@@ -1370,10 +1360,12 @@
 				})
 			},
 			Temporary() { //缓存
+				this.ruleForm.goodpoint.push(this.ruleForm.another)
 				var contactAddress = this.address.province + "&" + this.address.city + "&" + this.address.district + "&" + this.ruleForm.contactAddress;
 				var registerAddress = this.address2.province + "&" + this.address2.city + "&" + this.address2.district + "&" + this.ruleForm.registeredAddress;
 				var nativeAddress = this.address3.province + "&" + this.address3.city + "&" + this.address3.district + "&" + this.ruleForm.applicantResAddress;
 				var address = this.address4.province + "&" + this.address4.city + "&" + this.address4.district + "&" + this.ruleForm.applicantCurrAddress;
+
 				var mainProduct = [{
 						"name": this.ruleForm.productName1,
 						"distance": this.ruleForm.productPrice1,
@@ -1592,7 +1584,8 @@
 						}
 
 					}
-					if(valid && (this.address.province != "请选择") && (this.address.city != "请选择") && (this.address.district != "请选择") && (this.address2.province != "请选择") && (this.address2.city != "请选择") && (this.address2.district != "请选择") && (this.address3.province != "请选择") && (this.address3.city != "请选择") && (this.address3.district != "请选择") && (this.address4.province != "请选择") && (this.address4.city != "请选择") && (this.address4.district != "请选择") && (this.companyStep != "") && (this.machineStep != "")) {
+					if((this.ruleForm.goodpoint.indexOf("其他") != -1 && this.ruleForm.another) || (this.ruleForm.goodpoint.indexOf("其他") == -1)) {
+					if(valid && (this.address.province != "请选择") && (this.address.city != "请选择") && (this.address.district != "请选择") && (this.address2.province != "请选择") && (this.address2.city != "请选择") && (this.address2.district != "请选择") && (this.address3.province != "请选择") && (this.address3.city != "请选择") && (this.address3.district != "请选择") && (this.address4.province != "请选择") && (this.address4.city != "请选择") && (this.address4.district != "请选择") && (this.companyStep != "") && (this.machineStep != "") && ((this.ruleForm.recommendedID == 1 && this.ruleForm.recommendedChannels != "") || (this.ruleForm.recommendedID == 2 && this.ruleForm.recommendedChannels != "") || (this.ruleForm.recommendedID == 0 && this.ruleForm.recommendedChannels == "") || (this.ruleForm.recommendedID == 3 && this.ruleForm.recommendedChannels == ""))) {
 						this.$http({
 							method: "POST",
 							url: process.env.API + "/terminal/verifyFourElements",
@@ -1633,6 +1626,12 @@
 							message: '请完善相关信息'
 						})
 						return false;
+					}
+					}else{
+						this.$message({
+							type: 'error',
+							message: '请输入网络优势其他信息'
+						})
 					}
 				})
 			},
@@ -1728,6 +1727,7 @@
 								bankName: json.bankReqInfo.subBranchName, //开户行名字
 								reserPhone: json.bankReqInfo.bankPhone, //预留手机号
 								goodpoint: json.basicReqInfo.joinSuperiority.split(","), //终端机网络优势
+								another:json.basicReqInfo.joinSuperiority.split(",")[json.basicReqInfo.joinSuperiority.split(",").length-1]
 							}
 						}
 					} else {
