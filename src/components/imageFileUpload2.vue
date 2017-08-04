@@ -167,7 +167,7 @@
 								<div class="no_img1" v-show="files33.length<1">
 									<span>办公场所证明</span>
 								</div>
-								<div class="no_img1" v-show="files33.length<1">
+								<div class="no_img1" v-show="files33.length<2">
 									<span>办公场所证明</span>
 								</div>
 							</div>
@@ -448,47 +448,26 @@
 				})
 			},
 			// 路由接口调试
-			routerApi(){
+			routerApi() {
 				console.log(JSON.parse(sessionStorage.getItem("userInfo")).requestNo)
 				this.$http({
-					method:"POST",
-					url:process.env.API+"/terminal/step",
-					headers: {
-						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
-					},
-					body:{
-						"userId":JSON.parse(sessionStorage.getItem("userInfo")).telPhone,      // TODO    手机号码
-
-						"level":"3",
-						"requestNo":JSON.parse(sessionStorage.getItem("userInfo")).requestNo    // 请求流水号
-					}
-				}).then((res)=>{
-					if(res.data.dara=="000000"){
-
-					}
-				},(res)=>{
-					this.$message({
-						type:"error",
-						message:res.data.messages
-					})
-				})
-			},
-
-			// 状态判断到待提交接口
-			stepLogin() {
-				this.$http({
 					method: "POST",
-					url: process.env.API+"/terminal/stepLogin",
+					url: process.env.API + "/terminal/step",
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
 					body: {
-						'userId': JSON.parse(sessionStorage.getItem("userInfo")).telPhone,
-						'request': JSON.parse(sessionStorage.getItem("userInfo")).requestNo,
+						"userId": JSON.parse(sessionStorage.getItem("userInfo")).telPhone, //    手机号码
+						"level": "2",
+						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo // 请求流水号
 					}
 				}).then((res) => {
 					if(res.data.code="000000"){
-						if(res.data.requestNoStatus=="4"){
+						if(res.data.data.requestNoStatus>3){
+							this.$message({
+								type:'info',
+								message:'数据加载中请稍后...'
+							})
 							this.onlyRead=true;
 						}
 					}
@@ -499,6 +478,8 @@
 					})
 				})
 			},
+
+			
 			// 更改状态
 			updateStates(){
 				this.$http({
@@ -636,7 +617,7 @@
 		created: function() {
 			this.routerApi();
 			this.echoImg();
-			this.stepLogin();
+
 
 		},
 		components: {
