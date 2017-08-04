@@ -1360,10 +1360,12 @@
 				})
 			},
 			Temporary() { //缓存
+				this.ruleForm.goodpoint.push(this.ruleForm.another)
 				var contactAddress = this.address.province + "&" + this.address.city + "&" + this.address.district + "&" + this.ruleForm.contactAddress;
 				var registerAddress = this.address2.province + "&" + this.address2.city + "&" + this.address2.district + "&" + this.ruleForm.registeredAddress;
 				var nativeAddress = this.address3.province + "&" + this.address3.city + "&" + this.address3.district + "&" + this.ruleForm.applicantResAddress;
 				var address = this.address4.province + "&" + this.address4.city + "&" + this.address4.district + "&" + this.ruleForm.applicantCurrAddress;
+
 				var mainProduct = [{
 						"name": this.ruleForm.productName1,
 						"distance": this.ruleForm.productPrice1,
@@ -1725,6 +1727,7 @@
 								bankName: json.bankReqInfo.subBranchName, //开户行名字
 								reserPhone: json.bankReqInfo.bankPhone, //预留手机号
 								goodpoint: json.basicReqInfo.joinSuperiority.split(","), //终端机网络优势
+								another:json.basicReqInfo.joinSuperiority.split(",")[json.basicReqInfo.joinSuperiority.split(",").length-1]
 							}
 						}
 					} else {

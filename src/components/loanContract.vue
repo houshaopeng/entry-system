@@ -8,8 +8,9 @@
 		</div>
 		<div class="content">
 			<div class="img_box">
-				<iframe src="http://test1.m.shanlincaifu.com/agreement/disperseAgreement/1/514155b9-62eb-4ebe-b3fc-e7f52eebcada" width="100%" height="400">
+				<iframe :src="url" width="100%" height="400">
 				</iframe>
+				<!-- http://test1.m.shanlincaifu.com/agreement/disperseAgreement/1/514155b9-62eb-4ebe-b3fc-e7f52eebcada -->
 			</div>
 			<div class="code">
 				<el-row>
@@ -31,6 +32,7 @@
 		data() {
 			return {
 				isAgree: '',
+				url:"",
 			}
 		},
 		methods: {
@@ -74,7 +76,7 @@
 					}
 				}).then((res) => {
 					if(res.data.code == "000000") {
-						// TODO
+						this.url = res.data.data.h5Url;
 					} else {
 						this.$message({
 							type: "error",

@@ -249,7 +249,7 @@
 				},
 				cbEvents3: {
 					onCompleteUpload: (file, response, status, header) => {
-
+						this.echoImg();
 					},
 					onAddFileSuccess: (file) => {
 
@@ -442,6 +442,7 @@
 
 			// 更改状态
 			updateStates(){
+				
 				this.$http({
 					method:"POST",
 					url:process.env.API+"/terminal/updateOrderStatus",
@@ -454,6 +455,7 @@
 					}
 				}).then((res)=>{
 					if(res.data.code=="000000"){
+						console.log(res.data.code)
 						this.$router.push({
 							path: '/loanContract'
 						})
@@ -528,7 +530,7 @@
 									this.files33.push(this.lists[i])
 								}
 							}
-							// console.log()
+							// console.log(this.files33)
 						}else{
 
 						}
