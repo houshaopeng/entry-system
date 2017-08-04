@@ -1177,10 +1177,19 @@
 			},
 			changeChannel() {
 				this.getChannelUserName();
-				if(this.ruleForm.recommendedID == 1 || this.ruleForm.recommendedID == 2) {
+				this.ruleForm.recommendedChannels = "";
+				if(this.ruleForm.recommendedID == 1) {
 					this.channelsShow = true;
-
-				} else {
+					this.channels = [{
+						"constant_label":"0",
+						"constant_value":"贵州代理"
+					},{
+						"constant_label":"1",
+						"constant_value":"南京兰翎"
+					}]
+				} else if(this.ruleForm.recommendedID == 2){
+					this.channelsShow = true;
+				}else{
 					this.channelsShow = false;
 					this.ruleForm.recommendedChannels = "";
 				}
@@ -1221,7 +1230,9 @@
 					}
 				}).then((res) => {
 					if(res.data.code == "000000") {
-						this.channels = res.data.data
+						if(this.ruleForm.recommendedID == 2){
+							this.channels = res.data.data
+						}
 					} else {
 						this.$message({
 							type: "error",
