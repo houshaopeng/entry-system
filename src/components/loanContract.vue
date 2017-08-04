@@ -83,7 +83,7 @@
 					} else {
 						this.$message({
 							type: "error",
-							message: res.data.messages
+							message: "资料正在审核中，请耐心等待"
 						})
 					}
 				}, (res) => {
@@ -143,7 +143,6 @@
 </script>
 
 <style lang='scss' scoped>
-
 	.loanContract {
 		.title {
 			margin-bottom: 20px;
