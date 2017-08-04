@@ -494,7 +494,7 @@
 					}
 				}).then((res)=>{
 					if(res.data.code=="000000"){
-						this.stepLogin();
+						// this.stepLogin();
 						this.$router.push({
 							path: '/loanContract'
 						})

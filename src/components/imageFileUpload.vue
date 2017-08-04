@@ -16,6 +16,7 @@
 							<div>
 								<span style="margin: 0 20px 0 24px;">*个人资料：</span>
 								<vue-file-upload url="/terminal-repeater/terminal/uploadImg" ref="vueFileUploader0" v-bind:events='cbEvents0' v-bind:filters="filters" v-bind:request-options="reqopts0" v-on:onAdd="onAddItem0" v-show="!onlyRead">
+									
 								</vue-file-upload>
 								<span v-if="!files00.length">未选择任何文件</span>
 								<span v-else>一共选择{{files00.length}}个文件</span>

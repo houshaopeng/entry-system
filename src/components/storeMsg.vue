@@ -69,7 +69,7 @@
 					<el-col :xs="24" :sm="24" :md="24" :lg="12">
 						<el-form-item label="联系地址" prop="contactAddress">
 							<el-col :xs="18" :sm="18" :md="18" :lg="18">
-								<address-picker :opts="obj" v-model="address" :disabled="pagedisabled" ></address-picker>
+								<address-picker :opts="obj" v-model="address"  ></address-picker>
 							</el-col>
 							<el-col :xs="6" :sm="6" :md="6" :lg="6">
 								<el-input v-model="ruleForm.contactAddress" placeholder="请输入详细联系地址" :disabled="pagedisabled"></el-input>
@@ -1858,6 +1858,21 @@
 	}
 </style>
 <style type="text/css">
+	#address-picker, #address-picker1 { 
+			display: inline-block; 
+			float: left; 
+			font-size: 24px; 
+			height: 36px; 
+			select { 
+			min-width: 0px; 
+			width: 28%; 
+			margin: 0 1%; 
+			height: 36px; 
+			border-radius: 5px; 
+			border: 1px solid #bfcbd9; 
+			outline: none; 
+		} 
+	}
 	.address-picker select {
 		min-width: 0px;
 		width: 30%;
