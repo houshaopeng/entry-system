@@ -11,7 +11,7 @@
 			<div class="img_box">
 				<iframe :src="url" width="100%" height="400">
 				</iframe>
-				<!-- http://test1.m.shanlincaifu.com/agreement/disperseAgreement/1/514155b9-62eb-4ebe-b3fc-e7f52eebcada -->
+			
 			</div>
 			<div class="code">
 				<el-row>
@@ -105,15 +105,22 @@
 							"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo
 						}
 					}).then((res) => {
-						if(res.data.code == '000000') {
-							console.log(res)
+						this.$message({
+							message: res.data.messages,
+							type: 'error'
+						});
+
+						/*if(res.data.code == '000000') {
+							this.$message({
+								message: res.data.messages,
+								type: 'error'
+							})
 						} else {
 							this.$message({
 								message: res.data.messages,
 								type: 'error'
 							})
-						}
-
+						}*/
 					}, (res) => {
 						this.$message({
 							message: res.data.messages,
@@ -136,6 +143,7 @@
 </script>
 
 <style lang='scss' scoped>
+
 	.loanContract {
 		.title {
 			margin-bottom: 20px;
