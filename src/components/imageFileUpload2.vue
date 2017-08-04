@@ -16,8 +16,8 @@
 						<div class="img_title">
 							<div>
 								<span style="margin: 0 20px 0 24px;">*经营情况证明：</span>
-								<vue-file-upload1 url="/terminal-repeater/terminal/uploadImg" ref="vueFileUploader0" v-bind:events='cbEvents0' v-bind:filters="filters" v-bind:request-options="reqopts0" v-on:onAdd="onAddItem0">
-								</vue-file-upload1>
+								<vue-file-upload url="/terminal-repeater/terminal/uploadImg" ref="vueFileUploader0" v-bind:events='cbEvents0' v-bind:filters="filters" v-bind:request-options="reqopts0" v-on:onAdd="onAddItem0">
+								</vue-file-upload>
 								<span v-if="!files00.length">未选择任何文件</span>
 								<span v-else>一共选择{{files00.length}}个文件</span>
 								<!-- <input type="button" value="清空图片" @click="clearAll" class="clear_buttton" /> -->
@@ -63,8 +63,8 @@
 						<div class="img_title">
 							<div>
 								<span style="margin: 0 20px 0 24px;">*收入证明：</span>
-								<vue-file-upload1 url="/terminal-repeater/terminal/uploadImg" ref="vueFileUploader1" v-bind:events='cbEvents1' v-bind:filters="filters" v-bind:request-options="reqopts1" v-on:onAdd="onAddItem1">
-								</vue-file-upload1>
+								<vue-file-upload url="/terminal-repeater/terminal/uploadImg" ref="vueFileUploader1" v-bind:events='cbEvents1' v-bind:filters="filters" v-bind:request-options="reqopts1" v-on:onAdd="onAddItem1">
+								</vue-file-upload>
 								<span v-if="!files11.length">未选择任何文件</span>
 								<span v-else>一共选择{{files11.length}}个文件</span>
 								<!-- <input type="button" value="清空图片" @click="clearAll" class="clear_buttton" /> -->
@@ -108,8 +108,8 @@
 						<div class="img_title">
 							<div>
 								<span style="margin: 0 20px 0 24px;">*居住证明(任选一个)：</span>
-								<vue-file-upload2 url="/terminal-repeater/terminal/uploadImg" ref="vueFileUploader2" v-bind:events='cbEvents2' v-bind:filters="filters" v-bind:request-options="reqopts2" v-on:onAdd="onAddItem2">
-								</vue-file-upload2>
+								<vue-file-upload url="/terminal-repeater/terminal/uploadImg" ref="vueFileUploader2" v-bind:events='cbEvents2' v-bind:filters="filters" v-bind:request-options="reqopts2" v-on:onAdd="onAddItem2">
+								</vue-file-upload>
 								<span v-if="!files22.length">未选择任何文件</span>
 								<span v-else>一共选择{{files22.length}}个文件</span>
 								<!-- <input type="button" value="清空图片" @click="clearAll" class="clear_buttton" /> -->
@@ -146,8 +146,8 @@
 						<div class="img_title">
 							<div>
 								<span style="margin: 0 20px 0 24px;">*办公场所证明(任选一个)：</span>
-								<vue-file-upload3 url="/terminal-repeater/terminal/uploadImg" ref="vueFileUploader3" v-bind:events='cbEvents3' v-bind:filters="filters" v-bind:request-options="reqopts3" v-on:onAdd="onAddItem3">
-								</vue-file-upload3>
+								<vue-file-upload url="/terminal-repeater/terminal/uploadImg" ref="vueFileUploader3" v-bind:events='cbEvents3' v-bind:filters="filters" v-bind:request-options="reqopts3" v-on:onAdd="onAddItem3">
+								</vue-file-upload>
 								<span v-if="!files33.length">未选择任何文件</span>
 								<span v-else>一共选择{{files33.length}}个文件</span>
 								<!-- <input type="button" value="清空图片" @click="clearAll" class="clear_buttton" /> -->
@@ -194,9 +194,7 @@
 </template>
 
 <script>
-	import VueFileUpload1 from './components/vue-file-upload1.vue'    // 最多传6张的
-	import VueFileUpload2 from './components/vue-file-upload2.vue'    // 最多传1张的
-	import VueFileUpload3 from './components/vue-file-upload3.vue'    // 最多传1张的
+	import VueFileUpload from './components/vue-file-upload1.vue'    
 	import vueLoading from 'vue-loading-template'
 	import Modal from './components/modal.vue'
 	export default {
@@ -234,7 +232,7 @@
 						}else{
 							this.$message({
 								type: "error",
-								message: res.data.messages
+								message: response.messages
 							})
 						};
 						this.echoImg();
@@ -250,7 +248,7 @@
 						}else{
 							this.$message({
 								type: "error",
-								message: res.data.messages
+								message: response.messages
 							})
 						};
 						this.echoImg();
@@ -266,7 +264,7 @@
 						}else{
 							this.$message({
 								type: "error",
-								message: res.data.messages
+								message: response.messages
 							})
 						};
 						this.echoImg();
@@ -282,7 +280,7 @@
 						}else{
 							this.$message({
 								type: "error",
-								message: res.data.messages
+								message: response.messages
 							})
 						};
 						this.echoImg();
@@ -617,9 +615,7 @@
 
 		},
 		components: {
-			VueFileUpload1,
-			VueFileUpload2,
-			VueFileUpload3,
+			VueFileUpload,
 			Modal,
 			vueLoading
 		},

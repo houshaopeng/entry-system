@@ -67,7 +67,7 @@
           },
           max:{
               type:Number,
-              default:3
+              default:Number.MAX_VALUE
           },
           label:{
               type:String,

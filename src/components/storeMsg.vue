@@ -1282,7 +1282,10 @@
 				}).then((res) => {
 					if(res.data.code == "000000") {
 						if(res.data.data.json) {
-
+							this.$message({
+								type:'info',
+								message:'数据加载中请稍后...'
+							})
 							var json = res.data.data.json;
 
 							this.obj.default.province = json.basicReqInfo.contactAddress.split("&")[0];
@@ -1665,7 +1668,10 @@
 				}).then((res) => {
 					if(res.data.code == "000000") {
 						if(res.data.data.json) {
-
+							this.$message({
+								type:'info',
+								message:'数据加载中请稍后...'
+							})
 							var json = res.data.data.json;
 
 							this.obj.default.province = json.basicReqInfo.contactAddress.split("&")[0];
