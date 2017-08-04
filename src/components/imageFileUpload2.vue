@@ -127,7 +127,7 @@
 							</div>
 							<div>
 								<div class="no_img1" v-show="files22.length<1">
-									<span>居住证明</span>
+									<span>租赁合同</span>
 								</div>
 							</div>
 							<div style="padding: 0 30px;clear:both">
