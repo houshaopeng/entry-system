@@ -67,8 +67,8 @@
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
 					body: {
-						"userId": "12345678912", // TODO
-						"request": "12345678912",
+						'userId': JSON.parse(sessionStorage.getItem("userInfo")).telPhone,
+						'request': JSON.parse(sessionStorage.getItem("userInfo")).requestNo,
 					}
 				}).then((res) => {
 					console.log(res)

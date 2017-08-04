@@ -77,15 +77,12 @@
 						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo, //  申请编号
 					}
 				}).then((res) => {
-
-					console.log(res.data)
 					if(res.data.code == "000000") {
 						this.url = res.data.data.h5Url;
 						this.loading = false;
 					} else {
 						this.$message({
-							type: "error",
-
+							type: "info",
 							message: "资料正在审核中，请耐心等待"
 						})
 					}

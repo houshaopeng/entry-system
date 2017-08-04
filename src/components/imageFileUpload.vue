@@ -15,7 +15,7 @@
 						<div class="img_title">
 							<div>
 								<span style="margin: 0 20px 0 24px;">*个人资料：</span>
-								<vue-file-upload url="/terminal-repeater/terminal/uploadImg" ref="vueFileUploader0" v-bind:events='cbEvents0' v-bind:filters="filters" v-bind:request-options="reqopts0" v-on:onAdd="onAddItem0">
+								<vue-file-upload url="/terminal-repeater/terminal/uploadImg" ref="vueFileUploader0" v-bind:events='cbEvents0' v-bind:filters="filters" v-bind:request-options="reqopts0" v-on:onAdd="onAddItem0" v-show="!onlyRead">
 								</vue-file-upload>
 								<span v-if="!files00.length">未选择任何文件</span>
 								<span v-else>一共选择{{files00.length}}个文件</span>
@@ -25,7 +25,7 @@
 								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file),0)" style="width: 200px;">
 								<span class="img_name" v-html="file.name"></span>
 								<span v-text='onStatus(file)' class="img_status"></span>
-								<span class="close" @click="deleteImg(file)"> × </span>
+								<span class="close" @click="deleteImg(file)" v-show="!onlyRead"> × </span>
 							</div>
 							<div class="img_item_box" v-for='(file,index) in files00' @click="getIndex(index)" style="float: left">
 								<img :src='file.imgSrc' alt="" style="width: 200px;" @click="showModal(file.imgSrc,0)" >
@@ -51,7 +51,7 @@
 						<div class="img_title">
 							<div>
 								<span style="margin: 0 20px 0 24px;">*销售产品的资料：</span>
-								<vue-file-upload url="/terminal-repeater/terminal/uploadImg" ref="vueFileUploader1" v-bind:events='cbEvents1' v-bind:filters="filters" v-bind:request-options="reqopts1" v-on:onAdd="onAddItem1">
+								<vue-file-upload url="/terminal-repeater/terminal/uploadImg" ref="vueFileUploader1" v-bind:events='cbEvents1' v-bind:filters="filters" v-bind:request-options="reqopts1" v-on:onAdd="onAddItem1" v-show="!onlyRead">
 								</vue-file-upload>
 								<span v-if="!files11.length">未选择任何文件</span>
 								<span v-else>一共选择{{files11.length}}个文件</span>
@@ -67,7 +67,7 @@
 								<img :src='file.imgSrc' alt="" style="width: 200px;" @click="showModal(file.imgSrc,1)" >
 								<span class="img_name" v-html="file.imgName"></span>
 								<span class="img_status">上传成功</span>
-								<span class="close" @click="deleteImg(file)"> × </span>
+								<span class="close" @click="deleteImg(file)" v-show="!onlyRead"> × </span>
 							</div>
 							<div>
 								<div class="no_img1" v-show="files11.length<1">
@@ -88,7 +88,7 @@
 						<div class="img_title">
 							<div>
 								<span style="margin: 0 20px 0 24px;">*企业经营证明文件：</span>
-								<vue-file-upload url="/terminal-repeater/terminal/uploadImg" ref="vueFileUploader2" v-bind:events='cbEvents2' v-bind:filters="filters" v-bind:request-options="reqopts2" v-on:onAdd="onAddItem2">
+								<vue-file-upload url="/terminal-repeater/terminal/uploadImg" ref="vueFileUploader2" v-bind:events='cbEvents2' v-bind:filters="filters" v-bind:request-options="reqopts2" v-on:onAdd="onAddItem2" v-show="!onlyRead">
 								</vue-file-upload>
 								<span v-if="!files22.length">未选择任何文件</span>
 								<span v-else>一共选择{{files22.length}}个文件</span>
@@ -104,7 +104,7 @@
 								<img :src='file.imgSrc' alt="" style="width: 200px;" @click="showModal(file.imgSrc,2)" >
 								<span class="img_name" v-html="file.imgName"></span>
 								<span class="img_status">上传成功</span>
-								<span class="close" @click="deleteImg(file)"> × </span>
+								<span class="close" @click="deleteImg(file)" v-show="!onlyRead"> × </span>
 							</div>
 							<div>
 								<div class="no_img1" v-show="files22.length<1">
@@ -134,7 +134,7 @@
 						<div class="img_title">
 							<div>
 								<span style="margin: 0 20px 0 24px;">*店主在店铺内照片：</span>
-								<vue-file-upload url="/terminal-repeater/terminal/uploadImg" ref="vueFileUploader3" v-bind:events='cbEvents3' v-bind:filters="filters" v-bind:request-options="reqopts3" v-on:onAdd="onAddItem3">
+								<vue-file-upload url="/terminal-repeater/terminal/uploadImg" ref="vueFileUploader3" v-bind:events='cbEvents3' v-bind:filters="filters" v-bind:request-options="reqopts3" v-on:onAdd="onAddItem3" v-show="!onlyRead">
 								</vue-file-upload>
 								<span v-if="!files33.length">未选择任何文件</span>
 								<span v-else>一共选择{{files33.length}}个文件</span>
@@ -150,7 +150,7 @@
 								<img :src='file.imgSrc' alt="" style="width: 200px;" @click="showModal(file.imgSrc,3)">
 								<span class="img_name" v-html="file.imgName"></span>
 								<span class="img_status">上传成功</span>
-								<span class="close" @click="deleteImg(file)"> × </span>
+								<span class="close" @click="deleteImg(file)" v-show="!onlyRead"> × </span>
 							</div>
 							<div>
 								<div class="no_img1" v-show="files33.length<1">
@@ -174,7 +174,7 @@
 			<Modal :modelTogg="modelTogg" :imgSrc="imgSrc" @closeModal="closeModal" @upperPage="upperPage" :files="tempFile" @nextPage="nextPage"></Modal>
 			<!-- 弹出层的模态框 end-->
 			<div class="footer">
-				<el-button type="primary" @click="onSubmit">下一步</el-button>
+				<el-button type="primary" @click="onSubmit" :disabled="onlyRead">下一步</el-button>
 			</div>
 		</div>
 	</div>
@@ -198,6 +198,7 @@
 				files1: [],
 				files2: [],
 				files3: [],
+				onlyRead:false,
 				// aa:true,
 				initId: 0,
 				filters: [{
@@ -326,6 +327,31 @@
 			}
 		},
 		methods: {
+			// 状态判断到待提交接口
+			stepLogin() {
+				this.$http({
+					method: "POST",
+					url: process.env.API+"/terminal/stepLogin",
+					headers: {
+						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+					},
+					body: {
+						'userId': JSON.parse(sessionStorage.getItem("userInfo")).telPhone,
+						'request': JSON.parse(sessionStorage.getItem("userInfo")).requestNo,
+					}
+				}).then((res) => {
+					if(res.data.code="000000"){
+						if(res.data.requestNoStatus=="4"){
+							this.onlyRead=true;
+						}
+					}
+				}, (res) => {
+					this.$message({
+						type: "error",
+						message: res.data.messages
+					})
+				})
+			},
 			//图片上传插件部分 start
 			onStatus(file) {
 				if(file.isSuccess) {
@@ -569,7 +595,7 @@
 			vueLoading
 		},
 		mounted: function() {
-
+			this.stepLogin();
 			this.routerApi();
 			this.echoImg();
 			// console.log(this.$route.params.)
