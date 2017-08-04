@@ -33,7 +33,7 @@
 <span class="fileupload-button">
   <i v-if='icon != null' v-bind:class='rendIcon'></i>
   {{label}}
-  <input ref="fileInput" type="file" name="file" disabled="true">
+  <input ref="fileInput" type="file" name="file">
 </span>
 </template>
 <script>
@@ -67,11 +67,11 @@
           },
           max:{
               type:Number,
-              default:Number.MAX_VALUE
+              default:4
           },
           label:{
               type:String,
-              default:'无法上传'
+              default:'选择文件'
           },
           outletNum:{
               type:String,
@@ -86,7 +86,7 @@
           },
           autoUpload:{
               type:Boolean,
-              default:false
+              default:true
           },
           multiple:{
               type:Boolean,
@@ -106,8 +106,8 @@
               type:Object,
               default:()=>{
                   return{
-                      formData:{'applicationNo':this.outletNum},
-                      headers:{"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken},
+                      formData:{},
+                      // headers:{"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken},
                       responseType:'json',
                       withCredentials:false
                   }
