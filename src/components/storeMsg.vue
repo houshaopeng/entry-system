@@ -575,7 +575,7 @@
 					belongRegion: '', //所属区域
 					networkName: '', //网点名称
 					networkContact: '', //网点联系人
-					contactTel: '', //联系电话
+					contactTel:  "", //联系电话
 					recommendedID: '', //推荐渠道
 					recommendedChannels: '', //具体渠道
 					contactAddress: '', //联系地址
@@ -1776,6 +1776,8 @@
 			Chinaddress
 		},
 		mounted: function() {
+			this.ruleForm.contactTel = JSON.parse(sessionStorage.getItem("userInfo")).telPhone;
+			console.log(JSON.parse(sessionStorage.getItem("userInfo")).telPhone)
 			this.getMachineModel();
 			this.routerApi();
 			this.getMerchantType();

@@ -221,7 +221,7 @@
 						this.echoImg();
 					},
 					onAddFileSuccess: (file) => {
-						this.reqopts0.formData.initId = file.size
+						console.log(file)
 					}
 				},
 				cbEvents1: {
