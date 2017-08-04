@@ -1,6 +1,6 @@
 <template >
 	<!--借款协议-->
-	<div class="loanContract" v-loading="loading">
+	<div class="loanContract" v-loading="loading" element-loading-text="资料正在审核中，请耐心等待">
 	<div class="loanContract">
 		<div class="title">
 			<el-row>
@@ -85,7 +85,7 @@
 					} else {
 						this.$message({
 							type: "info",
-							message: "资料正在审核中,请联系工作人员"
+							message: "资料正在审核中，请耐心等待"
 						})
 					}
 				}, (res) => {
