@@ -67,7 +67,7 @@
           },
           max:{
               type:Number,
-              default:6
+              default:2
           },
           label:{
               type:String,
