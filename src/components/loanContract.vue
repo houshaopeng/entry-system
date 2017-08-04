@@ -84,8 +84,7 @@
 						this.loading = false;
 					} else {
 						this.$message({
-							type: "error",
-
+							type: "info",
 							message: "资料正在审核中，请耐心等待"
 						})
 					}
