@@ -1177,16 +1177,15 @@
 			},
 			changeChannel() {
 				this.getChannelUserName();
-				this.ruleForm.recommendedChannels = "";
 				if(this.ruleForm.recommendedID == 1) {
 					this.channelsShow = true;
-					this.channels = [{
-						"constant_label":"0",
-						"constant_value":"贵州代理"
-					},{
-						"constant_label":"1",
-						"constant_value":"南京兰翎"
-					}]
+					//this.channels = [{
+					//	"constant_label":"0",
+					//	"constant_value":"贵州代理"
+					//},{
+					//	"constant_label":"1",
+					//	"constant_value":"南京兰翎"
+					//}]
 				} else if(this.ruleForm.recommendedID == 2){
 					this.channelsShow = true;
 				}else{
@@ -1230,9 +1229,7 @@
 					}
 				}).then((res) => {
 					if(res.data.code == "000000") {
-						if(this.ruleForm.recommendedID == 2){
-							this.channels = res.data.data
-						}
+						this.channels = res.data.data
 					} else {
 						this.$message({
 							type: "error",
@@ -1369,6 +1366,11 @@
 								another:json.basicReqInfo.joinSuperiority.split(",")[json.basicReqInfo.joinSuperiority.split(",").length-1]
 							}
 						}
+					} else {
+						this.$message({
+							type: "error",
+							message: res.data.messages
+						})
 					}
 				}, (res) => {
 					this.$message({
@@ -1532,7 +1534,7 @@
 							"terminalName": this.ruleForm.networkName,
 							"terminalContact": this.ruleForm.networkContact,
 							"terminalPhone": this.ruleForm.contactTel,
-							"recommendChanel": this.ruleForm.recommendedID,
+							"recommendChanel": this.ruleForm.recommendedID+ '&' + this.ruleForm.recommendedChannels,
 							"contactAddress": contactAddress,
 							"salesmanName": this.ruleForm.salesmanName,
 							"salesmanNo": this.ruleForm.salesmanNumber,
@@ -1667,6 +1669,8 @@
 					}
 				}).then((res) => {
 					if(res.data.code == "000000") {
+
+						console.log(res.data.data.json.basicReqInfo.recommendChanel.split("&")[1])
 						if(res.data.data.json) {
 							this.$message({
 								type:'info',
