@@ -88,8 +88,8 @@
 						<div class="img_title">
 							<div>
 								<span style="margin: 0 20px 0 24px;">*企业经营证明文件：</span>
-								<vue-file-upload1 url="/terminal-repeater/terminal/uploadImg" ref="vueFileUploader2" v-bind:events='cbEvents2' v-bind:filters="filters" v-bind:request-options="reqopts2" v-on:onAdd="onAddItem2">
-								</vue-file-upload1>
+								<vue-file-upload url="/terminal-repeater/terminal/uploadImg" ref="vueFileUploader2" v-bind:events='cbEvents2' v-bind:filters="filters" v-bind:request-options="reqopts2" v-on:onAdd="onAddItem2">
+								</vue-file-upload>
 								<span v-if="!files22.length">未选择任何文件</span>
 								<span v-else>一共选择{{files22.length}}个文件</span>
 								<!-- <input type="button" value="清空图片" @click="clearAll" class="clear_buttton" /> -->
@@ -134,8 +134,8 @@
 						<div class="img_title">
 							<div>
 								<span style="margin: 0 20px 0 24px;">*店主在店铺内照片：</span>
-								<vue-file-upload0 url="/terminal-repeater/terminal/uploadImg" ref="vueFileUploader3" v-bind:events='cbEvents3' v-bind:filters="filters" v-bind:request-options="reqopts3" v-on:onAdd="onAddItem3">
-								</vue-file-upload0>
+								<vue-file-upload url="/terminal-repeater/terminal/uploadImg" ref="vueFileUploader3" v-bind:events='cbEvents3' v-bind:filters="filters" v-bind:request-options="reqopts3" v-on:onAdd="onAddItem3">
+								</vue-file-upload>
 								<span v-if="!files33.length">未选择任何文件</span>
 								<span v-else>一共选择{{files33.length}}个文件</span>
 								<!-- <input type="button" value="清空图片" @click="clearAll" class="clear_buttton" /> -->
@@ -181,9 +181,7 @@
 </template>
 
 <script>
-	import VueFileUpload from './components/vue-file-upload.vue'    // 最多传3张的
-	import VueFileUpload0 from './components/vue-file-upload0.vue'    // 最多传4张的
-	import VueFileUpload1 from './components/vue-file-upload1.vue'    // 最多传6张的
+	import VueFileUpload from './components/vue-file-upload.vue'   
 	import vueLoading from 'vue-loading-template'
 	import Modal from './components/modal2.vue'
 	export default {
@@ -217,12 +215,13 @@
 				//事件回调
 				cbEvents0: {
 					onCompleteUpload: (file, response, status, header) => {
+
 						if(response.code=="000000"){
 
 						}else{
 							this.$message({
 								type: "error",
-								message: res.data.messages
+								message: response.messages
 							})
 						}
 						this.echoImg();
@@ -239,7 +238,7 @@
 						}else{
 							this.$message({
 								type: "error",
-								message: res.data.messages
+								message: response.messages
 							})
 						};
 						this.echoImg();
@@ -255,7 +254,7 @@
 						}else{
 							this.$message({
 								type: "error",
-								message: res.data.messages
+								message: response.messages
 							})
 						};
 						this.echoImg();
@@ -271,7 +270,7 @@
 						}else{
 							this.$message({
 								type: "error",
-								message: res.data.messages
+								message: response.messages
 							})
 						};
 						this.echoImg();
@@ -566,8 +565,6 @@
 		},
 		components: {
 			VueFileUpload,
-			VueFileUpload0,
-			VueFileUpload1,
 			Modal,
 			vueLoading
 		},
