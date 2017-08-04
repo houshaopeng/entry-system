@@ -1177,16 +1177,15 @@
 			},
 			changeChannel() {
 				this.getChannelUserName();
-				this.ruleForm.recommendedChannels = "";
 				if(this.ruleForm.recommendedID == 1) {
 					this.channelsShow = true;
-					this.channels = [{
-						"constant_label":"0",
-						"constant_value":"贵州代理"
-					},{
-						"constant_label":"1",
-						"constant_value":"南京兰翎"
-					}]
+					//this.channels = [{
+					//	"constant_label":"0",
+					//	"constant_value":"贵州代理"
+					//},{
+					//	"constant_label":"1",
+					//	"constant_value":"南京兰翎"
+					//}]
 				} else if(this.ruleForm.recommendedID == 2){
 					this.channelsShow = true;
 				}else{
@@ -1230,9 +1229,7 @@
 					}
 				}).then((res) => {
 					if(res.data.code == "000000") {
-						if(this.ruleForm.recommendedID == 2){
-							this.channels = res.data.data
-						}
+						this.channels = res.data.data
 					} else {
 						this.$message({
 							type: "error",
@@ -1369,6 +1366,11 @@
 								another:json.basicReqInfo.joinSuperiority.split(",")[json.basicReqInfo.joinSuperiority.split(",").length-1]
 							}
 						}
+					} else {
+						this.$message({
+							type: "error",
+							message: res.data.messages
+						})
 					}
 				}, (res) => {
 					this.$message({
@@ -1532,7 +1534,7 @@
 							"terminalName": this.ruleForm.networkName,
 							"terminalContact": this.ruleForm.networkContact,
 							"terminalPhone": this.ruleForm.contactTel,
-							"recommendChanel": this.ruleForm.recommendedID,
+							"recommendChanel": this.ruleForm.recommendedID+ '&' + this.ruleForm.recommendedChannels,
 							"contactAddress": contactAddress,
 							"salesmanName": this.ruleForm.salesmanName,
 							"salesmanNo": this.ruleForm.salesmanNumber,
@@ -1604,7 +1606,7 @@
 
 					}
 					if((this.ruleForm.goodpoint.indexOf("其他") != -1 && this.ruleForm.another) || (this.ruleForm.goodpoint.indexOf("其他") == -1)) {
-					if(valid && (this.address.province != "请选择") && (this.address.city != "请选择") && (this.address.district != "请选择") && (this.address2.province != "请选择") && (this.address2.city != "请选择") && (this.address2.district != "请选择") && (this.address3.province != "请选择") && (this.address3.city != "请选择") && (this.address3.district != "请选择") && (this.address4.province != "请选择") && (this.address4.city != "请选择") && (this.address4.district != "请选择") && (this.companyStep != "") && (this.machineStep != "") && ((this.ruleForm.recommendedID == 1 && this.ruleForm.recommendedChannels != "") || (this.ruleForm.recommendedID == 0 && this.ruleForm.recommendedChannels == "") || (this.ruleForm.recommendedID == 3 && this.ruleForm.recommendedChannels == ""))) {
+					if(valid && (this.address.province != "请选择") && (this.address.city != "请选择") && (this.address.district != "请选择") && (this.address2.province != "请选择") && (this.address2.city != "请选择") && (this.address2.district != "请选择") && (this.address3.province != "请选择") && (this.address3.city != "请选择") && (this.address3.district != "请选择") && (this.address4.province != "请选择") && (this.address4.city != "请选择") && (this.address4.district != "请选择") && (this.companyStep != "") && (this.machineStep != "") && ((this.ruleForm.recommendedID == 1 && this.ruleForm.recommendedChannels != "") || (this.ruleForm.recommendedID == 0 && this.ruleForm.recommendedChannels == "") || (this.ruleForm.recommendedID == 2 && this.ruleForm.recommendedChannels == "") || (this.ruleForm.recommendedID == 2 && this.ruleForm.recommendedChannels != "") || (this.ruleForm.recommendedID == 3 && this.ruleForm.recommendedChannels == ""))) {
 						this.$http({
 							method: "POST",
 							url: process.env.API + "/terminal/verifyFourElements",
@@ -1667,6 +1669,8 @@
 					}
 				}).then((res) => {
 					if(res.data.code == "000000") {
+
+						console.log(res.data.data.json.basicReqInfo.recommendChanel.split("&")[1])
 						if(res.data.data.json) {
 							this.$message({
 								type:'info',

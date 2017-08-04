@@ -199,7 +199,7 @@
 				}else if(!/^\d{6}$/.test(this.ruleForm.codeID)){
 					this.ruleForm.codeID = "";
 					var oTxt = document.getElementById('password');
-					var code = oTxt.getElementsByTagName('input')[0].focus();
+					oTxt.getElementsByTagName('input')[0].focus();
 					this.$message({
 						type: "error",
 						message: "请输入正确的验证码"
@@ -239,6 +239,9 @@
 							requestNo: this.msg
 						}));
 					} else {
+						this.ruleForm.codeID = "";
+						var oTxt = document.getElementById('password');
+						oTxt.getElementsByTagName('input')[0].focus();
 						this.$message({
 							type: "error",
 							message: "请输入正确的验证码"
