@@ -1,5 +1,6 @@
-<template>
+<template >
 	<!--借款协议-->
+	<div class="loanContract" v-loading="loading">
 	<div class="loanContract">
 		<div class="title">
 			<el-row>
@@ -21,7 +22,7 @@
 			</div>
 		</div>
 		<div class="footer">
-			<el-button type="primary" @click="onSubmit">确认借款</el-button>
+			<el-button type="primary" @click="onSubmit" :disabled="loading">确认借款</el-button>
 		</div>
 	</div>
 	</div>
@@ -33,6 +34,7 @@
 			return {
 				isAgree: '',
 				url:"",
+				loading:true,
 			}
 		},
 		methods: {
@@ -53,7 +55,7 @@
 					}
 				}).then((res) => {
 					if(res.data.dara == "000000") {
-						alert(666)
+						
 					}
 				}, (res) => {
 					this.$message({
@@ -77,6 +79,7 @@
 				}).then((res) => {
 					if(res.data.code == "000000") {
 						this.url = res.data.data.h5Url;
+						this.loading = false;
 					} else {
 						this.$message({
 							type: "error",

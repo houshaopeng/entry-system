@@ -229,12 +229,30 @@
 				//事件回调
 				cbEvents0: {
 					onCompleteUpload: (file, response, status, header) => {
+						if(response.code=="000000"){
+
+						}else{
+							this.$message({
+								type: "error",
+								message: res.data.messages
+							})
+						};
 						this.echoImg();
 					},
-					onAddFileSuccess: (file) => {}
+					onAddFileSuccess: (file) => {
+						
+					}
 				},
 				cbEvents1: {
 					onCompleteUpload: (file, response, status, header) => {
+						if(response.code=="000000"){
+
+						}else{
+							this.$message({
+								type: "error",
+								message: res.data.messages
+							})
+						};
 						this.echoImg();
 					},
 					onAddFileSuccess: (file) => {
@@ -243,6 +261,14 @@
 				},
 				cbEvents2: {
 					onCompleteUpload: (file, response, status, header) => {
+						if(response.code=="000000"){
+
+						}else{
+							this.$message({
+								type: "error",
+								message: res.data.messages
+							})
+						};
 						this.echoImg();
 					},
 					onAddFileSuccess: (file) => {
@@ -251,6 +277,14 @@
 				},
 				cbEvents3: {
 					onCompleteUpload: (file, response, status, header) => {
+						if(response.code=="000000"){
+
+						}else{
+							this.$message({
+								type: "error",
+								message: res.data.messages
+							})
+						};
 						this.echoImg();
 					},
 					onAddFileSuccess: (file) => {
