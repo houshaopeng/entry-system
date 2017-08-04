@@ -1,7 +1,7 @@
 <template>
 	<!--资料填写页面-->
-	<div class="storeMsg">
-		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-position="left" label-width="121px" class="demo-ruleForm">
+	<div class="storeMsg" >
+		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-position="left" label-width="121px" class="demo-ruleForm" >
 			<!--网点基本信息-->
 			<div class="title">
 				<el-row>
@@ -13,7 +13,7 @@
 				<el-row :gutter="10">
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="网点合同类型" prop="contractType">
-							<el-radio-group v-model="ruleForm.contractType">
+							<el-radio-group v-model="ruleForm.contractType" :disabled="pagedisabled">
 								<el-radio label="0">标准合同</el-radio>
 								<el-radio label="1">非标合同</el-radio>
 							</el-radio-group>
@@ -21,7 +21,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="网点类型" prop="networkType">
-							<el-radio-group v-model="ruleForm.networkType">
+							<el-radio-group v-model="ruleForm.networkType" :disabled="pagedisabled">
 								<el-radio label="0">个人</el-radio>
 								<el-radio label="1">企业</el-radio>
 							</el-radio-group>
@@ -29,7 +29,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="所属区域" prop="belongRegion">
-							<el-select v-model="ruleForm.belongRegion" placeholder="请选择所属区域">
+							<el-select v-model="ruleForm.belongRegion" placeholder="请选择所属区域" :disabled="pagedisabled">
 								<el-option v-for="item in region" :key="item.value" :label="item.region" :value="item.value">
 								</el-option>
 							</el-select>
@@ -37,29 +37,29 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="网点名称" prop="networkName">
-							<el-input :maxlength="30" v-model="ruleForm.networkName" placeholder="请输入网点名称"></el-input>
+							<el-input :maxlength="30" v-model="ruleForm.networkName" placeholder="请输入网点名称" :disabled="pagedisabled"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="网点联系人" prop="networkContact">
-							<el-input :maxlength="30" v-model="ruleForm.networkContact" placeholder="请输入网点联系人"></el-input>
+							<el-input :maxlength="30" v-model="ruleForm.networkContact" placeholder="请输入网点联系人" :disabled="pagedisabled"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="联系电话" prop="contactTel">
-							<el-input :maxlength="11" v-model="ruleForm.contactTel" placeholder="请输入联系电话"></el-input>
+							<el-input :maxlength="11" v-model="ruleForm.contactTel" :disabled="pagedisabled" placeholder="请输入联系电话"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="16" :lg="12">
 						<el-form-item label="推荐渠道" prop="recommendedID">
 							<el-col :xs="12" :sm="12" :md="12" :lg="12">
-								<el-select v-model="ruleForm.recommendedID" @change="changeChannel" placeholder="请选择推荐渠道">
+								<el-select v-model="ruleForm.recommendedID" :disabled="pagedisabled" @change="changeChannel" placeholder="请选择推荐渠道">
 									<el-option v-for="item in recommended" :key="item.value" :label="item.channel" :value="item.value">
 									</el-option>
 								</el-select>
 							</el-col>
 							<el-col :xs="12" :sm="12" :md="12" :lg="12" v-if="channelsShow">
-								<el-select v-model="ruleForm.recommendedChannels" placeholder="请选择具体的推荐渠道">
+								<el-select v-model="ruleForm.recommendedChannels" placeholder="请选择具体的推荐渠道" :disabled="pagedisabled">
 									<el-option v-for="item in channels" :key="item.constant_value" :label="item.constant_value" :value="item.constant_label">
 									</el-option>
 								</el-select>
@@ -69,28 +69,28 @@
 					<el-col :xs="24" :sm="24" :md="24" :lg="12">
 						<el-form-item label="联系地址" prop="contactAddress">
 							<el-col :xs="18" :sm="18" :md="18" :lg="18">
-								<address-picker :opts="obj" v-model="address"></address-picker>
+								<address-picker :opts="obj" v-model="address" :disabled="pagedisabled" ></address-picker>
 							</el-col>
 							<el-col :xs="6" :sm="6" :md="6" :lg="6">
-								<el-input v-model="ruleForm.contactAddress" placeholder="请输入详细联系地址"></el-input>
+								<el-input v-model="ruleForm.contactAddress" placeholder="请输入详细联系地址" :disabled="pagedisabled"></el-input>
 							</el-col>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="业务员姓名" prop="salesmanName">
-							<el-input :maxlength="30" v-model="ruleForm.salesmanName" placeholder="请输入业务员姓名"></el-input>
+							<el-input :maxlength="30" v-model="ruleForm.salesmanName" placeholder="请输入业务员姓名" :disabled="pagedisabled"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="业务员工号" prop="salesmanNumber">
-							<el-input :maxlength="9" v-model="ruleForm.salesmanNumber" placeholder="请输入业务员工号"></el-input>
+							<el-input :maxlength="9" v-model="ruleForm.salesmanNumber" placeholder="请输入业务员工号" :disabled="pagedisabled"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24">
 						<el-form-item label="机器型号" class="addOne">
 							<el-row v-for="machine in machines" :key="machines.id" style="margin-bottom: 10px;">
 								<el-col :xs="12" :sm="12" :md="8" :lg="6">
-									<el-select v-model="machine.machineType" placeholder="请选择机器型号">
+									<el-select v-model="machine.machineType" placeholder="请选择机器型号" :disabled="pagedisabled">
 										<el-option v-for="item in machineList" :key="item.value" :label="item.value" :value="item.label">
 										</el-option>
 									</el-select>
@@ -116,12 +116,12 @@
 					<el-row :gutter="10" v-for="company in companys" :key="company.value">
 						<el-col :xs="18" :sm="18" :md="8" :lg="6">
 							<el-form-item label="名称">
-								<el-input :maxlength="30" v-model="company.companyName" placeholder="请输入公司名称"></el-input>
+								<el-input :maxlength="30" v-model="company.companyName" placeholder="请输入公司名称" :disabled="pagedisabled"></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :xs="18" :sm="18" :md="8" :lg="6">
 							<el-form-item label="离店距离" prop="companyDistance">
-								<el-input :maxlength="30" @keyup.native="checkNum" v-model="company.companyDistance" placeholder="请输入距离">
+								<el-input :maxlength="30" @keyup.native="checkNum" v-model="company.companyDistance" placeholder="请输入距离" :disabled="pagedisabled">
 									<template slot="append">米</template>
 								</el-input>
 							</el-form-item>
@@ -141,7 +141,7 @@
 				<el-row :gutter="10">
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="是否品牌加盟店" prop="isJoin">
-							<el-radio-group v-model="ruleForm.isJoin">
+							<el-radio-group v-model="ruleForm.isJoin" :disabled="pagedisabled">
 								<el-radio label="0">是</el-radio>
 								<el-radio label="1">否</el-radio>
 							</el-radio-group>
@@ -149,7 +149,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="商户类型" prop="businessType">
-							<el-select v-model="ruleForm.businessType" placeholder="请选择商户类型">
+							<el-select v-model="ruleForm.businessType" placeholder="请选择商户类型" :disabled="pagedisabled">
 								<el-option v-for="item in businessList" :key="item.value" :label="item.value" :value="item.label">
 								</el-option>
 							</el-select>
@@ -157,19 +157,19 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="成立时间" prop="createTime">
-							<el-date-picker v-model="ruleForm.createTime" type="date" placeholder="选择日期" :picker-options="pickerOptions0">
+							<el-date-picker v-model="ruleForm.createTime" type="date" placeholder="选择日期" :picker-options="pickerOptions0" :disabled="pagedisabled">
 							</el-date-picker>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="开业时间" prop="startTime">
-							<el-date-picker v-model="ruleForm.startTime" type="date" placeholder="选择日期" :picker-options="pickerOptions0">
+							<el-date-picker v-model="ruleForm.startTime" type="date" placeholder="选择日期" :picker-options="pickerOptions0" :disabled="pagedisabled">
 							</el-date-picker>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24">
 						<el-form-item label="注册地址" prop="changeAddr">
-							<el-checkbox-group v-model="changeAddr">
+							<el-checkbox-group v-model="changeAddr" :disabled="pagedisabled">
 								<el-checkbox label="与联系地址相同" name="type"></el-checkbox>
 							</el-checkbox-group>
 						</el-form-item>
@@ -178,32 +178,32 @@
 						<el-form-item label="" prop="registeredAddress">
 							<el-row>
 								<el-col :xs="18" :sm="18" :md="18" :lg="18">
-									<address-picker :opts="obj2" v-model="address2"></address-picker>
+									<address-picker :opts="obj2" v-model="address2" :disabled="pagedisabled"></address-picker>
 								</el-col>
 								<el-col :xs="6" :sm="6" :md="6" :lg="6">
-									<el-input v-model="ruleForm.registeredAddress" placeholder="请输入详细联系地址"></el-input>
+									<el-input v-model="ruleForm.registeredAddress" placeholder="请输入详细联系地址" :disabled="pagedisabled"></el-input>
 								</el-col>
 							</el-row>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="邮政编码" prop="zipCode">
-							<el-input :maxlength="6" v-model="ruleForm.zipCode" placeholder="请输入正确邮政编码"></el-input>
+							<el-input :maxlength="6" v-model="ruleForm.zipCode" placeholder="请输入正确邮政编码" :disabled="pagedisabled"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="法人姓名" prop="legalName">
-							<el-input :maxlength="30" v-model="ruleForm.legalName" placeholder="请输入法人姓名"></el-input>
+							<el-input :maxlength="30" v-model="ruleForm.legalName" placeholder="请输入法人姓名" :disabled="pagedisabled"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="法人电话" prop="legalTel">
-							<el-input :maxlength="11" v-model="ruleForm.legalTel" placeholder="请输入法人电话"></el-input>
+							<el-input :maxlength="11" v-model="ruleForm.legalTel" placeholder="请输入法人电话" :disabled="pagedisabled"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="法人身份证号" prop="legalId">
-							<el-input :maxlength="18" v-model="ruleForm.legalId" placeholder="请输入法人身份证号"></el-input>
+							<el-input :maxlength="18" v-model="ruleForm.legalId" placeholder="请输入法人身份证号" :disabled="pagedisabled"></el-input>
 						</el-form-item>
 					</el-col>
 
@@ -211,14 +211,14 @@
 				<el-row :gutter="10">
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="近三月平均营业额" prop="threeMoney">
-							<el-input :maxlength="30" v-model="ruleForm.threeMoney" placeholder="请输入近三月平均营业额">
+							<el-input :maxlength="30" v-model="ruleForm.threeMoney" placeholder="请输入近三月平均营业额" :disabled="pagedisabled">
 								<template slot="append">万元</template>
 							</el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="去年全年营业额" prop="yearMoney">
-							<el-input :maxlength="30" v-model="ruleForm.yearMoney" placeholder="请输入去年全年营业额">
+							<el-input :maxlength="30" v-model="ruleForm.yearMoney" placeholder="请输入去年全年营业额" :disabled="pagedisabled">
 								<template slot="append">万元</template>
 							</el-input>
 						</el-form-item>
@@ -228,13 +228,13 @@
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item prop="productName1" label="主营商品">
 							<span>主营商品</span>{{index+1}}:</span>
-							<el-input :maxlength="30" v-model="item.productName" placeholder="请输入商品名称">
+							<el-input :maxlength="30" v-model="item.productName" placeholder="请输入商品名称" :disabled="pagedisabled">
 							</el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="均价" prop="productPrice1">
-							<el-input :maxlength="30" v-model="item.productPrice1" placeholder="请输入商品价格">
+							<el-input :maxlength="30" v-model="item.productPrice1" placeholder="请输入商品价格" :disabled="pagedisabled">
 								<template slot="append">元</template>
 							</el-input>
 						</el-form-item>
@@ -243,13 +243,13 @@
 				<el-row :gutter="10">
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="主营商品2" prop="productName1">
-							<el-input :maxlength="30" v-model="ruleForm.productName1" placeholder="请输入商品名称">
+							<el-input :maxlength="30" v-model="ruleForm.productName1" placeholder="请输入商品名称" :disabled="pagedisabled">
 							</el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="均价" prop="productPrice1">
-							<el-input :maxlength="30" v-model="ruleForm.productPrice1" placeholder="请输入商品价格">
+							<el-input :maxlength="30" v-model="ruleForm.productPrice1" placeholder="请输入商品价格" :disabled="pagedisabled">
 								<template slot="append">元</template>
 							</el-input>
 						</el-form-item>
@@ -258,13 +258,13 @@
 				<el-row :gutter="10">
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="主营商品2" prop="productName2">
-							<el-input :maxlength="30" v-model="ruleForm.productName2" placeholder="请输入商品名称">
+							<el-input :maxlength="30" v-model="ruleForm.productName2" placeholder="请输入商品名称" :disabled="pagedisabled">
 							</el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="均价" prop="productPrice2">
-							<el-input :maxlength="30" v-model="ruleForm.productPrice2" placeholder="请输入商品价格">
+							<el-input :maxlength="30" v-model="ruleForm.productPrice2" placeholder="请输入商品价格" :disabled="pagedisabled">
 								<template slot="append">元</template>
 							</el-input>
 						</el-form-item>
@@ -273,13 +273,13 @@
 				<el-row :gutter="10">
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="主营商品3" prop="productName3">
-							<el-input :maxlength="30" v-model="ruleForm.productName3" placeholder="请输入商品名称">
+							<el-input :maxlength="30" v-model="ruleForm.productName3" placeholder="请输入商品名称" :disabled="pagedisabled">
 							</el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="均价" prop="productPrice3">
-							<el-input :maxlength="30" v-model="ruleForm.productPrice3" placeholder="请输入商品价格">
+							<el-input :maxlength="30" v-model="ruleForm.productPrice3" placeholder="请输入商品价格" :disabled="pagedisabled">
 								<template slot="append">元</template>
 							</el-input>
 						</el-form-item>
@@ -288,7 +288,7 @@
 				<el-row :gutter="10">
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="店铺日均人流量" prop="dailyPeople">
-							<el-input v-model="ruleForm.dailyPeople" placeholder="请输入店铺日均人流量">
+							<el-input v-model="ruleForm.dailyPeople" placeholder="请输入店铺日均人流量" :disabled="pagedisabled">
 							</el-input>
 						</el-form-item>
 					</el-col>
@@ -305,17 +305,17 @@
 				<el-row :gutter="10">
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="申请店主姓名" prop="applicantName">
-							<el-input :maxlength="30" v-model="ruleForm.applicantName" placeholder="请输入申请人姓名"></el-input>
+							<el-input :maxlength="30" v-model="ruleForm.applicantName" placeholder="请输入申请人姓名" :disabled="pagedisabled"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="身份证号" prop="idNumber">
-							<el-input :maxlength="18" v-model="ruleForm.idNumber" placeholder="请输入身份证号"></el-input>
+							<el-input :maxlength="18" v-model="ruleForm.idNumber" placeholder="请输入身份证号" :disabled="pagedisabled"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="健康状况" prop="healthStatus">
-							<el-select v-model="ruleForm.healthStatus" placeholder="请选择健康状况">
+							<el-select v-model="ruleForm.healthStatus" placeholder="请选择健康状况" :disabled="pagedisabled">
 								<el-option v-for="item in healthList" :key="item.value" :label="item.healthStatus" :value="item.healthValue">
 								</el-option>
 							</el-select>
@@ -323,7 +323,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="申请人学历" prop="applicantDegree">
-							<el-select v-model="ruleForm.applicantDegree" placeholder="请选择申请人学历">
+							<el-select v-model="ruleForm.applicantDegree" placeholder="请选择申请人学历" :disabled="pagedisabled">
 								<el-option v-for="item in degrees" :key="item.value" :label="item.degree" :value="item.degreeValue">
 								</el-option>
 							</el-select>
@@ -331,7 +331,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="婚姻状况" prop="maritalStatus">
-							<el-select v-model="ruleForm.maritalStatus" placeholder="请选择婚姻状况">
+							<el-select v-model="ruleForm.maritalStatus" placeholder="请选择婚姻状况" :disabled="pagedisabled">
 								<el-option v-for="item in maritalList" :key="item.value" :label="item.maritalStatus" :value="item.maritalValue">
 								</el-option>
 							</el-select>
@@ -343,7 +343,7 @@
 								<address-picker :opts="obj3" v-model="address3"></address-picker>
 							</el-col>
 							<el-col :xs="6" :sm="6" :md="6" :lg="6">
-								<el-input v-model="ruleForm.applicantResAddress" placeholder="请输入详细联系地址"></el-input>
+								<el-input v-model="ruleForm.applicantResAddress" placeholder="请输入详细联系地址" :disabled="pagedisabled"></el-input>
 							</el-col>
 						</el-form-item>
 					</el-col>
@@ -353,13 +353,13 @@
 								<address-picker :opts="obj4" v-model="address4"></address-picker>
 							</el-col>
 							<el-col :xs="6" :sm="6" :md="6" :lg="6">
-								<el-input v-model="ruleForm.applicantCurrAddress" placeholder="请输入详细联系地址"></el-input>
+								<el-input v-model="ruleForm.applicantCurrAddress" placeholder="请输入详细联系地址" :disabled="pagedisabled"></el-input>
 							</el-col>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="申请人占股比例" prop="applicantPercent">
-							<el-input v-model="ruleForm.applicantPercent" placeholder="请输入申请人占股比例">
+							<el-input v-model="ruleForm.applicantPercent" placeholder="请输入申请人占股比例" :disabled="pagedisabled">
 								<template slot="append">%</template>
 							</el-input>
 						</el-form-item>
@@ -372,7 +372,7 @@
 							<el-row style="margin-bottom: 20px;">
 								<el-col :xs="6" :sm="6" :md="6" :lg="6">
 									<el-form-item label="关系" prop="msgBind1" label-width="70px">
-										<el-select v-model="ruleForm.msgBind1" placeholder="请选择与联系人之间的关系">
+										<el-select v-model="ruleForm.msgBind1" placeholder="请选择与联系人之间的关系" :disabled="pagedisabled">
 											<el-option v-for="item in relationList" :key="item.value" :label="item.relationship" :value="item.relationValue">
 											</el-option>
 										</el-select>
@@ -380,19 +380,19 @@
 								</el-col>
 								<el-col :xs="6" :sm="6" :md="6" :lg="6">
 									<el-form-item label="姓名" prop="msgName1" label-width="70px">
-										<el-input :maxlength="30" v-model="ruleForm.msgName1"></el-input>
+										<el-input :maxlength="30" v-model="ruleForm.msgName1" :disabled="pagedisabled"></el-input>
 									</el-form-item>
 								</el-col>
 								<el-col :xs="6" :sm="6" :md="6" :lg="6">
 									<el-form-item label="手机号" prop="msgTel1" label-width="70px">
-										<el-input :maxlength="11" v-model="ruleForm.msgTel1"></el-input>
+										<el-input :maxlength="11" v-model="ruleForm.msgTel1" :disabled="pagedisabled"></el-input>
 									</el-form-item>
 								</el-col>
 							</el-row>
 							<el-row style="margin-bottom: 20px;">
 								<el-col :xs="6" :sm="6" :md="6" :lg="6">
 									<el-form-item label="关系" prop="msgBind2" label-width="70px">
-										<el-select v-model="ruleForm.msgBind2" placeholder="请选择与联系人之间的关系">
+										<el-select v-model="ruleForm.msgBind2" placeholder="请选择与联系人之间的关系" :disabled="pagedisabled">
 											<el-option v-for="item in relationList" :key="item.value" :label="item.relationship" :value="item.relationValue">
 											</el-option>
 										</el-select>
@@ -400,19 +400,19 @@
 								</el-col>
 								<el-col :xs="6" :sm="6" :md="6" :lg="6">
 									<el-form-item label="姓名" prop="msgName2" label-width="70px">
-										<el-input :maxlength="30" v-model="ruleForm.msgName2"></el-input>
+										<el-input :maxlength="30" v-model="ruleForm.msgName2" :disabled="pagedisabled"></el-input>
 									</el-form-item>
 								</el-col>
 								<el-col :xs="6" :sm="6" :md="6" :lg="6">
 									<el-form-item label="手机号" prop="msgTel2" label-width="70px">
-										<el-input :maxlength="11" v-model="ruleForm.msgTel2"></el-input>
+										<el-input :maxlength="11" v-model="ruleForm.msgTel2" :disabled="pagedisabled"></el-input>
 									</el-form-item>
 								</el-col>
 							</el-row>
 							<el-row style="margin-bottom: 20px;">
 								<el-col :xs="6" :sm="6" :md="6" :lg="6">
 									<el-form-item label="关系" prop="msgBind3" label-width="70px">
-										<el-select v-model="ruleForm.msgBind3" placeholder="请选择与联系人之间的关系">
+										<el-select v-model="ruleForm.msgBind3" placeholder="请选择与联系人之间的关系" :disabled="pagedisabled">
 											<el-option v-for="item in relationList" :key="item.value" :label="item.relationship" :value="item.relationValue">
 											</el-option>
 										</el-select>
@@ -420,12 +420,12 @@
 								</el-col>
 								<el-col :xs="6" :sm="6" :md="6" :lg="6">
 									<el-form-item label="姓名" prop="msgName3" label-width="70px">
-										<el-input :maxlength="30" v-model="ruleForm.msgName3"></el-input>
+										<el-input :maxlength="30" v-model="ruleForm.msgName3" :disabled="pagedisabled"></el-input>
 									</el-form-item>
 								</el-col>
 								<el-col :xs="6" :sm="6" :md="6" :lg="6">
 									<el-form-item label="手机号" prop="msgTel3" label-width="70px">
-										<el-input :maxlength="11" v-model="ruleForm.msgTel3"></el-input>
+										<el-input :maxlength="11" v-model="ruleForm.msgTel3" :disabled="pagedisabled"></el-input>
 									</el-form-item>
 								</el-col>
 							</el-row>
@@ -444,7 +444,7 @@
 				<el-row :gutter="10">
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="银行卡卡号" prop="bankCardNumber">
-							<el-input :maxlength="19" v-model="ruleForm.bankCardNumber" placeholder="请输入银行卡卡号">
+							<el-input :maxlength="19" v-model="ruleForm.bankCardNumber" placeholder="请输入银行卡卡号" :disabled="pagedisabled">
 							</el-input>
 						</el-form-item>
 					</el-col>
@@ -453,13 +453,13 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="开户支行名称" prop="bankName">
-							<el-input v-model="ruleForm.bankName" placeholder="请输入开户支行名称">
+							<el-input v-model="ruleForm.bankName" placeholder="请输入开户支行名称" :disabled="pagedisabled">
 							</el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="预留手机号" prop="reserPhone">
-							<el-input v-model="ruleForm.reserPhone" :maxlength="11" placeholder="请输入预留手机号"></el-input>
+							<el-input v-model="ruleForm.reserPhone" :maxlength="11" placeholder="请输入预留手机号" :disabled="pagedisabled"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -475,7 +475,7 @@
 				<el-row :gutter="10">
 					<el-col :xs="24" :sm="24" :md="18" :lg="14">
 						<el-form-item prop="goodpoint">
-							<el-checkbox-group v-model="ruleForm.goodpoint">
+							<el-checkbox-group v-model="ruleForm.goodpoint" :disabled="pagedisabled">
 								<el-checkbox label="地理位置好"></el-checkbox>
 								<el-checkbox label="客户资源丰富"></el-checkbox>
 								<el-checkbox label="经营模式独特"></el-checkbox>
@@ -487,7 +487,7 @@
 					</el-col>
 					<el-col :xs="6" :sm="6" :md="6" :lg="6">
 						<el-form-item>
-							<el-input :maxlength="200" v-model="ruleForm.another" placeholder="请列举其他优势"></el-input>
+							<el-input :maxlength="200" v-model="ruleForm.another" placeholder="请列举其他优势" :disabled="pagedisabled"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -495,8 +495,8 @@
 
 			<!--缓存，下一步按钮-->
 			<div class="footer">
-				<el-button type="primary" @click="Temporary">暂存</el-button>
-				<el-button type="primary" @click="verifyFourElements('ruleForm')">下一步</el-button>
+				<el-button type="primary" @click="Temporary" :disabled="pagedisabled">暂存</el-button>
+				<el-button type="primary" @click="verifyFourElements('ruleForm')" :disabled="pagedisabled">下一步</el-button>
 			</div>
 		</el-form>
 	</div>
@@ -549,7 +549,7 @@
 				}
 			};
 			var checkPercent = (rule, value, callback) => {
-				if(!/^\d\.([1-9]{1,2}|[0-9][1-9])$|^[1-9]\d{0,1}(\.\d{1,2}){0,1}$|^100(\.0{1,2}){0,1}$/.test(value)) {
+				if(!/^1\d\.([1-9]{1,2}|[0-9][1-9])$|^[1-9]\d{0,1}(\.\d{1,2}){0,1}$|^100(\.0{1,2}){0,1}$/.test(value)) {
 					return callback(new Error('请输入正确的百分比'));
 				} else {
 					callback();
@@ -563,6 +563,7 @@
 				}
 			};
 			return {
+				pagedisabled:false,
 				msg1: '',
 				channelsShow: false, //渠道是否显示隐藏
 				changeAddr: '', //与联系地址相同
@@ -716,6 +717,7 @@
 						city: '北京',
 						district: '东城区'
 					},
+					disable:true,
 					noLabel: true
 				},
 				address2: {}, //注册地址
@@ -1175,17 +1177,13 @@
 					return event.target.value;
 				}
 			},
+			businessChange(){
+				this.ruleForm.applicantPercent = this.ruleForm.businessType == 1||this.ruleForm.businessType == 2? 100 :"";
+			},
 			changeChannel() {
 				this.getChannelUserName();
 				if(this.ruleForm.recommendedID == 1) {
 					this.channelsShow = true;
-					//this.channels = [{
-					//	"constant_label":"0",
-					//	"constant_value":"贵州代理"
-					//},{
-					//	"constant_label":"1",
-					//	"constant_value":"南京兰翎"
-					//}]
 				} else if(this.ruleForm.recommendedID == 2){
 					this.channelsShow = true;
 				}else{
@@ -1669,13 +1667,13 @@
 					}
 				}).then((res) => {
 					if(res.data.code == "000000") {
-
-						console.log(res.data.data.json.basicReqInfo.recommendChanel.split("&")[1])
+						if(res.data.data.requestNoStatus>1){
+							this.pagedisabled = true;
+							console.log(this.pagedisabled)
+						}
+						
 						if(res.data.data.json) {
-							this.$message({
-								type:'info',
-								message:'数据加载中请稍后...'
-							})
+
 							var json = res.data.data.json;
 
 							this.obj.default.province = json.basicReqInfo.contactAddress.split("&")[0];
