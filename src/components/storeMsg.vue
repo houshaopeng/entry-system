@@ -1267,7 +1267,7 @@
 			},
 			// 路由接口调试
 			routerApi() {
-				this.msg1 = JSON.parse(sessionStorage.getItem("userInfo")).requestNo
+				this.msg1 = JSON.parse(sessionStorage.getItem("userInfo")).requestNo;
 				this.$http({
 					method: "POST",
 					url: process.env.API + "/terminal/step",
@@ -1596,7 +1596,7 @@
 
 					}
 					if((this.ruleForm.goodpoint.indexOf("其他") != -1 && this.ruleForm.another) || (this.ruleForm.goodpoint.indexOf("其他") == -1)) {
-					if(valid && (this.address.province != "请选择") && (this.address.city != "请选择") && (this.address.district != "请选择") && (this.address2.province != "请选择") && (this.address2.city != "请选择") && (this.address2.district != "请选择") && (this.address3.province != "请选择") && (this.address3.city != "请选择") && (this.address3.district != "请选择") && (this.address4.province != "请选择") && (this.address4.city != "请选择") && (this.address4.district != "请选择") && (this.companyStep != "") && (this.machineStep != "") && ((this.ruleForm.recommendedID == 1 && this.ruleForm.recommendedChannels != "") || (this.ruleForm.recommendedID == 2 && this.ruleForm.recommendedChannels != "") || (this.ruleForm.recommendedID == 0 && this.ruleForm.recommendedChannels == "") || (this.ruleForm.recommendedID == 3 && this.ruleForm.recommendedChannels == ""))) {
+					if(valid && (this.address.province != "请选择") && (this.address.city != "请选择") && (this.address.district != "请选择") && (this.address2.province != "请选择") && (this.address2.city != "请选择") && (this.address2.district != "请选择") && (this.address3.province != "请选择") && (this.address3.city != "请选择") && (this.address3.district != "请选择") && (this.address4.province != "请选择") && (this.address4.city != "请选择") && (this.address4.district != "请选择") && (this.companyStep != "") && (this.machineStep != "") && ((this.ruleForm.recommendedID == 1 && this.ruleForm.recommendedChannels != "") || (this.ruleForm.recommendedID == 0 && this.ruleForm.recommendedChannels == "") || (this.ruleForm.recommendedID == 3 && this.ruleForm.recommendedChannels == ""))) {
 						this.$http({
 							method: "POST",
 							url: process.env.API + "/terminal/verifyFourElements",
@@ -1782,6 +1782,7 @@
 			this.routerApi();
 			this.getMerchantType();
 			this.stepLogin(); //请求暂存数据 渲染页面
+			this.ruleForm.contactTel = JSON.parse(sessionStorage.getItem("userInfo")).telPhone;
 		}
 	}
 </script>
