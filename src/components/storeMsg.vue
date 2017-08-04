@@ -149,7 +149,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="商户类型" prop="businessType">
-							<el-select v-model="ruleForm.businessType" placeholder="请选择商户类型" :disabled="pagedisabled">
+							<el-select @change="businessChange" v-model="ruleForm.businessType" placeholder="请选择商户类型" :disabled="pagedisabled">
 								<el-option v-for="item in businessList" :key="item.value" :label="item.value" :value="item.label">
 								</el-option>
 							</el-select>
@@ -1185,6 +1185,7 @@
 			},
 			changeChannel() {
 				this.getChannelUserName();
+				this.ruleForm.recommendedChannels = "";
 				if(this.ruleForm.recommendedID == 1) {
 					this.channelsShow = true;
 				} else if(this.ruleForm.recommendedID == 2){
