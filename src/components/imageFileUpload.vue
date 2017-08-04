@@ -31,7 +31,7 @@
 								<img :src='file.imgSrc' alt="" style="width: 200px;" @click="showModal(file.imgSrc,0)" >
 								<span class="img_name" v-html="file.imgName"></span>
 								<span class="img_status">上传成功</span>
-								<span class="close" @click="deleteImg(file)"> × </span>
+								<span class="close" @click="deleteImg(file)" v-show="!onlyRead"> × </span>
 							</div>
 							<div>
 								<div class="no_img1" v-show="files00.length<1">
@@ -94,12 +94,7 @@
 								<span v-else>一共选择{{files22.length}}个文件</span>
 								<!-- <input type="button" value="清空图片" @click="clearAll" class="clear_buttton" /> -->
 							</div>
-							<!-- <div class="img_item_box" v-for='(file,index) in files2' @click="getIndex(index)" style="float: left">
-								<img :src='onPreview(file)' alt="" @click="showModal(onPreview(file),2)" style="width: 200px;">
-								<span class="img_name" v-html="file.name"></span>
-								<span v-text='onStatus(file)' class="img_status"></span>
-								<span class="close" @click="deleteImg(file)"> × </span>
-							</div> -->
+							
 							<div class="img_item_box" v-for='(file,index) in files22' @click="getIndex(index)" style="float: left">
 								<img :src='file.imgSrc' alt="" style="width: 200px;" @click="showModal(file.imgSrc,2)" >
 								<span class="img_name" v-html="file.imgName"></span>
@@ -119,10 +114,10 @@
 								<div class="no_img1" v-show="files22.length<4">
 									<span>特殊商品资质证明</span>
 								</div>
-								<div class="no_img1" v-show="files2.length<5">
+								<div class="no_img1" v-show="files22.length<5">
 									<span>法人身份证正面</span>
 								</div>
-								<div class="no_img1" v-show="files2.length<6">
+								<div class="no_img1" v-show="files22.length<6">
 									<span>法人身份证反面</span>
 								</div>
 							</div>
@@ -327,31 +322,7 @@
 			}
 		},
 		methods: {
-			// 状态判断到待提交接口
-			stepLogin() {
-				this.$http({
-					method: "POST",
-					url: process.env.API+"/terminal/stepLogin",
-					headers: {
-						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
-					},
-					body: {
-						'userId': JSON.parse(sessionStorage.getItem("userInfo")).telPhone,
-						'request': JSON.parse(sessionStorage.getItem("userInfo")).requestNo,
-					}
-				}).then((res) => {
-					if(res.data.code="000000"){
-						if(res.data.requestNoStatus=="4"){
-							this.onlyRead=true;
-						}
-					}
-				}, (res) => {
-					this.$message({
-						type: "error",
-						message: res.data.messages
-					})
-				})
-			},
+			
 			//图片上传插件部分 start
 			onStatus(file) {
 				if(file.isSuccess) {
@@ -483,8 +454,14 @@
 						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo // 请求流水号
 					}
 				}).then((res) => {
-					if(res.data.dara == "000000") {
-
+					if(res.data.code="000000"){
+						if(res.data.data.requestNoStatus>2){
+							this.$message({
+								type:'info',
+								message:'数据加载中请稍后...'
+							})
+							this.onlyRead=true;
+						}
 					}
 				}, (res) => {
 					this.$message({
@@ -595,10 +572,8 @@
 			vueLoading
 		},
 		mounted: function() {
-			this.stepLogin();
 			this.routerApi();
 			this.echoImg();
-			// console.log(this.$route.params.)
 		}
 	}
 </script>

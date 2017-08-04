@@ -69,7 +69,7 @@
 					<el-col :xs="24" :sm="24" :md="24" :lg="12">
 						<el-form-item label="联系地址" prop="contactAddress">
 							<el-col :xs="18" :sm="18" :md="18" :lg="18">
-								<address-picker :opts="obj" v-model="address" :disabled="pagedisabled"></address-picker>
+								<address-picker :opts="obj" v-model="address" :disabled="pagedisabled" ></address-picker>
 							</el-col>
 							<el-col :xs="6" :sm="6" :md="6" :lg="6">
 								<el-input v-model="ruleForm.contactAddress" placeholder="请输入详细联系地址" :disabled="pagedisabled"></el-input>
@@ -717,6 +717,7 @@
 						city: '北京',
 						district: '东城区'
 					},
+					disable:true,
 					noLabel: true
 				},
 				address2: {}, //注册地址
@@ -1669,10 +1670,7 @@
 						}
 						
 						if(res.data.data.json) {
-							this.$message({
-								type:'info',
-								message:'数据加载中请稍后...'
-							})
+
 							var json = res.data.data.json;
 
 							this.obj.default.province = json.basicReqInfo.contactAddress.split("&")[0];
