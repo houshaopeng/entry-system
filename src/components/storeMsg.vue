@@ -69,7 +69,7 @@
 					<el-col :xs="24" :sm="24" :md="24" :lg="12">
 						<el-form-item label="联系地址" prop="contactAddress">
 							<el-col :xs="18" :sm="18" :md="18" :lg="18">
-								<address-picker :opts="obj" v-model="address"  ></address-picker>
+								<Chinaddress1 :opts="obj" v-model="address"  ></Chinaddress1>
 							</el-col>
 							<el-col :xs="6" :sm="6" :md="6" :lg="6">
 								<el-input v-model="ruleForm.contactAddress" placeholder="请输入详细联系地址" :disabled="pagedisabled"></el-input>
@@ -116,12 +116,12 @@
 					<el-row :gutter="10" v-for="company in companys" :key="company.value">
 						<el-col :xs="18" :sm="18" :md="8" :lg="6">
 							<el-form-item label="* 名称">
-								<el-input :maxlength="30" v-model="company.companyName" placeholder="请输入公司名称"></el-input>
+								<el-input :maxlength="30" v-model="company.companyName" placeholder="请输入公司名称" :disabled="pagedisabled"></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :xs="18" :sm="18" :md="8" :lg="6">
 							<el-form-item label="* 离店距离">
-								<el-input :maxlength="30" @keyup.native="checkNum" v-model="company.companyDistance" placeholder="请输入距离">
+								<el-input :maxlength="30" @keyup.native="checkNum" v-model="company.companyDistance" placeholder="请输入距离" :disabled="pagedisabled">
 									<template slot="append">米</template>
 								</el-input>
 							</el-form-item>
@@ -178,7 +178,7 @@
 						<el-form-item label="" prop="registeredAddress">
 							<el-row>
 								<el-col :xs="18" :sm="18" :md="18" :lg="18">
-									<address-picker :opts="obj2" v-model="address2" :disabled="pagedisabled"></address-picker>
+									<Chinaddress1 :opts="obj2" v-model="address2" :disabled="pagedisabled"></Chinaddress1>
 								</el-col>
 								<el-col :xs="6" :sm="6" :md="6" :lg="6">
 									<el-input v-model="ruleForm.registeredAddress" placeholder="请输入详细联系地址" :disabled="pagedisabled"></el-input>
@@ -340,7 +340,7 @@
 					<el-col :xs="24" :sm="24" :md="24" :lg="18">
 						<el-form-item label="申请人户籍地址" prop="applicantResAddress">
 							<el-col :xs="18" :sm="18" :md="18" :lg="18">
-								<address-picker :opts="obj3" v-model="address3"></address-picker>
+								<Chinaddress1 :opts="obj3" v-model="address3"></Chinaddress1>
 							</el-col>
 							<el-col :xs="6" :sm="6" :md="6" :lg="6">
 								<el-input v-model="ruleForm.applicantResAddress" placeholder="请输入详细联系地址" :disabled="pagedisabled"></el-input>
@@ -350,7 +350,7 @@
 					<el-col :xs="24" :sm="24" :md="24" :lg="18">
 						<el-form-item label="申请人现居住地址" prop="applicantCurrAddress">
 							<el-col :xs="18" :sm="18" :md="18" :lg="18">
-								<address-picker :opts="obj4" v-model="address4"></address-picker>
+								<Chinaddress1 :opts="obj4" v-model="address4"></Chinaddress1>
 							</el-col>
 							<el-col :xs="6" :sm="6" :md="6" :lg="6">
 								<el-input v-model="ruleForm.applicantCurrAddress" placeholder="请输入详细联系地址" :disabled="pagedisabled"></el-input>
@@ -504,6 +504,7 @@
 
 <script>
 	import Chinaddress from './components/Chinaddress.vue'
+	import Chinaddress1 from './components/vue-address-picker.vue'
 	export default {
 		name: 'storeMsg',
 		data() {
@@ -697,7 +698,8 @@
 						province: '北京',
 						city: '北京',
 					},
-					noLabel: true
+					noLabel: true,
+					disable:true
 				},
 
 				//推荐渠道
@@ -717,7 +719,7 @@
 						city: '北京',
 						district: '东城区'
 					},
-					disable:true,
+					disable:false,
 					noLabel: true
 				},
 				address2: {}, //注册地址
@@ -732,7 +734,8 @@
 						city: '北京',
 						district: '东城区'
 					},
-					noLabel: true
+					noLabel: true,
+					disable:false
 				},
 				address3: {}, //户籍地址
 				obj3: {
@@ -746,7 +749,8 @@
 						city: '北京',
 						district: '东城区'
 					},
-					noLabel: true
+					noLabel: true,
+					disable:false
 				},
 				address4: {}, //居住地址
 				obj4: {
@@ -760,7 +764,8 @@
 						city: '北京',
 						district: '东城区'
 					},
-					noLabel: true
+					noLabel: true,
+					disable:false,
 				},
 				machines: [{
 					machineType: ""
@@ -1675,9 +1680,12 @@
 					if(res.data.code == "000000") {
 						if(res.data.data.requestNoStatus>1){
 							this.pagedisabled = true;
-							console.log(this.pagedisabled)
+							this.obj.disable = true;
+							this.bankObj.disable = true;
+							this.obj2.disable = true;
+							this.obj3.disable = true;
+							this.obj4.disable = true;
 						}
-						
 						if(res.data.data.json) {
 
 							var json = res.data.data.json;
@@ -1795,7 +1803,8 @@
 		},
 		created: function() {},
 		components: {
-			Chinaddress
+			Chinaddress,
+			Chinaddress1
 		},
 		mounted: function() {
 			this.ruleForm.contactTel = JSON.parse(sessionStorage.getItem("userInfo")).telPhone;
@@ -1863,22 +1872,7 @@
 		}
 	}
 </style>
-<style type="text/css">
-	#address-picker, #address-picker1 { 
-			display: inline-block; 
-			float: left; 
-			font-size: 24px; 
-			height: 36px; 
-			select { 
-			min-width: 0px; 
-			width: 28%; 
-			margin: 0 1%; 
-			height: 36px; 
-			border-radius: 5px; 
-			border: 1px solid #bfcbd9; 
-			outline: none; 
-		} 
-	}
+<style type="text/css" >
 	.address-picker select {
 		min-width: 0px;
 		width: 30%;

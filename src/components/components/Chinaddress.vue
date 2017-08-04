@@ -3,7 +3,7 @@
         <label class="province">
             <span class="title">*开户行省份</span>
             <span class="option_title" v-if="!options.noLabel">{{t_province}}</span>
-            <select v-model="province" @change="changed('province')" :disabled="true">
+            <select v-model="province" @change="changed('province')" :disabled="opts.disable" :class="{bgColor:opts.disable}">
                 <option value='请选择' style="display: none">请选择</option>
                 <option v-for="item in add">{{item.name}}</option>
             </select>
@@ -11,12 +11,11 @@
         <label class="city">
             <span class="title">*开户行城市</span>
             <span class="option_title" v-if="!options.noLabel">{{t_city}}</span>
-            <select v-model="city" @change="changed('city')" :disabled="opts.noLabel">
+            <select v-model="city" @change="changed('city')" :disabled="opts.noLabel" :class="{bgColor:opts.disable}">
                 <option value='请选择' style="display: none">请选择</option>
                 <option v-for="item in thisCitys">{{item.name}}</option>
             </select>
         </label>
-       
     </div>
 </template>
 
@@ -127,9 +126,8 @@
             }
         },
         mounted: function(){
-
-            this.init()
             console.log(this.opts)
+            this.init()
         }
     }
 </script>
@@ -145,6 +143,10 @@
     }
     .title{
         font-size:14px;
+    }
+    .bgColor{
+      background:#eef1f6;
+      color:#ccc;
     }
     .address-picker:after {content: ".";display: block;height: 0;clear: both;visibility: hidden;}
 </style>
