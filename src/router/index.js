@@ -10,8 +10,8 @@ import LoanContract from '@/components/loanContract' //借款服务协议确认
 
 Vue.use(Router)
 
-export default new Router({
-	routes: [{
+
+let routes = [{
 			path: '/login', //登录
 			name: 'login',
 			component: Login
@@ -54,11 +54,11 @@ export default new Router({
 			]
 		},
 		{
-				path: '*',
-				hidden: true,
-				redirect: {
-					path: '/login'
-				}
+			path: '*',
+			hidden: true,
+			redirect: {
+				path: '/login'
 			}
+		}
 	]
-})
+	export default routes;

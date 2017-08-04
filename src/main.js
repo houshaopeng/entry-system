@@ -4,7 +4,7 @@ import Vue from 'vue'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 import App from './App'
-import router from './router'
+import routes from './router/index'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import 'babel-polyfill'
@@ -20,15 +20,17 @@ Vue.use(ElementUI);
 Vue.use(VueRouter);
 Vue.use(VueResource);
 
+/*import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
+NProgress.configure({ showSpinner: false });*/
 
-
-/*const router = new VueRouter({
+const router = new VueRouter({
   routes
 });
 
 
  router.beforeEach((to, from, next) => {
-  NProgress.start();
+  // NProgress.start();
  if (to.path == '/login') {
      sessionStorage.removeItem('userInfo');
   }
@@ -38,8 +40,11 @@ Vue.use(VueResource);
   } else {
     next();
   }
-})*/
+})
 
+router.afterEach(transition => {
+// NProgress.done();
+});
 new Vue({
   el: '#app',
   router,
