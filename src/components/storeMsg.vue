@@ -1,6 +1,6 @@
 <template>
 	<!--资料填写页面-->
-	<div class="storeMsg" :disabled="pagedisabled">
+	<div class="storeMsg" >
 		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-position="left" label-width="121px" class="demo-ruleForm" >
 			<!--网点基本信息-->
 			<div class="title">
@@ -549,7 +549,7 @@
 				}
 			};
 			var checkPercent = (rule, value, callback) => {
-				if(!/^\d\.([1-9]{1,2}|[0-9][1-9])$|^[1-9]\d{0,1}(\.\d{1,2}){0,1}$|^100(\.0{1,2}){0,1}$/.test(value)) {
+				if(!/^1\d\.([1-9]{1,2}|[0-9][1-9])$|^[1-9]\d{0,1}(\.\d{1,2}){0,1}$|^100(\.0{1,2}){0,1}$/.test(value)) {
 					return callback(new Error('请输入正确的百分比'));
 				} else {
 					callback();
@@ -1176,6 +1176,9 @@
 				} else {
 					return event.target.value;
 				}
+			},
+			businessChange(){
+				this.ruleForm.applicantPercent = this.ruleForm.businessType == 1||this.ruleForm.businessType == 2? 100 :"";
 			},
 			changeChannel() {
 				this.getChannelUserName();
