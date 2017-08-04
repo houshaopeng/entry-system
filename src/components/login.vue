@@ -45,7 +45,6 @@
 				checked: false,
 				dialogFormVisible: false,
 				getcode: "获取验证码",
-				getCodeTime:0,
 				getcodeshow: false,
 				dislogin: true,
 				ruleForm: {
@@ -88,13 +87,10 @@
 				}else{
 				var countdown = 60;
 				this.editCode = false;
-				this.getCodeTime++;
-				if(this.getCodeTime>1){
-					this.getCodeTime=2;
-				}
+				
+				
 				this.$http.post(process.env.API + "/getMessageCode", {
 					"userId": this.ruleForm.username,
-					"getMessageCodeFlag":this.getCodeTime
 				}).then((res) => {
 					if(res.data.code == '000000') {
 						if(res.data.data.isFlag == "1") {
@@ -203,7 +199,7 @@
 				}else if(!/^\d{6}$/.test(this.ruleForm.codeID)){
 					this.ruleForm.codeID = "";
 					var oTxt = document.getElementById('password');
-					var code = oTxt.getElementsByTagName('input')[0].focus();
+					oTxt.getElementsByTagName('input')[0].focus();
 					this.$message({
 						type: "error",
 						message: "请输入正确的验证码"
@@ -243,6 +239,9 @@
 							requestNo: this.msg
 						}));
 					} else {
+						this.ruleForm.codeID = "";
+						var oTxt = document.getElementById('password');
+						oTxt.getElementsByTagName('input')[0].focus();
 						this.$message({
 							type: "error",
 							message: "请输入正确的验证码"
