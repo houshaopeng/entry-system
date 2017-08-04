@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>幸福钱庄</title>
+		<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-default/index.css">
+		<style type="text/css">
+			.storeMsg .title {
+				margin-bottom: 20px;
+			}
+			
+			.storeMsg .title h3 {
+				float: left;
+			}
+			
+			.storeMsg .title span {
+				font-size: 12px;
+			}
+			
+			.storeMsg .title p {
+				float: right;
+			}
+			
+			.content {
+				text-align: left;
+			}
+			
+			.content .el-select {
+				display: block;
+			}
+			
+			.content .addOne {
+				position: relative;
+			}
+			
+			.content .addOne .btn_add {
+				position: absolute;
+				bottom: 10px;
+				left: 30%;
+			}
+			
+			.content .addOne .btn_add2 {
+				position: absolute;
+				bottom: 22px;
+				left: 55%;
+			}
+			
+			.footer {
+				margin: 50px 0;
+			}
+			
+			@media only screen and (min-width: 100px) and (max-width: 990px) {
+				.btn_add {
+					left: 60%;
+				}
+				.btn_add2 {
+					left: 80%;
+				}
+			}
+			
+			@media only screen and (min-width: 991px) and (max-width: 1200px) {
+				.btn_add {
+					left: 35%;
+				}
+				.btn_add2 {
+					left: 70%;
+				}
+			}
+			/*影像资料上传1 start*/
+			
+			.imageFileUpload .title {
+				margin-bottom: 20px;
+				h3 {
+					float: left;
+				}
+			}
+			
+			.imageFileUpload .img_title {
+				width: 100%;
+				text-align: left;
+			}
+			
+			.img_title .img_item_box {
+				width: 200px;
+				height: 200px;
+				background: #e5e5e5;
+				position: relative;
+				display: inline-block;
+				overflow: hidden;
+				margin: 10px 20px;
+			}
+			
+			.imageFileUpload .close {
+				font-size: 24px;
+				font-weight: bolder;
+				position: absolute;
+				right: 0;
+				top: 0;
+				cursor: pointer;
+				z-index: 25;
+			}
+			
+			.imageFileUpload .img_name {
+				position: absolute;
+				bottom: 0;
+				display: block;
+				text-align: center;
+				width: 100%;
+				background: rgba(0, 0, 0, 0.5);
+				color: #ffffff;
+				height: 20px;
+				overflow: hidden;
+				white-space: nowrap;
+				/*文字不换行*/
+				text-overflow: ellipsis;
+				/*超出则...代替*/
+				-o-text-overflow: ellipsis;
+				/*opera*/
+				z-index: 30;
+			}
+			
+			.imageFileUpload .img_status {
+				display: inline-block;
+				background: rgba(0, 0, 0, 0.5);
+				position: absolute;
+				left: 0;
+				color: #ffffff;
+				padding: 3px;
+				top: 0;
+			}
+			
+			.imageFileUpload .close {
+				font-size: 24px;
+				font-weight: bolder;
+				position: absolute;
+				right: 0;
+				top: 0;
+				cursor: pointer;
+				z-index: 25;
+			}
+			
+			.imageFileUpload .footer {
+				margin: 30px 0;
+				.el-button {
+					width: 150px;
+				}
+			}
+			
+			.no_img1 {
+				display: inline-block;
+				width: 200px;
+				height: 200px;
+				text-align: center;
+				margin: 10px 20px;
+				background: #e5e5e5 url("./assets/pic.png") no-repeat center;
+				background-size: 10%;
+			}
+			
+			.no_img1 span {
+				width: 100%;
+				line-height: 200px;
+				color: #ababab;
+			}
+			/*影像资料上传1 end*/
+		</style>
+	</head>
+
+	<body>
+		<div class="storeMsg">
+			<!--网点基本信息-->
+			<div class="title">
+				<el-row>
+					<h3>网点基本信息</h3>
+					<p>申请编号:{{msg}}</p>
+				</el-row>
+			</div>
+			<div class="content">
+				<el-form :model="ruleForm" ref="ruleForm" label-position="left" label-width="121px" class="demo-ruleForm">
+					<el-row :gutter="10">
+						<el-col :xs="24" :sm="12" :md="8" :lg="6">
+							<el-form-item label="网点合同类型" >
+								<el-radio-group v-model="ruleForm.contractType">
+									<el-radio label="0">标准合同</el-radio>
+									<el-radio label="1">非标合同</el-radio>
+								</el-radio-group>
+							</el-form-item>
+						</el-col>
+
+						<el-col :xs="24" :sm="12" :md="8" :lg="6">
+							<el-form-item label="网点类型">
+								<el-radio-group v-model="ruleForm.networkType">
+									<el-radio label="0">个人</el-radio>
+									<el-radio label="1">企业</el-radio>
+								</el-radio-group>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="6">
+							<el-form-item label="所属区域" >
+								<el-select v-model="ruleForm.belongRegion" placeholder="请选择所属区域">
+									<el-option v-for="item in region" :key="item.value" :label="item.region" :value="item.value">
+									</el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="6">
+							<el-form-item label="网点名称" >
+								<el-input :maxlength="30" v-model="ruleForm.networkName" placeholder="请输入网点名称"></el-input>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="6">
+							<el-form-item label="网点联系人" >
+								<el-input :maxlength="30" v-model="ruleForm.networkContact" placeholder="请输入网点联系人"></el-input>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="6">
+							<el-form-item label="联系电话">
+								<el-input :maxlength="11" v-model="ruleForm.contactTel" placeholder="请输入联系电话"></el-input>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :sm="24" :md="16" :lg="12">
+							<el-form-item label="推荐渠道" >
+								<el-col :xs="12" :sm="12" :md="12" :lg="12">
+									<el-select v-model="ruleForm.recommendedID" placeholder="请选择推荐渠道">
+										<el-option v-for="item in recommended" :key="item.value" :label="item.channel" :value="item.value">
+										</el-option>
+									</el-select>
+								</el-col>
+								<el-col :xs="12" :sm="12" :md="12" :lg="12">
+									<el-select v-model="ruleForm.recommendedChannels" placeholder="请选择具体的推荐渠道">
+										<el-option v-for="item in channels" :key="item.value" :label="item.value" :value="item.label">
+										</el-option>
+									</el-select>
+								</el-col>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :sm="24" :md="24" :lg="12">
+							<el-form-item label="联系地址" >
+								<el-col :xs="6" :sm="6" :md="6" :lg="6">
+									<el-input v-model="ruleForm.contactPro" placeholder="请输入省"></el-input>
+								</el-col>
+								<el-col :xs="6" :sm="6" :md="6" :lg="6">
+									<el-input v-model="ruleForm.contactCity" placeholder="请输入市"></el-input>
+								</el-col>
+								<el-col :xs="6" :sm="6" :md="6" :lg="6">
+									<el-input v-model="ruleForm.contactArea" placeholder="请输入区"></el-input>
+								</el-col>
+								<el-col :xs="6" :sm="6" :md="6" :lg="6">
+									<el-input v-model="ruleForm.contactAddress" placeholder="请输入详细联系地址"></el-input>
+								</el-col>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="6">
+							<el-form-item label="业务员姓名">
+								<el-input :maxlength="30" v-model="ruleForm.salesmanName" placeholder="请输入业务员姓名"></el-input>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="6">
+							<el-form-item label="业务员工号" >
+								<el-input :maxlength="9" v-model="ruleForm.salesmanNumber" placeholder="请输入业务员工号"></el-input>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :sm="24" :md="24" :lg="24">
+							<el-form-item label="机器型号" class="addOne">
+								<el-row v-for="machine in machines" :key="machines.id" style="margin-bottom: 10px;">
+									<el-col :xs="12" :sm="12" :md="8" :lg="6">
+										<el-select v-model="machine.machineType" placeholder="请选择机器型号">
+											<el-option v-for="item in machineList" :key="item.value" :label="item.label" :value="item.value">
+											</el-option>
+										</el-select>
+									</el-col>
+								</el-row>
+								<el-button type="primary" class="btn_add" @click="addMachine">添加一台</el-button>
+							</el-form-item>
+						</el-col>
+					</el-row>
+				</el-form>
+			</div>
+
+			<!--周边金融业信息-->
+			<div class="title">
+				<el-row>
+					<h3>
+					周边金融业信息
+					<span>正规金融机构与民间金融均可列入</span>
+				</h3>
+				</el-row>
+			</div>
+			<div class="content">
+				<el-form label-position="left" label-width="121px" class="demo-ruleForm addOne">
+					<el-row :gutter="10" v-for="company in companys" :key="company.value">
+						<el-col :xs="18" :sm="18" :md="8" :lg="6">
+							<el-form-item label="名称" >
+								<el-input :maxlength="30" v-model="company.companyName" placeholder="请输入公司名称"></el-input>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="18" :sm="18" :md="8" :lg="6">
+							<el-form-item label="离店距离" >
+								<el-input :maxlength="30" @keyup.native="checkNum" v-model="company.companyDistance" placeholder="请输入距离">
+									<template slot="append">米</template>
+								</el-input>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-button type="primary" class="btn_add2" @click="addCompany">添加一行</el-button>
+				</el-form>
+			</div>
+
+			<!--店铺经营信息-->
+			<div class="title">
+				<el-row>
+					<h3>店铺经营信息</h3>
+				</el-row>
+			</div>
+			<div class="content">
+				<el-form :model="ruleForm" ref="ruleForm" label-position="left" label-width="121px" class="demo-ruleForm">
+					<el-row :gutter="10">
+						<el-col :xs="24" :sm="12" :md="8" :lg="6">
+							<el-form-item label="是否品牌加盟店" >
+								<el-radio-group v-model="ruleForm.isJoin">
+									<el-radio label="0">是</el-radio>
+									<el-radio label="1">否</el-radio>
+								</el-radio-group>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="6">
+							<el-form-item label="商户类型" >
+								<el-select v-model="ruleForm.businessType" placeholder="请选择商户类型">
+									<el-option v-for="item in businessList" :key="item.value" :label="item.merchantType" :value="item.value">
+									</el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="6">
+							<el-form-item label="成立时间">
+								<el-date-picker v-model="ruleForm.createTime" type="date" placeholder="选择日期" :picker-options="pickerOptions0">
+								</el-date-picker>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="6">
+							<el-form-item label="开业时间" >
+								<el-date-picker v-model="ruleForm.startTime" type="date" placeholder="选择日期" :picker-options="pickerOptions0">
+								</el-date-picker>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :sm="24" :md="24" :lg="24">
+							<el-form-item label="注册地址">
+								<el-checkbox-group v-model="ruleForm.changeAddr">
+									<el-checkbox label="与联系地址相同" name="type"></el-checkbox>
+								</el-checkbox-group>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :sm="24" :md="24" :lg="18">
+							<el-form-item label="" >
+								<el-row :gutter="10">
+									<el-col :xs="6" :sm="6" :md="6" :lg="6">
+										<el-input v-model="ruleForm.registeredPro" placeholder="请输入省"></el-input>
+									</el-col>
+									<el-col :xs="6" :sm="6" :md="6" :lg="6">
+										<el-input v-model="ruleForm.registeredCity" placeholder="请输入市"></el-input>
+									</el-col>
+									<el-col :xs="6" :sm="6" :md="6" :lg="6">
+										<el-input v-model="ruleForm.registeredArea" placeholder="请输入区"></el-input>
+									</el-col>
+									<el-col :xs="6" :sm="6" :md="6" :lg="6">
+										<el-input v-model="ruleForm.registeredAddress" placeholder="请输入详细联系地址"></el-input>
+									</el-col>
+								</el-row>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="6">
+							<el-form-item label="邮政编码">
+								<el-input :maxlength="6" v-model="ruleForm.zipCode" placeholder="请输入正确邮政编码"></el-input>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="6">
+							<el-form-item label="法人姓名" >
+								<el-input :maxlength="30" v-model="ruleForm.legalName" placeholder="请输入法人姓名"></el-input>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="6">
+							<el-form-item label="法人电话">
+								<el-input v-model="ruleForm.legalTel" placeholder="请输入法人电话"></el-input>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="6">
+							<el-form-item label="法人身份证号" >
+								<el-input :maxlength="18" v-model="ruleForm.legalId" placeholder="请输入法人身份证号"></el-input>
+							</el-form-item>
+						</el-col>
+
+					</el-row>
+					<el-row :gutter="10">
+						<el-col :xs="24" :sm="12" :md="8" :lg="6">
+							<el-form-item label="近三月平均营业额" >
+								<el-input :maxlength="30" v-model="ruleForm.threeMoney" placeholder="请输入近三月平均营业额">
+									<template slot="append">万元</template>
+								</el-input>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="6">
+							<el-form-item label="去年全年营业额" >
+								<el-input :maxlength="30" v-model="ruleForm.yearMoney" placeholder="请输入去年全年营业额">
+									<template slot="append">万元</template>
+								</el-input>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-row :gutter="10">
+						<el-col :xs="24" :sm="12" :md="8" :lg="6">
+							<el-form-item label="主营商品1" >
+								<el-input :maxlength="30" v-model="ruleForm.productName1" placeholder="请输入商品名称">
+								</el-input>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="6">
+							<el-form-item label="均价" >
+								<el-input :maxlength="30" v-model="ruleForm.productPrice1" placeholder="请输入商品价格">
+									<template slot="append">元</template>
+								</el-input>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-row :gutter="10">
+						<el-col :xs="24" :sm="12" :md="8" :lg="6">
+							<el-form-item label="主营商品2" >
+								<el-input :maxlength="30" v-model="ruleForm.productName2" placeholder="请输入商品名称">
+								</el-input>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="6">
+							<el-form-item label="均价">
+								<el-input :maxlength="30" v-model="ruleForm.productPrice2" placeholder="请输入商品价格">
+									<template slot="append">元</template>
+								</el-input>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-row :gutter="10">
+						<el-col :xs="24" :sm="12" :md="8" :lg="6">
+							<el-form-item label="主营商品3">
+								<el-input :maxlength="30" v-model="ruleForm.productName3" placeholder="请输入商品名称">
+								</el-input>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="6">
+							<el-form-item label="均价" >
+								<el-input :maxlength="30" v-model="ruleForm.productPrice3" placeholder="请输入商品价格">
+									<template slot="append">元</template>
+								</el-input>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-row :gutter="10">
+						<el-col :xs="24" :sm="12" :md="8" :lg="6">
+							<el-form-item label="店铺日均人流量" >
+								<el-input v-model="ruleForm.dailyPeople" placeholder="请输入店铺日均人流量">
+								</el-input>
+							</el-form-item>
+						</el-col>
+					</el-row>
+				</el-form>
+			</div>
+
+			<!--申请人信息-->
+			<div class="title">
+				<el-row>
+					<h3>申请人信息</h3>
+				</el-row>
+			</div>
+			<div class="content">
+				<el-form :model="ruleForm" ref="ruleForm" label-position="left" label-width="121px" class="demo-ruleForm">
+					<el-row :gutter="10">
+						<el-col :xs="24" :sm="12" :md="8" :lg="6">
+							<el-form-item label="申请人姓名">
+								<el-input :maxlength="30" v-model="ruleForm.applicantName" placeholder="请输入申请人姓名"></el-input>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="6">
+							<el-form-item label="身份证号" >
+								<el-input :maxlength="30" v-model="ruleForm.idNumber" placeholder="请输入身份证号"></el-input>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="6">
+							<el-form-item label="健康状况" >
+								<el-select v-model="ruleForm.healthStatus" placeholder="请选择健康状况">
+									<el-option v-for="item in healthList" :key="item.value" :label="item.healthStatus" :value="item.healthValue">
+									</el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="6">
+							<el-form-item label="申请人学历" >
+								<el-select v-model="ruleForm.applicantDegree" placeholder="请选择申请人学历">
+									<el-option v-for="item in degrees" :key="item.value" :label="item.degree" :value="item.degreeValue">
+									</el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="6">
+							<el-form-item label="婚姻状况" >
+								<el-select v-model="ruleForm.maritalStatus" placeholder="请选择婚姻状况">
+									<el-option v-for="item in maritalList" :key="item.value" :label="item.maritalStatus" :value="item.maritalValue">
+									</el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :sm="24" :md="24" :lg="18">
+							<el-form-item label="申请人户籍地址" >
+								<el-col :xs="6" :sm="6" :md="6" :lg="6">
+									<el-input v-model="ruleForm.applicantPro" placeholder="请输入省"></el-input>
+								</el-col>
+								<el-col :xs="6" :sm="6" :md="6" :lg="6">
+									<el-input v-model="ruleForm.applicantCity" placeholder="请输入市"></el-input>
+								</el-col>
+								<el-col :xs="6" :sm="6" :md="6" :lg="6">
+									<el-input v-model="ruleForm.applicantArea" placeholder="请输入区"></el-input>
+								</el-col>
+								<el-col :xs="6" :sm="6" :md="6" :lg="6">
+									<el-input v-model="ruleForm.applicantResAddress" placeholder="请输入详细联系地址"></el-input>
+								</el-col>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :sm="24" :md="24" :lg="18">
+							<el-form-item label="申请人现居住地址" >
+								<el-col :xs="6" :sm="6" :md="6" :lg="6">
+									<el-input v-model="ruleForm.applicantCurrPro" placeholder="请输入省"></el-input>
+								</el-col>
+								<el-col :xs="6" :sm="6" :md="6" :lg="6">
+									<el-input v-model="ruleForm.applicantCurrCity" placeholder="请输入市"></el-input>
+								</el-col>
+								<el-col :xs="6" :sm="6" :md="6" :lg="6">
+									<el-input v-model="ruleForm.applicantCurrArea" placeholder="请输入区"></el-input>
+								</el-col>
+								<el-col :xs="6" :sm="6" :md="6" :lg="6">
+									<el-input v-model="ruleForm.applicantCurrAddress" placeholder="请输入详细联系地址"></el-input>
+								</el-col>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="6">
+							<el-form-item label="申请人占股比列" >
+								<el-input v-model="ruleForm.applicantPercent" placeholder="请输入申请人占股比列">
+									<template slot="append">%</template>
+								</el-input>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-row :gutter="10">
+						<el-col :xs="24" :sm="24" :md="24" :lg="18">
+							<el-form-item label="联系人信息" >
+								<el-form :model="ruleForm" ref="ruleForm" label-position="center" label-width="70px" class="demo-ruleForm">
+									<el-row style="margin-bottom: 20px;">
+										<el-col :xs="6" :sm="6" :md="6" :lg="6">
+											<el-form-item label="关系">
+												<el-select v-model="ruleForm.msgBind1" placeholder="请选择与联系人之间的关系">
+													<el-option v-for="item in relationList" :key="item.value" :label="item.relationship" :value="item.relationValue">
+													</el-option>
+												</el-select>
+											</el-form-item>
+										</el-col>
+										<el-col :xs="6" :sm="6" :md="6" :lg="6">
+											<el-form-item label="姓名" >
+												<el-input :maxlength="30" v-model="ruleForm.msgName1"></el-input>
+											</el-form-item>
+										</el-col>
+										<el-col :xs="6" :sm="6" :md="6" :lg="6">
+											<el-form-item label="手机号" >
+												<el-input :maxlength="11" v-model="ruleForm.msgTel1"></el-input>
+											</el-form-item>
+										</el-col>
+									</el-row>
+									<el-row style="margin-bottom: 20px;">
+										<el-col :xs="6" :sm="6" :md="6" :lg="6">
+											<el-form-item label="关系">
+												<el-select v-model="ruleForm.msgBind2" placeholder="请选择与联系人之间的关系">
+													<el-option v-for="item in relationList" :key="item.value" :label="item.relationship" :value="item.relationValue">
+													</el-option>
+												</el-select>
+											</el-form-item>
+										</el-col>
+										<el-col :xs="6" :sm="6" :md="6" :lg="6">
+											<el-form-item label="姓名" >
+												<el-input :maxlength="30" v-model="ruleForm.msgName2"></el-input>
+											</el-form-item>
+										</el-col>
+										<el-col :xs="6" :sm="6" :md="6" :lg="6">
+											<el-form-item label="手机号" >
+												<el-input :maxlength="11" v-model="ruleForm.msgTel2"></el-input>
+											</el-form-item>
+										</el-col>
+									</el-row>
+									<el-row style="margin-bottom: 20px;">
+										<el-col :xs="6" :sm="6" :md="6" :lg="6">
+											<el-form-item label="关系" >
+												<el-select v-model="ruleForm.msgBind3" placeholder="请选择与联系人之间的关系">
+													<el-option v-for="item in relationList" :key="item.value" :label="item.relationship" :value="item.relationValue">
+													</el-option>
+												</el-select>
+											</el-form-item>
+										</el-col>
+										<el-col :xs="6" :sm="6" :md="6" :lg="6">
+											<el-form-item label="姓名">
+												<el-input :maxlength="30" v-model="ruleForm.msgName3"></el-input>
+											</el-form-item>
+										</el-col>
+										<el-col :xs="6" :sm="6" :md="6" :lg="6">
+											<el-form-item label="手机号" >
+												<el-input :maxlength="11" v-model="ruleForm.msgTel3"></el-input>
+											</el-form-item>
+										</el-col>
+									</el-row>
+								</el-form>
+							</el-form-item>
+						</el-col>
+					</el-row>
+				</el-form>
+			</div>
+			<!--银行卡信息验证-->
+			<div class="title">
+				<el-row>
+					<h3>银行卡信息验证</h3>
+				</el-row>
+			</div>
+			<div class="content">
+				<el-form :model="ruleForm" ref="ruleForm" label-position="left" label-width="121px" class="demo-ruleForm">		
+
+				<el-row :gutter="10">
+					<el-col :xs="24" :sm="12" :md="8" :lg="6">
+						<el-form-item label="银行卡卡号" >
+							<el-input :maxlength="19" v-model="ruleForm.bankCardNumber" placeholder="请输入银行卡卡号">
+							</el-input>
+						</el-form-item> 
+					</el-col>
+					<el-col :xs="24" :sm="24" :md="24" :lg="12">
+						
+							<el-col :xs="6" :sm="6" :md="6" :lg="6">
+							<el-form-item label="开户行省份" >
+								<el-input v-model="ruleForm.bankProvice" placeholder="请输入省"></el-input>
+								</el-form-item>
+							</el-col>
+							
+							<el-col :xs="6" :sm="6" :md="6" :lg="6">
+							<el-form-item label="开户行城市" >
+								<el-input v-model="ruleForm.bankCity" placeholder="请输入市"></el-input>
+								</el-form-item>
+							</el-col>
+							
+						
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="6">
+						<el-form-item label="开户支行名称" >
+							<el-input v-model="ruleForm.bankName" placeholder="请输入开户支行名称">
+							</el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="6">
+						<el-form-item label="预留手机号">
+							<el-input v-model="ruleForm.reserPhone" :maxlength="11" placeholder="请输入预留手机号"></el-input>
+						</el-form-item>
+					</el-col> 
+				</el-row>
+				</el-form>	
+			</div>
+
+			<!--入住终端机网络优势-->
+			<div class="title">
+				<el-row>
+					<h3>入住终端机网络优势</h3>
+				</el-row>
+			</div>
+			<div class="content">
+				<el-form :model="ruleForm" ref="ruleForm" class="demo-ruleForm">
+					<el-row :gutter="10">
+						<el-col :xs="24" :sm="24" :md="18" :lg="14">
+							<el-form-item >
+								<el-checkbox-group v-model="ruleForm.goodpoint">
+									<el-checkbox label="地理位置好"></el-checkbox>
+									<el-checkbox label="客户资源丰富"></el-checkbox>
+									<el-checkbox label="经营模式独特"></el-checkbox>
+									<el-checkbox label="商品质量优异"></el-checkbox>
+									<el-checkbox label="品牌知名度高"></el-checkbox>
+									<el-checkbox label="其他"></el-checkbox>
+								</el-checkbox-group>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="6" :sm="6" :md="6" :lg="6">
+							<el-form-item>
+								<el-input :maxlength="200" v-model="ruleForm.name" placeholder="请列举其他优势"></el-input>
+							</el-form-item>
+						</el-col>
+					</el-row>
+				</el-form>
+			</div>
+
+		</div>
+		<!--资料上传页面1-->
+		<div class="imageFileUpload">
+			<!--影像文件上传-->
+			<div>
+				<div class="title">
+					<el-row>
+						<h3>影像文件上传</h3>
+					</el-row>
+				</div>
+				<div class="content">
+					<el-row>
+						<!--个人资料-->
+						<el-col :span="12" style="margin:10px 0">
+							<div class="img_title">
+								<div>
+									<span style="margin: 0 20px 0 24px;">个人资料：</span>
+									<span v-if="!files0.length">未选择任何文件</span>
+									<span v-else>一共选择{{files0.length}}个文件</span>
+									<!-- <input type="button" value="清空图片" @click="clearAll" class="clear_buttton" /> -->
+								</div>
+								<div class="img_item_box" v-for='(file,index) in files0' @click="getIndex(index)" style="float: left">
+									<img :src='file.imgSrc' alt="" @click="showModal(file.imgSrc,0)" style="width: 200px;">
+									<span class="img_name" v-html="file.name"></span>
+
+									<!-- <vue-loading type="bars" color="#d9544e" :size="{ width: '20px', height: '20px' }"></vue-loading> -->
+
+								</div>
+								<div>
+									<div class="no_img1" v-show="files0.length<1">
+										<span>身份证正面</span>
+									</div>
+									<div class="no_img1" v-show="files0.length<2">
+										<span>身份证反面</span>
+									</div>
+									<div class="no_img1" v-show="files0.length<3">
+										<span>手持身份证</span>
+									</div>
+								</div>
+							</div>
+						</el-col>
+						<!--销售产品资料-->
+						<el-col :span="12" style="margin:10px 0">
+							<div class="img_title">
+								<div>
+									<span style="margin: 0 20px 0 24px;">销售产品资料：</span>
+									<vue-file-upload url="/api/terminal/uploadImg" ref="vueFileUploader1" v-bind:events='cbEvents1' v-bind:filters="filters" v-bind:request-options="reqopts1" v-on:onAdd="onAddItem1">
+									</vue-file-upload>
+									<span v-if="!files1.length">未选择任何文件</span>
+									<span v-else>一共选择{{files1.length}}个文件</span>
+									<!-- <input type="button" value="清空图片" @click="clearAll" class="clear_buttton" /> -->
+								</div>
+								<div class="img_item_box" v-for='(file,index) in files1' @click="getIndex(index)" style="float: left">
+									<img :src='file.imgSrc' alt="" @click="showModal(file.imgSrc,1)" style="width: 200px;">
+									<span class="img_name" v-html="file.name"></span>
+
+								</div>
+								<div>
+									<div class="no_img1" v-show="files1.length<1">
+										<span>质检报告复印件</span>
+									</div>
+									<div class="no_img1" v-show="files1.length<2">
+										<span>商标注册受理书</span>
+									</div>
+									<div class="no_img1" v-show="files1.length<3">
+										<span>产品清单</span>
+									</div>
+								</div>
+							</div>
+						</el-col>
+
+						<!--企业经营证明文件-->
+						<el-col :span="24" style="margin:10px 0">
+							<div class="img_title">
+								<div>
+									<span style="margin: 0 20px 0 24px;">企业经营证明文件：</span>
+									<vue-file-upload url="/api/terminal/uploadImg" ref="vueFileUploader2" v-bind:events='cbEvents2' v-bind:filters="filters" v-bind:request-options="reqopts2" v-on:onAdd="onAddItem2">
+									</vue-file-upload>
+									<span v-if="!files2.length">未选择任何文件</span>
+									<span v-else>一共选择{{files2.length}}个文件</span>
+									<!-- <input type="button" value="清空图片" @click="clearAll" class="clear_buttton" /> -->
+								</div>
+								<div class="img_item_box" v-for='(file,index) in files2' @click="getIndex(index)" style="float: left">
+									<img :src='file.imgSrc' alt="" @click="showModal(file.imgSrc,2)" style="width: 200px;">
+									<span class="img_name" v-html="file.name"></span>
+
+								</div>
+								<div>
+									<div class="no_img1" v-show="files2.length<1">
+										<span>营业执照</span>
+									</div>
+									<div class="no_img1" v-show="files2.length<2">
+										<span>纳税人资格证明</span>
+									</div>
+									<div class="no_img1" v-show="files2.length<3">
+										<span>组织机构代码证</span>
+									</div>
+									<div class="no_img1" v-show="files2.length<4">
+										<span>特殊商品资质证明</span>
+									</div>
+									<div class="no_img1" v-show="files2.length<5">
+										<span>法人身份证正面</span>
+									</div>
+									<div class="no_img1" v-show="files2.length<6">
+										<span>法人身份证反面</span>
+									</div>
+								</div>
+							</div>
+						</el-col>
+
+						<!--本人在店铺内照片-->
+						<el-col :span="24" style="margin:10px 0">
+							<div class="img_title">
+								<div>
+									<span style="margin: 0 20px 0 24px;">*店主在店铺内照片：</span>
+									<vue-file-upload url="/api/terminal/uploadImg" ref="vueFileUploader3" v-bind:events='cbEvents3' v-bind:filters="filters" v-bind:request-options="reqopts3" v-on:onAdd="onAddItem3">
+									</vue-file-upload>
+									<span v-if="!files3.length">未选择任何文件</span>
+									<span v-else>一共选择{{files3.length}}个文件</span>
+									<!-- <input type="button" value="清空图片" @click="clearAll" class="clear_buttton" /> -->
+								</div>
+								<div class="img_item_box" v-for='(file,index) in files3' @click="getIndex(index)" style="float: left">
+									<img :src='file.imgSrc' alt="" @click="showModal(file.imgSrc,3)" style="width: 200px;">
+									<span class="img_name" v-html="file.name"></span>
+
+								</div>
+								<div>
+									<div class="no_img1" v-show="files3.length<1">
+										<span>营业执照</span>
+									</div>
+									<div class="no_img1" v-show="files3.length<2">
+										<span>纳税人资格证明</span>
+									</div>
+									<div class="no_img1" v-show="files3.length<3">
+										<span>组织机构代码证</span>
+									</div>
+									<div class="no_img1" v-show="files3.length<4">
+										<span>特殊商品资质证明</span>
+									</div>
+								</div>
+							</div>
+						</el-col>
+					</el-row>
+				</div>
+				<!--资料上传页面1-->
+				<!--资料上传页面2-->
+				<div class="imageFileUpload2">
+					<!--影像文件上传-->
+					<div>
+						<div class="title">
+							<el-row>
+								<h3>影像文件上传2</h3>
+							</el-row>
+						</div>
+						<div class="content">
+							<el-row>
+
+								<!--个人资料-->
+								<el-col :span="24">
+									<div class="img_title">
+										<div>
+											<span style="margin: 0 20px 0 24px;">经营情况证明：</span>
+											<vue-file-upload url="/api/terminal/uploadImg" ref="vueFileUploader0" v-bind:events='cbEvents0' v-bind:filters="filters" v-bind:request-options="reqopts0" v-on:onAdd="onAddItem0">
+											</vue-file-upload>
+											<span v-if="!files0.length">未选择任何文件</span>
+											<span v-else>一共选择{{files0.length}}个文件</span>
+											<!-- <input type="button" value="清空图片" @click="clearAll" class="clear_buttton" /> -->
+										</div>
+										<div class="img_item_box" v-for='(file,index) in files4' @click="getIndex(index)" style="float: left">
+											<img :src='file.imgSrc' alt="" @click="showModal(file.imgSrc,4)" style="width: 200px;">
+											<span class="img_name" v-html="file.name"></span>
+											<!-- <span v-text='onStatus(file)' class="img_status"></span> -->
+											<!-- <vue-loading type="bars" color="#d9544e" :size="{ width: '50px', height: '50px' }"></vue-loading> -->
+											<!-- <span class="close" @click="deleteImg(file)"> × </span> -->
+										</div>
+										<div>
+											<div class="no_img1">
+												<span>身份证正面</span>
+											</div>
+											<div class="no_img1">
+												<span>身份证反面</span>
+											</div>
+											<div class="no_img1">
+												<span>手持身份证</span>
+											</div>
+											<div class="no_img1">
+												<span>身份证正面</span>
+											</div>
+											<div class="no_img1">
+												<span>身份证反面</span>
+											</div>
+											<div class="no_img1">
+												<span>手持身份证</span>
+											</div>
+										</div>
+									</div>
+								</el-col>
+
+								<!--销售产品资料-->
+								<el-col :span="24">
+									<div class="img_title">
+										<div>
+											<span style="margin: 0 20px 0 24px;">收入证明：</span>
+											<vue-file-upload url="/api/terminal/uploadImg" ref="vueFileUploader1" v-bind:events='cbEvents1' v-bind:filters="filters" v-bind:request-options="reqopts1" v-on:onAdd="onAddItem1">
+											</vue-file-upload>
+											<span v-if="!files1.length">未选择任何文件</span>
+											<span v-else>一共选择{{files1.length}}个文件</span>
+											<!-- <input type="button" value="清空图片" @click="clearAll" class="clear_buttton" /> -->
+										</div>
+										<div class="img_item_box" v-for='(file,index) in files5' @click="getIndex(index)" style="float: left">
+											<img :src='file.imgSrc' alt="" @click="showModal(file.imgSrc,5)" style="width: 200px;">
+											<span class="img_name" v-html="file.name"></span>
+											<!-- <span class="close" @click="deleteImg(file)"> × </span> -->
+										</div>
+										<div>
+											<div class="no_img1">
+												<span>质检报告复印件</span>
+											</div>
+											<div class="no_img1">
+												<span>商标注册受理书</span>
+											</div>
+											<div class="no_img1">
+												<span>产品清单</span>
+											</div>
+											<div class="no_img1">
+												<span>质检报告复印件</span>
+											</div>
+											<div class="no_img1">
+												<span>商标注册受理书</span>
+											</div>
+											<div class="no_img1">
+												<span>产品清单</span>
+											</div>
+										</div>
+									</div>
+								</el-col>
+
+								<!--企业经营证明文件-->
+								<el-col :span="12">
+									<div class="img_title">
+										<div>
+											<span style="margin: 0 20px 0 24px;">居住证明(任选一个)：</span>
+											<vue-file-upload url="/api/terminal/uploadImg" ref="vueFileUploader2" v-bind:events='cbEvents2' v-bind:filters="filters" v-bind:request-options="reqopts2" v-on:onAdd="onAddItem2">
+											</vue-file-upload>
+											<span v-if="!files2.length">未选择任何文件</span>
+											<span v-else>一共选择{{files2.length}}个文件</span>
+											<!-- <input type="button" value="清空图片" @click="clearAll" class="clear_buttton" /> -->
+										</div>
+										<div class="img_item_box" v-for='(file,index) in files6' @click="getIndex(index)" style="float: left">
+											<img :src='file.imgSrc' alt="" @click="showModal(file.imgSrc,6)" style="width: 200px;">
+											<span class="img_name" v-html="file.name"></span>
+											<!-- <span class="close" @click="deleteImg(file)"> × </span> -->
+										</div>
+										<div>
+											<div class="no_img1">
+												<span>居住证明</span>
+											</div>
+										</div>
+									</div>
+								</el-col>
+
+								<!--本人在店铺内照片-->
+								<el-col :span="12">
+									<div class="img_title">
+										<div>
+											<span style="margin: 0 20px 0 24px;">办公场所证明(任选一个)：</span>
+											<vue-file-upload url="/api/terminal/uploadImg" ref="vueFileUploader3" v-bind:events='cbEvents3' v-bind:filters="filters" v-bind:request-options="reqopts3" v-on:onAdd="onAddItem3">
+											</vue-file-upload>
+											<span v-if="!files3.length">未选择任何文件</span>
+											<span v-else>一共选择{{files3.length}}个文件</span>
+											<!-- <input type="button" value="清空图片" @click="clearAll" class="clear_buttton" /> -->
+										</div>
+										<div class="img_item_box" v-for='(file,index) in files7' @click="getIndex(index)" style="float: left">
+											<img :src='file.imgSrc' alt="" @click="showModal(file.imgSrc,7)" style="width: 200px;">
+											<span class="img_name" v-html="file.name"></span>
+											<span class="close" @click="deleteImg(file)"> × </span>
+										</div>
+										<div>
+											<div class="no_img1">
+												<span>办公场所证明</span>
+											</div>
+											<div class="no_img1">
+												<span>办公场所证明</span>
+											</div>
+										</div>
+									</div>
+								</el-col>
+							</el-row>
+						</div>
+						<!--资料上传页面2-->
+						<!-- 弹出层的模态框 end-->
+						<div class="footer">
+							<el-button type="primary" @click="onSubmit">下一步</el-button>
+						</div>
+					</div>
+				</div>
+	</body>
+	<!-- 先引入 Vue -->
+	<script src="https://unpkg.com/vue/dist/vue.js"></script>
+	<script src="https://cdn.bootcss.com/vue-resource/1.3.4/vue-resource.js"></script>
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<!-- 引入组件库 -->
+	<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+	<script>
+		var VM=new Vue({
+			el: '.storeMsg',
+			data: {
+					files0:[],
+					files1:[],
+					files2:[],
+					files3:[],
+					msg: '',
+					channelsShow: false, //渠道是否显示隐藏
+					changeAddr: '', //与联系地址相同
+					companyStep: '', //判断周边金融信息是否全部不为空
+					machineStep: '',
+					ruleForm: {
+						name: '',
+						contractType: '0', //网点合同类型
+						networkType: '0', //网点类型
+						belongRegion: '', //所属区域
+						networkName: '', //网点名称
+						networkContact: '', //网点联系人
+						contactTel: '', //联系电话
+						recommendedID: '', //推荐渠道
+						recommendedChannels: '', //具体渠道
+						contactPro:'',//联系地址省
+						contactCity:'',//联系地址市
+						contactArea:'',//联系地址区
+						contactAddress: '', //联系地址
+						salesmanName: '', //业务员名字
+						salesmanNumber: '', //业务员工号
+						isJoin: '0', //是否品牌加盟店
+						businessType: '', //商户类型
+						createTime: '', //成立时间
+						startTime: '', //开业时间
+						registeredPro:'',
+						registeredCity:'',
+						registeredArea:'',
+						registeredAddress: '', //注册地址详细地址
+						zipCode: '', //邮政编码
+						legalName: '', //法人姓名
+						legalTel: '', //法人电话
+						legalId: '', //法人身份证号
+						threeMoney: '', //近三月平均营业额
+						yearMoney: '', //去年全年营业额
+						productName1: '', //商品名称1
+						productName2: '', //商品名称2
+						productName3: '', //商品名称3
+						productPrice1: '', //商品价格1
+						productPrice2: '', //商品价格2
+						productPrice3: '', //商品价格3
+						dailyPeople: '', //店铺日均人流量
+						applicantName: '', //申店主姓名
+						idNumber: '', //身份证号
+						healthStatus: '', //健康状况
+						applicantDegree: '', //申请人学历
+						maritalStatus: '', //婚姻状况
+						applicantPro:'',
+						applicantCity:'',
+						applicantArea:'',
+						applicantResAddress: '', //申请人户籍地址
+						applicantCurrPro:'',
+						applicantCurrCity:'',
+						applicantCurrArea:'',
+						applicantCurrAddress: '', //申请人现居住地址
+						applicantPercent: '', //申请人占股比列
+						msgBind1: '', //联系人信息
+						msgBind2: '',
+						msgBind3: '',
+						msgName1: '',
+						msgName2: '',
+						msgName3: '',
+						msgTel1: '',
+						msgTel2: '',
+						msgTel3: '',
+						bankCardNumber: '', //银行卡卡号
+						bankProvice: '', //开户行省
+						bankCity: '', //开户行城市
+						bankName: '', //开户行名字
+						reserPhone: '', //预留手机号
+						verificaCode: '', //验证码
+						goodpoint: [], //终端机网络优势
+
+						list1:[],    // 第一个图片层
+						list2:[],    // 第二个图片层
+					},
+					region: [{
+							region: "华北区",
+							value: "1"
+						},
+						{
+							region: "华东区",
+							value: "2"
+						},
+						{
+							region: "东北区",
+							value: "3"
+						},
+						{
+							region: "华中区",
+							value: "4"
+						},
+						{
+							region: "华南区",
+							value: "5"
+						},
+						{
+							region: "西南区",
+							value: "6"
+						},
+						{
+							region: "西北区",
+							value: "7"
+						},
+						{
+							region: "港澳台",
+							value: "8"
+						}
+					],
+					recommended: [{
+						channel: "全部",
+						value: "0"
+					}, {
+						channel: "外部渠道",
+						value: "1"
+					}, {
+						channel: "内部渠道",
+						value: "2"
+					}, {
+						channel: "无",
+						value: "3"
+					}], //推荐渠道
+					channels: [
+					], //推荐渠道
+					// 	银行开户行
+					bankAddress: {}, //联系地址
+					bankObj: {
+						label: {
+							province: '',
+							city: '',
+							district: ''
+						},
+						default: {
+							province: '北京',
+							city: '北京',
+						},
+						noLabel: true
+					},
+					companys: [
+					],
+					
+					machines: [{
+						machineType: ""
+					}],
+					machineList: [
+					],
+					businessList: [{
+							merchantType: "独资",
+							value: "0001"
+						},
+						{
+							merchantType: "合资",
+							value: "0002"
+						},
+						{
+							merchantType: "其他",
+							value: "0003"
+						},
+						{
+							merchantType: "个体",
+							value: "0004"
+						}
+
+					],
+					healthList: [{
+							healthStatus: "健康",
+							healthValue: "0"
+						},
+						{
+							healthStatus: "一般",
+							healthValue: "1"
+						},
+						{
+							healthStatus: "较差",
+							healthValue: "2"
+						},
+						{
+							healthStatus: "有疾病",
+							healthValue: "3"
+						}
+					],
+					degrees: [{
+							degree: "小学",
+							degreeValue: "0"
+						},
+						{
+							degree: "初中",
+							degreeValue: "1"
+						},
+						{
+							degree: "高中",
+							degreeValue: "2"
+						}, {
+							degree: "大专",
+							degreeValue: "3"
+						}, {
+							degree: "本科",
+							degreeValue: "4"
+						}, {
+							degree: "硕士研究生",
+							degreeValue: "5"
+						}, {
+							degree: "博士研究生",
+							degreeValue: "6"
+						}
+					],
+					maritalList: [{
+						maritalStatus: "未婚",
+						maritalValue: "0"
+					}, {
+						maritalStatus: "已婚",
+						maritalValue: "1"
+					}, {
+						maritalStatus: "离异",
+						maritalValue: "2"
+					}, {
+						maritalStatus: "丧偶",
+						maritalValue: "3"
+					}],
+					relationList: [{
+						relationship: "配偶",
+						relationValue: "1"
+					}, {
+						relationship: "直系亲属",
+						relationValue: "2"
+					}, {
+						relationship: "同事",
+						relationValue: "3"
+					}],
+					pickerOptions0: {
+						disabledDate(time) {
+							return time.getTime() > Date.now();
+						}
+					},
+			},
+			methods: {
+				addMachine() {
+					this.machines.push({
+						machineType: ""
+					});
+				},
+				addCompany() {
+					this.companys.push({
+						companyName: "",
+						companyDistance: ""
+					});
+				},
+				checkNum() {
+					var str = event.target.value;
+					var reg = /[^\d]/;
+					if(reg.test(str)) {
+						return event.target.value = '';
+					} else {
+						return event.target.value;
+					}
+				},
+				getData() {
+					var requestNo = window.location.href.split("=")[1];
+					this.$http({
+						method: "POST",
+						url: "http://10.5.202.119:8860/v/show/obtainData",
+						body: {
+							"requestNo":requestNo,
+						}
+					}).then((res) => {
+						if(res.data.data.appData){
+							var json = res.data.data.appData;
+							this.msg = json.requestNo;
+							this.machines =JSON.parse(json.basicInfo.machineType)//机器型号
+							this.companys = JSON.parse(json.basicInfo.aroundFinancialInfo);
+							this.ruleForm={
+								contractType: json.basicInfo.contractType.toString(), //网点合同类型
+								networkType: json.basicInfo.terminalType.toString(), //网点类型
+								belongRegion: json.basicInfo.terminalArea, //所属区域
+								networkName: json.basicInfo.terminalName, //网点名称
+								networkContact: json.basicInfo.terminalContact, //网点联系人
+								contactTel: json.basicInfo.terminalPhone, //联系电话
+								recommendedID: json.basicInfo.recommendChanel.split("&")[0], //推荐渠道
+								recommendedChannels: json.basicInfo.recommendChanel.split("&")[1], //具体渠道
+								contactPro: json.basicInfo.contactAddress.split("&")[0], //联系地址
+								contactCity: json.basicInfo.contactAddress.split("&")[1], //联系地址
+								contactArea: json.basicInfo.contactAddress.split("&")[2], //联系地址
+								contactAddress: json.basicInfo.contactAddress.split("&")[3], //联系地址
+								salesmanName: json.basicInfo.salesmanName, //业务员名字
+								salesmanNumber:json.basicInfo.salesmanNo, //业务员工号
+
+								isJoin: json.shopManagementInfo.isBrandFranchise.toString(), //是否品牌加盟店
+								businessType: json.shopManagementInfo.merchantType.toString(), //商户类型
+								createTime: new Date(json.shopManagementInfo.createTime), //成立时间
+								startTime: new Date(json.shopManagementInfo.openingTime), //开业时间
+								registeredPro: json.shopManagementInfo.registerAddress.split("&")[0], //注册地址详细地址
+								registeredCity: json.shopManagementInfo.registerAddress.split("&")[1], //注册地址详细地址
+								registeredArea: json.shopManagementInfo.registerAddress.split("&")[2], //注册地址详细地址
+								registeredAddress: json.shopManagementInfo.registerAddress.split("&")[3], //注册地址详细地址
+								zipCode: json.shopManagementInfo.postalCode, //邮政编码
+								legalName: json.shopManagementInfo.legalPersonName, //法人姓名
+								legalTel: json.shopManagementInfo.legalPersonPhone, //法人电话
+								legalId: json.shopManagementInfo.legalPersonIdCard, //法人身份证号
+								threeMoney: json.shopManagementInfo.averageTurnover.toString(), //近三月平均营业额
+								yearMoney: json.shopManagementInfo.totalTurnover.toString(), //去年全年营业额
+								productName1: JSON.parse(json.shopManagementInfo.mainProduct)[0].name, //商品名称1
+								productName2: JSON.parse(json.shopManagementInfo.mainProduct)[1].name, //商品名称2
+								productName3: JSON.parse(json.shopManagementInfo.mainProduct)[2].name, //商品名称3
+								productPrice1: JSON.parse(json.shopManagementInfo.mainProduct)[0].distance, //商品价格1
+								productPrice2: JSON.parse(json.shopManagementInfo.mainProduct)[1].distance, //商品价格2
+								productPrice3: JSON.parse(json.shopManagementInfo.mainProduct)[2].distance, //商品价格3
+								dailyPeople: json.shopManagementInfo.averageDayFlow, //店铺日均人流量
+
+								applicantName: json.proposerInfo.name, //申店主姓名
+								idNumber: json.proposerInfo.idCard, //身份证号
+								healthStatus: json.proposerInfo.healthStatus.toString(), //健康状况
+								applicantDegree: json.proposerInfo.educational.toString(), //申请人学历
+								maritalStatus: json.proposerInfo.maritalStatus.toString(), //婚姻状况
+								applicantPro: json.proposerInfo.nativeAddress.split("&")[0], //申请人户籍地址
+								applicantCity: json.proposerInfo.nativeAddress.split("&")[1], //申请人户籍地址
+								applicantArea: json.proposerInfo.nativeAddress.split("&")[2], //申请人户籍地址
+								applicantResAddress: json.proposerInfo.nativeAddress.split("&")[3], //申请人户籍地址
+								applicantCurrPro: json.proposerInfo.address.split("&")[0], //申请人现居住地址
+								applicantCurrCity: json.proposerInfo.address.split("&")[1], //申请人现居住地址
+								applicantCurrArea: json.proposerInfo.address.split("&")[2], //申请人现居住地址
+								applicantCurrAddress: json.proposerInfo.address.split("&")[3], //申请人现居住地址
+								applicantPercent: json.proposerInfo.shares, //申请人占股比列
+								msgBind1: JSON.parse(json.proposerInfo.contacts)[0].msgBind, //联系人信息
+								msgBind2: JSON.parse(json.proposerInfo.contacts)[1].msgBind,
+								msgBind3: JSON.parse(json.proposerInfo.contacts)[2].msgBind,
+								msgName1: JSON.parse(json.proposerInfo.contacts)[0].msgName,
+								msgName2: JSON.parse(json.proposerInfo.contacts)[1].msgName,
+								msgName3: JSON.parse(json.proposerInfo.contacts)[2].msgName,
+								msgTel1: JSON.parse(json.proposerInfo.contacts)[0].msgTel,
+								msgTel2: JSON.parse(json.proposerInfo.contacts)[1].msgTel,
+								msgTel3: JSON.parse(json.proposerInfo.contacts)[2].msgTel,
+								bankCardNumber: json.bankInfo.bankCard, //银行卡卡号
+								bankProvice: json.bankInfo.openProvince, //开户行省
+								bankCity: json.bankInfo.openCity, //开户行城市
+								bankName: json.bankInfo.subBranchName, //开户行名字
+								reserPhone: json.bankInfo.bankPhone, //预留手机号
+								goodpoint: json.basicInfo.joinSuperiority.split(","), //终端机网络优势
+
+								list1:res.data.data.list1,
+								list2:res.data.data.list2,
+							}
+
+							// 第一页图片数据
+							if(this.ruleForm.list2){
+								this.files0=[];
+								this.files1=[];
+								this.files2=[];
+								this.files3=[];
+								for(var i =0;i<this.ruleForm.list2;i++){
+									if(this.ruleForm.lists1[i].type==1){
+										this.files0.push(this.ruleForm.list2[i])
+									}else if(this.ruleForm.lists1[i].type==2){
+										this.files1.push(this.ruleForm.list2[i])
+									}else if(this.ruleForm.lists1[i].type==3){
+										this.files2.push(this.ruleForm.list2[i])
+									}else if(this.ruleForm.lists1[i].type==4){
+										this.files3.push(this.ruleForm.list2[i])
+									}
+								}
+							}
+							// 第二页图片数据
+							if(this.ruleForm.list1){
+								this.files4=[];
+								this.files5=[];
+								this.files6=[];
+								this.files7=[];
+								for(var i =0;i<this.ruleForm.list1;i++){
+									if(this.ruleForm.list1[i].type==5){
+										this.files4.push(this.ruleForm.list1[i])
+									}else if(this.ruleForm.list1[i].type==6){
+										this.files5.push(this.ruleForm.list1[i])
+									}else if(this.ruleForm.list1[i].type==7){
+										this.files6.push(this.ruleForm.list1[i])
+									}else if(this.ruleForm.list1[i].type==8){
+										this.files7.push(this.ruleForm.list1[i])
+									}
+								}
+							}
+						}
+					}, (res) => {
+						
+					})
+				}
+			},
+			mounted: function() {
+				this.getData();
+			}
+		})
+	</script>
+
+</html>

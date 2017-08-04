@@ -45,7 +45,6 @@
 				checked: false,
 				dialogFormVisible: false,
 				getcode: "获取验证码",
-				getCodeTime:0,
 				getcodeshow: false,
 				dislogin: true,
 				ruleForm: {
@@ -88,13 +87,10 @@
 				}else{
 				var countdown = 60;
 				this.editCode = false;
-				this.getCodeTime++;
-				if(this.getCodeTime>1){
-					this.getCodeTime=2;
-				}
+				
+				
 				this.$http.post(process.env.API + "/getMessageCode", {
 					"userId": this.ruleForm.username,
-					"getMessageCodeFlag":this.getCodeTime
 				}).then((res) => {
 					if(res.data.code == '000000') {
 						if(res.data.data.isFlag == "1") {
