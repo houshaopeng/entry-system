@@ -149,7 +149,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
 						<el-form-item label="商户类型" prop="businessType">
-							<el-select v-model="ruleForm.businessType" placeholder="请选择商户类型">
+							<el-select @change="businessChange" v-model="ruleForm.businessType" placeholder="请选择商户类型">
 								<el-option v-for="item in businessList" :key="item.value" :label="item.value" :value="item.label">
 								</el-option>
 							</el-select>
@@ -549,7 +549,7 @@
 				}
 			};
 			var checkPercent = (rule, value, callback) => {
-				if(!/^\d\.([1-9]{1,2}|[0-9][1-9])$|^[1-9]\d{0,1}(\.\d{1,2}){0,1}$|^100(\.0{1,2}){0,1}$/.test(value)) {
+				if(!/^1\d\.([1-9]{1,2}|[0-9][1-9])$|^[1-9]\d{0,1}(\.\d{1,2}){0,1}$|^100(\.0{1,2}){0,1}$/.test(value)) {
 					return callback(new Error('请输入正确的百分比'));
 				} else {
 					callback();
@@ -1174,6 +1174,9 @@
 				} else {
 					return event.target.value;
 				}
+			},
+			businessChange(){
+				this.ruleForm.applicantPercent = this.ruleForm.businessType == 1||this.ruleForm.businessType == 2? 100 :"";
 			},
 			changeChannel() {
 				this.getChannelUserName();
