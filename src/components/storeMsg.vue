@@ -575,7 +575,7 @@
 					belongRegion: '', //所属区域
 					networkName: '', //网点名称
 					networkContact: '', //网点联系人
-					contactTel: '', //联系电话
+					contactTel:  "", //联系电话
 					recommendedID: '', //推荐渠道
 					recommendedChannels: '', //具体渠道
 					contactAddress: '', //联系地址
@@ -1177,10 +1177,19 @@
 			},
 			changeChannel() {
 				this.getChannelUserName();
-				if(this.ruleForm.recommendedID == 1 || this.ruleForm.recommendedID == 2) {
+				this.ruleForm.recommendedChannels = "";
+				if(this.ruleForm.recommendedID == 1) {
 					this.channelsShow = true;
-
-				} else {
+					this.channels = [{
+						"constant_label":"0",
+						"constant_value":"贵州代理"
+					},{
+						"constant_label":"1",
+						"constant_value":"南京兰翎"
+					}]
+				} else if(this.ruleForm.recommendedID == 2){
+					this.channelsShow = true;
+				}else{
 					this.channelsShow = false;
 					this.ruleForm.recommendedChannels = "";
 				}
@@ -1221,7 +1230,9 @@
 					}
 				}).then((res) => {
 					if(res.data.code == "000000") {
-						this.channels = res.data.data
+						if(this.ruleForm.recommendedID == 2){
+							this.channels = res.data.data
+						}
 					} else {
 						this.$message({
 							type: "error",
@@ -1256,7 +1267,7 @@
 			},
 			// 路由接口调试
 			routerApi() {
-				this.msg1 = JSON.parse(sessionStorage.getItem("userInfo")).requestNo
+				this.msg1 = JSON.parse(sessionStorage.getItem("userInfo")).requestNo;
 				this.$http({
 					method: "POST",
 					url: process.env.API + "/terminal/step",
@@ -1589,7 +1600,7 @@
 
 					}
 					if((this.ruleForm.goodpoint.indexOf("其他") != -1 && this.ruleForm.another) || (this.ruleForm.goodpoint.indexOf("其他") == -1)) {
-					if(valid && (this.address.province != "请选择") && (this.address.city != "请选择") && (this.address.district != "请选择") && (this.address2.province != "请选择") && (this.address2.city != "请选择") && (this.address2.district != "请选择") && (this.address3.province != "请选择") && (this.address3.city != "请选择") && (this.address3.district != "请选择") && (this.address4.province != "请选择") && (this.address4.city != "请选择") && (this.address4.district != "请选择") && (this.companyStep != "") && (this.machineStep != "") && ((this.ruleForm.recommendedID == 1 && this.ruleForm.recommendedChannels != "") || (this.ruleForm.recommendedID == 2 && this.ruleForm.recommendedChannels != "") || (this.ruleForm.recommendedID == 0 && this.ruleForm.recommendedChannels == "") || (this.ruleForm.recommendedID == 3 && this.ruleForm.recommendedChannels == ""))) {
+					if(valid && (this.address.province != "请选择") && (this.address.city != "请选择") && (this.address.district != "请选择") && (this.address2.province != "请选择") && (this.address2.city != "请选择") && (this.address2.district != "请选择") && (this.address3.province != "请选择") && (this.address3.city != "请选择") && (this.address3.district != "请选择") && (this.address4.province != "请选择") && (this.address4.city != "请选择") && (this.address4.district != "请选择") && (this.companyStep != "") && (this.machineStep != "") && ((this.ruleForm.recommendedID == 1 && this.ruleForm.recommendedChannels != "") || (this.ruleForm.recommendedID == 0 && this.ruleForm.recommendedChannels == "") || (this.ruleForm.recommendedID == 3 && this.ruleForm.recommendedChannels == ""))) {
 						this.$http({
 							method: "POST",
 							url: process.env.API + "/terminal/verifyFourElements",
@@ -1772,10 +1783,13 @@
 			Chinaddress
 		},
 		mounted: function() {
+			this.ruleForm.contactTel = JSON.parse(sessionStorage.getItem("userInfo")).telPhone;
+			console.log(JSON.parse(sessionStorage.getItem("userInfo")).telPhone)
 			this.getMachineModel();
 			this.routerApi();
 			this.getMerchantType();
 			this.stepLogin(); //请求暂存数据 渲染页面
+			this.ruleForm.contactTel = JSON.parse(sessionStorage.getItem("userInfo")).telPhone;
 		}
 	}
 </script>

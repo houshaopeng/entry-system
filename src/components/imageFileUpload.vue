@@ -14,7 +14,7 @@
 					<el-col :span="12" style="margin:10px 0">
 						<div class="img_title">
 							<div>
-								<span style="margin: 0 20px 0 24px;">个人资料：</span>
+								<span style="margin: 0 20px 0 24px;">*个人资料：</span>
 								<vue-file-upload url="/terminal-repeater/terminal/uploadImg" ref="vueFileUploader0" v-bind:events='cbEvents0' v-bind:filters="filters" v-bind:request-options="reqopts0" v-on:onAdd="onAddItem0">
 								</vue-file-upload>
 								<span v-if="!files00.length">未选择任何文件</span>
@@ -50,7 +50,7 @@
 					<el-col :span="12" style="margin:10px 0">
 						<div class="img_title">
 							<div>
-								<span style="margin: 0 20px 0 24px;">销售产品资料：</span>
+								<span style="margin: 0 20px 0 24px;">*销售产品的资料：</span>
 								<vue-file-upload url="/terminal-repeater/terminal/uploadImg" ref="vueFileUploader1" v-bind:events='cbEvents1' v-bind:filters="filters" v-bind:request-options="reqopts1" v-on:onAdd="onAddItem1">
 								</vue-file-upload>
 								<span v-if="!files11.length">未选择任何文件</span>
@@ -87,7 +87,7 @@
 					<el-col :span="24" style="margin:10px 0">
 						<div class="img_title">
 							<div>
-								<span style="margin: 0 20px 0 24px;">企业经营证明文件：</span>
+								<span style="margin: 0 20px 0 24px;">*企业经营证明文件：</span>
 								<vue-file-upload url="/terminal-repeater/terminal/uploadImg" ref="vueFileUploader2" v-bind:events='cbEvents2' v-bind:filters="filters" v-bind:request-options="reqopts2" v-on:onAdd="onAddItem2">
 								</vue-file-upload>
 								<span v-if="!files22.length">未选择任何文件</span>
@@ -133,7 +133,7 @@
 					<el-col :span="24" style="margin:10px 0">
 						<div class="img_title">
 							<div>
-								<span style="margin: 0 20px 0 24px;">企业经营证明文件：</span>
+								<span style="margin: 0 20px 0 24px;">*店主在店铺内照片：</span>
 								<vue-file-upload url="/terminal-repeater/terminal/uploadImg" ref="vueFileUploader3" v-bind:events='cbEvents3' v-bind:filters="filters" v-bind:request-options="reqopts3" v-on:onAdd="onAddItem3">
 								</vue-file-upload>
 								<span v-if="!files33.length">未选择任何文件</span>
@@ -154,16 +154,16 @@
 							</div>
 							<div>
 								<div class="no_img1" v-show="files33.length<1">
-									<span>营业执照</span>
+									<span>门面</span>
 								</div>
 								<div class="no_img1" v-show="files33.length<2">
-									<span>纳税人资格证明</span>
+									<span>货柜</span>
 								</div>
 								<div class="no_img1" v-show="files33.length<3">
-									<span>组织机构代码证</span>
+									<span>仓库</span>
 								</div>
 								<div class="no_img1" v-show="files33.length<4">
-									<span>特殊商品资质证明</span>
+									<span>全部员工于店内</span>
 								</div>
 							</div>
 						</div>
@@ -221,7 +221,7 @@
 						this.echoImg();
 					},
 					onAddFileSuccess: (file) => {
-						this.reqopts0.formData.initId = file.size
+						console.log(file)
 					}
 				},
 				cbEvents1: {
