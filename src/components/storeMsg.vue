@@ -1290,6 +1290,10 @@
 							this.obj4.default.city = json.proposerReqInfo.address.split("&")[1];
 							this.obj4.default.district = json.proposerReqInfo.address.split("&")[2];
 
+							this.obj4.default.district = json.proposerReqInfo.address.split("&")[2];
+							this.obj4.default.district = json.proposerReqInfo.address.split("&")[2];
+							this.obj4.default.district = json.proposerReqInfo.address.split("&")[2];
+
 							this.msg1 = json.requestNo;
 							this.machines = JSON.parse(json.basicReqInfo.machineType) //机器型号
 							this.companys = json.basicReqInfo.aroundFinancialInfo;
@@ -1667,6 +1671,9 @@
 							this.obj4.default.province = json.proposerReqInfo.address.split("&")[0];
 							this.obj4.default.city = json.proposerReqInfo.address.split("&")[1];
 							this.obj4.default.district = json.proposerReqInfo.address.split("&")[2];
+
+							this.bankObj.default.province = json.bankReqInfo.openProvince;
+							this.bankObj.default.city = json.bankReqInfo.openCity;
 
 							this.msg1 = json.requestNo;
 							this.machines = JSON.parse(json.basicReqInfo.machineType) //机器型号
