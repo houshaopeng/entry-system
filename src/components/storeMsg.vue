@@ -1,6 +1,12 @@
 <template>
 	<!--资料填写页面-->
 	<div class="storeMsg" >
+		<div class="link_btn">
+				<el-button @click="$router.push({path: '/storeMsg'})" :disabled = "storeMsg">门店信息录入</el-button> ——————
+				<el-button @click="$router.push({path: '/imageFileUpload'})" :disabled = "imageFileUpload">影像资料上传</el-button> ——————
+				<el-button @click="$router.push({path: '/imageFileUpload2'})" :disabled = "imageFileUpload2">影像资料上传</el-button> ——————
+				<el-button @click="$router.push({path: '/loanContract'})" :disabled = "loanContract">借款合同确认</el-button>
+		</div>
 		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-position="left" label-width="121px" class="demo-ruleForm" >
 			<!--网点基本信息-->
 			<div class="title">
@@ -508,6 +514,7 @@
 	export default {
 		name: 'storeMsg',
 		data() {
+			
 			var checkTel = (rule, value, callback) => {
 				if(!value) {
 					return callback(new Error('手机号不能为空'));
@@ -564,6 +571,10 @@
 				}
 			};
 			return {
+				storeMsg:true,
+				imageFileUpload:true,
+				imageFileUpload2:true,
+				loanContract:true,
 				pagedisabled:false,
 				msg1: '',
 				channelsShow: false, //渠道是否显示隐藏
@@ -1782,7 +1793,53 @@
 					})
 				})
 			},
+			// 路由接口调试
+			routerDisable() {
+				this.$http.get(process.env.API + "/terminal/getTerminalType",{
+					headers: {
+						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+					},
+					params: {
+						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo,         //  申请编号 
+					}
+				}).then((res)=>{
+					if(res.data.code=="000000"){
+						if(res.data.data.status == 1){
+							this.storeMsg=false;
+							this.imageFileUpload=true;
+							this.imageFileUpload1=true;
+							this.storeMsg=true;
+						}else if(res.data.data.status == 2){
+							console.log(555)
+							this.storeMsg=false;
 
+							this.imageFileUpload=false;
+							this.imageFileUpload2=true;
+							this.loanContract=true;
+						}else if(res.data.data.status == 3){
+							this.storeMsg=false;
+							this.imageFileUpload=false;
+							this.imageFileUpload2=false;
+							this.loanContract=true;
+						}else if(res.data.data.status == 4){
+							this.storeMsg=false;
+							this.imageFileUpload=false;
+							this.imageFileUpload2=false;
+							this.loanContract=false;
+						}
+					}else{
+						this.$message({
+							type:"error",
+							message:res.data.messages
+						})
+					}
+				},(res)=>{
+					this.$message({
+						type:"error",
+						message:res.data.messages
+					})
+				})
+			},
 		},
 		watch: {
 			changeAddr: function() {
@@ -1805,6 +1862,7 @@
 			Chinaddress1
 		},
 		mounted: function() {
+			this.routerDisable();
 			this.ruleForm.contactTel = JSON.parse(sessionStorage.getItem("userInfo")).telPhone;
 			console.log(JSON.parse(sessionStorage.getItem("userInfo")).telPhone)
 			this.getMachineModel();
@@ -1881,4 +1939,7 @@
 		border: 1px solid #bfcbd9;
 		outline: none;
 	}
+	.link_btn {
+			margin: 20px 0;
+		}
 </style>

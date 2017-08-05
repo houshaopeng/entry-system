@@ -1,30 +1,38 @@
 <template >
-	<!--借款协议-->
-	<div class="loanContract" v-loading="loading" element-loading-text="资料正在审核中，请耐心等待">
-	<div class="loanContract">
-		<div class="title">
-			<el-row>
-				<h3>借款协议</h3>
-			</el-row>
+	<div>
+		<!--借款协议-->
+		<div class="link_btn">
+				<el-button @click="$router.push({path: '/storeMsg'})" :disabled = "storeMsg">门店信息录入</el-button> ——————
+				<el-button @click="$router.push({path: '/imageFileUpload'})" :disabled = "imageFileUpload">影像资料上传</el-button> ——————
+				<el-button @click="$router.push({path: '/imageFileUpload2'})" :disabled = "imageFileUpload2">影像资料上传</el-button> ——————
+				<el-button @click="$router.push({path: '/loanContract'})" :disabled = "loanContract">借款合同确认</el-button>
 		</div>
-		<div class="content">
-			<div class="img_box">
-				<iframe :src="url" width="100%" height="400">
-				</iframe>
-			
+		<div class="loanContract" v-loading="loading" element-loading-text="资料正在审核中，请耐心等待">
+			<div class="loanContract">
+				<div class="title">
+					<el-row>
+						<h3>借款协议</h3>
+					</el-row>
+				</div>
+				<div class="content">
+					<div class="img_box">
+						<iframe :src="url" width="100%" height="400">
+						</iframe>
+					
+					</div>
+					<div class="code">
+						<el-row>
+							<el-checkbox-group v-model="isAgree">
+								<el-checkbox label="我已认真阅读并同意《借款协议》" name="type"></el-checkbox>
+							</el-checkbox-group>
+						</el-row>
+					</div>
+				</div>
+				<div class="footer">
+					<el-button type="primary" @click="onSubmit" :disabled="loading">确认借款</el-button>
+				</div>
 			</div>
-			<div class="code">
-				<el-row>
-					<el-checkbox-group v-model="isAgree">
-						<el-checkbox label="我已认真阅读并同意《借款协议》" name="type"></el-checkbox>
-					</el-checkbox-group>
-				</el-row>
-			</div>
 		</div>
-		<div class="footer">
-			<el-button type="primary" @click="onSubmit" :disabled="loading">确认借款</el-button>
-		</div>
-	</div>
 	</div>
 </template>
 
@@ -35,6 +43,10 @@
 				isAgree: '',
 				url:"",
 				loading:true,
+				storeMsg:true,
+				imageFileUpload:true,
+				imageFileUpload2:true,
+				loanContract:true,
 			}
 		},
 		methods: {
@@ -134,10 +146,57 @@
 					})
 				}
 			},
+			// 路由接口调试
+			routerDisable() {
+				this.$http.get(process.env.API + "/terminal/getTerminalType",{
+					headers: {
+						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+					},
+					params: {
+						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo,         //  申请编号 
+					}
+				}).then((res)=>{
+					if(res.data.code=="000000"){
+						if(res.data.data.status == 1){
+							this.storeMsg=false;
+							this.imageFileUpload=true;
+							this.imageFileUpload1=true;
+							this.storeMsg=true;
+						}else if(res.data.data.status == 2){
+							this.storeMsg=false;
+
+							this.imageFileUpload=false;
+							this.imageFileUpload2=true;
+							this.loanContract=true;
+						}else if(res.data.data.status == 3){
+							this.storeMsg=false;
+							this.imageFileUpload=false;
+							this.imageFileUpload2=false;
+							this.loanContract=true;
+						}else if(res.data.data.status == 4){
+							this.storeMsg=false;
+							this.imageFileUpload=false;
+							this.imageFileUpload2=false;
+							this.loanContract=false;
+						}
+					}else{
+						this.$message({
+							type:"error",
+							message:res.data.messages
+						})
+					}
+				},(res)=>{
+					this.$message({
+						type:"error",
+						message:res.data.messages
+					})
+				})
+			},
 		},
 		mounted: function() {
 			this.routerApi();
 			this.initStatus();
+			this.routerDisable();
 		}
 	}
 </script>
