@@ -578,10 +578,10 @@
 				}
 			};
 			return {
-				storeMsg:true,
-				imageFileUpload:true,
-				imageFileUpload2:true,
-				loanContract:true,
+				storeMsg:null,
+				imageFileUpload:null,
+				imageFileUpload2:null,
+				loanContract:null,
 				pagedisabled:false,
 				msg1: '',
 				channelsShow: false, //渠道是否显示隐藏
