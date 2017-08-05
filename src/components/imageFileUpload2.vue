@@ -216,6 +216,7 @@
 				filters: [{
 					name: "imageFilter",
 					fn(file) {
+						console.log(file.size)
 						if(/^[A-Z]+$/.test(file.name.split(".")[1])) {
 							return false;
 						} else {
@@ -228,7 +229,8 @@
 				{
 					name: "sizeFilter",
 					fn(file) {
-						if(file.size>1024000) {
+						9636683
+						if(file.size>10240000) {
 							alert("图片尺寸过大,请重新提交图片")
 							return false;
 						} else {
