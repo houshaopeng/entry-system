@@ -590,6 +590,7 @@
 				companyStep: '', //判断周边金融信息是否全部不为空
 				machineStep: '',
 				channelChangeId:0,
+				applicationChange:0,
 				ruleForm: {
 					name: '',
 					contractType: '0', //网点合同类型
@@ -1262,7 +1263,10 @@
 				}
 			},
 			businessChange(){
-				this.ruleForm.applicantPercent = this.ruleForm.businessType == 1||this.ruleForm.businessType == 2? '100' :"";
+				this.applicationChange++;
+				if(this.applicationChange>1){
+					this.ruleForm.applicantPercent = this.ruleForm.businessType == 1||this.ruleForm.businessType == 2? '100' :"";
+				}
 			},
 			changeChannel() {
 				this.getChannelUserName();
