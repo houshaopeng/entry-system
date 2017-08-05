@@ -547,6 +547,10 @@
 					}
 				}).then((res)=>{
 					if(res.data.code=="000000"){
+						this.$message({
+							type:"success",
+							message:"资料上传成功，审核中..."
+						})
 						// this.stepLogin();
 						this.$router.push({
 							path: '/loanContract'

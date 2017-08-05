@@ -24,16 +24,16 @@
 						<iframe :src="url" width="100%" height="400">
 						</iframe>
 					</div>
-					<div class="code">
+					<!-- <div class="code">
 						<el-row>
 							<el-checkbox-group v-model="isAgree">
 								<el-checkbox label="我已认真阅读并同意《借款协议》" name="type"></el-checkbox>
 							</el-checkbox-group>
 						</el-row>
-					</div>
+					</div> -->
 				</div>
 				<div class="footer">
-					<el-button type="primary" @click="onSubmit" :disabled="sureTogg">确认借款</el-button>
+					<el-button type="primary" @click="onSubmit" :disabled="sureTogg">完成借款</el-button>
 				</div>
 			</div>
 		</div>
@@ -45,7 +45,7 @@
 	export default {
 		data() {
 			return {
-				isAgree: '',
+				// isAgree: '',
 				sureTogg:true,
 				url:"",
 				allTit:false,
@@ -86,40 +86,42 @@
 			},
 			// 项目状态查询
 			initStatus() {
-				this.$http({
-					method: "POST",
-					url: process.env.API + "/terminal/queryProject",
-					headers: {
-						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
-					},
-					body: {
+				setInterval(()=>{
+					this.$http({
+						method: "POST",
+						url: process.env.API + "/terminal/queryProject",
+						headers: {
+							"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+						},
+						body: {
 
-						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo, //  申请编号
-					}
-				}).then((res) => {
-					if(res.data.code == "000000") {
-						this.loading = true;
-						this.url = res.data.data.h5Url;
-						this.sureTogg = false;
-						this.allTit= true;
-						setTimeout(()=>{
-							this.loading = false;
-						},2000);
-					} else {
+							"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo, //  申请编号
+						}
+					}).then((res) => {
+						if(res.data.code == "000000") {
+							this.loading = true;
+							this.url = res.data.data.h5Url;
+							this.sureTogg = false;
+							this.allTit= true;
+							setTimeout(()=>{
+								this.loading = false;
+							},2000);
+						} else {
+							/*this.$message({
+								type: "info",
+								// message: "资料正在审核中，请耐心等待"
+								message: res.data.messages
+							})*/
+						}
+					}, (res) => {
 						this.$message({
-							type: "info",
-							message: "资料正在审核中，请耐心等待"
+							type: "error",
+							message: res.data.messages
 						})
-					}
-				}, (res) => {
-					this.$message({
-						type: "error",
-						message: res.data.messages
 					})
-				})
+				},60000)
 			},
 			onSubmit() {
-				if(this.isAgree) {
 					this.$http({
 						method: "POST",
 						url: process.env.API + "/terminal/loanSubmit",
@@ -134,7 +136,6 @@
 							message: res.data.messages,
 							type: 'success'
 						});
-
 						/*if(res.data.code == '000000') {
 							this.$message({
 								message: res.data.messages,
@@ -152,12 +153,6 @@
 							type: 'error'
 						})
 					})
-				} else {
-					this.$message({
-						type: "error",
-						message: "请确认是否已确认同意本协议"
-					})
-				}
 			},
 			// 路由接口调试
 			routerDisable() {
