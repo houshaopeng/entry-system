@@ -700,7 +700,7 @@
 						city: '北京',
 					},
 					noLabel: true,
-					disable:true
+					disable:false
 				},
 
 				//推荐渠道
