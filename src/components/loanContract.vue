@@ -119,7 +119,7 @@
 					}).then((res) => {
 						this.$message({
 							message: res.data.messages,
-							type: 'error'
+							type: 'success'
 						});
 
 						/*if(res.data.code == '000000') {
