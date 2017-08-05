@@ -96,7 +96,7 @@
 									</el-select>
 								</el-col>
 							</el-row>
-							<el-button type="primary" class="btn_add" @click="addMachine">添加一台</el-button>
+							<el-button type="primary" class="btn_add" @click="addMachine" :disabled="pagedisabled">添加一台</el-button>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -127,7 +127,7 @@
 							</el-form-item>
 						</el-col>
 					</el-row>
-					<el-button type="primary" class="btn_add2" @click="addCompany">添加一行</el-button>
+					<el-button type="primary" class="btn_add2" @click="addCompany" :disabled="pagedisabled">添加一行</el-button>
 				</div>
 			</div>
 
@@ -475,13 +475,13 @@
 				<el-row :gutter="10">
 					<el-col :xs="24" :sm="24" :md="18" :lg="14">
 						<el-form-item prop="goodpoint">
-							<el-checkbox-group v-model="ruleForm.goodpoint" :disabled="pagedisabled">
-								<el-checkbox label="地理位置好"></el-checkbox>
-								<el-checkbox label="客户资源丰富"></el-checkbox>
-								<el-checkbox label="经营模式独特"></el-checkbox>
-								<el-checkbox label="商品质量优异"></el-checkbox>
-								<el-checkbox label="品牌知名度高"></el-checkbox>
-								<el-checkbox label="其他"></el-checkbox>
+							<el-checkbox-group v-model="ruleForm.goodpoint" >
+								<el-checkbox label="地理位置好" :disabled="pagedisabled"></el-checkbox>
+								<el-checkbox label="客户资源丰富" :disabled="pagedisabled"></el-checkbox>
+								<el-checkbox label="经营模式独特" :disabled="pagedisabled"></el-checkbox>
+								<el-checkbox label="商品质量优异" :disabled="pagedisabled"></el-checkbox>
+								<el-checkbox label="品牌知名度高" :disabled="pagedisabled"></el-checkbox>
+								<el-checkbox label="其他" :disabled="pagedisabled"></el-checkbox>
 							</el-checkbox-group>
 						</el-form-item>
 					</el-col>
@@ -1372,8 +1372,6 @@
 								goodpoint: json.basicReqInfo.joinSuperiority.split(","), //终端机网络优势
 								another:json.basicReqInfo.joinSuperiority.split(",")[json.basicReqInfo.joinSuperiority.split(",").length-1]
 							}
-							console.log(this.ruleForm.recommendedChannels)
-							console.log("-----iou")
 						}
 					} else {
 						this.$message({
