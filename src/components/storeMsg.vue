@@ -94,7 +94,7 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24">
-						<el-form-item label="* 机器型号" class="addOne">
+						<el-form-item label="机器型号" class="addOne startIcon">
 							<el-row v-for="machine in machines" :key="machines.id" style="margin-bottom: 10px;">
 								<el-col :xs="12" :sm="12" :md="8" :lg="6">
 									<el-select v-model="machine.machineType" placeholder="请选择机器型号" :disabled="pagedisabled">
@@ -122,12 +122,12 @@
 				<div class="addOne">
 					<el-row :gutter="10" v-for="company in companys" :key="company.value">
 						<el-col :xs="18" :sm="18" :md="8" :lg="6">
-							<el-form-item label="* 名称">
+							<el-form-item label="名称" class="startIcon2">
 								<el-input :maxlength="30" @keyup.native="checkSpecial1" v-model="company.companyName" placeholder="请输入公司名称" :disabled="pagedisabled"></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :xs="18" :sm="18" :md="8" :lg="6">
-							<el-form-item label="* 离店距离">
+							<el-form-item label="离店距离" class="startIcon2">
 								<el-input :maxlength="30" @keyup.native="checkNum" v-model="company.companyDistance" placeholder="请输入距离" :disabled="pagedisabled">
 									<template slot="append">米</template>
 								</el-input>
@@ -175,7 +175,7 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24">
-						<el-form-item label="* 注册地址">
+						<el-form-item label="注册地址" class="startIcon2">
 							<el-checkbox-group v-model="changeAddr">
 								<el-checkbox label="与联系地址相同" name="type"></el-checkbox>
 							</el-checkbox-group>
@@ -1947,6 +1947,20 @@
 
 <style lang='scss' scoped>
 	.storeMsg {
+		.startIcon:after{
+			content:"*";
+			position:relative;
+			top:-40px;
+			left:0px;
+			color:red;
+		}
+		.startIcon2:after{
+			content:"*";
+			position:relative;
+			top:-30px;
+			left:-10px;
+			color:red;
+		}
 		.title {
 			margin-bottom: 20px;
 			h3 {
@@ -2013,4 +2027,7 @@
 	.link_btn {
 			margin: 20px 0;
 		}
+	.startIcon label.el-form-item__label{
+		margin-left:10px !important;
+	}
 </style>

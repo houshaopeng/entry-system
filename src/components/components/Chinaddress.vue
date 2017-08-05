@@ -1,7 +1,7 @@
 <template>
     <div class='address-picker'>
         <label class="province">
-            <span class="title">*开户行省份</span>
+            <span class="title"><span style="color:red;">*</span>开户行省份</span>
             <span class="option_title" v-if="!options.noLabel">{{t_province}}</span>
             <select v-model="province" @change="changed('province')" :disabled="opts.disable" :class="{bgColor:opts.disable}">
                 <option value='请选择' style="display: none">请选择</option>
@@ -9,7 +9,7 @@
             </select>
         </label>
         <label class="city">
-            <span class="title">*开户行城市</span>
+            <span class="title"><span style="color:red;">*</span>开户行城市</span>
             <span class="option_title" v-if="!options.noLabel">{{t_city}}</span>
             <select v-model="city" @change="changed('city')" :disabled="opts.disable" :class="{bgColor:opts.disable}">
                 <option value='请选择' style="display: none">请选择</option>
