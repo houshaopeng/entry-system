@@ -883,9 +883,7 @@
 					relationValue: "3"
 				}],
 				pickerOptions0: {
-					/*disabledDate(time) {
-						return time.getTime() > Date.now();
-					}*/
+					
 				},
 				rules: {
 					contractType: [{
@@ -1262,18 +1260,10 @@
 				}
 			},
 			businessChange(){
-				if(this.ruleForm.businessType == 1||this.ruleForm.businessType == 2){
-					this.ruleForm.applicantPercent="100"
-				}else{
-					// TODO
-					this.stepLogin();
-				}
-
-				/*this.applicationChange++;
-				console.log(this.applicationChange)
+				this.applicationChange++;
 				if(this.applicationChange>1){
 					this.ruleForm.applicantPercent = this.ruleForm.businessType == 1||this.ruleForm.businessType == 2? '100' :"";
-				}*/
+				}
 			},
 			changeChannel() {
 				this.getChannelUserName();
@@ -1775,23 +1765,12 @@
 							this.obj2.disable = true;
 							this.obj3.disable = true;
 							this.obj4.disable = true;
-						};
-
+						}
 						if(res.data.data.json) {
-							console.log(22)
 							var json = res.data.data.json;
-							if(!json.proposerReqInfo.shares){
-								console.log(444)
-								this.ruleForm.applicantPercent ="";
-							}else{
-								console.log(555)
-								this.ruleForm.applicantPercent=json.proposerReqInfo.shares.toString();
+							if(!json.shopManagementReqInfo.merchantType){
+								this.applicationChange=2;
 							}
-							
-							/*if(!json.shopManagementReqInfo.merchantType){
-								
-								// this.ruleForm.applicantPercent =json.proposerReqInfo.shares;
-							}*/
 							var openTime = json.shopManagementReqInfo.openingTime?new Date(json.shopManagementReqInfo.openingTime):"";
 							var creatTime = json.shopManagementReqInfo.createTime?new Date(json.shopManagementReqInfo.createTime):"";
 							this.obj.default.province = json.basicReqInfo.contactAddress.split("&")[0];
@@ -1875,7 +1854,7 @@
 								another:json.basicReqInfo.joinSuperiority.split(",")[json.basicReqInfo.joinSuperiority.split(",").length-1]
 							}
 						}else{
-							this.ruleForm.applicantPercent ="";
+							this.applicationChange=2;
 						}
 					} else {
 						this.$message({
