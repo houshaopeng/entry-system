@@ -7,6 +7,7 @@
 				<el-button @click="$router.push({path: '/imageFileUpload2'})" :disabled = "imageFileUpload2">影像资料上传</el-button> ——————
 				<el-button @click="$router.push({path: '/loanContract'})" :disabled = "loanContract">借款合同确认</el-button>
 		</div>
+		<hr />
 		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-position="left" label-width="121px" class="demo-ruleForm" >
 			<!--网点基本信息-->
 			<div class="title">
@@ -122,7 +123,7 @@
 					<el-row :gutter="10" v-for="company in companys" :key="company.value">
 						<el-col :xs="18" :sm="18" :md="8" :lg="6">
 							<el-form-item label="* 名称">
-								<el-input :maxlength="30" v-model="company.companyName" placeholder="请输入公司名称" :disabled="pagedisabled"></el-input>
+								<el-input :maxlength="30" @keyup.native="checkSpecial1" v-model="company.companyName" placeholder="请输入公司名称" :disabled="pagedisabled"></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :xs="18" :sm="18" :md="8" :lg="6">
@@ -493,7 +494,7 @@
 					</el-col>
 					<el-col :xs="6" :sm="6" :md="6" :lg="6">
 						<el-form-item>
-							<el-input :maxlength="200" v-model="ruleForm.another" placeholder="请列举其他优势" :disabled="pagedisabled"></el-input>
+							<el-input :maxlength="200" v-model="ruleForm.another" @keyup.native="checkSpecial1" placeholder="请列举其他优势" :disabled="pagedisabled"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -1247,6 +1248,14 @@
 				var str = event.target.value;
 				var reg = /[^\d]/;
 				if(reg.test(str)) {
+					return event.target.value = '';
+				} else {
+					return event.target.value;
+				}
+			},
+			checkSpecial1(){
+				var str = event.target.value;
+				if(!/^[^@\/\'\\\"#$%&\^\*]+$/.test(str)) {
 					return event.target.value = '';
 				} else {
 					return event.target.value;

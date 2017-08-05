@@ -7,12 +7,11 @@
 				<el-button @click="$router.push({path: '/imageFileUpload2'})" :disabled = "imageFileUpload2">影像资料上传</el-button> ——————
 				<el-button @click="$router.push({path: '/loanContract'})" :disabled = "loanContract">借款合同确认</el-button>
 		</div>
-		<div class="loading_box">
-			<vue-loading type="spiningDubbles" color="#d9544e" :size="{ width: '50px', height: '50px' }"></vue-loading>
-		 <div>数据加载中。。。</div>
+		<div class="loading_box" v-show="loading">
+			<vue-loading type="spiningDubbles" color="#ffffff" :size="{ width: '50px', height: '50px' }"></vue-loading>
+		 	<div style="margin-top:20px; font-size:14px;">{{toast}}</div>
 		</div>
 		 
-		<div class="loanContract" element-loading-text="资料正在审核中，请耐心等待">
 			<div class="loanContract">
 				<div class="title">
 					<el-row>
@@ -47,7 +46,8 @@
 			return {
 				isAgree: '',
 				url:"",
-				loading:true,
+				loading:false,
+				toast:"资料加载中...",
 				storeMsg:null,
 				imageFileUpload:null,
 				imageFileUpload2:null,
@@ -95,8 +95,11 @@
 					}
 				}).then((res) => {
 					if(res.data.code == "000000") {
+						this.loading = true;
 						this.url = res.data.data.h5Url;
-						this.loading = false;
+						setTimeout(()=>{
+							this.loading = false;
+						},2000);
 					} else {
 						this.$message({
 							type: "info",
@@ -213,12 +216,18 @@
 .loanContract{
 	width:100%;
 	height:100%;
-	background:red;
 	position:relative;
 	.loading_box{
 		position:absolute;
+		z-index:100;
+		left:50%;
+		top:200px;
+		border-radius:5px;
+		margin-left:-100px;
 		color:#ffffff;
-		padding:50px;
+		width:150px;
+		height:90px;
+		padding:20px;
 		background:rgba(0,0,0,0.5);
 	}
 }
