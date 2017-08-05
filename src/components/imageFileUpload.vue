@@ -16,7 +16,7 @@
 							<div>
 								<span style="margin: 0 20px 0 24px;">*个人资料：</span>
 								<vue-file-upload url="/terminal-repeater/terminal/uploadImg" ref="vueFileUploader0" v-bind:events='cbEvents0' v-bind:filters="filters" v-bind:request-options="reqopts0" v-on:onAdd="onAddItem0" v-show="!onlyRead">
-									
+
 								</vue-file-upload>
 								<span v-if="!files00.length">未选择任何文件</span>
 								<span v-else>一共选择{{files00.length}}个文件</span>
@@ -205,6 +205,18 @@
 						} else {
 							var type = '|' + file.type.slice(file.type.lastIndexOf('/') + 1) + '|';
 							return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+						}
+
+					}
+				},
+				{
+					name: "sizeFilter",
+					fn(file) {
+						if(file.size>1024000) {
+							alert("图片尺寸过大,请重新提交图片")
+							return false;
+						} else {
+							return true;
 						}
 
 					}

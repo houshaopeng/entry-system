@@ -224,6 +224,18 @@
 						}
 
 					}
+				},,
+				{
+					name: "sizeFilter",
+					fn(file) {
+						if(file.size>1024000) {
+							alert("图片尺寸过大,请重新提交图片")
+							return false;
+						} else {
+							return true;
+						}
+
+					}
 				}],
 				//事件回调
 				cbEvents0: {
