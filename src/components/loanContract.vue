@@ -84,41 +84,44 @@
 					})
 				})
 			},
+			getUrl(){
+				this.$http({
+					method: "POST",
+					url: process.env.API + "/terminal/queryProject",
+					headers: {
+						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+					},
+					body: {
+
+						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo, //  申请编号
+					}
+				}).then((res) => {
+					if(res.data.code == "000000") {
+						this.loading = true;
+						this.url = res.data.data.h5Url;
+						this.sureTogg = false;
+						this.allTit= true;
+						setTimeout(()=>{
+							this.loading = false;
+						},2000);
+					} else {
+						/*this.$message({
+							type: "info",
+							// message: "资料正在审核中，请耐心等待"
+							message: res.data.messages
+						})*/
+					}
+				}, (res) => {
+					this.$message({
+						type: "error",
+						message: res.data.messages
+					})
+				})
+			},
 			// 项目状态查询
 			initStatus() {
 				setInterval(()=>{
-					this.$http({
-						method: "POST",
-						url: process.env.API + "/terminal/queryProject",
-						headers: {
-							"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
-						},
-						body: {
-
-							"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo, //  申请编号
-						}
-					}).then((res) => {
-						if(res.data.code == "000000") {
-							this.loading = true;
-							this.url = res.data.data.h5Url;
-							this.sureTogg = false;
-							this.allTit= true;
-							setTimeout(()=>{
-								this.loading = false;
-							},2000);
-						} else {
-							/*this.$message({
-								type: "info",
-								// message: "资料正在审核中，请耐心等待"
-								message: res.data.messages
-							})*/
-						}
-					}, (res) => {
-						this.$message({
-							type: "error",
-							message: res.data.messages
-						})
-					})
+					this.getUrl();
 				},60000)
 			},
 			onSubmit() {
@@ -208,6 +211,7 @@
 			this.routerApi();
 			this.initStatus();
 			this.routerDisable();
+			this.getUrl();
 		}
 	}
 </script>

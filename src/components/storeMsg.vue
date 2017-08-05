@@ -1234,9 +1234,9 @@
 		},
 		methods: {
 			addMachine() {
-				/*this.machines.push({
+				this.machines.push({
 					machineType: ""
-				});*/
+				});
 			},
 			addCompany() {
 				this.companys.push({
@@ -1263,7 +1263,7 @@
 			},
 			businessChange(){
 				this.applicationChange++;
-				if(this.applicationChange>1){
+				if(this.applicationChange>0){
 					this.ruleForm.applicantPercent = this.ruleForm.businessType == 1||this.ruleForm.businessType == 2? '100' :"";
 				}
 			},
@@ -1768,8 +1768,10 @@
 							this.obj4.disable = true;
 						}
 						if(res.data.data.json) {
-
 							var json = res.data.data.json;
+							if(!json.shopManagementReqInfo.merchantType){
+								this.applicationChange=1;
+							}
 							var openTime = json.shopManagementReqInfo.openingTime?new Date(json.shopManagementReqInfo.openingTime):"";
 							var creatTime = json.shopManagementReqInfo.createTime?new Date(json.shopManagementReqInfo.createTime):"";
 							this.obj.default.province = json.basicReqInfo.contactAddress.split("&")[0];
