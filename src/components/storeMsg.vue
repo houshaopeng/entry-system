@@ -1031,6 +1031,9 @@
 						required: true,
 						message: '请输入店铺日均人流量',
 						trigger: 'blur'
+					}, {
+						validator: checkNum,
+						trigger: 'blur'
 					}],
 					applicantName: [{
 						required: true,

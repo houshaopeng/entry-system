@@ -194,7 +194,7 @@
 </template>
 
 <script>
-	import VueFileUpload from './components/vue-file-upload.vue'    
+	import VueFileUpload from './components/vue-file-upload.vue'
 	import vueLoading from 'vue-loading-template'
 	import Modal from './components/modal.vue'
 	export default {
@@ -252,7 +252,7 @@
 						this.echoImg();
 					},
 					onAddFileSuccess: (file) => {
-						
+
 					}
 				},
 				cbEvents1: {
@@ -453,7 +453,7 @@
 						"imgNo": file.imgNo
 					}
 				}).then((res) => {
-					
+
 				}, (res) => {
 					this.$message({
 						type: "error",
@@ -499,11 +499,16 @@
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
 					params: {
-						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo,         //  申请编号 
+						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo,         //  申请编号
 					}
 				}).then((res)=>{
 					if(res.data.code=="000000"){
-					
+						if(res.data.data.terminalType == 0) {
+							this.imgText = "提供6个月个人流水";
+						}else{
+							this.imgText = "提供6个月银行流水";
+						}
+							;
 						console.log(res.data.data);
 					}else{
 						this.$message({
