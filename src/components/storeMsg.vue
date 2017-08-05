@@ -1815,11 +1815,9 @@
 							this.storeMsg=false;
 							this.imageFileUpload=true;
 							this.imageFileUpload1=true;
-							this.storeMsg=true;
+							this.loanContract=true;
 						}else if(res.data.data.status == 2){
-							console.log(555)
 							this.storeMsg=false;
-
 							this.imageFileUpload=false;
 							this.imageFileUpload2=true;
 							this.loanContract=true;
