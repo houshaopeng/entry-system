@@ -570,6 +570,13 @@
 					callback();
 				}
 			};
+			var checkSpecial = (rule, value, callback) => {
+				if(!/^[^@\/\'\\\"#$%&\^\*]+$/.test(value)) {
+					return callback(new Error('不能输入特殊字符'));
+				} else {
+					callback();
+				}
+			};
 			return {
 				storeMsg:true,
 				imageFileUpload:true,
@@ -880,9 +887,6 @@
 					}
 				},
 				rules: {
-					name: [{
-						required: true,
-					}],
 					contractType: [{
 						required: true,
 						message: '请选择网点合同类型',
@@ -902,10 +906,16 @@
 						required: true,
 						message: '请输入网点名称',
 						trigger: 'blur'
+					},{
+						validator: checkSpecial,
+						trigger: 'blur'
 					}],
 					networkContact: [{
 						required: true,
 						message: '请输入网点联系人',
+						trigger: 'blur'
+					},{
+						validator: checkSpecial,
 						trigger: 'blur'
 					}],
 					contactTel: [{
@@ -922,10 +932,16 @@
 						required: true,
 						message: '请输入具体联系地址',
 						trigger: 'blur'
+					},{
+						validator: checkSpecial,
+						trigger: 'blur'
 					}],
 					salesmanName: [{
 						required: true,
 						message: '请输入业务员姓名',
+						trigger: 'blur'
+					},{
+						validator: checkSpecial,
 						trigger: 'blur'
 					}],
 					salesmanNumber: [{
@@ -962,6 +978,9 @@
 						required: true,
 						message: '请输入详细地址',
 						trigger: 'blur'
+					},{
+						validator: checkSpecial,
+						trigger: 'blur'
 					}],
 					zipCode: [{
 						required: true,
@@ -971,6 +990,9 @@
 					legalName: [{
 						required: true,
 						message: '请输入法人姓名',
+						trigger: 'blur'
+					},{
+						validator: checkSpecial,
 						trigger: 'blur'
 					}],
 					legalTel: [{
@@ -1003,15 +1025,24 @@
 						required: true,
 						message: '请输入商品名',
 						trigger: 'blur'
+					},{
+						validator: checkSpecial,
+						trigger: 'blur'
 					}],
 					productName2: [{
 						required: true,
 						message: '请输入商品名',
 						trigger: 'blur'
+					},{
+						validator: checkSpecial,
+						trigger: 'blur'
 					}],
 					productName3: [{
 						required: true,
 						message: '请输入商品名',
+						trigger: 'blur'
+					},{
+						validator: checkSpecial,
 						trigger: 'blur'
 					}],
 					productPrice1: [{
@@ -1050,6 +1081,9 @@
 						required: true,
 						message: '请输入申请人姓名',
 						trigger: 'blur'
+					},{
+						validator: checkSpecial,
+						trigger: 'blur'
 					}],
 					idNumber: [{
 						required: true,
@@ -1075,10 +1109,16 @@
 						required: true,
 						message: '请输入申请人户籍地址',
 						trigger: 'blur'
+					},{
+						validator: checkSpecial,
+						trigger: 'blur'
 					}],
 					applicantCurrAddress: [{
 						required: true,
 						message: '请输入申请人现居住地址',
+						trigger: 'blur'
+					},{
+						validator: checkSpecial,
 						trigger: 'blur'
 					}],
 					applicantPercent: [{
@@ -1108,15 +1148,24 @@
 						required: true,
 						message: '请输入联系人姓名',
 						trigger: 'blur'
+					},{
+						validator: checkSpecial,
+						trigger: 'blur'
 					}],
 					msgName2: [{
 						required: true,
 						message: '请输入联系人姓名',
 						trigger: 'blur'
+					},{
+						validator: checkSpecial,
+						trigger: 'blur'
 					}],
 					msgName3: [{
 						required: true,
 						message: '请输入联系人姓名',
+						trigger: 'blur'
+					},{
+						validator: checkSpecial,
 						trigger: 'blur'
 					}],
 					msgTel1: [{
@@ -1155,6 +1204,9 @@
 					bankName: [{
 						required: true,
 						message: '请输入开户行名称',
+						trigger: 'blur'
+					},{
+						validator: checkSpecial,
 						trigger: 'blur'
 					}],
 					reserPhone: [{
