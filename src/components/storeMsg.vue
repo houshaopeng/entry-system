@@ -249,7 +249,7 @@
 				</el-row> -->
 				<el-row :gutter="10">
 					<el-col :xs="24" :sm="12" :md="8" :lg="6">
-						<el-form-item label="主营商品2" prop="productName1">
+						<el-form-item label="主营商品1" prop="productName1">
 							<el-input :maxlength="30" v-model="ruleForm.productName1" placeholder="请输入商品名称" :disabled="pagedisabled">
 							</el-input>
 						</el-form-item>
