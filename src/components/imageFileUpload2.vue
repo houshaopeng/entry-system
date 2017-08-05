@@ -194,7 +194,7 @@
 </template>
 
 <script>
-	import VueFileUpload from './components/vue-file-upload1.vue'    
+	import VueFileUpload from './components/vue-file-upload.vue'
 	import vueLoading from 'vue-loading-template'
 	import Modal from './components/modal.vue'
 	export default {
@@ -216,7 +216,6 @@
 				filters: [{
 					name: "imageFilter",
 					fn(file) {
-						console.log(file.size)
 						if(/^[A-Z]+$/.test(file.name.split(".")[1])) {
 							return false;
 						} else {
@@ -253,7 +252,7 @@
 						this.echoImg();
 					},
 					onAddFileSuccess: (file) => {
-						
+
 					}
 				},
 				cbEvents1: {
@@ -454,7 +453,7 @@
 						"imgNo": file.imgNo
 					}
 				}).then((res) => {
-					
+
 				}, (res) => {
 					this.$message({
 						type: "error",
@@ -464,7 +463,6 @@
 			},
 			// 路由接口调试
 			routerApi() {
-				console.log(JSON.parse(sessionStorage.getItem("userInfo")).requestNo)
 				this.$http({
 					method: "POST",
 					url: process.env.API + "/terminal/step",
@@ -494,7 +492,37 @@
 				})
 			},
 
-			
+			//个人和企业接口获取
+			personEnterprise(){
+				this.$http.get(process.env.API + "/terminal/getTerminalType",{
+					headers: {
+						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+					},
+					params: {
+						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo,         //  申请编号
+					}
+				}).then((res)=>{
+					if(res.data.code=="000000"){
+						if(res.data.data.terminalType == 0) {
+							this.imgText = "提供6个月个人流水";
+						}else{
+							this.imgText = "提供6个月银行流水";
+						}
+							;
+						console.log(res.data.data);
+					}else{
+						this.$message({
+							type:"error",
+							message:res.data.messages
+						})
+					}
+				},(res)=>{
+					this.$message({
+						type:"error",
+						message:res.data.messages
+					})
+				})
+			},
 			// 更改状态
 			updateStates(){
 				this.$http({
@@ -629,11 +657,10 @@
 			},
 		},
 		//图片上传插件部分 end
-		created: function() {
+		mounted: function() {
 			this.routerApi();
 			this.echoImg();
-
-
+			this.personEnterprise();
 		},
 		components: {
 			VueFileUpload,

@@ -570,6 +570,7 @@
 				changeAddr: '', //与联系地址相同
 				companyStep: '', //判断周边金融信息是否全部不为空
 				machineStep: '',
+				channelChangeId:0,
 				ruleForm: {
 					name: '',
 					contractType: '0', //网点合同类型
@@ -699,7 +700,7 @@
 						city: '北京',
 					},
 					noLabel: true,
-					disable:true
+					disable:false
 				},
 
 				//推荐渠道
@@ -1030,6 +1031,9 @@
 						required: true,
 						message: '请输入店铺日均人流量',
 						trigger: 'blur'
+					}, {
+						validator: checkNum,
+						trigger: 'blur'
 					}],
 					applicantName: [{
 						required: true,
@@ -1190,13 +1194,16 @@
 			},
 			changeChannel() {
 				this.getChannelUserName();
-				this.ruleForm.recommendedChannels = "";
+				this.channelChangeId++;
 				if(this.ruleForm.recommendedID == 1) {
 					this.channelsShow = true;
 				} else if(this.ruleForm.recommendedID == 2){
 					this.channelsShow = true;
 				}else{
 					this.channelsShow = false;
+					this.ruleForm.recommendedChannels = "";
+				}
+				if(this.channelChangeId > 1){
 					this.ruleForm.recommendedChannels = "";
 				}
 

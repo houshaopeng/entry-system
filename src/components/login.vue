@@ -215,7 +215,6 @@
 					}
 				}).then((res) => {
 					if(res.data.code == "000000") {
-						console.log(res.data.data)
 						this.flagArr = res.data.data.list;
 						for(let i = 0; i < this.flagArr.length; i++) {
 							if(this.flagArr[i].flag) {
@@ -271,7 +270,6 @@
 
 			},
 			gologin() {
-
 				this.$http({
 					method: "POST",
 					url: process.env.API + "/login",
@@ -294,7 +292,7 @@
 						oTxt.getElementsByTagName('input')[0].focus();
 						this.$message({
 							type: "error",
-							message: "请输入正确的验证码"
+							message: res.data.messages
 						})
 					}
 				}, (res) => {
@@ -306,14 +304,14 @@
 
 			},
 			submitForm(formName) {
-				this.$refs[formName].validate((valid) => {
+				/*this.$refs[formName].validate((valid) => {
 					if(valid) {
 						alert('submit!');
 					} else {
 						console.log('error submit!!');
 						return false;
 					}
-				});
+				});*/
 			},
 			resetForm(formName) {
 				this.$refs[formName].resetFields();

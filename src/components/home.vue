@@ -6,10 +6,10 @@
 				<el-button class="exit" @click="loginOut">退出</el-button>
 			</div>
 			<div class="link_btn">
-				<el-button @click="$router.push({path: '/storeMsg'})">门店信息录入</el-button> ——————
-				<el-button @click="$router.push({path: '/imageFileUpload'})">影像资料上传</el-button> ——————
-				<el-button @click="$router.push({path: '/imageFileUpload2'})">影像资料上传</el-button> ——————
-				<el-button @click="$router.push({path: '/loanContract'})">借款合同确认</el-button>
+				<el-button @click="$router.push({path: '/storeMsg'})" :disabled = "storeMsg">门店信息录入</el-button> ——————
+				<el-button @click="$router.push({path: '/imageFileUpload'})" :disabled = "imageFileUpload">影像资料上传</el-button> ——————
+				<el-button @click="$router.push({path: '/imageFileUpload2'})" :disabled = "imageFileUpload2">影像资料上传</el-button> ——————
+				<el-button @click="$router.push({path: '/loanContract'})" :disabled = "loanContract">借款合同确认</el-button>
 			</div>
 			<hr />
 		</div>
@@ -28,7 +28,10 @@
 		name: 'home',
 		data() {
 			return {
-
+				storeMsg:null,
+				imageFileUpload:null,
+				imageFileUpload2:null,
+				loanContract:null,
 			}
 		},
 		methods: {
@@ -57,7 +60,40 @@
 					})
 				})
 			},
-
+			// 路由接口调试
+			routerApi() {
+				this.msg1 = JSON.parse(sessionStorage.getItem("userInfo")).requestNo;
+				var level=4;
+				this.$http({
+					method: "POST",
+					url: process.env.API + "/terminal/step",
+					headers: {
+						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+					},
+					body: {
+						"userId": JSON.parse(sessionStorage.getItem("userInfo")).telPhone,
+						"level": level,
+						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo
+					}
+				}).then((res) => {
+					if(res.data.code == "000000") {
+						this.storeMsg = res.data.data.list[0].flag;
+						this.imageFileUpload = res.data.data.list[1].flag;
+						this.imageFileUpload2 = res.data.data.list[2].flag;
+						this.loanContract = res.data.data.list[3].flag;
+					} else {
+						this.$message({
+							type: "error",
+							message: res.data.messages
+						})
+					}
+				}, (res) => {
+					this.$message({
+						type: "error",
+						message: res.data.messages
+					})
+				});
+			},
 			// 登录时回到待提交接口
 			stepLogin() {
 				this.$http({
@@ -71,7 +107,13 @@
 						'request': JSON.parse(sessionStorage.getItem("userInfo")).requestNo,
 					}
 				}).then((res) => {
-					console.log(res)
+					if(res.data.code=="000000"){
+						console.log(res.data.data.list)
+						this.storeMsg = res.data.data.list[0].flag;
+						this.imageFileUpload = res.data.data.list[1].flag;
+						this.imageFileUpload2 = res.data.data.list[2].flag;
+						this.loanContract = res.data.data.list[3].flag;
+					}
 				}, (res) => {
 					this.$message({
 						type: "error",
@@ -81,6 +123,8 @@
 			}
 		},
 		mounted: function() {
+			// this.stepLogin();
+			this.routerApi();
 		}
 	}
 </script>
