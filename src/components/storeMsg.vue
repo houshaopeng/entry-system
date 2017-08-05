@@ -103,7 +103,7 @@
 									</el-select>
 								</el-col>
 							</el-row>
-							<el-button type="primary" class="btn_add" @click="addMachine" :disabled="pagedisabled">添加一台</el-button>
+							<!-- <el-button type="primary" class="btn_add" @click="addMachine" :disabled="pagedisabled">添加一台</el-button> -->
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -1234,9 +1234,9 @@
 		},
 		methods: {
 			addMachine() {
-				this.machines.push({
+				/*this.machines.push({
 					machineType: ""
-				});
+				});*/
 			},
 			addCompany() {
 				this.companys.push({
