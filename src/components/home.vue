@@ -150,7 +150,7 @@
 		}
 		
 		.container {
-			margin-top: 216px;
+			margin-top: 100px;
 			padding: 0 30px;
 		}
 	}

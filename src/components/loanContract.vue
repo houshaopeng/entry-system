@@ -7,6 +7,7 @@
 				<el-button @click="$router.push({path: '/imageFileUpload2'})" :disabled = "imageFileUpload2">影像资料上传</el-button> ——————
 				<el-button @click="$router.push({path: '/loanContract'})" :disabled = "loanContract">借款合同确认</el-button>
 		</div>
+        <hr />
 		<div class="loanContract" v-loading="loading" element-loading-text="资料正在审核中，请耐心等待">
 			<div class="loanContract">
 				<div class="title">

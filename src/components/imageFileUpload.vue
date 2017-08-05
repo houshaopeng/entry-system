@@ -8,6 +8,7 @@
 				<el-button @click="$router.push({path: '/imageFileUpload2'})" :disabled = "imageFileUpload2">影像资料上传</el-button> ——————
 				<el-button @click="$router.push({path: '/loanContract'})" :disabled = "loanContract">借款合同确认</el-button>
 		</div>
+        <hr />
 		<div>
 			<div class="title">
 				<el-row>
