@@ -216,11 +216,25 @@
 				filters: [{
 					name: "imageFilter",
 					fn(file) {
+						console.log(file.size)
 						if(/^[A-Z]+$/.test(file.name.split(".")[1])) {
 							return false;
 						} else {
 							var type = '|' + file.type.slice(file.type.lastIndexOf('/') + 1) + '|';
 							return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+						}
+
+					}
+				},,
+				{
+					name: "sizeFilter",
+					fn(file) {
+						9636683
+						if(file.size>10240000) {
+							alert("图片尺寸过大,请重新提交图片")
+							return false;
+						} else {
+							return true;
 						}
 
 					}
