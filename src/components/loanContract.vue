@@ -1,5 +1,5 @@
 <template >
-	<div>
+	<div class="loanContract">
 		<!--借款协议-->
 		<div class="link_btn">
 				<el-button @click="$router.push({path: '/storeMsg'})" :disabled = "storeMsg">门店信息录入</el-button> ——————
@@ -7,7 +7,12 @@
 				<el-button @click="$router.push({path: '/imageFileUpload2'})" :disabled = "imageFileUpload2">影像资料上传</el-button> ——————
 				<el-button @click="$router.push({path: '/loanContract'})" :disabled = "loanContract">借款合同确认</el-button>
 		</div>
-		<div class="loanContract" v-loading="loading" element-loading-text="资料正在审核中，请耐心等待">
+		<div class="loading_box">
+			<vue-loading type="spiningDubbles" color="#d9544e" :size="{ width: '50px', height: '50px' }"></vue-loading>
+		 <div>数据加载中。。。</div>
+		</div>
+		 
+		<div class="loanContract" element-loading-text="资料正在审核中，请耐心等待">
 			<div class="loanContract">
 				<div class="title">
 					<el-row>
@@ -18,7 +23,6 @@
 					<div class="img_box">
 						<iframe :src="url" width="100%" height="400">
 						</iframe>
-					
 					</div>
 					<div class="code">
 						<el-row>
@@ -37,6 +41,7 @@
 </template>
 
 <script>
+ import vueLoading from 'vue-loading-template'
 	export default {
 		data() {
 			return {
@@ -193,6 +198,9 @@
 				})
 			},
 		},
+		components: {
+		     vueLoading
+		},
 		mounted: function() {
 			this.routerApi();
 			this.initStatus();
@@ -202,6 +210,19 @@
 </script>
 
 <style lang='scss' scoped>
+.loanContract{
+	width:100%;
+	height:100%;
+	background:red;
+	position:relative;
+	.loading_box{
+		position:absolute;
+		color:#ffffff;
+		padding:50px;
+		background:rgba(0,0,0,0.5);
+	}
+}
+	
 	.loanContract {
 		.title {
 			margin-bottom: 20px;
