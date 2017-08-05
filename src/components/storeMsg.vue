@@ -93,7 +93,7 @@
 							<el-input :maxlength="9" v-model="ruleForm.salesmanNumber" placeholder="请输入业务员工号" :disabled="pagedisabled"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" style="position:relative;">
 						<el-form-item label="机器型号" class="addOne startIcon">
 							<el-row v-for="machine in machines" :key="machines.id" style="margin-bottom: 10px;">
 								<el-col :xs="12" :sm="12" :md="8" :lg="6">
@@ -1374,10 +1374,11 @@
 								message:'数据加载中请稍后...'
 							})
 							var json = res.data.data.json;
-							this.obj.default.province = json.basicReqInfo.contactAddress.split("&")[0];
-							this.obj.default.city = json.basicReqInfo.contactAddress.split("&")[1];
-							this.obj.default.district = json.basicReqInfo.contactAddress.split("&")[2];
-
+							if(json.basicReqInfo.contactAddress){
+								this.obj.default.province = json.basicReqInfo.contactAddress.split("&")[0];
+								this.obj.default.city = json.basicReqInfo.contactAddress.split("&")[1];
+								this.obj.default.district = json.basicReqInfo.contactAddress.split("&")[2];
+							}
 							this.obj2.default.province = json.shopManagementReqInfo.registerAddress.split("&")[0];
 							this.obj2.default.city = json.shopManagementReqInfo.registerAddress.split("&")[1];
 							this.obj2.default.district = json.shopManagementReqInfo.registerAddress.split("&")[2];
@@ -1949,8 +1950,8 @@
 	.storeMsg {
 		.startIcon:after{
 			content:"*";
-			position:relative;
-			top:-40px;
+			position:absolute;
+			top:6px;
 			left:0px;
 			color:red;
 		}

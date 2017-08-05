@@ -7,8 +7,9 @@
 				<el-button @click="$router.push({path: '/imageFileUpload2'})" :disabled = "imageFileUpload2">影像资料上传</el-button> ——————
 				<el-button @click="$router.push({path: '/loanContract'})" :disabled = "loanContract">借款合同确认</el-button>
 		</div>
+		
 		<div class="loading_box" v-show="loading">
-			<vue-loading type="spiningDubbles" color="#ffffff" :size="{ width: '50px', height: '50px' }"></vue-loading>
+			<vue-loading type="spiningDubbles" color="#ffffff" :size="{ width: '50px', height: '50px' }" v-show="allTit"></vue-loading>
 		 	<div style="margin-top:20px; font-size:14px;">{{toast}}</div>
 		</div>
 		 
@@ -32,7 +33,7 @@
 					</div>
 				</div>
 				<div class="footer">
-					<el-button type="primary" @click="onSubmit" :disabled="loading">确认借款</el-button>
+					<el-button type="primary" @click="onSubmit" :disabled="sureTogg">确认借款</el-button>
 				</div>
 			</div>
 		</div>
@@ -45,9 +46,11 @@
 		data() {
 			return {
 				isAgree: '',
+				sureTogg:true,
 				url:"",
-				loading:false,
-				toast:"资料加载中...",
+				allTit:false,
+				loading:true,
+				toast:"资料正在审核中，请耐心等待",
 				storeMsg:null,
 				imageFileUpload:null,
 				imageFileUpload2:null,
@@ -97,6 +100,8 @@
 					if(res.data.code == "000000") {
 						this.loading = true;
 						this.url = res.data.data.h5Url;
+						this.sureTogg = false;
+						this.allTit= true;
 						setTimeout(()=>{
 							this.loading = false;
 						},2000);
@@ -230,8 +235,9 @@
 		padding:20px;
 		background:rgba(0,0,0,0.5);
 	}
-}
 	
+}
+
 	.loanContract {
 		.title {
 			margin-bottom: 20px;
