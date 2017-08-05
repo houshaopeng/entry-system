@@ -883,9 +883,9 @@
 					relationValue: "3"
 				}],
 				pickerOptions0: {
-					disabledDate(time) {
+					/*disabledDate(time) {
 						return time.getTime() > Date.now();
-					}
+					}*/
 				},
 				rules: {
 					contractType: [{
@@ -1262,10 +1262,18 @@
 				}
 			},
 			businessChange(){
-				this.applicationChange++;
-				if(this.applicationChange>0){
-					this.ruleForm.applicantPercent = this.ruleForm.businessType == 1||this.ruleForm.businessType == 2? '100' :"";
+				if(this.ruleForm.businessType == 1||this.ruleForm.businessType == 2){
+					this.ruleForm.applicantPercent="100"
+				}else{
+					// TODO
+					this.stepLogin();
 				}
+
+				/*this.applicationChange++;
+				console.log(this.applicationChange)
+				if(this.applicationChange>1){
+					this.ruleForm.applicantPercent = this.ruleForm.businessType == 1||this.ruleForm.businessType == 2? '100' :"";
+				}*/
 			},
 			changeChannel() {
 				this.getChannelUserName();
@@ -1747,6 +1755,7 @@
 				})
 			},
 			stepLogin() { //回显
+				
 				this.$http({
 					method: "POST",
 					url: process.env.API + "/terminal/stepLogin",
@@ -1766,12 +1775,23 @@
 							this.obj2.disable = true;
 							this.obj3.disable = true;
 							this.obj4.disable = true;
-						}
+						};
+
 						if(res.data.data.json) {
+							console.log(22)
 							var json = res.data.data.json;
-							if(!json.shopManagementReqInfo.merchantType){
-								this.applicationChange=1;
+							if(!json.proposerReqInfo.shares){
+								console.log(444)
+								this.ruleForm.applicantPercent ="";
+							}else{
+								console.log(555)
+								this.ruleForm.applicantPercent=json.proposerReqInfo.shares.toString();
 							}
+							
+							/*if(!json.shopManagementReqInfo.merchantType){
+								
+								// this.ruleForm.applicantPercent =json.proposerReqInfo.shares;
+							}*/
 							var openTime = json.shopManagementReqInfo.openingTime?new Date(json.shopManagementReqInfo.openingTime):"";
 							var creatTime = json.shopManagementReqInfo.createTime?new Date(json.shopManagementReqInfo.createTime):"";
 							this.obj.default.province = json.basicReqInfo.contactAddress.split("&")[0];
@@ -1854,6 +1874,8 @@
 								goodpoint: json.basicReqInfo.joinSuperiority.split(","), //终端机网络优势
 								another:json.basicReqInfo.joinSuperiority.split(",")[json.basicReqInfo.joinSuperiority.split(",").length-1]
 							}
+						}else{
+							this.ruleForm.applicantPercent ="";
 						}
 					} else {
 						this.$message({
@@ -1929,6 +1951,14 @@
 				}
 			},
 		},
+		/*watch:{
+			ruleForm.applicantPercent:function(){
+				if(ruleForm.businessType==1|| ruleForm.businessType ==2){
+					console.log(222)
+					return 100;
+				}
+			}
+		},*/
 		created: function() {},
 		components: {
 			Chinaddress,
