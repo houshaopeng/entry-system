@@ -557,7 +557,7 @@
 				}
 			};
 			var checkPercent = (rule, value, callback) => {
-				if(!/^1\d\.([1-9]{1,2}|[0-9][1-9])$|^[1-9]\d{0,1}(\.\d{1,2}){0,1}$|^100(\.0{1,2}){0,1}$/.test(value)) {
+				if(!/^\d\.([1-9]{1,2}|[0-9][1-9])$|^[1-9]\d{0,1}(\.\d{1,2}){0,1}$|^100(\.0{1,2}){0,1}$/.test(value)) {
 					return callback(new Error('请输入正确的百分比'));
 				} else {
 					callback();
@@ -1309,7 +1309,6 @@
 								message:'数据加载中请稍后...'
 							})
 							var json = res.data.data.json;
-
 							this.obj.default.province = json.basicReqInfo.contactAddress.split("&")[0];
 							this.obj.default.city = json.basicReqInfo.contactAddress.split("&")[1];
 							this.obj.default.district = json.basicReqInfo.contactAddress.split("&")[2];
@@ -1332,6 +1331,7 @@
 							this.msg1 = json.requestNo;
 							this.machines = JSON.parse(json.basicReqInfo.machineType) //机器型号
 							this.companys = json.basicReqInfo.aroundFinancialInfo;
+							
 							this.ruleForm = {
 								contractType: json.basicReqInfo.contractType.toString(), //网点合同类型
 								networkType: json.basicReqInfo.terminalType.toString(), //网点类型
@@ -1705,7 +1705,8 @@
 						if(res.data.data.json) {
 
 							var json = res.data.data.json;
-
+							var openTime = json.shopManagementReqInfo.openingTime?new Date(json.shopManagementReqInfo.openingTime):"";
+							var creatTime = json.shopManagementReqInfo.createTime?new Date(json.shopManagementReqInfo.createTime):"";
 							this.obj.default.province = json.basicReqInfo.contactAddress.split("&")[0];
 							this.obj.default.city = json.basicReqInfo.contactAddress.split("&")[1];
 							this.obj.default.district = json.basicReqInfo.contactAddress.split("&")[2];
@@ -1743,8 +1744,8 @@
 
 								isJoin: json.shopManagementReqInfo.isBrandFranchise.toString(), //是否品牌加盟店
 								businessType: json.shopManagementReqInfo.merchantType.toString(), //商户类型
-								createTime: new Date(json.shopManagementReqInfo.createTime), //成立时间
-								startTime: new Date(json.shopManagementReqInfo.openingTime), //开业时间
+								createTime: creatTime, //成立时间
+								startTime: openTime, //开业时间
 								registeredAddress: json.shopManagementReqInfo.registerAddress.split("&")[3], //注册地址详细地址
 								zipCode: json.shopManagementReqInfo.postalCode, //邮政编码
 								legalName: json.shopManagementReqInfo.legalPersonName, //法人姓名
@@ -1815,11 +1816,9 @@
 							this.storeMsg=false;
 							this.imageFileUpload=true;
 							this.imageFileUpload1=true;
-							this.storeMsg=true;
+							this.loanContract=true;
 						}else if(res.data.data.status == 2){
-							console.log(555)
 							this.storeMsg=false;
-
 							this.imageFileUpload=false;
 							this.imageFileUpload2=true;
 							this.loanContract=true;
