@@ -44,10 +44,10 @@
 				isAgree: '',
 				url:"",
 				loading:true,
-				storeMsg:true,
-				imageFileUpload:true,
-				imageFileUpload2:true,
-				loanContract:true,
+				storeMsg:null,
+				imageFileUpload:null,
+				imageFileUpload2:null,
+				loanContract:null,
 			}
 		},
 		methods: {
@@ -120,7 +120,7 @@
 					}).then((res) => {
 						this.$message({
 							message: res.data.messages,
-							type: 'error'
+							type: 'success'
 						});
 
 						/*if(res.data.code == '000000') {
