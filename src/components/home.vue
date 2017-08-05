@@ -5,13 +5,6 @@
 				<h2>终端机借款进件系统</h2>
 				<el-button class="exit" @click="loginOut">退出</el-button>
 			</div>
-			<div class="link_btn">
-				<el-button @click="$router.push({path: '/storeMsg'})" :disabled = "storeMsg">门店信息录入</el-button> ——————
-				<el-button @click="$router.push({path: '/imageFileUpload'})" :disabled = "imageFileUpload">影像资料上传</el-button> ——————
-				<el-button @click="$router.push({path: '/imageFileUpload2'})" :disabled = "imageFileUpload2">影像资料上传</el-button> ——————
-				<el-button @click="$router.push({path: '/loanContract'})" :disabled = "loanContract">借款合同确认</el-button>
-			</div>
-			<hr />
 		</div>
 		<div class="container">
 			<el-col :span="24">
@@ -28,10 +21,7 @@
 		name: 'home',
 		data() {
 			return {
-				storeMsg:null,
-				imageFileUpload:null,
-				imageFileUpload2:null,
-				loanContract:null,
+				
 			}
 		},
 		methods: {
@@ -60,40 +50,45 @@
 					})
 				})
 			},
-			// 路由接口调试
-			routerApi() {
-				this.msg1 = JSON.parse(sessionStorage.getItem("userInfo")).requestNo;
-				var level=4;
-				this.$http({
-					method: "POST",
-					url: process.env.API + "/terminal/step",
+			/*// 路由接口调试
+			routerDisable() {
+				this.$http.get(process.env.API + "/terminal/getTerminalType",{
 					headers: {
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
-					body: {
-						"userId": JSON.parse(sessionStorage.getItem("userInfo")).telPhone,
-						"level": level,
-						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo
+					params: {
+						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo,         //  申请编号 
 					}
-				}).then((res) => {
-					if(res.data.code == "000000") {
-						this.storeMsg = res.data.data.list[0].flag;
-						this.imageFileUpload = res.data.data.list[1].flag;
-						this.imageFileUpload2 = res.data.data.list[2].flag;
-						this.loanContract = res.data.data.list[3].flag;
-					} else {
+				}).then((res)=>{
+					if(res.data.code=="000000"){
+						if(res.data.data.status = 1){
+							this.storeMsg=false;
+						}else if(res.data.data.status = 2){
+							this.storeMsg=false;
+							this.imageFileUpload=false;
+						}else if(res.data.data.status = 3){
+							this.storeMsg=false;
+							this.imageFileUpload=false;
+							this.storeMsg=false;
+						}else if(res.data.data.status = 4){
+							this.storeMsg=false;
+							this.imageFileUpload=false;
+							this.storeMsg=false;
+							this.storeMsg=false;
+						}
+					}else{
 						this.$message({
-							type: "error",
-							message: res.data.messages
+							type:"error",
+							message:res.data.messages
 						})
 					}
-				}, (res) => {
+				},(res)=>{
 					this.$message({
-						type: "error",
-						message: res.data.messages
+						type:"error",
+						message:res.data.messages
 					})
-				});
-			},
+				})
+			},*/
 			// 登录时回到待提交接口
 			stepLogin() {
 				this.$http({
@@ -109,10 +104,10 @@
 				}).then((res) => {
 					if(res.data.code=="000000"){
 						console.log(res.data.data.list)
-						this.storeMsg = res.data.data.list[0].flag;
+						/*this.storeMsg = res.data.data.list[0].flag;
 						this.imageFileUpload = res.data.data.list[1].flag;
 						this.imageFileUpload2 = res.data.data.list[2].flag;
-						this.loanContract = res.data.data.list[3].flag;
+						this.loanContract = res.data.data.list[3].flag;*/
 					}
 				}, (res) => {
 					this.$message({
@@ -124,7 +119,7 @@
 		},
 		mounted: function() {
 			// this.stepLogin();
-			this.routerApi();
+			
 		}
 	}
 </script>
@@ -153,9 +148,7 @@
 				right: 50px;
 			}
 		}
-		.link_btn {
-			margin: 20px 0;
-		}
+		
 		.container {
 			margin-top: 216px;
 			padding: 0 30px;

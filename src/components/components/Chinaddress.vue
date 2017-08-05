@@ -11,14 +11,20 @@
         <label class="city">
             <span class="title">*开户行城市</span>
             <span class="option_title" v-if="!options.noLabel">{{t_city}}</span>
-            <select v-model="city" @change="changed('city')" :disabled="opts.noLabel" :class="{bgColor:opts.disable}">
+            <select v-model="city" @change="changed('city')" :disabled="opts.disable" :class="{bgColor:opts.disable}">
                 <option value='请选择' style="display: none">请选择</option>
                 <option v-for="item in thisCitys">{{item.name}}</option>
             </select>
         </label>
+        <label class="district"  v-show="false">
+          <span class="title">*开户行地区</span>
+          <select v-model="district" @change="changed('district')" :disabled="opts.disable" :class="{bgColor:opts.disable}">
+            <option value='请选择' style="display: none">请选择</option>
+            <option v-for="item in thisDistricts">{{item}}</option>
+          </select>
+        </label>
     </div>
 </template>
-
 <script>
     const addressJson = require('./address.js')
     module.exports = {
@@ -126,7 +132,7 @@
             }
         },
         mounted: function(){
-            console.log(this.opts)
+          
             this.init()
         }
     }

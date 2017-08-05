@@ -2,6 +2,12 @@
 	<!--资料上传页面2-->
 	<div class="imageFileUpload2">
 		<!--影像文件上传-->
+		<div class="link_btn">
+				<el-button @click="$router.push({path: '/storeMsg'})" :disabled = "storeMsg">门店信息录入</el-button> ——————
+				<el-button @click="$router.push({path: '/imageFileUpload'})" :disabled = "imageFileUpload">影像资料上传</el-button> ——————
+				<el-button @click="$router.push({path: '/imageFileUpload2'})" :disabled = "imageFileUpload2">影像资料上传</el-button> ——————
+				<el-button @click="$router.push({path: '/loanContract'})" :disabled = "loanContract">借款合同确认</el-button>
+		</div>
 		<div>
 			<div class="title">
 				<el-row>
@@ -211,6 +217,10 @@
 				files11: [],
 				files22: [],
 				files33: [],
+				storeMsg:true,
+				imageFileUpload:true,
+				imageFileUpload2:true,
+				loanContract:true,
 				lists:[],
 				onlyRead:false,
 				filters: [{
@@ -224,11 +234,10 @@
 						}
 
 					}
-				},,
+				},
 				{
 					name: "sizeFilter",
 					fn(file) {
-						9636683
 						if(file.size>10240000) {
 							alert("图片尺寸过大,请重新提交图片")
 							return false;
@@ -655,12 +664,58 @@
 				}
 				this.updateStates();
 			},
+			// 路由接口调试
+			routerDisable() {
+				this.$http.get(process.env.API + "/terminal/getTerminalType",{
+					headers: {
+						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+					},
+					params: {
+						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo,         //  申请编号 
+					}
+				}).then((res)=>{
+					if(res.data.code=="000000"){
+						if(res.data.data.status == 1){
+							this.storeMsg=false;
+							this.imageFileUpload=true;
+							this.imageFileUpload1=true;
+							this.loanContract=true;
+						}else if(res.data.data.status == 2){
+							this.storeMsg=false;
+							this.imageFileUpload=false;
+							this.imageFileUpload2=true;
+							this.loanContract=true;
+						}else if(res.data.data.status == 3){
+							this.storeMsg=false;
+							this.imageFileUpload=false;
+							this.imageFileUpload2=false;
+							this.loanContract=true;
+						}else if(res.data.data.status == 4){
+							this.storeMsg=false;
+							this.imageFileUpload=false;
+							this.imageFileUpload2=false;
+							this.loanContract=false;
+						}
+					}else{
+						this.$message({
+							type:"error",
+							message:res.data.messages
+						})
+					}
+				},(res)=>{
+					this.$message({
+						type:"error",
+						message:res.data.messages
+					})
+				})
+			},
 		},
 		//图片上传插件部分 end
 		mounted: function() {
 			this.routerApi();
 			this.echoImg();
 			this.personEnterprise();
+			this.routerDisable();
 		},
 		components: {
 			VueFileUpload,
@@ -778,5 +833,8 @@
 			line-height: 200px;
 			color: #ababab;
 		}
+	}
+	.link_btn {
+		margin: 20px 0;
 	}
 </style>

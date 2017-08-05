@@ -2,6 +2,12 @@
 	<!--资料上传页面1-->
 	<div class="imageFileUpload">
 		<!--影像文件上传-->
+		<div class="link_btn">
+				<el-button @click="$router.push({path: '/storeMsg'})" :disabled = "storeMsg">门店信息录入</el-button> ——————
+				<el-button @click="$router.push({path: '/imageFileUpload'})" :disabled = "imageFileUpload">影像资料上传</el-button> ——————
+				<el-button @click="$router.push({path: '/imageFileUpload2'})" :disabled = "imageFileUpload2">影像资料上传</el-button> ——————
+				<el-button @click="$router.push({path: '/loanContract'})" :disabled = "loanContract">借款合同确认</el-button>
+		</div>
 		<div>
 			<div class="title">
 				<el-row>
@@ -194,6 +200,11 @@
 				files1: [],
 				files2: [],
 				files3: [],
+				storeMsg:true,
+				imageFileUpload:true,
+				imageFileUpload2:true,
+				loanContract:true,
+				pagedisabled:false,
 				onlyRead:false,
 				// aa:true,
 				initId: 0,
@@ -577,7 +588,54 @@
 						message: res.data.messages
 					})
 				})
-			}
+			},
+			// 路由接口调试
+			routerDisable() {
+				this.$http.get(process.env.API + "/terminal/getTerminalType",{
+					headers: {
+						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+					},
+					params: {
+						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo,         //  申请编号 
+					}
+				}).then((res)=>{
+					if(res.data.code=="000000"){
+						if(res.data.data.status == 1){
+							this.storeMsg=false;
+							this.imageFileUpload=true;
+							this.imageFileUpload1=true;
+							this.loanContract=true;
+						}else if(res.data.data.status == 2){
+							console.log(555)
+							this.storeMsg=false;
+							this.imageFileUpload=false;
+							this.imageFileUpload2=true;
+							this.loanContract=true;
+						}else if(res.data.data.status == 3){
+							this.storeMsg=false;
+							this.imageFileUpload=false;
+							this.imageFileUpload2=false;
+							this.loanContract=true;
+						}else if(res.data.data.status == 4){
+							this.storeMsg=false;
+							this.imageFileUpload=false;
+							this.imageFileUpload2=false;
+							this.loanContract=false;
+						}
+
+					}else{
+						this.$message({
+							type:"error",
+							message:res.data.messages
+						})
+					}
+				},(res)=>{
+					this.$message({
+						type:"error",
+						message:res.data.messages
+					})
+				})
+			},
 		},
 		components: {
 			VueFileUpload,
@@ -585,6 +643,7 @@
 			vueLoading
 		},
 		mounted: function() {
+			this.routerDisable();
 			this.routerApi();
 			this.echoImg();
 		}
@@ -698,4 +757,7 @@
 			color: #ababab;
 		}
 	}
+	.link_btn {
+			margin: 20px 0;
+		}
 </style>
