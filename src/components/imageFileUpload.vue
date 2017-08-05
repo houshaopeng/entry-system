@@ -120,12 +120,9 @@
 									<span>组织机构代码证</span>
 								</div>
 								<div class="no_img1" v-show="files22.length<4">
-									<span>特殊商品资质证明</span>
-								</div>
-								<div class="no_img1" v-show="files22.length<5">
 									<span>法人身份证正面</span>
 								</div>
-								<div class="no_img1" v-show="files22.length<6">
+								<div class="no_img1" v-show="files22.length<5">
 									<span>法人身份证反面</span>
 								</div>
 							</div>
