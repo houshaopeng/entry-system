@@ -1434,6 +1434,7 @@
 								maritalStatus: json.proposerReqInfo.maritalStatus.toString(), //婚姻状况
 								applicantResAddress: json.proposerReqInfo.nativeAddress.split("&")[3], //申请人户籍地址
 								applicantCurrAddress: json.proposerReqInfo.address.split("&")[3], //申请人现居住地址
+
 								applicantPercent: json.proposerReqInfo.shares.toString(), //申请人占股比列
 								msgBind1: JSON.parse(json.proposerReqInfo.contacts)[0].msgBind, //联系人信息
 								msgBind2: JSON.parse(json.proposerReqInfo.contacts)[1].msgBind,
@@ -1768,9 +1769,7 @@
 						}
 						if(res.data.data.json) {
 							var json = res.data.data.json;
-							if(!json.shopManagementReqInfo.merchantType){
-								this.applicationChange=2;
-							}
+							
 							var openTime = json.shopManagementReqInfo.openingTime?new Date(json.shopManagementReqInfo.openingTime):"";
 							var creatTime = json.shopManagementReqInfo.createTime?new Date(json.shopManagementReqInfo.createTime):"";
 							this.obj.default.province = json.basicReqInfo.contactAddress.split("&")[0];
@@ -1853,8 +1852,6 @@
 								goodpoint: json.basicReqInfo.joinSuperiority.split(","), //终端机网络优势
 								another:json.basicReqInfo.joinSuperiority.split(",")[json.basicReqInfo.joinSuperiority.split(",").length-1]
 							}
-						}else{
-							this.applicationChange=2;
 						}
 					} else {
 						this.$message({
