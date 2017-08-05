@@ -515,7 +515,6 @@
 	export default {
 		name: 'storeMsg',
 		data() {
-			
 			var checkTel = (rule, value, callback) => {
 				if(!value) {
 					return callback(new Error('手机号不能为空'));
@@ -1881,7 +1880,7 @@
 						if(res.data.data.status == 1){
 							this.storeMsg=false;
 							this.imageFileUpload=true;
-							this.imageFileUpload1=true;
+							this.imageFileUpload2=true;
 							this.loanContract=true;
 						}else if(res.data.data.status == 2){
 							this.storeMsg=false;
