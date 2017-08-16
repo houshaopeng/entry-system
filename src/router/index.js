@@ -5,7 +5,8 @@ import Home from '@/components/home' //主页
 import StoreMsg from '@/components/storeMsg' //门店信息
 import ImageFileUpload from '@/components/imageFileUpload' //影像资料1
 import ImageFileUpload2 from '@/components/imageFileUpload2' //影像资料2
-import LoanAgreement from '@/components/loanAgreement' //借款服务协议确认
+import proxyAgreement from '@/components/proxyAgreement' //委托借款协议
+// import LoanAgreement from '@/components/loanAgreement' //借款服务协议确认
 import LoanContract from '@/components/loanContract' //借款服务协议确认
 
 Vue.use(Router)
@@ -39,9 +40,9 @@ let routes = [{
 					hidden: false
 				},
 				{
-					path: '/loanAgreement',
-					component: LoanAgreement,
-					name: '借款服务协议确认',
+					path: '/proxyAgreement',
+					component: proxyAgreement,
+					name: '委托协议确认',
 					hidden: false
 				},
 				{
@@ -50,7 +51,7 @@ let routes = [{
 					name: '借款合同确认',
 					hidden: false
 				},
-				
+
 			]
 		},
 		{
