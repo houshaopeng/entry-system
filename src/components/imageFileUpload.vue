@@ -489,6 +489,11 @@
 							})
 							this.onlyRead=true;
 						}
+					}else{
+						this.$message({
+							type: "error",
+							message: res.data.messages
+						})
 					}
 				}, (res) => {
 					this.$message({
@@ -542,6 +547,11 @@
 						this.$router.push({
 							path: '/imageFileUpload2'
 						})
+					}else{
+						this.$message({
+							type: "error",
+							message: res.data.messages
+						})
 					}
 				}, (res) => {
 					this.$message({
@@ -582,7 +592,10 @@
 								}
 							}
 						}else{
-
+							this.$message({
+								type: "error",
+								message: res.data.messages
+							})
 						}
 					}
 				}, (res) => {

@@ -19,10 +19,26 @@ Vue.config.productionTip = false;
 Vue.use(ElementUI);
 Vue.use(VueRouter);
 Vue.use(VueResource);
-
+// import { Message } from 'element-ui';
 /*import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 NProgress.configure({ showSpinner: false });*/
+
+// 每一次当token到期之后跳转到login页面   
+Vue.http.interceptors.push((request, next) => {
+    next((response) => {
+      
+    //在响应之后传给then之前对response进行修改和逻辑判断。对于token时候已过期的判断，
+    //就添加在此处，页面中任何一次http请求都会先调用此处方法
+        if( response.data.code == "000005"){
+            // Message.error("登录已过期，请重新登录")   
+            vm.$router.push({name: 'login'});
+        }else{
+            return response;
+        }
+    });
+});
+
 
 const router = new VueRouter({
   routes
@@ -45,7 +61,7 @@ const router = new VueRouter({
 router.afterEach(transition => {
 // NProgress.done();
 });
-new Vue({
+window.vm =new Vue({
   el: '#app',
   router,
   template: '<App/>',

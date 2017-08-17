@@ -120,12 +120,6 @@
 					})
 				})
 			},
-			// 项目状态查询
-			initStatus() {
-				setInterval(()=>{
-					this.getUrl();
-				},60000)
-			},
 			onSubmit() {
 					this.$http({
 						method: "POST",
@@ -220,7 +214,6 @@
 		},
 		mounted: function() {
 			this.routerApi();
-			this.initStatus();
 			this.routerDisable();
 			this.getUrl();
 		}
