@@ -3,11 +3,12 @@
 	<div class="imageFileUpload">
 		<!--影像文件上传-->
 		<div class="link_btn">
-				<el-button @click="$router.push({path: '/storeMsg'})" :disabled = "storeMsg">门店信息录入</el-button> ——————
-				<el-button @click="$router.push({path: '/imageFileUpload'})" :disabled = "imageFileUpload">影像资料上传</el-button> ——————
-				<el-button @click="$router.push({path: '/imageFileUpload2'})" :disabled = "imageFileUpload2">影像资料上传</el-button> ——————
-				<el-button @click="$router.push({path: '/loanContract'})" :disabled = "loanContract">借款合同确认</el-button>
-		</div>
+            <el-button @click="$router.push({path: '/storeMsg'})" :disabled = "storeMsg">门店信息录入</el-button> ——————
+            <el-button @click="$router.push({path: '/imageFileUpload'})" :disabled = "imageFileUpload">影像资料上传</el-button> ——————
+            <el-button @click="$router.push({path: '/imageFileUpload2'})" :disabled = "imageFileUpload2">影像资料上传</el-button> ——————
+            <el-button @click="$router.push({path: '/proxyAgreement'})" :disabled = "proxyAgreement">委托书确认</el-button> ——————
+            <el-button @click="$router.push({path: '/loanContract'})" :disabled = "loanContract">借款合同确认</el-button>
+        </div>
         <hr />
 		<div>
 			<div class="title">
@@ -102,7 +103,7 @@
 								<span v-else>一共选择{{files22.length}}个文件</span>
 								<!-- <input type="button" value="清空图片" @click="clearAll" class="clear_buttton" /> -->
 							</div>
-							
+
 							<div class="img_item_box" v-for='(file,index) in files22' @click="getIndex(index)" style="float: left">
 								<img :src='file.imgSrc' alt="" style="width: 200px;" @click="showModal(file.imgSrc,2)" >
 								<span class="img_name" v-html="file.imgName"></span>
@@ -184,7 +185,7 @@
 </template>
 
 <script>
-	import VueFileUpload from './components/vue-file-upload.vue'   
+	import VueFileUpload from './components/vue-file-upload.vue'
 	import vueLoading from 'vue-loading-template'
 	import Modal from './components/modal2.vue'
 	export default {
@@ -202,9 +203,10 @@
 				files2: [],
 				files3: [],
 				storeMsg:null,
-				imageFileUpload:null,
-				imageFileUpload2:null,
-				loanContract:null,
+                imageFileUpload:null,
+                imageFileUpload2:null,
+                proxyAgreement:null,
+                loanContract:null,
 				pagedisabled:false,
 				onlyRead:false,
 				// aa:true,
@@ -248,7 +250,7 @@
 						this.echoImg();
 					},
 					onAddFileSuccess: (file) => {
-						
+
 
 					}
 				},
@@ -347,7 +349,7 @@
 			}
 		},
 		methods: {
-			
+
 			//图片上传插件部分 start
 			onStatus(file) {
 				if(file.isSuccess) {
@@ -463,7 +465,7 @@
 				}
 				this.updateStates();
 			},
-			
+
 			// 路由接口调试
 			routerApi() {
 				console.log(JSON.parse(sessionStorage.getItem("userInfo")).requestNo)
@@ -597,7 +599,7 @@
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
 					params: {
-						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo,         //  申请编号 
+						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo,         //  申请编号
 					}
 				}).then((res)=>{
 					if(res.data.code=="000000"){
