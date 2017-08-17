@@ -41,9 +41,9 @@
                   </div>
               </div></el-col>
             </el-row>
-            <el-row>
-                <el-button type="primary" @click="" >确认借款</el-button>
-            </el-row>
+            <div class="footer">
+                <el-button type="primary" @click="updateStates" >下一步</el-button>
+            </div>
         </div>
     </div>
 </template>
@@ -61,8 +61,8 @@
             }
         },
         methods:{
-            routerApi() {                   //路由控制接口
-                console.log(JSON.parse(sessionStorage.getItem("userInfo")).requestNo)
+            //确认委托借款协议
+            completeLoan() {
                 this.$http({
                     method: "POST",
                     url: process.env.API + "/terminal/step",
@@ -76,18 +76,98 @@
                     }
                 }).then((res) => {
                     if(res.data.code="000000"){
-                        if(res.data.data.requestNoStatus>4){
-                            this.$message({
-                                type:'info',
-                                message:'数据加载中请稍后...'
-                            })
-                            // this.onlyRead=true;
-                        }
+
                     }
                 }, (res) => {
                     this.$message({
                         type: "error",
                         message: res.data.messages
+                    })
+                })
+            },
+            // 更改状态
+            updateStates(){
+                this.$http({
+                    method:"POST",
+                    url:process.env.API+"/terminal/updateOrderStatus",
+                    headers: {
+                        "x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+                    },
+                    body:{
+                        "pagination":4,      // 图片src地址(多张逗号拼接)   TODO
+                        "requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo,         //  申请编号
+                    }
+                }).then((res)=>{
+                    if(res.data.code=="000000"){
+
+                        this.$router.push({
+                            path: '/loanContract'
+                        })
+                    }else{
+                        this.$message({
+                            type:"error",
+                            message:res.data.messages
+                        })
+                    }
+                },(res)=>{
+                    this.$message({
+                        type:"error",
+                        message:res.data.messages
+                    })
+                })
+            },
+            // 路由接口调试
+            routerDisable() {
+                this.$http.get(process.env.API + "/terminal/getTerminalType",{
+                    headers: {
+                        "x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
+                    },
+                    params: {
+                        "requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo,         //  申请编号
+                    }
+                }).then((res)=>{
+                    if(res.data.code=="000000"){
+                       if(res.data.data.status == 1){
+                            this.storeMsg=false;
+                            this.imageFileUpload=true;
+                            this.imageFileUpload2=true;
+                            this.proxyAgreement=true;
+                            this.loanContract=true;
+                        }else if(res.data.data.status == 2){
+                            this.storeMsg=false;
+                            this.imageFileUpload=false;
+                            this.imageFileUpload2=true;
+                            this.proxyAgreement=true;
+                            this.loanContract=true;
+                        }else if(res.data.data.status == 3){
+                            this.storeMsg=false;
+                            this.imageFileUpload=false;
+                            this.imageFileUpload2=false;
+                            this.proxyAgreement=true;
+                            this.loanContract=true;
+                        }else if(res.data.data.status == 4){
+                            this.storeMsg=false;
+                            this.imageFileUpload=false;
+                            this.imageFileUpload2=false;
+                            this.proxyAgreement=false;
+                            this.loanContract=false;
+                        }else if(res.data.data.status == 9){
+                            this.storeMsg=false;
+                            this.imageFileUpload=false;
+                            this.imageFileUpload2=false;
+                            this.proxyAgreement=false;
+                            this.loanContract=true;
+                        }
+                    }else{
+                        this.$message({
+                            type:"error",
+                            message:res.data.messages
+                        })
+                    }
+                },(res)=>{
+                    this.$message({
+                        type:"error",
+                        message:res.data.messages
                     })
                 })
             },
@@ -102,7 +182,7 @@
 
         },
         mounted: function() {
-            this.routerApi();
+            this.routerDisable();
         }
     }
 </script>
@@ -126,5 +206,11 @@
     .hetong{
         width:100%;
         height:100%
+    }
+    .footer {
+        margin: 10px 0;
+        .el-button {
+            width: 150px;
+        }
     }
 </style>

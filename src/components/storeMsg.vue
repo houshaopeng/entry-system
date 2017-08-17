@@ -178,7 +178,7 @@
 					<el-col :xs="24" :sm="24" :md="24" :lg="24">
 						<el-form-item label="注册地址" class="startIcon2">
 							<el-checkbox-group v-model="changeAddr">
-								<el-checkbox label="与联系地址相同" name="type"></el-checkbox>
+								<el-checkbox label="与联系地址相同" name="type" :disabled="pagedisabled"></el-checkbox>
 							</el-checkbox-group>
 						</el-form-item>
 					</el-col>
@@ -1883,22 +1883,32 @@
 							this.storeMsg=false;
 							this.imageFileUpload=true;
 							this.imageFileUpload2=true;
+							this.proxyAgreement=true;
 							this.loanContract=true;
 						}else if(res.data.data.status == 2){
 							this.storeMsg=false;
 							this.imageFileUpload=false;
 							this.imageFileUpload2=true;
+							this.proxyAgreement=true;
 							this.loanContract=true;
 						}else if(res.data.data.status == 3){
 							this.storeMsg=false;
 							this.imageFileUpload=false;
 							this.imageFileUpload2=false;
+							this.proxyAgreement=true;
 							this.loanContract=true;
 						}else if(res.data.data.status == 4){
 							this.storeMsg=false;
 							this.imageFileUpload=false;
 							this.imageFileUpload2=false;
+							this.proxyAgreement=false;
 							this.loanContract=false;
+						}else if(res.data.data.status == 9){
+							this.storeMsg=false;
+							this.imageFileUpload=false;
+							this.imageFileUpload2=false;
+							this.proxyAgreement=false;
+							this.loanContract=true;
 						}
 					}else{
 						this.$message({

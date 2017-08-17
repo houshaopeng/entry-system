@@ -607,23 +607,32 @@
 							this.storeMsg=false;
 							this.imageFileUpload=true;
 							this.imageFileUpload2=true;
+							this.proxyAgreement=true;
 							this.loanContract=true;
 						}else if(res.data.data.status == 2){
-							console.log(555)
 							this.storeMsg=false;
 							this.imageFileUpload=false;
 							this.imageFileUpload2=true;
+							this.proxyAgreement=true;
 							this.loanContract=true;
 						}else if(res.data.data.status == 3){
 							this.storeMsg=false;
 							this.imageFileUpload=false;
 							this.imageFileUpload2=false;
+							this.proxyAgreement=true;
 							this.loanContract=true;
 						}else if(res.data.data.status == 4){
 							this.storeMsg=false;
 							this.imageFileUpload=false;
 							this.imageFileUpload2=false;
+							this.proxyAgreement=false;
 							this.loanContract=false;
+						}else if(res.data.data.status == 9){
+							this.storeMsg=false;
+							this.imageFileUpload=false;
+							this.imageFileUpload2=false;
+							this.proxyAgreement=false;
+							this.loanContract=true;
 						}
 
 					}else{

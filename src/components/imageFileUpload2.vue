@@ -544,7 +544,7 @@
 						"x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
 					},
 					body:{
-						"pagination":4,      // 图片src地址(多张逗号拼接)   TODO
+						"pagination":9,      // 图片src地址(多张逗号拼接)   TODO
 						"requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo,         //  申请编号
 					}
 				}).then((res)=>{
@@ -553,9 +553,9 @@
 							type:"success",
 							message:"资料上传成功，审核中..."
 						})
-						// this.stepLogin();
+
 						this.$router.push({
-							path: '/loanContract'
+							path: '/proxyAgreement'
 						})
 					}else{
 						this.$message({
@@ -686,22 +686,32 @@
 							this.storeMsg=false;
 							this.imageFileUpload=true;
 							this.imageFileUpload2=true;
+							this.proxyAgreement=true;
 							this.loanContract=true;
 						}else if(res.data.data.status == 2){
 							this.storeMsg=false;
 							this.imageFileUpload=false;
 							this.imageFileUpload2=true;
+							this.proxyAgreement=true;
 							this.loanContract=true;
 						}else if(res.data.data.status == 3){
 							this.storeMsg=false;
 							this.imageFileUpload=false;
 							this.imageFileUpload2=false;
+							this.proxyAgreement=true;
 							this.loanContract=true;
 						}else if(res.data.data.status == 4){
 							this.storeMsg=false;
 							this.imageFileUpload=false;
 							this.imageFileUpload2=false;
+							this.proxyAgreement=false;
 							this.loanContract=false;
+						}else if(res.data.data.status == 9){
+							this.storeMsg=false;
+							this.imageFileUpload=false;
+							this.imageFileUpload2=false;
+							this.proxyAgreement=false;
+							this.loanContract=true;
 						}
 					}else{
 						this.$message({
