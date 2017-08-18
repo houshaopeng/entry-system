@@ -62,7 +62,6 @@
 		methods: {
 			// 路由接口调试
 			routerApi() {
-				//console.log(JSON.parse(sessionStorage.getItem("userInfo")).requestNo)
 				this.$http({
 					method: "POST",
 					url: process.env.API + "/terminal/step",
@@ -77,7 +76,7 @@
 					}
 				}).then((res) => {
 					if(res.data.code == "000000") {
-						console.log(res.data)
+
 					}
 				},(res) => {
 					this.$message({

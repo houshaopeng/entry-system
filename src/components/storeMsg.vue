@@ -1261,11 +1261,13 @@
 					return event.target.value;
 				}
 			},
-			businessChange(){
-				this.applicationChange++;
-				if(this.applicationChange>1){
-					this.ruleForm.applicantPercent = this.ruleForm.businessType == 1||this.ruleForm.businessType == 2? '100' :"";
-				}
+			businessChange(value){
+
+				// if(value == "0001"||value == "0002"){
+				// 	this.ruleForm.applicantPercent =100;
+				// }else{
+				// 	this.ruleForm.applicantPercent=""
+				// }
 			},
 			changeChannel() {
 				this.getChannelUserName();
@@ -1955,13 +1957,12 @@
 		mounted: function() {
 			this.routerDisable();
 			this.ruleForm.contactTel = JSON.parse(sessionStorage.getItem("userInfo")).telPhone;
-			console.log(JSON.parse(sessionStorage.getItem("userInfo")).telPhone)
 			this.getMachineModel();
 			this.routerApi();
 			this.getMerchantType();
 			this.stepLogin(); //请求暂存数据 渲染页面
-			this.ruleForm.contactTel = JSON.parse(sessionStorage.getItem("userInfo")).telPhone;
-		}
+		},
+
 	}
 </script>
 
