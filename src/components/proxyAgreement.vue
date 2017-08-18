@@ -10,18 +10,16 @@
         <hr/>
         <div class="content">
             <el-row>
-              <el-col :span="12"><div class="grid-content ">
+              <el-col :span="12">
                   <h4>授权划扣委托书</h4>
-                  <div class="container">
-                    <iframe class="hetong" :src="authorizeUrl"></iframe>
-                  </div>
-              </div></el-col>
-              <el-col :span="12"><div class="grid-content ">
+                  <iframe class="hetong " :src="authorizeUrl"></iframe>
+              </el-col>
+              <el-col :span="12">
+                <div class="grid-content ">
                   <h4>委托发布借款需求及个人征信查询授权书</h4>
-                  <div class="container1">
-                    <iframe class="hetong" :src="agreementUrl"></iframe>
-                  </div>
-              </div></el-col>
+                  <iframe class="hetong" :src="agreementUrl"></iframe>
+                </div>  
+              </el-col>
             </el-row>
             <div class="footer">
                 <el-button type="primary" @click="updateStates" :disabled="disabled">下一步</el-button>
@@ -30,7 +28,7 @@
     </div>
 </template>
 <script >
-    import PDFObject from "./components/pdfobject.js"
+    // import PDFObject from "./components/pdfobject.js"
     export default{
         name:'proxyAgreement',
         data(){
@@ -113,8 +111,9 @@
                 }).then((res)=>{
                     console.log(res);
                     if(res.data.code=="000000"){
-                        this.authorizeUrl = res.data.authorizeUrl;    // 授权划扣委托书
-                        this.agreementUrl = res.data.agreementUrl;    // 委托发布借款需求及个人征信查询授权书
+                        this.authorizeUrl = res.data.data.authorizeUrl;    // 授权划扣委托书
+                        this.agreementUrl = res.data.data.agreementUrl;    // 委托发布借款需求及个人征信查询授权书
+
                     }else{
                         this.$message({
                             type:"error",
@@ -227,7 +226,7 @@
     }
     .hetong{
         width:100%;
-        height:100%
+        height:500px;
     }
     .footer {
         margin: 10px 0;
