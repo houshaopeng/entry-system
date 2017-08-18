@@ -78,7 +78,7 @@
                         "x-sljr-session-token": JSON.parse(sessionStorage.getItem("userInfo")).userToken,
                     },
                     body:{
-                        "pagination":4,      // 图片src地址(多张逗号拼接)   TODO
+                        "pagination":4,
                         "requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo,         //  申请编号
                     }
                 }).then((res)=>{

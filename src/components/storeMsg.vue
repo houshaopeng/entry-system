@@ -1261,6 +1261,7 @@
 					return event.target.value;
 				}
 			},
+
 			businessChange(){
 				/*this.applicationChange++;
 				if(this.applicationChange>1){
@@ -1418,7 +1419,7 @@
 								isJoin: json.shopManagementReqInfo.isBrandFranchise.toString(), //是否品牌加盟店
 
 
-								
+
 								businessType: json.shopManagementReqInfo.merchantType.toString(), //商户类型
 								applicantPercent: json.proposerReqInfo.shares.toString(), //申请人占股比列
 
@@ -1447,7 +1448,7 @@
 								applicantResAddress: json.proposerReqInfo.nativeAddress.split("&")[3], //申请人户籍地址
 								applicantCurrAddress: json.proposerReqInfo.address.split("&")[3], //申请人现居住地址
 
-								
+
 								msgBind1: JSON.parse(json.proposerReqInfo.contacts)[0].msgBind, //联系人信息
 								msgBind2: JSON.parse(json.proposerReqInfo.contacts)[1].msgBind,
 								msgBind3: JSON.parse(json.proposerReqInfo.contacts)[2].msgBind,
@@ -1965,13 +1966,12 @@
 		mounted: function() {
 			this.routerDisable();
 			this.ruleForm.contactTel = JSON.parse(sessionStorage.getItem("userInfo")).telPhone;
-			console.log(JSON.parse(sessionStorage.getItem("userInfo")).telPhone)
 			this.getMachineModel();
 			this.routerApi();
 			this.getMerchantType();
 			this.stepLogin(); //请求暂存数据 渲染页面
-			this.ruleForm.contactTel = JSON.parse(sessionStorage.getItem("userInfo")).telPhone;
-		}
+		},
+
 	}
 </script>
 
