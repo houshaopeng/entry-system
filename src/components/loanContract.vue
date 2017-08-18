@@ -25,13 +25,9 @@
 						<iframe :src="url" width="100%" height="400">
 						</iframe>
 					</div>
-					<!-- <div class="code">
-						<el-row>
-							<el-checkbox-group v-model="isAgree">
-								<el-checkbox label="我已认真阅读并同意《借款协议》" name="type"></el-checkbox>
-							</el-checkbox-group>
-						</el-row>
-					</div> -->
+					<div class="code">
+						
+					</div>
 				</div>
 				<div class="footer">
 					<el-button type="primary" @click="onSubmit" :disabled="sureTogg">完成借款</el-button>
@@ -46,7 +42,7 @@
 	export default {
 		data() {
 			return {
-				// isAgree: '',
+	
 				sureTogg:true,
 				url:"",
 				allTit:false,
@@ -107,11 +103,10 @@
 							this.loading = false;
 						},2000);
 					} else {
-						/*this.$message({
+						this.$message({
 							type: "info",
-							// message: "资料正在审核中，请耐心等待"
 							message: res.data.messages
-						})*/
+						})
 					}
 				}, (res) => {
 					this.$message({
@@ -152,6 +147,7 @@
 							type: 'error'
 						})
 					})
+				
 			},
 			// 路由接口调试
 			routerDisable() {
