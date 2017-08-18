@@ -1262,10 +1262,15 @@
 				}
 			},
 			businessChange(){
-				this.applicationChange++;
+				/*this.applicationChange++;
 				if(this.applicationChange>1){
 					this.ruleForm.applicantPercent = this.ruleForm.businessType == 1||this.ruleForm.businessType == 2? '100' :"";
-				}
+				}*/
+				/*if(this.ruleForm.businessType == 1||this.ruleForm.businessType == 2){
+					this.ruleForm.applicantPercent = "100";
+				}else {
+					this.ruleForm.applicantPercent = "";
+				}*/
 			},
 			changeChannel() {
 				this.getChannelUserName();
@@ -1411,7 +1416,12 @@
 								salesmanNumber: json.basicReqInfo.salesmanNo, //业务员工号
 
 								isJoin: json.shopManagementReqInfo.isBrandFranchise.toString(), //是否品牌加盟店
+
+
+								
 								businessType: json.shopManagementReqInfo.merchantType.toString(), //商户类型
+								applicantPercent: json.proposerReqInfo.shares.toString(), //申请人占股比列
+
 								createTime: new Date(json.shopManagementReqInfo.createTime), //成立时间
 								startTime: new Date(json.shopManagementReqInfo.openingTime), //开业时间
 								registeredAddress: json.shopManagementReqInfo.registerAddress.split("&")[3], //注册地址详细地址
@@ -1437,7 +1447,7 @@
 								applicantResAddress: json.proposerReqInfo.nativeAddress.split("&")[3], //申请人户籍地址
 								applicantCurrAddress: json.proposerReqInfo.address.split("&")[3], //申请人现居住地址
 
-								applicantPercent: json.proposerReqInfo.shares.toString(), //申请人占股比列
+								
 								msgBind1: JSON.parse(json.proposerReqInfo.contacts)[0].msgBind, //联系人信息
 								msgBind2: JSON.parse(json.proposerReqInfo.contacts)[1].msgBind,
 								msgBind3: JSON.parse(json.proposerReqInfo.contacts)[2].msgBind,

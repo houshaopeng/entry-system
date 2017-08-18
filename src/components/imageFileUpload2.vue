@@ -195,7 +195,7 @@
 				<Modal :modelTogg="modelTogg" :imgSrc="imgSrc" @closeModal="closeModal" @upperPage="upperPage" :files="tempFile" @nextPage="nextPage"></Modal>
 			<!-- 弹出层的模态框 end-->
 			<div class="footer">
-				<el-button type="primary" @click="onSubmit" :disabled="onlyRead">提交</el-button>
+				<el-button type="primary" @click="onSubmit" :disabled="onlyRead">下一步</el-button>
 			</div>
 		</div>
 	</div>
