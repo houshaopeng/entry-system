@@ -1263,11 +1263,11 @@
 			},
 			businessChange(value){
 
-				if(value == "0001"||value == "0002"){
-					this.ruleForm.applicantPercent =100;
-				}else{
-					this.ruleForm.applicantPercent=""
-				}
+				// if(value == "0001"||value == "0002"){
+				// 	this.ruleForm.applicantPercent =100;
+				// }else{
+				// 	this.ruleForm.applicantPercent=""
+				// }
 			},
 			changeChannel() {
 				this.getChannelUserName();
