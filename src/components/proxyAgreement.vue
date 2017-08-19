@@ -8,6 +8,11 @@
             <el-button @click="$router.push({path: '/loanContract'})" :disabled = "loanContract">借款合同确认</el-button>
         </div>
         <hr/>
+        <div class="loading_box" v-show="loading">
+            <vue-loading type="spiningDubbles" color="#ffffff" :size="{ width: '50px', height: '50px' }" v-show="allTit">
+                
+            </vue-loading>
+        </div>    
         <div class="content">
             <el-row>
               <el-col :span="12">
@@ -29,6 +34,7 @@
 </template>
 <script >
     // import PDFObject from "./components/pdfobject.js"
+    import vueLoading from 'vue-loading-template'
     export default{
         name:'proxyAgreement',
         data(){
@@ -40,6 +46,8 @@
                 loanContract:null,
                 authorizeUrl:"",
                 agreementUrl:"",
+                allTit:true,
+                loading:true,
             }
         },
         methods:{
@@ -110,6 +118,7 @@
                     }
                 }).then((res)=>{
                     console.log(res);
+                    this.loading = false;
                     if(res.data.code=="000000"){
                         this.authorizeUrl = res.data.data.authorizeUrl;    // 授权划扣委托书
                         this.agreementUrl = res.data.data.agreementUrl;    // 委托发布借款需求及个人征信查询授权书
@@ -121,6 +130,7 @@
                         })
                     }
                 },(res)=>{
+                    this.loading = false;
                     this.$message({
                         type:"error",
                         message:res.data.messages
@@ -199,7 +209,7 @@
 
         },
         components: {
-
+             vueLoading
         },
         mounted: function() {
             this.getAgreement();
@@ -210,6 +220,20 @@
 <style lang="scss" scoped>
     .link_btn {
         margin: 20px 0;
+    }
+    .loading_box{
+        position:absolute;
+        z-index:100;
+        left:50%;
+        top:400px;
+        border-radius:5px;
+        margin-left:-50px;
+        color:#ffffff;
+        width:100px;
+        height:80px;
+        // padding-top:20px;
+        padding-top: 20px;
+        background:rgba(0,0,0,0.5);
     }
     .container{
         margin:10px 0;

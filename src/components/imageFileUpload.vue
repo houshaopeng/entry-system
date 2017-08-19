@@ -307,7 +307,7 @@
 						'type': '1',
 						'userId': JSON.parse(sessionStorage.getItem("userInfo")).telPhone,
 						'requestNo': JSON.parse(sessionStorage.getItem("userInfo")).requestNo,
-						'initId': this.initId,
+						// 'initId': this.initId,
 					},
 					responseType: 'json',
 					withCredentials: false
