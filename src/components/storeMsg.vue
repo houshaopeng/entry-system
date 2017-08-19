@@ -519,7 +519,7 @@
 			var checkChannel =(rule,value,callback) => {
 				if(!value){
 					return callback(new Error('请选择推荐渠道'));
-				}else if((value=="1"||value=="2")&&this.ruleForm.recommendedChannels==""){
+				}else if(value=="1"&&this.ruleForm.recommendedChannels==""){
 					return callback(new Error('请选择具体渠道'));
 				}else{
 					callback();
@@ -1701,6 +1701,8 @@
 
 			},
 			verifyFourElements(formName) { //四要素验证
+				//首先发一次请求验证token	失效就不去验证表单内容 不失效才去验证，验证通过后提交
+				this.getMerchantType();
 				this.$refs[formName].validate((valid) => {
 					for(var i = 0; i < this.companys.length; i++) {
 						if(this.companys[i].companyDistance != "" && this.companys[i].companyName != "") {
