@@ -468,7 +468,6 @@
 
 			// 路由接口调试
 			routerApi() {
-				console.log(JSON.parse(sessionStorage.getItem("userInfo")).requestNo)
 				this.$http({
 					method: "POST",
 					url: process.env.API + "/terminal/step",
@@ -517,7 +516,6 @@
 				this.imgSrc = this.srcArr[this.index];
 			},
 			nextPage(val) {
-				console.log(val)
 				var data = val;
 				this.srcArr = [];
 				for(var i = 0; i < data.length; i++) {

@@ -10,9 +10,9 @@
         <hr/>
         <div class="loading_box" v-show="loading">
             <vue-loading type="spiningDubbles" color="#ffffff" :size="{ width: '50px', height: '50px' }" v-show="allTit">
-                
+
             </vue-loading>
-        </div>    
+        </div>
         <div class="content">
             <el-row>
               <el-col :span="12">
@@ -23,7 +23,7 @@
                 <div class="grid-content ">
                   <h4>委托发布借款需求及个人征信查询授权书</h4>
                   <iframe class="hetong" :src="agreementUrl"></iframe>
-                </div>  
+                </div>
               </el-col>
             </el-row>
             <div class="footer">
@@ -117,7 +117,6 @@
                         "requestNo": JSON.parse(sessionStorage.getItem("userInfo")).requestNo,         //  申请编号
                     }
                 }).then((res)=>{
-                    console.log(res);
                     this.loading = false;
                     if(res.data.code=="000000"){
                         this.authorizeUrl = res.data.data.authorizeUrl;    // 授权划扣委托书

@@ -1674,6 +1674,11 @@
 						this.$router.push({
 							path: '/imageFileUpload'
 						})
+					}else{
+						this.$message({
+							type:"error",
+							message:res.data.messages
+						})
 					}
 
 				}, (res) => {

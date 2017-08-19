@@ -437,7 +437,6 @@
 				this.imgSrc = this.srcArr[this.index];
 			},
 			nextPage(val) {
-				console.log(val)
 				var data = val;
 				this.srcArr = [];
 				for(var i = 0; i < data.length; i++) {
@@ -520,8 +519,7 @@
 						}else{
 							this.imgText = "提供6个月银行流水";
 						}
-							;
-						console.log(res.data.data);
+
 					}else{
 						this.$message({
 							type:"error",
@@ -628,7 +626,6 @@
 									this.files33.push(this.lists[i])
 								}
 							}
-							// console.log(this.files33)
 						}else{
 
 						}
