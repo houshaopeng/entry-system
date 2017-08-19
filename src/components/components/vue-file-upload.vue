@@ -166,7 +166,7 @@
               this.$refs.fileInput.setAttribute('multiple',this.multiple);
           }
           _.on(this.$refs.fileInput,"change",this._onChange);
-          console.log(this.requestOptions)
+          // console.log(this.requestOptions)
       },
       beforeDestroy(){
           _.off(this.$refs.fileInput,"change");

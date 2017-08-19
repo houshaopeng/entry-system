@@ -97,7 +97,7 @@
                 }else{
                     this.scaleTimes++;
                 }
-                console.log('this.scaleTimes',this.scaleTimes);
+                // console.log('this.scaleTimes',this.scaleTimes);
                 this.chooseScale();
             },
             smallImg(){
@@ -111,7 +111,7 @@
                 }else{
                     this.scaleTimes--;
                 }
-                console.log('this.scaleTimes',this.scaleTimes);
+                // console.log('this.scaleTimes',this.scaleTimes);
                 this.chooseScale();
             },
             // 旋转图片
@@ -121,13 +121,13 @@
                 if( this.rotateTime>=4){
                     this.rotateTime=0;
                 }
-                console.log(this.rotateTime);
+                // console.log(this.rotateTime);
                 this.chooseRotate();
             },
             // 下载图片
             downLoadImg(src){
                 var odownLoad=document.getElementById("downLoad");
-                console.log(src)
+                // console.log(src)
                 this.myBrowser();
                 if (this.myBrowser()==="IE"||this.myBrowser()==="Edge"){
                     //IE
@@ -178,11 +178,11 @@
                 oPop.close();
             },
             getdata (evt) {
-                console.log(evt.draggedContext.element.id)
+                // console.log(evt.draggedContext.element.id)
             },
             datadragEnd (evt) {
-                console.log('拖动前的索引 :' + evt.oldIndex)
-                console.log('拖动后的索引 :' + evt.newIndex)
+                // console.log('拖动前的索引 :' + evt.oldIndex)
+                // console.log('拖动后的索引 :' + evt.newIndex)
 
             },
             upperPage(){
@@ -196,7 +196,7 @@
 
         },
         mounted:function(){
-            console.log(this.files);
+            // console.log(this.files);
         }
 
     }
