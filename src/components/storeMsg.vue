@@ -516,6 +516,15 @@
 	export default {
 		name: 'storeMsg',
 		data() {
+			var checkChannel =(rule,value,callback) => {
+				if(!value){
+					return callback(new Error('请选择推荐渠道'));
+				}else if((value=="1"||value=="2")&&this.ruleForm.recommendedChannels==""){
+					return callback(new Error('请选择具体渠道'));
+				}else{
+					callback();
+				}
+			};
 			var checkTel = (rule, value, callback) => {
 				if(!value) {
 					return callback(new Error('手机号不能为空'));
@@ -926,7 +935,8 @@
 					}],
 					recommendedID: [{
 						required: true,
-						message: '请选择推荐渠道',
+						// message: '请选择推荐渠道',
+						validator: checkChannel,
 						trigger: 'change'
 					}],
 					contactAddress: [{
