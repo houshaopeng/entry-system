@@ -31,6 +31,7 @@ module.exports = {
         "/terminal-repeater": {
             /*target:'http://116.62.134.180:9000',*/
             target:'http://121.196.217.22:8089',
+            // target:'http://192.16.2.106:9000',
             changeOrigin: true,
             pathRewrite: {'^/terminal-repeater' : '/'},
         },

@@ -197,6 +197,7 @@
         },
         mounted:function(){
             // console.log(this.files);
+            this.scaleTimes = 0;
         }
 
     }
